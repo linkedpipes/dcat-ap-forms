@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "node ./server/server.develop.js",
     "test": "jest",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.production.js"
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.production.js",
+    "start": "node server/server.production.js"
   },
   "jest": {
     "moduleFileExtensions": [
@@ -32,6 +33,7 @@
     "babel-jest": "^23.0.1",
     "babel-loader": "^7.1.4",
     "babel-preset-env": "^1.7.0",
+    "clean-webpack-plugin": "^0.1.19",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
     "express": "^4.16.3",

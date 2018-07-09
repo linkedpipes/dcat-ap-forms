@@ -103,9 +103,9 @@
                     ...this.data.distributions.slice(0, index),
                     ...this.data.distributions.slice(index + 1)
                 ];
-                this.distribution = Math.max(
-                    this.distribution,
-                    this.data.distributions.length -1);
+                this.ui.distribution = Math.min(
+                    this.ui.distribution,
+                    this.data.distributions.length - 1);
             },
             "onStepperInput" : function(value) {
                 if (!this.validation.dataset && value > 1) {

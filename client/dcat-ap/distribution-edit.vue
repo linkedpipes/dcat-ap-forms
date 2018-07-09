@@ -118,8 +118,9 @@
                     type="url"/>
         </div>
         <div>
-            <v-btn v-on:click="onDelete" flat icon>
+            <v-btn v-on:click="onDelete" flat>
                 <v-icon color="error">delete</v-icon>
+                {{$labels.get('delete_distribution')}}
             </v-btn>
         </div>
     </v-container>

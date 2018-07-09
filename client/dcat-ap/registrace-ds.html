@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+  <link href="https://unpkg.com/vuetify/dist/vuetify.min.css" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+  <meta charset="UTF-8">
+  <title>Registrace datové sady do NKOD</title>
+  <style>
+	[v-cloak] {
+		display: none;
+	}
+  </style>
+</head>
+<body>
+  <div id="app">
+	<v-app v-cloak>
+	 <v-toolbar>
+		<v-toolbar-title>Registrace datové sady {{dataset.title}} do NKOD</v-toolbar-title>
+	  </v-toolbar>
+	  <v-content>
+
+
+		<v-form v-model="valid">
+		  <v-stepper v-model="step">
+			<v-stepper-header>
+			  <v-stepper-step editable :complete="step > 1" :rules="[() => datasetValid(dataset)]" step="1">Datová sada</v-stepper-step>
+			  <v-divider></v-divider>
+			  <v-stepper-step editable :complete="step > 2" :rules="[() => allDistrosValid(dataset)]" step="2">Distribuce</v-stepper-step>
+			  <v-divider></v-divider>
+			  <v-stepper-step editable step="3">Stažení XML</v-stepper-step>
+			</v-stepper-header>
+			<v-stepper-items>
+			  
+			  <v-stepper-content step="1">
+				<v-container fluid>
+<v-text-field
+id="dataset-title"
+name="dataset-title"
+v-model.trim="dataset.title"
+label="Název datové sady"
+:rules="[() => dataset.title.length > 0 || 'Název datové sady je povinný']"
+required
+></v-text-field>
+<v-text-field
+id="dataset-description"
+name="dataset-description"
+v-model.trim="dataset.description"
+label="Popis datové sady"
+multi-line
+:rules="[() => dataset.description.length > 0 || 'Popis datové sady je povinný']"
+required
+></v-text-field>
+<v-select
+	  :items="frequencies"
+	  v-model="dataset.accrualPeriodicity"
+	  label="Periodicita aktualizace"
+	  item-text="label"
+	  item-value="code"
+	  autocomplete
+	  required
+></v-select>
+<v-layout row wrap>
+<v-flex xs12 lg6 xl3>
+	<v-select
+		  :items="ruian_types"
+		  v-model="dataset.ruian_type"
+		  label="Související území - Typ územního prvku RÚIAN"
+		  item-text="label"
+		  item-value="code"
+		  autocomplete
+		  required
+	></v-select>
+</v-flex>
+<v-flex xs12 lg6 xl3>
+	<v-text-field
+	  id="dataset-ruian_code"
+	  name="dataset-ruian_code"
+	  v-model="dataset.ruian_code"
+	  label="Související území - Kód územního prvku RÚIAN"
+	  type="number"
+	  :rules="[() => dataset.ruian_code > 0 || 'Kód územního prvku RÚIAN je povinný']"
+	  required
+	></v-text-field>
+</v-flex>
+					</v-layout>
+<v-select
+	v-model="dataset.keywords"
+	label="Klíčová slova"
+	required
+	chips
+	tags
+	append-icon=""
+	:rules="[() => dataset.keywords.length > 0 || 'Klíčová slova jsou povinná']"
+  >
+<template slot="selection" slot-scope="data">
+  <v-chip
+	:selected="data.selected"
+	close
+	@input="removekeyword(data.item)"
+  >
+	<strong>{{ data.item }}</strong>
+  </v-chip>
+</template>
+					</v-select>
+<v-layout row wrap>
+	<v-flex xs12 lg6 xl3>
+		<v-text-field
+		  id="dataset-maintainer-name"
+		  name="dataset-maintainer-name"
+		  v-model.trim="dataset.contact_point_name"
+		  label="Jméno kurátora dat"
+		></v-text-field>
+	</v-flex>
+	<v-flex xs12 lg6 xl3>
+		<v-text-field
+		  id="dataset-maintainer-email"
+		  name="dataset-maintainer-email"
+		  v-model.trim="dataset.contact_point_email"
+		  label="Email kurátora dat"
+		  type="email"
+		  :rules="emailRules"
+		></v-text-field>
+	</v-flex>
+	<v-spacer></v-spacer>
+</v-layout>
+<v-layout row wrap>
+<v-flex xs12 lg6 xl3>
+	<v-menu
+		ref="temporal_start_menu"
+		:close-on-content-click="false"
+		v-model="temporal_start_menu"
+		:nudge-right="40"
+		:return-value.sync="dataset.temporal_start"
+		lazy
+		transition="scale-transition"
+		offset-y
+		full-width
+		min-width="290px"
+	  >
+		<v-text-field
+		  slot="activator"
+		  v-model="dataset.temporal_start"
+		  label="Dotčené časové období od"
+		  prepend-icon="event"
+		  readonly
+		  clearable
+		></v-text-field>
+		<v-date-picker
+			ref="temporal_start_picker"
+			v-model="dataset.temporal_start"
+			@change="save_temporal_start"
+			:max="new Date().toISOString().substr(0, 10)"
+		></v-date-picker>
+	</v-menu>
+</v-flex>
+<v-flex xs12 lg6 xl3>
+	<v-menu
+		ref="temporal_end_menu"
+		:close-on-content-click="false"
+		v-model="temporal_end_menu"
+		:nudge-right="40"
+		:return-value.sync="dataset.temporal_end"
+		lazy
+		transition="scale-transition"
+		offset-y
+		full-width
+		min-width="290px"
+	  >
+		<v-text-field
+		  slot="activator"
+		  v-model="dataset.temporal_end"
+		  label="Dotčené časové období do"
+		  prepend-icon="event"
+		  readonly
+		  clearable
+		></v-text-field>
+		<v-date-picker
+			ref="temporal_end_picker"
+			v-model="dataset.temporal_end"
+			@change="save_temporal_end"
+			:max="new Date().toISOString().substr(0, 10)"
+		></v-date-picker>
+	</v-menu>
+</v-flex>
+<v-spacer></v-spacer>
+</v-layout>
+<v-text-field
+  id="dataset-schema"
+  name="dataset-schema"
+  v-model.trim="dataset.documentation"
+  label="Odkaz na dokumentaci datové sady"
+  type="url"
+  :rules="urlRules"
+></v-text-field>
+	<v-select
+		v-model="dataset.themes"
+		label="Čísla témat EuroVoc, např. 6041"
+		chips
+		tags
+		append-icon=""
+	  >
+		<template slot="selection" slot-scope="data">
+		  <v-chip
+			:selected="data.selected"
+			close
+			@input="removetheme(data.item)"
+		  >
+			<strong>{{ data.item }}</strong>
+		  </v-chip>
+		</template>
+	</v-select>
+	<v-card-actions>
+		<v-spacer></v-spacer>
+		<v-btn flat color="primary" @click.native="step = 2"><v-icon>arrow_forward</v-icon></v-btn>
+	</v-card-actions>
+</v-container>
+</v-stepper-content>
+			  
+			  <v-stepper-content step="2" editable>
+			  <v-container grid-list-md fluid>
+				<lp-data-iterator
+					  :items="dataset.distributions"
+					  :rows-per-page-items="rowsPerPageItems"
+					  :pagination.sync="pagination"	
+					  
+				   >
+
+				<v-flex
+					slot="item"
+					slot-scope="distro"
+				  >
+<v-btn flat color="error" @click.native="removedistro(distro.item)" :disabled="dataset.distributions.length == 1"><v-icon>delete_forever</v-icon></v-btn>
+<v-text-field
+ :id="'distribution-' + distro.item.id + '-url'"
+ :name="'distribution-' + distro.item.id + '-url'"
+ v-model.trim="distro.item.url"
+ label="Odkaz na soubor ke stažení"
+ :rules="mandatoryUrlRules"
+ required
+ type="url"
+ ></v-text-field>
+ <v-text-field
+  :id="'distribution-' + distro.item.id + '-format'"
+  :name="'distribution-' + distro.item.id + '-format'"
+  v-model.trim="distro.item.format"
+  label="Media type souboru ke stažení"
+  :rules="[() => (distro.item.format.length > 0 && distro.item.format.includes('/')) || 'Media type je povinný. Příklad: text/csv']"
+  required
+ ></v-text-field>
+<v-text-field
+  :id="'distribution-' + distro.item.id + '-license'"
+  :name="'distribution-' + distro.item.id + '-license'"
+  v-model.trim="distro.item.license_link"
+  label="Odkaz na podmínky užití distribuce datové sady"
+  :rules="mandatoryUrlRules"
+  type="url"
+  required
+></v-text-field>
+ <v-text-field
+  :id="'distribution-' + distro.item.title + '-title'"
+  :name="'distribution-' + distro.item.title + '-title'"
+  v-model.trim="distro.item.title"
+  label="Název distribuce"
+ ></v-text-field>
+<v-text-field
+  :id="'distribution-' + distro.item.schema + '-schema'"
+  :name="'distribution-' + distro.item.schema + '-schema'"
+  v-model.trim="distro.item.schema"
+  label="Odkaz na schéma distribuce"
+  :rules="urlRules"
+  type="url"
+></v-text-field>
+</v-flex>
+
+			   </lp-data-iterator>
+				
+				<v-card-actions>
+					<v-btn flat color="secondary" @click.native="step = 1"><v-icon>arrow_back</v-icon></v-btn>
+					<v-spacer></v-spacer>
+					<v-btn color="success" flat @click.native="addDistribution()"><v-icon>add_circle</v-icon></v-btn>
+					<v-spacer></v-spacer>
+					<v-btn flat color="primary" @click.native="step = 3"><v-icon>arrow_forward</v-icon></v-btn>
+				</v-card-actions>
+				</v-container>
+			  </v-stepper-content>
+			  
+			  <v-stepper-content step="3" editable>
+				<v-container fluid>
+					<v-layout align-center>
+						<v-flex>
+						  <h3 class="display-3">{{ dataset.title}}</h3>
+						  <span class="subheading">{{ dataset.description }}</span>
+						</v-flex>
+					</v-layout>
+					<v-container fluid grid-list-lg>
+						<v-layout row wrap>
+							<v-flex xs12 sm6 md4 lg3 xl2 v-for="distro in dataset.distributions" :key="distro.id">
+							  
+							  <v-card>
+								<v-card-title>
+									<h3 v-if="distro.title.length > 0" class="headline mb-0">{{ distro.title }}</h3>
+									<h3 v-if="distro.title.length == 0" class="headline mb-0">Distribuce {{ distro.id }}</h3>
+								</v-card-title>
+								<v-list two-line>
+									<v-list-tile>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ distro.url }}</v-list-tile-title>
+											<v-list-tile-sub-title>Soubor ke stažení</v-list-tile-sub-title>
+										</v-list-tile-content>
+										<v-list-tile-action>
+											<v-btn icon ripple v-on:click="downloadFile(distro.url)">
+												<v-icon color="primary">file_download</v-icon>
+											</v-btn>
+										</v-list-tile-action>
+									</v-list-tile>
+									<v-list-tile>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ distro.license_link }}</v-list-tile-title>
+											<v-list-tile-sub-title>Podmínky užití</v-list-tile-sub-title>
+										</v-list-tile-content>
+										<v-list-tile-action>
+											<v-btn icon ripple v-on:click="downloadFile(distro.license_link)">
+												<v-icon color="primary">ballot</v-icon>
+											</v-btn>
+										</v-list-tile-action>
+									</v-list-tile>
+									<v-list-tile>
+										<v-list-tile-content>
+											<v-list-tile-title>{{ distro.format }}</v-list-tile-title>
+											<v-list-tile-sub-title>Media typ</v-list-tile-sub-title>
+										</v-list-tile-content>
+										<v-list-tile-action>
+											<v-icon color="primary">class</v-icon>
+										</v-list-tile-action>
+									</v-list-tile>
+									<v-list-tile v-if="distro.schema.length > 0">
+										<v-list-tile-content>
+											<v-list-tile-title>{{ distro.schema }}</v-list-tile-title>
+											<v-list-tile-sub-title>Schéma distribuce</v-list-tile-sub-title>
+										</v-list-tile-content>
+										<v-list-tile-action>
+											<v-btn icon ripple v-on:click="downloadFile(distro.schema)">
+												<v-icon color="primary">description</v-icon>
+											</v-btn>
+										</v-list-tile-action>
+									</v-list-tile>
+								</v-list>
+							  </v-card>
+							</v-flex>
+						</v-layout>
+					</v-container>
+				<v-divider class="my-3"></v-divider>
+				<span>Pro registraci v NKOD stáhněte registrační soubor a zašlete jej na <a href="mailto:otevrenadata@mvcr.cz">otevrenadata@mvcr.cz</a>.</span>
+				<v-card-actions>
+					<v-btn flat color="secondary" @click.native="step = 2"><v-icon>arrow_back</v-icon></v-btn>
+					<v-spacer></v-spacer>
+					<v-btn flat color="primary" @click.native="downloadDataset(dataset)" :disabled="!valid"><v-icon>file_download</v-icon></v-btn>
+				</v-card-actions>
+				</v-container>
+			  </v-stepper-content>
+			</v-stepper-items>
+		  </v-stepper>
+		</v-form>
+	  </v-content>
+	  <v-footer app></v-footer>
+	</v-app>
+  </div>
+ 
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/vuetify/dist/vuetify.js"></script>
+  <script>
+	function downloadURI(uri) {
+		window.open(uri);
+		//var link = document.createElement("a");
+		//link.href = uri;
+		//link.click();
+	};
+	
+	function download(filename, data, mimeType) {	
+		var bb = new Blob([data], {type: mimeType});
+		
+		if (window.navigator.msSaveOrOpenBlob) {
+			window.navigator.msSaveBlob(blob, filename);
+		}
+		else {
+			var pom = document.createElement('a');
+			var href = window.URL.createObjectURL(bb);
+			pom.setAttribute('href', href);
+			pom.setAttribute('download', filename);
+			pom.dataset.downloadurl = [mimeType, pom.download, pom.href].join(':');
+			
+			document.body.appendChild(pom);
+			pom.click();
+			document.body.removeChild(pom);
+			window.URL.revokeObjectURL(href);
+		}
+	};
+	
+	function distro2XML(distro) {
+		var result = `
+  <distribution>
+    <downloadURL>${distro.url}</downloadURL>
+    <format>${distro.format}</format>
+    <license>${distro.license_link}</license>
+    ${distro.title.length > 0 ? '<title>' + distro.title + '</title>' : ''}
+    ${distro.schema.length > 0 ? '<distribution-describedBy>' + distro.schema + '</distribution-describedBy>' : ''}
+  </distribution>`
+  
+		return result;
+	};
+
+	function dataset2XML(dataset) {
+		var result = `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<dataset xmlns="http://portal.gov.cz/portal/xsd/PvsRejstrikData" operace="1">
+  <title>${dataset.title}</title>
+  <description>${dataset.description}</description>
+  <accrualPeriodicity>${dataset.accrualPeriodicity}</accrualPeriodicity>
+  <spatial>
+    <type>${dataset.ruian_type}</type>
+    <notation>${dataset.ruian_code}</notation>
+  </spatial>
+  ${dataset.keywords.reduce((kws, kw) => kws.concat('\n  <keyword>').concat(kw).concat('</keyword>'),'')}
+  ${dataset.themes.reduce((ths, th) => ths.concat('\n  <theme>http://eurovoc.europa.eu/').concat(th).concat('</theme>'),'')}
+  ${dataset.documentation.length > 0 ? '<references>' + dataset.documentation + '</references>' : ''}
+  ${dataset.contact_point_name.length > 0 || dataset.contact_point_email.length > 0 ?
+  '<contactPoint>'
+  + (dataset.contact_point_name.length > 0 ? '\n    <fn>' + dataset.contact_point_name + '</fn>' : '')
+  + (dataset.contact_point_email.length > 0 ? '\n    <hasEmail>' + dataset.contact_point_email + '</hasEmail>' : '')
+  + '\n  </contactPoint>' : ''
+  }
+  ${dataset.distributions.reduce((distros, distro) => distros.concat(distro2XML(distro)),'')}
+</dataset>
+`;
+		return result;
+	};
+	
+	function validateDataset(dataset) {
+		return dataset.title.length > 0 &&
+		dataset.description.length > 0 &&
+		dataset.keywords.length > 0 ;
+	};
+	
+	function validateDistribution(distro) {
+		return distro.url.length > 0 &&
+		distro.format.length > 0 &&
+		distro.format.includes('/') &&
+		distro.license_link.length > 0 ;
+	};
+
+	Vue.component('lp-data-iterator', Vue.component('v-data-iterator').extend({
+        watch : {
+            itemsLength (totalItems) {
+                this.updatePagination({ page: totalItems, totalItems })
+            }
+        }
+    }));
+	
+    new Vue({ 
+		el: '#app' ,
+		data: { 
+			step: 0,
+			rowsPerPageItems: [1],
+			pagination: {
+				rowsPerPage: 1
+			},
+			temporal_start_menu: false,
+			temporal_end_menu: false,
+			valid: false,
+			dataset: {
+title: '',
+description: 'a jeho popis',
+accrualPeriodicity: 'MONTHLY',
+ruian_type: 'ST',
+ruian_code: 1,
+temporal_start: '2017-10-20',
+temporal_end: '2017-12-31',
+documentation: 'https://doku',
+themes: ['111', '222'],
+contact_point_name: 'Pepa',
+contact_point_email: 'pepa@opendata.cz',
+keywords: ['aaa', 'bbb'],
+distributions: [{
+	id: 1,
+	url: 'https://mvcr1.opendata.cz/czechpoint/2010.csv',
+	format: 'text/csv',
+	license_link: 'https://portal.gov.cz/portal/ostatni/volny-pristup-k-ds.html',
+	schema: 'https://schéma1',
+	title: 'název distro'
+},{
+	id: 2,
+	url: 'https://download2',
+	format: 'text/turtle',
+	license_link: 'https://podmínky2',
+	schema: '',
+	title: ''
+}
+]
+},
+ruian_types: [
+{label: 'Adresní místo', code: 'AD'},
+{label: 'Bonitovaný díl parcely', code: 'BPA'},
+{label: 'Část obce', code: 'CO'},
+{label: 'Definiční bod adresního místa', code: 'DAM'},
+{label: 'Definiční bod přehledové mapy katastrálního území', code: 'DKU'},
+{label: 'Definiční bod katastrální mapy pro parcely', code: 'DPA'},
+{label: 'Definiční bod stavebního objektu', code: 'DSO'},
+{label: 'Definiční bod přehledové mapy pro vyšší územní celky, VO a ZSJ.', code: 'DUC'},
+{label: 'Definiční čára ulice', code: 'DUL'},
+{label: 'Def. Bod účelového prvku', code: 'DUP'},
+{label: 'Generalizované hranice katastrálního území', code: 'GKU'},
+{label: 'Generalizované hranice obce, vojenského újezdu', code: 'GOB'},
+{label: 'Gen. polygon účelového prvku', code: 'GUP'},
+{label: 'Hranice katastrálního území', code: 'HKU'},
+{label: 'Hranice městského obvodu nebo městské části územně členěného statutárního města', code: 'HMC'},
+{label: 'Hranice pro vyšší územní celky', code: 'HOB'},
+{label: 'Hranice volebního okrsku', code: 'HVO'},
+{label: 'Hranice území základní sídelní jednotky', code: 'HZJ'},
+{label: 'Generalizované polygony katastrálního území', code: 'IKU'},
+{label: 'Území kraje', code: 'KR'},
+{label: 'Katastrální území', code: 'KU'},
+{label: 'Území městského obvodu nebo městské části územně členěného statutárního města', code: 'MC'},
+{label: 'Území městského obvodu v hlavním městě Praze', code: 'MP'},
+{label: 'Území obce, území vojenského újezdu', code: 'OB'},
+{label: 'Území okresu', code: 'OK'},
+{label: 'Správní obvod obce s rozšířenou působností', code: 'OP'},
+{label: 'Pozemek v podobě parcely', code: 'PA'},
+{label: 'Polygony katastrálního území', code: 'PKU'},
+{label: 'Polygony území městského obvodu nebo městské části územně členěného statutárního města', code: 'PMC'},
+{label: 'Adresní pošta', code: 'PO'},
+{label: 'Polygony pozemku v podobě parcely', code: 'PPA'},
+{label: 'Polygony stavebního objektu', code: 'PSO'},
+{label: 'Správní obvod obce s pověřeným obecním úřadem', code: 'PU'},
+{label: 'Polygon účelového prvku', code: 'PUP'},
+{label: 'Polygony volebního okrsku', code: 'PVO'},
+{label: 'Polygony území základní sídelní jednotky', code: 'PZJ'},
+{label: 'Území regionu soudržnosti', code: 'RS'},
+{label: 'Stavební objekt', code: 'SO'},
+{label: 'Správní obvod v hlavním městě Praze', code: 'SP'},
+{label: 'Území státu', code: 'ST'},
+{label: 'Detailní technicko ekonomické atributy', code: 'TEA'},
+{label: 'Ulice nebo jiné veřejné prostranství', code: 'UL'},
+{label: 'Účelový prvek', code: 'UP'},
+{label: 'Území vyššího územně samosprávného celku', code: 'VC'},
+{label: 'Volební okrsek', code: 'VO'},
+{label: 'Území základní sídelní jednotky', code: 'ZJ'},
+{label: 'Způsob ochrany parcely', code: 'ZPA'},
+{label: 'Způsob ochrany stavebního objektu', code: 'ZSO'}
+],
+frequencies: [
+{label: 'denní', code: 'DAILY'},
+{label: 'týdenní', code: 'WEEKLY'},
+{label: 'měsíční', code: 'MONTHLY'},
+{label: 'čtvrtletní', code: 'QUARTERLY'},
+{label: 'pololetní', code: 'ANNUAL_2'},
+{label: 'roční', code: 'ANNUAL'},
+{label: 'průběžně aktualizovaná', code: 'UPDATE_CONT'},
+{label: 'nikdy', code: 'NEVER'},
+{label: 'nepravidelná', code: 'IRREG'},
+{label: 'neznámá', code: 'UNKNOWN'},
+{label: 'dvakrát denně', code: 'DAILY_2'},
+{label: 'dvakrát týdně', code: 'WEEKLY_2'},
+{label: 'třikrát týdně', code: 'WEEKLY_3'},
+{label: 'jednou za čtrnáct dní', code: 'BIWEEKLY'},
+{label: 'dvakrát za měsíc', code: 'MONTHLY_2'},
+{label: 'třikrát za měsíc', code: 'MONTHLY_3'},
+{label: 'jednou za dva měsíce', code: 'BIMONTHLY'},
+{label: 'třikrát do roka', code: 'ANNUAL_3'},
+{label: 'jednou za dva roky', code: 'BIENNIAL'},
+{label: 'jednou za tři roky', code: 'TRIENNIAL'},
+{label: 'průběžně', code: 'CONT'},
+{label: 'ostatní', code: 'OTHER'}
+],
+emailRules: [
+v => v.length == 0 || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Email musí být validní'
+],
+urlRules: [
+v => v.length == 0 || /(http(s)?:\/\/.)[^ ]+$/.test(v) || 'URL musí být validní http(s) URL'
+],
+mandatoryUrlRules: [
+v => !!v || 'URL je povinné',
+v => /(http(s)?:\/\/.)[^ ]+$/.test(v) || 'URL musí být validní http(s) URL'
+]
+		},
+		methods: {
+			removekeyword (item) {
+				this.dataset.keywords.splice(this.dataset.keywords.indexOf(item), 1)
+			},
+			removetheme (item) {
+				this.dataset.themes.splice(this.dataset.themes.indexOf(item), 1)
+			},
+			removedistro (item) {
+				this.dataset.distributions.splice(this.dataset.distributions.indexOf(item), 1)
+			},
+			addDistribution() {
+				this.dataset.distributions.push({
+					id: this.dataset.distributions[this.dataset.distributions.length - 1].id + 1,
+					url: '',
+					format: '',
+					license_link: '',
+					title: '',
+					schema: ''
+				}
+				)
+			},
+			datasetValid(dataset) {
+				return validateDataset(dataset);
+			},
+			distributionValid(distro) {
+				return validateDistribution(distro);
+			},
+			allDistrosValid(dataset) {
+				return dataset.distributions.reduce((allValid, distro) => allValid && validateDistribution(distro), true);
+			},
+			downloadDataset(dataset) {
+				download('nkod-registrace-ds.xml', dataset2XML(dataset), 'application/xml');
+			},
+			downloadFile(uri) {
+				downloadURI(uri);
+			},
+			save_temporal_start (date) {
+				this.$refs.temporal_start_menu.save(date)
+			},
+			save_temporal_end (date) {
+				this.$refs.temporal_end_menu.save(date)
+			}
+	    },
+		watch: {
+		  temporal_start_menu (val) {
+			val && this.$nextTick(() => (this.$refs.temporal_start_picker.activePicker = 'YEAR'))
+		  },
+		  temporal_end_menu (val) {
+			val && this.$nextTick(() => (this.$refs.temporal_end_picker.activePicker = 'YEAR'))
+		  }
+		}
+	});
+  </script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text eol=lf
+
+# IntelliJ IDEA files.
+*.iml
+
+# Generated files.
+node_modules/
+dist/
+.idea/

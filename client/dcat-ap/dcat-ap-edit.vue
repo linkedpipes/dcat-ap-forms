@@ -1,30 +1,30 @@
 <template>
-    <v-container fluid>
-        <v-stepper v-model="ui.step" alt-labels v-on:input="onStepperInput">
+    <v-content>
+        <v-stepper v-model="ui.step" v-on:input="onStepperInput">
             <v-stepper-header>
                 <v-stepper-step editable
                                 :complete="ui.step > 1"
                                 :rules="[() => isDatasetValid()]"
-                                step="1">
+                                :step="1">
                     {{$labels.get("step_dataset")}}
                 </v-stepper-step>
                 <v-divider/>
                 <v-stepper-step editable
                                 :complete="ui.step > 2"
                                 :rules="[isDistributionValid]"
-                                step="2">
+                                :step="2">
                     {{$labels.get("step_distribution")}}
                 </v-stepper-step>
                 <v-divider/>
-                <v-stepper-step editable step="3">
+                <v-stepper-step editable :step="3">
                     {{$labels.get("step_download")}}
                 </v-stepper-step>
             </v-stepper-header>
             <v-stepper-items>
-                <v-stepper-content step="1">
+                <v-stepper-content :step="1">
                     <app-dataset :dataset="data.dataset"/>
                 </v-stepper-content>
-                <v-stepper-content step="2">
+                <v-stepper-content :step="2">
                     <app-distribution-selector
                             v-model="ui.distribution"
                             v-on:add="addDistribution"
@@ -37,12 +37,13 @@
                         {{$labels.get('no_distribution')}}
                     </div>
                 </v-stepper-content>
-                <v-stepper-content step="3">
+                <v-stepper-content :step="3">
                     Someday you may be able to download something from here ...
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
-    </v-container>
+        <app-step-navigation :min="1" :max="3" v-model="ui.step"/>
+    </v-content>
 </template>
 
 <script>
@@ -54,13 +55,15 @@
         isDistributionValid
     } from "./distribution-model";
     import DistributionSelector from "./ui/distribution-selector";
+    import StepperNavigation from "./ui/step-navigation";
 
     export default {
         "name": "app-dcat-ap-edit",
         "components": {
             "app-dataset": DatasetEdit,
             "app-distribution": DistributionEdit,
-            "app-distribution-selector": DistributionSelector
+            "app-distribution-selector": DistributionSelector,
+            "app-step-navigation": StepperNavigation
         },
         "data": () => ({
             "data": {

@@ -96,6 +96,7 @@
                     ...this.data.distributions,
                     createDistribution()
                 ];
+                this.ui.distribution = this.data.distributions.length -1;
             },
             "deleteDistribution": function () {
                 const index = this.ui.distribution;

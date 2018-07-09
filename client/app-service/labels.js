@@ -48,7 +48,9 @@ export const labels = {
         "license_specialdb_custom_invalid": "Nevalidní HTTP(S) URL.",
         "license_personal_type":  "Osobní údaje",
         "no_distribution": "Všechny distribuce byly smazány.",
-        "delete_distribution": "Smaž distribuci"
+        "delete_distribution": "Smaž distribuci",
+        "headline_distribution_license": "Podmínky užití distribuce",
+        "headline_distribution_access": "Přístupové údaje"
     }
 };
 

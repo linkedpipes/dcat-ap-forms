@@ -1,20 +1,16 @@
 <template>
     <v-app>
-        <app-header/>
+        <v-toolbar>
+            <v-toolbar-title>{{$labels.get("app_header")}}</v-toolbar-title>
+        </v-toolbar>
         <router-view/>
+        <v-footer>
+        </v-footer>
     </v-app>
 </template>
 
 <script>
-    import Header from "./header";
-
     export default {
-        "name": "app",
-        "components": {
-            "app-header": Header
-        },
-        "data": () => ({
-            "drawer": false
-        })
+        "name": "app"
     }
 </script>

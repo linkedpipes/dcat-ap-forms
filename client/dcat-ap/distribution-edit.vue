@@ -61,7 +61,7 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg6 xl3>
+                <v-flex xs12 lg4 xl2>
                     <v-select
                             :items="db_special_license_types"
                             v-model="distribution.license_specialdb_type"
@@ -69,7 +69,8 @@
                             item-text="label"
                             item-value="value" required/>
                 </v-flex>
-                <v-flex xs12 lg6 xl3>
+                <v-flex xs12 lg4 xl2/>
+                <v-flex xs12 lg4 xl2>
                     <v-text-field
                             name="distribution_license_specialdb_custom"
                             :disabled="!isCustomSpecialDb"
@@ -80,14 +81,16 @@
                             type="url"/>
                 </v-flex>
             </v-layout>
-
-            <v-select
-                    :items="personal_data_links"
-                    v-model="distribution.license_personal_type"
-                    :label="$labels.get('license_personal_type')"
-                    item-text="label" item-value="value"
-                    required/>
-
+            <v-layout row wrap>
+                <v-flex xs12 lg4 xl2>
+                    <v-select
+                            :items="personal_data_links"
+                            v-model="distribution.license_personal_type"
+                            :label="$labels.get('license_personal_type')"
+                            item-text="label" item-value="value"
+                            required/>
+                </v-flex>
+            </v-layout>
 
         </div>
         <div class="headline">
@@ -113,7 +116,7 @@
             <v-text-field
                     name="distribution_schema"
                     v-model="distribution.schema"
-                    :label="$labels.get('distribution_schema')"
+                    :label="$labels.get('distribution_schema_link')"
                     :error-messages="err_schema"
                     type="url"/>
         </div>

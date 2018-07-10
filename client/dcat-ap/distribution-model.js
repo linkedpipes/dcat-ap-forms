@@ -20,7 +20,6 @@ export function createDistribution() {
         //
         "url": "",
         "format": "",
-        "license_link": "",
         "schema": "",
         "title": "",
         //
@@ -56,13 +55,7 @@ export function createDistributionValidators() {
             (t) => t.distribution, "format",
             [
                 [provided, "format_missing"],
-                [(value) => value.includes('/'), "format_invalid"]
-            ]),
-        "err_license_link": applyArray(
-            (t) => t.distribution, "license_link",
-            [
-                [provided, "distribution_schema_missing"],
-                [url, "distribution_schema_invalid"]
+                [(value) => isValidFormat, "format_invalid"]
             ]),
         "err_schema": apply(
             (t) => t.distribution, "schema",

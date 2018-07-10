@@ -107,12 +107,6 @@
                     :error-messages="err_format"
                     required/>
             <v-text-field
-                    name="distribution_license"
-                    v-model="distribution.license_link"
-                    :label="$labels.get('distribution_license')"
-                    :error-messages="err_license_link"
-                    type="url" required/>
-            <v-text-field
                     name="distribution_title"
                     v-model="distribution.title"
                     :label="$labels.get('distribution_title')"/>

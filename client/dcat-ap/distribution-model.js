@@ -64,9 +64,13 @@ export function createDistributionValidators() {
     };
 }
 
+function isValidFormat(value) {
+    return value.includes('/');
+}
+
 export function isDistributionValid(distribution) {
-    return distribution.url.length > 0 &&
-        distribution.format.length > 0 &&
-        distribution.format.includes('/') &&
-        distribution.license_link.length > 0 ;
+    return provided(distribution.url) &&
+        url(distribution.url) &&
+        provided(distribution.format) &&
+        isValidFormat(distribution.format);
 }

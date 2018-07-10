@@ -52,7 +52,7 @@ export function createDatasetValidators() {
 
 
 export function isDatasetValid(dataset) {
-    return dataset.title.length > 0 &&
-        dataset.description.length > 0 &&
-        dataset.keywords.length > 0;
+    return provided(dataset.title) &&
+        provided(dataset.description) &&
+        provided(dataset.keywords);
 }

@@ -1,5 +1,5 @@
 export function provided(value) {
-    return value.length !== 0;
+    return value.length > 0;
 }
 
 export function email(value) {

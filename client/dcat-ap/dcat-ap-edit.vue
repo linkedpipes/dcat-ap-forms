@@ -119,7 +119,7 @@
                     ...this.data.distributions,
                     createDistribution()
                 ];
-                this.ui.distribution = this.data.distributions.length -1;
+                this.ui.distribution = this.data.distributions.length - 1;
             },
             "deleteDistribution": function () {
                 const index = this.ui.distribution;
@@ -131,7 +131,7 @@
                     this.ui.distribution,
                     this.data.distributions.length - 1);
             },
-            "onStepperInput" : function(value) {
+            "onStepperInput": function (value) {
                 if (!this.validation.dataset && value > 1) {
                     this.validation.dataset = true;
                     this.data.dataset.$validators.force = true;

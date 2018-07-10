@@ -61,6 +61,7 @@
     } from "./distribution-model";
     import DistributionSelector from "./ui/distribution-selector";
     import StepperNavigation from "./ui/step-navigation";
+    import {exportToJsonLd} from "./export-to-jsonld";
 
     export default {
         "name": "app-dcat-ap-edit",
@@ -68,7 +69,8 @@
             "app-dataset": DatasetEdit,
             "app-distribution": DistributionEdit,
             "app-distribution-selector": DistributionSelector,
-            "app-step-navigation": StepperNavigation
+            "app-step-navigation": StepperNavigation,
+            "app-export-summary": ExportSummary
         },
         "data": () => ({
             "data": {

@@ -11,7 +11,7 @@
                 <v-divider/>
                 <v-stepper-step editable
                                 :complete="ui.step > 2"
-                                :rules="[isDistributionValid]"
+                                :rules="[areDistributionsValid]"
                                 :step="2">
                     {{$labels.get("step_distribution")}}
                 </v-stepper-step>
@@ -81,7 +81,7 @@
                 "step": 1,
                 "distribution": 0
             },
-            "validation" : {
+            "validation": {
                 "dataset": false,
                 "distributions": false
             }
@@ -93,11 +93,22 @@
                 }
                 return isDatasetValid(this.data.dataset);
             },
-            "isDistributionValid": function () {
+            "areDistributionsValid": function () {
                 if (!this.validation.distributions) {
                     return true;
                 }
-                return isDistributionValid(this.data.distributions[0]);
+                for (let index in this.data.distributions) {
+                    const distribution = this.data.distributions[index];
+                    if (!distribution.$validators.force) {
+                        // Newly added distribution. User does not
+                        // visited last step after adding this one.
+                        continue;
+                    }
+                    if (!isDistributionValid(distribution)) {
+                        return false;
+                    }
+                }
+                return true;
             },
             "addDistribution": function () {
                 this.data.distributions = [

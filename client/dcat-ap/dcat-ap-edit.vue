@@ -38,11 +38,16 @@
                     </div>
                 </v-stepper-content>
                 <v-stepper-content :step="3">
-                    Someday you may be able to download something from here ...
+                    <app-export-summary
+                            :dataset="data.dataset"
+                            :distributions="data.distributions"/>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
-        <app-step-navigation :min="1" :max="3" v-model="ui.step"/>
+        <app-step-navigation
+                :min="1" :max="3" v-model="ui.step"
+                :isValid="isDatasetValid() && areDistributionsValid()"
+                v-on:download="download"/>
     </v-content>
 </template>
 

@@ -28,11 +28,8 @@ export const labels = {
         "distribution_format": "Media type souboru ke stažení",
         "format_missing": "Media type je povinný.",
         "format_invalid": "Nevalidní media type. Příklad: text/csv",
-        "distribution_license": "Odkaz na podmínky užití distribuce datové sady",
-        "license_link_missing": "URL je povinné.",
-        "license_link_invalid": "Nevalidní HTTP(S) URL.",
         "distribution_title": "Název distribuce",
-        "distribution_schema": "Odkaz na schéma distribuce",
+        "distribution_schema_link": "Odkaz na schéma distribuce",
         "distribution_schema_missing": "URL je povinné.",
         "distribution_schema_invalid": "Nevalidní HTTP(S) URL.",
         "license_author_type": "Autorské dílo",
@@ -50,7 +47,11 @@ export const labels = {
         "no_distribution": "Všechny distribuce byly smazány.",
         "delete_distribution": "Smaž distribuci",
         "headline_distribution_license": "Podmínky užití distribuce",
-        "headline_distribution_access": "Přístupové údaje"
+        "headline_distribution_access": "Přístupové údaje",
+        "distribution_download": "Soubor ke stažení",
+        "media_type": "Media typ",
+        "distribution_schema": "Schéma distribuce",
+        "terms_of_use": "Podmínky užití"
     }
 };
 

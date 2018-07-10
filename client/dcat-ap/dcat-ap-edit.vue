@@ -61,7 +61,9 @@
     } from "./distribution-model";
     import DistributionSelector from "./ui/distribution-selector";
     import StepperNavigation from "./ui/step-navigation";
+    import ExportSummary from "./export-summary";
     import {exportToJsonLd} from "./export-to-jsonld";
+    import {downloadAsJsonLd} from "@/app-service/download";
 
     export default {
         "name": "app-dcat-ap-edit",
@@ -140,9 +142,16 @@
                         distribution.$validators.force = true;
                     });
                 }
+            },
+            "download": function () {
+                const jsonld = exportToJsonLd(
+                    this.data.dataset, this.data.distributions);
+                downloadAsJsonLd("nkod-registrace.jsonld", jsonld)
             }
         }
     };
+
+
 </script>
 
 <style scoped>

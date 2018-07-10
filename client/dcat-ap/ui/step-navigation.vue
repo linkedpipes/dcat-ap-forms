@@ -12,6 +12,7 @@
             <v-icon>arrow_forward</v-icon>
         </v-btn>
         <v-btn v-on:click="onDownload"
+               :disabled="!isValid"
                v-if="value === max"
                flat icon color="primary">
             <v-icon>file_download</v-icon>
@@ -25,7 +26,8 @@
         "props": {
             "value": {"required": true},
             "min": {"required": true},
-            "max": {"required": true}
+            "max": {"required": true},
+            "isValid" : {"required": true}
         },
         "methods": {
             "onPrevious": function () {
@@ -35,7 +37,7 @@
                 this.$emit("input", this.value + 1);
             },
             "onDownload": function() {
-                // TODO Add download + validation as disable state to button.
+                this.$emit("download");
             }
         }
     }

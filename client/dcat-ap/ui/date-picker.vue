@@ -18,8 +18,7 @@
         <v-date-picker
                 ref="picker"
                 :value="value"
-                @change="save"
-                :max="new Date().toISOString().substr(0, 10)"/>
+                @change="save"/>
     </v-menu>
 </template>
 
@@ -41,17 +40,6 @@
             "updateValue": function(value) {
                 this.$emit("input", value);
             }
-        },
-        "watch": {
-            "menu" : function (value) {
-                if (!value) {
-                    return;
-                }
-                this.$nextTick(() => {
-                    this.$refs.picker.activePicker = "YEAR"
-                });
-            }
         }
-
     };
 </script>

@@ -42,7 +42,7 @@
             </v-stepper-items>
         </v-stepper>
         <app-step-navigation
-                :min="1" :max="3" v-model="ui.step"
+                v-model="ui.step"
                 :isValid="isDatasetValid() && areDistributionsValid()"
                 v-on:download="download"/>
     </v-content>

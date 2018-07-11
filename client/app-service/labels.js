@@ -51,7 +51,10 @@ export const labels = {
         "distribution_download": "Soubor ke stažení",
         "media_type": "Media typ",
         "distribution_schema": "Schéma distribuce",
-        "terms_of_use": "Podmínky užití"
+        "terms_of_use": "Podmínky užití",
+        "nav_download": "Stažení",
+        "nav_dataset": "Datová sada",
+        "nav_distributions": "Distribuce"
     }
 };
 

@@ -124,11 +124,6 @@ function exportDistribution(distribution) {
             asIri(distribution.schema);
     }
 
-    if (distribution.schema !== "") {
-        output["http://purl.org/dc/terms/conformsTo"] =
-            asIri(distribution.schema);
-    }
-
     if (distribution.title !== "") {
         output["http://purl.org/dc/terms/title"] =
             asLangString(distribution.title);

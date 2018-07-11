@@ -108,7 +108,7 @@ function exportDistribution(distribution) {
     // url, format, license_link, schema, title
     const output = {
         "@type": ["http://www.w3.org/ns/dcat#Distribution"],
-        "http://www.w3.org/ns/dcat#accessURL" : asIri(distribution.url),
+        "http://www.w3.org/ns/dcat#downloadURL" : asIri(distribution.url),
         // TODO Conversion to URL?
         // http://www.w3.org/ns/dcat#mediaType
         // http://purl.org/dc/terms/format

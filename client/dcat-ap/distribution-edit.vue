@@ -120,7 +120,7 @@
                     :error-messages="err_schema"
                     type="url"/>
         </div>
-        <div>
+        <div v-if="canBeDeleted">
             <v-btn v-on:click="onDelete" flat>
                 <v-icon color="error">delete</v-icon>
                 {{$labels.get('delete_distribution')}}
@@ -145,7 +145,8 @@
             "app-date-picker": DatePicker
         },
         "props": {
-            "distribution": {"type": Object, "required": true}
+            "distribution": {"type": Object, "required": true},
+            "canBeDeleted": {"type": Boolean, "required": true}
         },
         "data": () => ({
             "author_license_types": author_license_types,

@@ -30,12 +30,9 @@
                             v-on:add="addDistribution"
                             :distributions="data.distributions"/>
                     <app-distribution
-                            v-if="data.distributions.length > 0"
                             :distribution="data.distributions[ui.distribution]"
+                            :canBeDeleted="data.distributions.length > 1"
                             v-on:delete="deleteDistribution"/>
-                    <div v-else>
-                        {{$labels.get('no_distribution')}}
-                    </div>
                 </v-stepper-content>
                 <v-stepper-content :step="3">
                     <app-export-summary

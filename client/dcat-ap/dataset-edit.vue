@@ -17,7 +17,7 @@
                 v-model="dataset.accrual_periodicity"
                 :items="frequencies"
                 :label="$labels.get('accrual_periodicity')"
-                item-text="label"
+                item-text="cs"
                 item-value="value"
                 required/>
         <v-layout row wrap>
@@ -25,9 +25,9 @@
                 <v-autocomplete
                         id="dataset_ruian_type"
                         v-model="dataset.ruian_type"
-                        :items="ruian_types"
+                        :items="ruianTypes"
                         :label="$labels.get('ruian_type')"
-                        item-text="label"
+                        item-text="cs"
                         item-value="value"
                         required/>
             </v-flex>
@@ -108,8 +108,9 @@
 
 <script>
     import {createDatasetValidators} from "./dataset-model";
-    import {frequencies, ruain_types} from "./code-lists";
     import DatePicker from "./ui/date-picker";
+    import RuinTypeCodelist from "./codelists/ruian_type"
+    import FrequenciesCodeList from "./codelists/frequencies";
 
     export default {
         "name": "app-dataset-edit",
@@ -120,8 +121,8 @@
             "dataset": {"type": Object, "required": true}
         },
         "data": () => ({
-            "frequencies": frequencies,
-            "ruian_types": ruain_types
+            "frequencies": FrequenciesCodeList,
+            "ruianTypes": RuinTypeCodelist
         }),
         "computed": {
             ...createDatasetValidators()

@@ -6,8 +6,6 @@ export function exportToJsonLd(dataset, distributions) {
         "http://purl.org/dc/terms/description":
             asLangString(dataset.description),
         //
-        "https://data.gov.cz/slovník/nkod/ruian_code":
-            asValue(dataset.ruian_code),
         "http://www.w3.org/ns/dcat#keyword":
             dataset.keywords.map((keyword) => asLangString(keyword)),
         "http://www.w3.org/ns/dcat#distribution":
@@ -15,12 +13,14 @@ export function exportToJsonLd(dataset, distributions) {
     };
 
     if (dataset.accrual_periodicity !== "") {
-        output["http://purl.org/dc/terms/accrualPeriodicity"] =
-            asIri(dataset.accrual_periodicity);
+        const url = "http://publications.europa.eu/" +
+            "resource/authority/frequency/" + dataset.accrual_periodicity;
+        output["http://purl.org/dc/terms/accrualPeriodicity"] = asIri(url);
     }
-    if (dataset.ruian_type !== "") {
-        output["https://data.gov.cz/slovník/nkod/ruian_type"] =
-            asValue(dataset.ruian_type);
+    if (dataset.ruian_code !== null && dataset.ruian_type !== "") {
+        const url = "https://linked.cuzk.cz/" +
+            "resource/ruian/" + dataset.ruian_code + "/" + dataset.ruian_type;
+        output["http://purl.org/dc/terms/spatial"] = asIri(url);
     }
     if (dataset.documentation !== "") {
         output["http://xmlns.com/foaf/0.1/page"] =
@@ -112,7 +112,6 @@ function exportDistribution(distribution) {
         // TODO Conversion to URL?
         // http://www.w3.org/ns/dcat#mediaType
         // http://purl.org/dc/terms/format
-        // https://data.gov.cz/slovník/nkod/mediaType
         "http://purl.org/dc/terms/format" : asValue(distribution.format)
     };
 

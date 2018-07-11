@@ -13,7 +13,7 @@ export const labels = {
         "ruian_type": "Související území - Typ územního prvku RÚIAN",
         "ruian_code": "Související území - Kód územního prvku RÚIAN",
         "ruian_code_invalid": "Kód územního prvku RÚIAN je povinný.",
-        "keywords": "Klíčová slova",
+        "keywords": "Klíčová slova *",
         "keywords_error": "Klíčová slova jsou povinná.",
         "contact_point_name": "Jméno kurátora dat",
         "contact_point_email": "Email kurátora dat",

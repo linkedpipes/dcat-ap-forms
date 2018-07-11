@@ -1,8 +1,8 @@
 <template>
     <v-container fluid grid-list-lg>
-        <div class="headline">
+        <h2 class="headline">
             {{$labels.get('headline_distribution_license')}}
-        </div>
+        </h2>
         <div>
             <v-layout row wrap>
                 <v-flex xs12 lg4 xl2>
@@ -93,9 +93,9 @@
             </v-layout>
 
         </div>
-        <div class="headline">
+        <h2 class="headline">
             {{$labels.get('headline_distribution_access')}}
-        </div>
+        </h2>
         <div>
             <v-text-field
                     name="distribution_url"

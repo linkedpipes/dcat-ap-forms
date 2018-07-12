@@ -32,7 +32,7 @@ curl http://localhost:8983/solr/ruian/config -H 'Content-type:application/json' 
 Create schema:
 ```
 curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "text", class:"solr.TextField", positionIncrementGap:"100", "analyzer": {
+    "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
@@ -41,7 +41,7 @@ curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type
 }'
 
 curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "text", class:"solr.TextField", positionIncrementGap:"100", "analyzer": {
+    "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
@@ -50,20 +50,20 @@ curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:ap
 }'
 
 curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", class:"solr.TextField", positionIncrementGap:"100", "analyzer": {
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
         "filters": [
             {"class":"solr.LowerCaseFilterFactory"},
             {"class":"solr.ASCIIFoldingFilterFactory"}
         ]
     }},
-    "add-field-type": {"name": "text", class:"solr.TextField", positionIncrementGap:"100", "analyzer": {
+    "add-field-type": {"name": "text", "class": "solr.TextField", positionIncrementGap:"100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
-    }},    
+    }},
     "add-field": {"name": "code", "type": "string" , "indexed": false, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
     "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "title", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "title", "type": "ascii_text" , "indexed": true, "docValues": false}
 }'
 ```

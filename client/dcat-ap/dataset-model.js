@@ -5,7 +5,7 @@ export function createDataset() {
         "title": "",
         "description": "",
         "accrual_periodicity": "",
-        "ruian_type": "obec",
+        "ruian_type": "",
         "ruian": "",
         "temporal_start": "",
         "temporal_end": "",

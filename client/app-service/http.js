@@ -2,7 +2,10 @@ export const ERROR_OFFLINE = "OFFLINE";
 export const ERROR_PARSING = "PARSING";
 export const ERROR_RESPONSE = "RESPONSE";
 
+const URL_PREFIX = ".";
+
 export function fetchJson(url) {
+    url = URL_PREFIX + url;
     return fetch(url, {
         "method": "GET",
         "headers": {

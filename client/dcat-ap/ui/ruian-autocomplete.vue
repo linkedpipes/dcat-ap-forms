@@ -11,7 +11,7 @@
             :disabled="disabled"
             item-value="code"
             item-text="title"
-            cache-items flat>
+            flat>
         <template slot="selection" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})
         </template>

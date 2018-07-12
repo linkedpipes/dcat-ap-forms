@@ -10,7 +10,7 @@
             item-text="title"
             :error-messages="errorMessages"
             item-value="code"
-            cache-items flat>
+            flat>
         <!-- TODO Replace with Vuetify localization -->
         <template slot="no-data">
             <v-list-tile>

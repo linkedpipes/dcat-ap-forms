@@ -12,7 +12,7 @@
                 slot="activator"
                 :value="value"
                 :label="label"
-                v-on:input="updateValue"
+                v-on:input="onInput"
                 prepend-icon="event"
                 readonly clearable/>
         <v-date-picker
@@ -37,7 +37,7 @@
                 this.$refs.menu.save(date);
                 this.$emit("input", date);
             },
-            "updateValue": function(value) {
+            "onInput": function(value) {
                 this.$emit("input", value);
             }
         }

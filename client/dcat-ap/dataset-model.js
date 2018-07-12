@@ -5,8 +5,8 @@ export function createDataset() {
         "title": "",
         "description": "",
         "accrual_periodicity": "",
-        "ruian_type": "",
-        "ruian_code": "",
+        "ruian_type": "obec",
+        "ruian": "",
         "temporal_start": "",
         "temporal_end": "",
         "documentation": "",
@@ -31,10 +31,10 @@ export function createDatasetValidators() {
             (t) => t.dataset, "description",
             provided,
             "dataset_description_invalid"),
-        "err_ruian_code": apply(
-            (t) => t.dataset, "ruian_code",
-            (value) => value > 0,
-            "ruian_code_invalid"),
+        "err_ruian": apply(
+            (t) => t.dataset, "ruian",
+            provided,
+            "ruian_invalid"),
         "err_keywords": apply(
             (t) => t.dataset, "keywords",
             (value) => value.length > 0,

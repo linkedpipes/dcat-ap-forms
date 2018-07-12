@@ -20,6 +20,7 @@ export function createDistribution() {
         //
         "url": "",
         "format": "",
+        "media_type": "",
         "schema": "",
         "title": "",
         //
@@ -55,7 +56,6 @@ export function createDistributionValidators() {
             (t) => t.distribution, "format",
             [
                 [provided, "format_missing"],
-                [(value) => isValidFormat, "format_invalid"]
             ]),
         "err_schema": apply(
             (t) => t.distribution, "schema",

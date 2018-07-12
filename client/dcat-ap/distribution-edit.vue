@@ -103,12 +103,23 @@
                     :label="$labels.get('distribution_url')"
                     :error-messages="err_url"
                     required type="url"/>
-            <v-text-field
-                    name="distribution_format"
-                    v-model="distribution.format"
-                    :label="$labels.get('distribution_format')"
-                    :error-messages="err_format"
-                    required/>
+            <v-layout row wrap>
+                <v-flex xs12 lg6 xl2>
+                    <app-solr-autocomplete
+                            name="distribution_format"
+                            v-model="distribution.format"
+                            :label="$labels.get('distribution_format')"
+                            :error-messages="err_format"
+                            code-list="file-type"/>
+                </v-flex>
+                <v-flex xs12 lg6 xl2>
+                    <app-solr-autocomplete
+                            name="media_type"
+                            v-model="distribution.media_type"
+                            :label="$labels.get('distribution_media_type')"
+                            code-list="media-types"/>
+                </v-flex>
+            </v-layout>
             <v-text-field
                     name="distribution_title"
                     v-model="distribution.title"
@@ -138,11 +149,13 @@
         personal_data_links
     } from "./code-lists";
     import DatePicker from "./ui/date-picker";
+    import SolrAutocomplete from "./ui/solr-autocomplete";
 
     export default {
         "name": "app-distribution-edit",
         "components": {
-            "app-date-picker": DatePicker
+            "app-date-picker": DatePicker,
+            "app-solr-autocomplete": SolrAutocomplete
         },
         "props": {
             "distribution": {"type": Object, "required": true},

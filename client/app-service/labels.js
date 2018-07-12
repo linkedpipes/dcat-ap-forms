@@ -11,8 +11,8 @@ export const labels = {
         "dataset_description_invalid": "Popis datové sady je povinný.",
         "accrual_periodicity": "Periodicita aktualizace",
         "ruian_type": "Související území - Typ územního prvku RÚIAN",
-        "ruian_code": "Související území - Kód územního prvku RÚIAN",
-        "ruian_code_invalid": "Kód územního prvku RÚIAN je povinný.",
+        "ruian": "Související území - Kód územního prvku RÚIAN",
+        "ruian_invalid": "Kód územního prvku RÚIAN je povinný.",
         "keywords": "Klíčová slova *",
         "keywords_error": "Klíčová slova jsou povinná.",
         "contact_point_name": "Jméno kurátora dat",
@@ -25,9 +25,9 @@ export const labels = {
         "distribution_url": "Odkaz na soubor ke stažení",
         "distribution_url_missing": "URL je povinné.",
         "distribution_url_invalid": "Nevalidní HTTP(S) URL.",
-        "distribution_format": "Media type souboru ke stažení",
-        "format_missing": "Media type je povinný.",
-        "format_invalid": "Nevalidní media type. Příklad: text/csv",
+        "distribution_media_type": "Media type souboru ke stažení",
+        "distribution_format": "Formát souboru ke stažení",
+        "format_missing": "Formát je povinný.",
         "distribution_title": "Název distribuce",
         "distribution_schema_link": "Odkaz na schéma distribuce",
         "distribution_schema_missing": "URL je povinné.",
@@ -54,7 +54,8 @@ export const labels = {
         "terms_of_use": "Podmínky užití",
         "nav_download": "Stažení",
         "nav_dataset": "Datová sada",
-        "nav_distributions": "Distribuce"
+        "nav_distributions": "Distribuce",
+        "autocomplete_no_data": "Dotazu neodpovídají žádná data."
     }
 };
 

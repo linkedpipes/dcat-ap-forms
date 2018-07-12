@@ -32,13 +32,14 @@
                         required/>
             </v-flex>
             <v-flex xs12 lg6 xl2>
-                <v-text-field
-                        name="dataset_ruian_code"
-                        v-model="dataset.ruian_code"
-                        :label="$labels.get('ruian_code')"
-                        :error-messages="err_ruian_code"
-                        type="number"
-                        required/>
+                <app-ruain-autocomplete
+                        name="dataset_ruian"
+                        v-model="dataset.ruian"
+                        :label="$labels.get('ruian')"
+                        :error-messages="err_ruian"
+                        code-list="ruian"
+                        :type="dataset.ruian_type"
+                        :disabled="dataset.ruian_type === ''"/>
             </v-flex>
         </v-layout>
 
@@ -111,11 +112,13 @@
     import DatePicker from "./ui/date-picker";
     import RuinTypeCodelist from "./codelists/ruian_type"
     import FrequenciesCodeList from "./codelists/frequencies";
+    import RuianAutocomplete from "./ui/ruian-autocomplete";
 
     export default {
         "name": "app-dataset-edit",
         "components" : {
-            "app-date-picker" : DatePicker
+            "app-date-picker" : DatePicker,
+            "app-ruain-autocomplete": RuianAutocomplete
         },
         "props": {
             "dataset": {"type": Object, "required": true}

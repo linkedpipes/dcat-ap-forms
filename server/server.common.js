@@ -1,5 +1,5 @@
 function initialize(app) {
-    // Nothing to do here.
+    app.use("/api/v1/codelist", require("./codelist/routes"));
 }
 
 function start(app) {

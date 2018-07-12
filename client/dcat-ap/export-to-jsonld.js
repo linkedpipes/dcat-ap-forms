@@ -17,10 +17,8 @@ export function exportToJsonLd(dataset, distributions) {
             "resource/authority/frequency/" + dataset.accrual_periodicity;
         output["http://purl.org/dc/terms/accrualPeriodicity"] = asIri(url);
     }
-    if (dataset.ruian_code !== null && dataset.ruian_type !== "") {
-        const url = "https://linked.cuzk.cz/" +
-            "resource/ruian/" + dataset.ruian_code + "/" + dataset.ruian_type;
-        output["http://purl.org/dc/terms/spatial"] = asIri(url);
+    if (dataset.ruian !== null) {
+        output["http://purl.org/dc/terms/spatial"] = asIri(dataset.ruian);
     }
     if (dataset.documentation !== "") {
         output["http://xmlns.com/foaf/0.1/page"] =
@@ -109,10 +107,8 @@ function exportDistribution(distribution) {
     const output = {
         "@type": ["http://www.w3.org/ns/dcat#Distribution"],
         "http://www.w3.org/ns/dcat#downloadURL" : asIri(distribution.url),
-        // TODO Conversion to URL?
-        // http://www.w3.org/ns/dcat#mediaType
-        // http://purl.org/dc/terms/format
-        "http://purl.org/dc/terms/format" : asValue(distribution.format)
+        "http://purl.org/dc/terms/mediaType" : asIri(distribution.media_type),
+        "http://purl.org/dc/terms/format" : asIri(distribution.format)
     };
 
     // TODO

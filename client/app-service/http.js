@@ -1,11 +1,9 @@
-import config from "app-service/config";
-
 export const ERROR_OFFLINE = "OFFLINE";
 export const ERROR_PARSING = "PARSING";
 export const ERROR_RESPONSE = "RESPONSE";
 
 export function fetchJson(url) {
-    return fetch(config.baseUrl + url, {
+    return fetch(url, {
         "method": "GET",
         "headers": {
             "Accept": "application/json"

@@ -1,7 +1,16 @@
 <template>
     <v-container fluid grid-list-lg>
         <h2 class="headline">
-            {{$labels.get('headline_distribution_license')}}
+            <v-badge color="white">
+                <template slot="badge">
+                    <a href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti" target="_blank" class="badge_link">
+                    <v-icon slot="badge" color="blue" size="1.5rem">
+                        help_outline
+                    </v-icon>
+                    </a>
+                </template>
+                <span>{{$labels.get('headline_distribution_license')}}</span>
+            </v-badge>
         </h2>
         <div>
             <v-layout row wrap>
@@ -194,3 +203,10 @@
         }
     };
 </script>
+
+<style scoped>
+    .badge_link {
+        text-decoration-line: None;
+    }
+
+</style>

@@ -50,6 +50,7 @@ export const labels = {
         "headline_distribution_access": "Přístupové údaje",
         "distribution_download": "Soubor ke stažení",
         "media_type": "Media typ",
+        "media_type_missing" : "Media typ je povinný.",
         "distribution_schema": "Schéma distribuce",
         "terms_of_use": "Podmínky užití",
         "nav_download": "Stažení",
@@ -58,7 +59,9 @@ export const labels = {
         "ruian_autocomplete_no_data": "Začněte psát název územního prvku",
         "format_autocomplete_no_data": "Začněte psát formát souboru, např. \"CSV\"",
         "media_type_autocomplete_no_data": "Začněte psát media type, např. \"text/csv\"",
-        "themes_autocomplete_no_data": "Začněte psát název EuroVoc tématu"
+        "themes_autocomplete_no_data": "Začněte psát název EuroVoc tématu",
+        "author_name_missing" : "Jméno autora je povinné.",
+        "custom_license_missing": "Odkaz na vlastní licenci je povinný."
     }
 };
 

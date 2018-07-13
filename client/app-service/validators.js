@@ -27,7 +27,7 @@ export function apply(selector, property, rule, message) {
     }
 }
 
-function shouldValidate(value, validators, property) {
+export function shouldValidate(value, validators, property) {
     if (validators.force) {
         return true;
     }

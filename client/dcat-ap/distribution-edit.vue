@@ -23,7 +23,8 @@
                             :disabled="!isCcByAuthor"
                             :required="isCcByAuthor"
                             v-model="distribution.license_author_name"
-                            :label="$labels.get('license_author_name')"/>
+                            :label="$labels.get('license_author_name')"
+                            :error-messages="err_license_author_name"/>
                 </v-flex>
                 <v-flex xs12 lg4 xl2>
                     <v-text-field
@@ -51,7 +52,8 @@
                             :disabled="!isCcByDb"
                             :required="isCcByDb"
                             v-model="distribution.license_db_name"
-                            :label="$labels.get('license_db_name')"/>
+                            :label="$labels.get('license_db_name')"
+                            :error-messages="err_license_db_name"/>
                 </v-flex>
                 <v-flex xs12 lg4 xl2>
                     <v-text-field
@@ -124,6 +126,7 @@
                             v-model="distribution.media_type"
                             :label="$labels.get('distribution_media_type')"
                             :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
+                            :error-messages="err_media_type"
                             code-list="media-types"/>
                 </v-flex>
             </v-layout>

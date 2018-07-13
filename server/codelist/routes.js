@@ -8,6 +8,8 @@ const configuration = require('../config');
         configuration.solr_media_types));
     router.get("/file-type", createCodelistGet(
         configuration.solr_file_type));
+    router.get("/themes", createCodelistGet(
+        configuration.solr_themes));
     router.get("/ruian", createRuianCodelistGet());
     module.exports = router;
 })();

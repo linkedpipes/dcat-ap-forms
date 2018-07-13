@@ -1,0 +1,88 @@
+<template>
+    <v-autocomplete
+            :name="name"
+            :loading="loading"
+            :items="items"
+            :search-input.sync="search"
+            :value="value"
+            :label="label"
+            v-on:input="onInput"
+            item-text="title"
+            :error-messages="errorMessages"
+            item-value="code"
+            :append-icon="null"
+            flat cache-items multiple chips>
+        <template slot="selection" slot-scope="data">
+            <v-chip v-on:input="removeTheme(data.item)" close>
+                <strong>{{data.item.title}}</strong>
+            </v-chip>
+        </template>
+        <template slot="no-data">
+            <v-list-tile>
+                <v-list-tile-title>
+                    {{$labels.get('themes_autocomplete_no_data')}}
+                </v-list-tile-title>
+            </v-list-tile>
+        </template>
+    </v-autocomplete>
+</template>
+
+<script>
+    import {fetchJson} from "@/app-service/http";
+
+    export default {
+        "name": "app-solr-autocomplete",
+        "props": {
+            "name": {"type": String, "required": false},
+            "value": {"type": Array, "required": true},
+            "label": {"type": String, "required": false},
+            "errorMessages": {"required": false}
+        },
+        "data": () => ({
+            "loading": false,
+            "items": [],
+            "search": null,
+            "ignoreNextSearch": false
+        }),
+        "watch": {
+            "search": function (value) {
+                if (this.ignoreNextSearch) {
+                    this.ignoreNextSearch = false;
+                    return;
+                }
+                if (value) {
+                    this.querySelections(value)
+                }
+            }
+        },
+        "methods": {
+            "querySelections": function (query) {
+                console.log("querySelections", query);
+                this.loading = true;
+                const url = createQueryUrl(query);
+                fetchJson(url).then((response) => {
+                    this.items = response.json.response.docs;
+                    this.loading = false;
+                });
+            },
+            "onInput": function (value) {
+                this.ignoreNextSearch = true;
+                this.$emit("input", value);
+            },
+            "removeTheme": function (item) {
+                const index = this.value.indexOf(item.code);
+                const newValue = [
+                    ... this.value.slice(0, index),
+                    ... this.value.slice(index + 1)
+                ];
+                this.$emit("input", newValue);
+            }
+        }
+    }
+
+    function createQueryUrl(query) {
+        return "/api/v1/codelist/themes/?search=*" +
+            encodeURIComponent(query) + "*";
+    }
+
+</script>

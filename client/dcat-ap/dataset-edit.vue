@@ -93,16 +93,9 @@
                 :error-messages="err_documentation"
                 type="url"/>
 
-        <v-combobox
+        <app-themes-autocomplete
                 v-model="dataset.themes"
-                :label="$labels.get('themes')"
-                chips multiple append-icon="">
-            <template slot="selection" slot-scope="data">
-                <v-chip v-on:input="removeTheme(data.item)" close>
-                    <strong>{{ data.item }}</strong>
-                </v-chip>
-            </template>
-        </v-combobox>
+                :label="$labels.get('themes')"/>
 
     </v-container>
 </template>
@@ -113,12 +106,14 @@
     import RuinTypeCodelist from "./codelists/ruian_type"
     import FrequenciesCodeList from "./codelists/frequencies";
     import RuianAutocomplete from "./ui/ruian-autocomplete";
+    import ThemesAutocomplete from "./ui/themes-autocomplete";
 
     export default {
         "name": "app-dataset-edit",
         "components" : {
             "app-date-picker" : DatePicker,
-            "app-ruain-autocomplete": RuianAutocomplete
+            "app-ruain-autocomplete": RuianAutocomplete,
+            "app-themes-autocomplete": ThemesAutocomplete
         },
         "props": {
             "dataset": {"type": Object, "required": true}
@@ -139,10 +134,6 @@
             "removeKeyword": function (item) {
                 const index = this.dataset.keywords.indexOf(item);
                 this.dataset.keywords.splice(index, 1);
-            },
-            "removeTheme": function (item) {
-                const index = this.dataset.themes.indexOf(item);
-                this.dataset.themes.splice(index, 1);
             }
         }
     };

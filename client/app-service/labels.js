@@ -21,7 +21,7 @@ export const labels = {
         "temporal_start": "Dotčené časové období od",
         "temporal_end": "Dotčené časové období do",
         "documentation": "Odkaz na dokumentaci datové sady",
-        "themes": "Čísla témat EuroVoc, např. 6041",
+        "themes": "EuroVoc témata",
         "distribution_url": "Odkaz na soubor ke stažení",
         "distribution_url_missing": "URL je povinné.",
         "distribution_url_invalid": "Nevalidní HTTP(S) URL.",
@@ -57,7 +57,8 @@ export const labels = {
         "nav_distributions": "Distribuce",
         "ruian_autocomplete_no_data": "Začněte psát název územního prvku",
         "format_autocomplete_no_data": "Začněte psát formát souboru, např. \"CSV\"",
-        "media_type_autocomplete_no_data": "Začněte psát media type, např. \"text/csv\""
+        "media_type_autocomplete_no_data": "Začněte psát media type, např. \"text/csv\"",
+        "themes_autocomplete_no_data": "Začněte psát název EuroVoc tématu"
     }
 };
 

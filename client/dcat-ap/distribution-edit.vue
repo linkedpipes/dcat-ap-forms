@@ -158,7 +158,7 @@
         db_author_license_types,
         db_special_license_types,
         personal_data_links
-    } from "./code-lists";
+    } from "./codelists/license";
     import DatePicker from "./ui/date-picker";
     import SolrAutocomplete from "./ui/solr-autocomplete";
 

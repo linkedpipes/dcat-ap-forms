@@ -108,11 +108,9 @@ function exportDistribution(distribution) {
         "@type": ["http://www.w3.org/ns/dcat#Distribution"],
         "http://www.w3.org/ns/dcat#downloadURL" : asIri(distribution.url),
         "http://purl.org/dc/terms/mediaType" : asIri(distribution.media_type),
-        "http://purl.org/dc/terms/format" : asIri(distribution.format)
+        "http://purl.org/dc/terms/format" : asIri(distribution.format),
+        "https://data.gov.cz/slovník/podmínky-užití/specifikace": license(distribution)
     };
-
-    // TODO
-    // http://purl.org/dc/terms/license
 
     if (distribution.schema !== "") {
         output["http://purl.org/dc/terms/conformsTo"] =
@@ -122,6 +120,63 @@ function exportDistribution(distribution) {
     if (distribution.title !== "") {
         output["http://purl.org/dc/terms/title"] =
             asLangString(distribution.title);
+    }
+
+    return output;
+}
+
+function license(distribution) {
+    const output = {};
+    const pu = "https://data.gov.cz/slovník/podmínky-užití/";
+
+    switch(distribution.license_author_type) {
+        case "MULTI":
+            output[pu + "autorské-dílo"] = asIri("https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/");
+            break;
+        case "CC BY":
+            output[pu + "autorské-dílo"] = asIri("https://creativecommons.org/licenses/by/4.0/");
+            output[pu + "autor"] = asValue(distribution.license_author_name);
+            break;
+        case "NO":
+            output[pu + "autorské-dílo"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-autorská-díla");
+            break;
+        case "CUSTOM":
+            output[pu + "autorské-dílo"] = asIri(distribution.license_author_custom);
+            break;
+    }
+
+    switch(distribution.license_db_type) {
+        case "CC BY":
+            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://creativecommons.org/licenses/by/4.0/");
+            output[pu + "autor-databáze"] = asValue(distribution.license_author_name);
+            break;
+        case "NO":
+            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-autorská-díla");
+            break;
+        case "CUSTOM":
+            output[pu + "databáze-jako-autorské-dílo"] = asIri(distribution.license_author_custom);
+            break;
+    }
+
+    switch (distribution.db_special_license_types) {
+        case "CC0":
+            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://creativecommons.org/publicdomain/zero/1.0/");
+            break;
+        case "NO":
+            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://opendata.gov.cz/podmínky-užití:není-chráněna-zvláštním-právem-pořizovatele-databáze");
+            break;
+        case "CUSTOM":
+            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri(distribution.license_specialdb_custom);
+            break;
+    }
+
+    switch(distribution.license_personal_type) {
+        case "YES":
+            output[pu + "osobní-údaje"] = asIri(pu + "obsahuje-osobní-údaje");
+            break;
+        case "NO":
+            output[pu + "osobní-údaje"] = asIri("neobsahuje-osobní-údaje");
+            break;
     }
 
     return output;

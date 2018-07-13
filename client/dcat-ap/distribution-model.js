@@ -8,15 +8,15 @@ import {
 
 export function createDistribution() {
     return {
-        "license_author_type": "",
+        "license_author_type": "NO",
         "license_author_name": "",
         "license_author_custom": "",
-        "license_db_type": "",
+        "license_db_type": "NO",
         "license_db_name": "",
         "license_db_custom": "",
-        "license_specialdb_type": "",
+        "license_specialdb_type": "NO",
         "license_specialdb_custom": "",
-        "license_personal_type": "",
+        "license_personal_type": "NO",
         //
         "url": "",
         "format": "",

@@ -18,11 +18,10 @@
         <template slot="item" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})
         </template>
-        <!-- TODO Replace with Vuetify localization -->
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
-                    {{$labels.get('autocomplete_no_data')}}
+                    {{$labels.get('ruian_autocomplete_no_data')}}
                 </v-list-tile-title>
             </v-list-tile>
         </template>
@@ -46,10 +45,15 @@
             "loading": false,
             "items": [],
             "search": null,
+            "ignoreNextSearch": false
         }),
         "watch": {
             "search": function (value) {
-                if (value && value !== this.value) {
+                if (this.ignoreNextSearch) {
+                    this.ignoreNextSearch = false;
+                    return;
+                }
+                if (value) {
                     this.querySelections(value)
                 }
             }
@@ -64,6 +68,7 @@
                 });
             },
             "onInput": function (value) {
+                this.ignoreNextSearch = true;
                 this.$emit("input", value);
             }
         }

@@ -55,7 +55,9 @@ export const labels = {
         "nav_download": "Stažení",
         "nav_dataset": "Datová sada",
         "nav_distributions": "Distribuce",
-        "autocomplete_no_data": "Dotazu neodpovídají žádná data."
+        "ruian_autocomplete_no_data": "Začněte psát název územního prvku",
+        "format_autocomplete_no_data": "Začněte psát formát souboru, např. \"CSV\"",
+        "media_type_autocomplete_no_data": "Začněte psát media type, např. \"text/csv\""
     }
 };
 

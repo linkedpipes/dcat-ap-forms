@@ -11,11 +11,10 @@
             :error-messages="errorMessages"
             item-value="code"
             flat>
-        <!-- TODO Replace with Vuetify localization -->
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
-                    {{$labels.get('autocomplete_no_data')}}
+                    {{noDataPrompt}}
                 </v-list-tile-title>
             </v-list-tile>
         </template>
@@ -32,16 +31,22 @@
             "value": {"type": String, "required": true},
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},
-            "errorMessages": {"required": false}
+            "errorMessages": {"required": false},
+            "noDataPrompt": {"type": String, "required": true}
         },
         "data": () => ({
             "loading": false,
             "items": [],
-            "search": null
+            "search": null,
+            "ignoreNextSearch": false
         }),
         "watch": {
             "search": function (value) {
-                if (value && value !== this.value) {
+                if (this.ignoreNextSearch) {
+                    this.ignoreNextSearch = false;
+                    return;
+                }
+                if (value) {
                     this.querySelections(value)
                 }
             }
@@ -56,6 +61,7 @@
                 });
             },
             "onInput": function (value) {
+                this.ignoreNextSearch = true;
                 this.$emit("input", value);
             }
         }

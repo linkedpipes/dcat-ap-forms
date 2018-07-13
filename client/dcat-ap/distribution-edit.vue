@@ -109,6 +109,7 @@
                             name="distribution_format"
                             v-model="distribution.format"
                             :label="$labels.get('distribution_format')"
+                            :no-data-prompt="$labels.get('format_autocomplete_no_data')"
                             :error-messages="err_format"
                             code-list="file-type"/>
                 </v-flex>
@@ -117,6 +118,7 @@
                             name="media_type"
                             v-model="distribution.media_type"
                             :label="$labels.get('distribution_media_type')"
+                            :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
                             code-list="media-types"/>
                 </v-flex>
             </v-layout>

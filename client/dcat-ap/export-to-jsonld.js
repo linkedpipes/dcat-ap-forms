@@ -158,7 +158,7 @@ function license(distribution) {
             output[pu + "autor-databáze"] = asValue(distribution.license_db_name);
             break;
         case "NO":
-            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-autorská-díla");
+            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/");
             break;
         case "CUSTOM":
             output[pu + "databáze-jako-autorské-dílo"] = asIri(distribution.license_db_custom);

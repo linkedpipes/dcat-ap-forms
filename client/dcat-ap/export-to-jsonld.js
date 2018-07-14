@@ -127,7 +127,7 @@ function exportDistribution(distribution) {
 
 function license(distribution) {
     const output = {
-        "@type": "https://data.gov.cz/slovník/podmínky-užití/Soecifikace"
+        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace"
     };
 
     const pu = "https://data.gov.cz/slovník/podmínky-užití/";

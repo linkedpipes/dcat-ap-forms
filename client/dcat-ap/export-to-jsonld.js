@@ -81,6 +81,7 @@ function exportTemporal(dataset) {
             "@value": dataset.temporal_end
         };
     }
+    return output;
 }
 
 function exportContactPoint(dataset) {

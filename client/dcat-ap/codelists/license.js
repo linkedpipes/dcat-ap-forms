@@ -11,7 +11,6 @@ export const db_author_license_types = [
     {"label": "Databáze licencována CC BY 4.0", "value": "CC BY"},
     {"label": "Není autorskoprávně chráněnou databází", "value": "NO"},
     {"label": "Vlastní licence (nedoporučeno)", "value": "CUSTOM"}
-
 ];
 
 export const db_special_license_types = [

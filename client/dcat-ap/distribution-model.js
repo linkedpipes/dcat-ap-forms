@@ -120,7 +120,7 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
         if (url(value)) {
             return [];
         } else {
-            return [this.labels.get(invalid_prop)]
+            return [this.$labels.get(invalid_prop)]
         }
     }
 }

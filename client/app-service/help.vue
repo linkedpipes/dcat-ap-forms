@@ -4,11 +4,6 @@
             <v-card-text style="padding-bottom: 0px">
                  {{$labels.get('help_' + data.name)}}
             </v-card-text>
-            <v-layout justify-end="true">
-                <v-btn v-on:click="data.isOpen = false">
-                    Close
-                </v-btn>
-            </v-layout>
         </v-card>
     </v-bottom-sheet>
 </template>

@@ -61,7 +61,10 @@ export const labels = {
         "media_type_autocomplete_no_data": "Začněte psát media type, např. \"text/csv\"",
         "themes_autocomplete_no_data": "Začněte psát název EuroVoc tématu",
         "author_name_missing" : "Jméno autora je povinné.",
-        "custom_license_missing": "Odkaz na vlastní licenci je povinný."
+        "custom_license_missing": "Odkaz na vlastní licenci je povinný.",
+        "dataset_theme": "Téma datové sady",
+        "dataset_theme_autocomplete_no_data": "Začněte psát název tématu datové sady.",
+        "dataset_theme_invalid": "Téma datové sady je povinné."
     }
 };
 

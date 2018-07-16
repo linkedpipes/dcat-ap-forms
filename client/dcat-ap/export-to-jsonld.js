@@ -24,10 +24,10 @@ export function exportToJsonLd(dataset, distributions) {
         output["http://xmlns.com/foaf/0.1/page"] =
             asIri(dataset.documentation);
     }
-    if (dataset.themes.length > 0) {
-        output["http://www.w3.org/ns/dcat#theme"] =
-            dataset.themes.map((theme) => asIri(theme));
-    }
+
+    const themes = [dataset.dataset_theme, ...dataset.themes];
+    output["http://www.w3.org/ns/dcat#theme"] = themes.map((t) => asIri(t));
+
     const temporal = exportTemporal(dataset);
     if (temporal !== undefined) {
         output["http://purl.org/dc/terms/temporal"] = temporal;

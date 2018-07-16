@@ -10,6 +10,7 @@ export function createDataset() {
         "temporal_start": "",
         "temporal_end": "",
         "documentation": "",
+        "dataset_theme": "",
         "themes": [],
         "contact_point_name": "",
         "contact_point_email": "",
@@ -46,7 +47,11 @@ export function createDatasetValidators() {
         "err_documentation": apply(
             (t) => t.dataset, "documentation",
             url,
-            "documentation_invalid")
+            "documentation_invalid"),
+        "err_dataset_theme" : apply(
+            (t) => t.dataset, "dataset_theme",
+            provided,
+            "dataset_theme_invalid"),
     };
 }
 
@@ -54,5 +59,7 @@ export function createDatasetValidators() {
 export function isDatasetValid(dataset) {
     return provided(dataset.title) &&
         provided(dataset.description) &&
-        provided(dataset.keywords);
+        provided(dataset.ruian) &&
+        provided(dataset.keywords) &&
+        provided(dataset.dataset_theme);
 }

@@ -93,8 +93,16 @@
                 :error-messages="err_documentation"
                 type="url"/>
 
-        <app-solr-chips-autocomplete
+        <app-solr-autocomplete
                 name="themes"
+                v-model="dataset.dataset_theme"
+                :label="$labels.get('dataset_theme')"
+                :no-data-prompt="$labels.get('dataset_theme_autocomplete_no_data')"
+                :error-messages="err_dataset_theme"
+                code-list="dataset-themes"/>
+
+        <app-solr-chips-autocomplete
+                name="data_theme"
                 v-model="dataset.themes"
                 :label="$labels.get('themes')"
                 :no-data-prompt="$labels.get('themes_autocomplete_no_data')"
@@ -108,6 +116,7 @@
     import DatePicker from "./ui/date-picker";
     import RuinTypeCodelist from "./codelists/ruian_type"
     import FrequenciesCodeList from "./codelists/frequencies";
+    import SolrAutocomplete from "./ui/solr-autocomplete";
     import RuianAutocomplete from "./ui/ruian-autocomplete";
     import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 
@@ -116,6 +125,7 @@
         "components" : {
             "app-date-picker" : DatePicker,
             "app-ruain-autocomplete": RuianAutocomplete,
+            "app-solr-autocomplete": SolrAutocomplete,
             "app-solr-chips-autocomplete": SolrChipsAutocomplete
         },
         "props": {

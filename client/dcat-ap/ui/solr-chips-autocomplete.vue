@@ -20,7 +20,7 @@
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
-                    {{$labels.get('themes_autocomplete_no_data')}}
+                    {{noDataPrompt}}
                 </v-list-tile-title>
             </v-list-tile>
         </template>
@@ -31,12 +31,14 @@
     import {fetchJson} from "@/app-service/http";
 
     export default {
-        "name": "app-solr-autocomplete",
+        "name": "app-solr-chips-autocomplete",
         "props": {
             "name": {"type": String, "required": false},
             "value": {"type": Array, "required": true},
             "label": {"type": String, "required": false},
-            "errorMessages": {"required": false}
+            "codeList": {"type": String, "required": true},
+            "errorMessages": {"required": false},
+            "noDataPrompt": {"type": String, "required": true}
         },
         "data": () => ({
             "loading": false,
@@ -57,9 +59,8 @@
         },
         "methods": {
             "querySelections": function (query) {
-                console.log("querySelections", query);
                 this.loading = true;
-                const url = createQueryUrl(query);
+                const url = createQueryUrl(this.codeList, query);
                 fetchJson(url).then((response) => {
                     this.items = response.json.response.docs;
                     this.loading = false;
@@ -80,9 +81,10 @@
         }
     }
 
-    function createQueryUrl(query) {
-        return "/api/v1/codelist/themes/?search=*" +
-            encodeURIComponent(query) + "*";
+    function createQueryUrl(codeList, query) {
+        return "/api/v1/codelist/" + codeList +
+            "?search=*" + encodeURIComponent(query) + "*";
     }
+
 
 </script>

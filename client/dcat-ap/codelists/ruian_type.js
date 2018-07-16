@@ -1,78 +1,62 @@
 export default [
     {
-        "cs": "Adresní místo",
-        "value": "adresni-misto"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/SP",
+        "cs": "Správní obvod v hlavním městě Praze"
     },
     {
-        "cs": "Část obce",
-        "value": "cast-obce"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/OB",
+        "cs": "Území obce, území vojenského újezdu"
     },
     {
-        "cs": "Katastrální území",
-        "value": "katastralni-uzemi"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/MP",
+        "cs": "Území městského obvodu v hlavním městě Praze"
     },
     {
-        "cs": "Kraj (1960)",
-        "value": "kraj-1960"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/MC",
+        "cs": "Území městského obvodu nebo městské části územně členěného statutárního města"
     },
     {
-        "cs": "Městská část/obvod",
-        "value": "momc"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/KU",
+        "cs": "Katastrální území"
     },
     {
-        "cs": "Městský obvod Prahy",
-        "value": "mop"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/CO",
+        "cs": "Část obce"
     },
     {
-        "cs": "Obec, vojenský újezd",
-        "value": "obec"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/UL",
+        "cs": "Ulice nebo jiné veřejné prostranství"
     },
     {
-        "cs": "Okres",
-        "value": "okres"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/PU",
+        "cs": "Správní obvod obce s pověřeným obecním úřadem"
     },
     {
-        "cs": "Správní obvod obce s rozšířenou působností",
-        "value": "orp"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/OK",
+        "cs": "Území okresu"
     },
     {
-        "cs": "Parcela",
-        "value": "parcela"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ZJ",
+        "cs": "Území základní sídelní jednotky"
     },
     {
-        "cs": "Správní obvod obce s pověřeným obecním úřadem",
-        "value": "pou"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/VC",
+        "cs": "Území vyššího územně samosprávného celku"
     },
     {
-        "cs": "Region soudržnosti",
-        "value": "region-soudrznosti"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/KR",
+        "cs": "Území kraje"
     },
     {
-        "cs": "Základní sídelní jednotka",
-        "value": "zsj"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/RS",
+        "cs": "Území regionu soudržnosti"
     },
     {
-        "cs": "Správní obvod Prahy",
-        "value": "spravni-obvod"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
+        "cs": "Území státu"
     },
     {
-        "cs": "Stát",
-        "value": "stat"
-    },
-    {
-        "cs": "Stavební objekt",
-        "value": "stavebni-objekt"
-    },
-    {
-        "cs": "Ulice",
-        "value": "ulice"
-    },
-    {
-        "cs": "Volební okrsek",
-        "value": "volebni-okrsek"
-    },
-    {
-        "cs": "Kraj (VÚSC)",
-        "value": "vusc"
+        "value": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/OP",
+        "cs": "Správní obvod obce s rozšířenou působností"
     }
 ];

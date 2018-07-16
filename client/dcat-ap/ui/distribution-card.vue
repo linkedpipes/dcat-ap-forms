@@ -109,7 +109,7 @@
             <v-list-tile>
                 <v-list-tile-content>
                     <v-list-tile-title>
-                        {{distribution.format}}
+                        {{distribution.$labels.media_type}}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>
                         {{$labels.get('media_type')}}

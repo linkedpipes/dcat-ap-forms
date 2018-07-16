@@ -127,6 +127,7 @@
                             :label="$labels.get('distribution_media_type')"
                             :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
                             :error-messages="err_media_type"
+                            v-on:update:label="distribution.$labels.media_type = $event"
                             code-list="media-types"/>
                 </v-flex>
             </v-layout>

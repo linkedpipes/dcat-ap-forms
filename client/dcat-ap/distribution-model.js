@@ -27,6 +27,9 @@ export function createDistribution() {
         //
         "$validators": {
             "force": false
+        },
+        "$labels": {
+            "media_type": ""
         }
     }
 }
@@ -81,6 +84,7 @@ export function isDistributionValid(distribution) {
     return provided(distribution.url) &&
         url(distribution.url) &&
         provided(distribution.format) &&
+        provided(distribution.media_type) &&
         isValidFormat(distribution.format);
 }
 

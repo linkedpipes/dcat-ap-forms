@@ -63,7 +63,8 @@ export const labels = {
         "author_name_missing" : "Jméno autora je povinné.",
         "custom_license_missing": "Odkaz na vlastní licenci je povinný.",
         "dataset_theme": "Téma datové sady",
-        "dataset_theme_invalid": "Téma datové sady je povinné."
+        "dataset_theme_invalid": "Téma datové sady je povinné.",
+        "help_dataset_title": "<h3>Název datové sady</h3><div>Použitý název datové sady.</div>"
     }
 };
 

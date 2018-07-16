@@ -2,7 +2,7 @@
     <v-bottom-sheet v-if="data.isOpen" v-model="data.isOpen" lazy>
         <v-card>
             <v-card-text style="padding-bottom: 0px">
-                 {{$labels.get('help_' + data.name)}}
+                <span v-html="$labels.get('help_' + data.name)"/>
             </v-card-text>
         </v-card>
     </v-bottom-sheet>

@@ -11,8 +11,6 @@ const configuration = require('../config');
     router.get("/themes", createCodelistGet(
         configuration.solr_themes));
     router.get("/ruian", createRuianCodelistGet());
-    router.get("/dataset-themes", createCodelistGet(
-        configuration.solr_dataset_themes));
     module.exports = router;
 })();
 

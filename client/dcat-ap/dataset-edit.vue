@@ -76,12 +76,12 @@
             <v-flex xs12 lg6>
                 <app-date-picker
                         v-model="dataset.temporal_start"
-                        :label="$labels.get('temporal_start')" />
+                        :label="$labels.get('temporal_start')"/>
             </v-flex>
             <v-flex xs12 lg6>
                 <app-date-picker
                         v-model="dataset.temporal_end"
-                        :label="$labels.get('temporal_end')" />
+                        :label="$labels.get('temporal_end')"/>
             </v-flex>
             <v-spacer></v-spacer>
         </v-layout>
@@ -93,13 +93,15 @@
                 :error-messages="err_documentation"
                 type="url"/>
 
-        <app-solr-autocomplete
-                name="themes"
+        <v-autocomplete
+                id="dataset_theme"
                 v-model="dataset.dataset_theme"
+                :items="dataset_themes"
                 :label="$labels.get('dataset_theme')"
-                :no-data-prompt="$labels.get('dataset_theme_autocomplete_no_data')"
                 :error-messages="err_dataset_theme"
-                code-list="dataset-themes"/>
+                item-text="cs"
+                item-value="value"
+                required/>
 
         <app-solr-chips-autocomplete
                 name="data_theme"
@@ -119,11 +121,12 @@
     import SolrAutocomplete from "./ui/solr-autocomplete";
     import RuianAutocomplete from "./ui/ruian-autocomplete";
     import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
+    import DatasetThemes from "./codelists/dataset_theme";
 
     export default {
         "name": "app-dataset-edit",
-        "components" : {
-            "app-date-picker" : DatePicker,
+        "components": {
+            "app-date-picker": DatePicker,
             "app-ruain-autocomplete": RuianAutocomplete,
             "app-solr-autocomplete": SolrAutocomplete,
             "app-solr-chips-autocomplete": SolrChipsAutocomplete
@@ -133,13 +136,14 @@
         },
         "data": () => ({
             "frequencies": FrequenciesCodeList,
-            "ruianTypes": RuinTypeCodelist
+            "ruianTypes": RuinTypeCodelist,
+            "dataset_themes": DatasetThemes
         }),
         "computed": {
             ...createDatasetValidators()
         },
         "watch": {
-            "dataset": function() {
+            "dataset": function () {
                 console.log("dataset", arguments);
             }
         },

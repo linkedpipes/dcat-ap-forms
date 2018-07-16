@@ -15,7 +15,10 @@
                             :items="author_license_types"
                             v-model="distribution.license_author_type"
                             :label="$labels.get('license_author_type')"
-                            item-text="label" item-value="value" required/>
+                            item-text="label" item-value="value"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_author_type')"
+                            required/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -24,7 +27,9 @@
                             :required="isCcByAuthor"
                             v-model="distribution.license_author_name"
                             :label="$labels.get('license_author_name')"
-                            :error-messages="err_license_author_name"/>
+                            :error-messages="err_license_author_name"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_author_name')"/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -34,6 +39,8 @@
                             v-model="distribution.license_author_custom"
                             :label="$labels.get('license_author_custom')"
                             :error-messages="err_license_author_custom"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_author_custom')"
                             type="url"/>
                 </v-flex>
             </v-layout>
@@ -44,7 +51,10 @@
                             :items="db_author_license_types"
                             v-model="distribution.license_db_type"
                             :label="$labels.get('license_db_type')"
-                            item-text="label" item-value="value" required/>
+                            item-text="label" item-value="value"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_db_type')"
+                            required/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -53,7 +63,9 @@
                             :required="isCcByDb"
                             v-model="distribution.license_db_name"
                             :label="$labels.get('license_db_name')"
-                            :error-messages="err_license_db_name"/>
+                            :error-messages="err_license_db_name"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_db_name')"/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -63,6 +75,8 @@
                             v-model="distribution.license_db_custom"
                             :label="$labels.get('license_db_custom')"
                             :error-messages="err_license_db_custom"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_db_custom')"
                             type="url"/>
                 </v-flex>
             </v-layout>
@@ -73,8 +87,10 @@
                             :items="db_special_license_types"
                             v-model="distribution.license_specialdb_type"
                             :label="$labels.get('license_specialdb_type')"
-                            item-text="label"
-                            item-value="value" required/>
+                            item-text="label" item-value="value"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_specialdb_type')"
+                            required/>
                 </v-flex>
                 <v-flex xs12 lg4/>
                 <v-flex xs12 lg4>
@@ -85,9 +101,12 @@
                             v-model="distribution.license_specialdb_custom"
                             :label="$labels.get('license_specialdb_custom')"
                             :error-messages="err_license_specialdb_custom"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_specialdb_custom')"
                             type="url"/>
                 </v-flex>
             </v-layout>
+
             <v-layout row wrap>
                 <v-flex xs12 lg4>
                     <v-select
@@ -95,6 +114,8 @@
                             v-model="distribution.license_personal_type"
                             :label="$labels.get('license_personal_type')"
                             item-text="label" item-value="value"
+                            append-outer-icon="help_outline"
+                            v-on:click:append-outer="$h.show('license_personal_type')"
                             required/>
                 </v-flex>
             </v-layout>
@@ -109,6 +130,8 @@
                     v-model="distribution.url"
                     :label="$labels.get('distribution_url')"
                     :error-messages="err_url"
+                    append-outer-icon="help_outline"
+                    v-on:click:append-outer="$h.show('distribution_url')"
                     required type="url"/>
             <v-layout row wrap>
                 <v-flex xs12 lg6>
@@ -122,7 +145,7 @@
                 </v-flex>
                 <v-flex xs12 lg6>
                     <app-solr-autocomplete
-                            name="media_type"
+                            name="distribution_media_type"
                             v-model="distribution.media_type"
                             :label="$labels.get('distribution_media_type')"
                             :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
@@ -134,12 +157,16 @@
             <v-text-field
                     name="distribution_title"
                     v-model="distribution.title"
-                    :label="$labels.get('distribution_title')"/>
+                    :label="$labels.get('distribution_title')"
+                    append-outer-icon="help_outline"
+                    v-on:click:append-outer="$h.show('distribution_title')"/>
             <v-text-field
                     name="distribution_schema"
                     v-model="distribution.schema"
                     :label="$labels.get('distribution_schema_link')"
                     :error-messages="err_schema"
+                    append-outer-icon="help_outline"
+                    v-on:click:append-outer="$h.show('distribution_schema_link')"
                     type="url"/>
         </div>
         <div v-if="canBeDeleted">

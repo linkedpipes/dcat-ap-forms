@@ -11,6 +11,8 @@
             :error-messages="errorMessages"
             item-value="code"
             :append-icon="null"
+            append-outer-icon="help_outline"
+            v-on:click:append-outer="$h.show(name)"
             flat cache-items multiple chips>
         <template slot="selection" slot-scope="data">
             <v-chip v-on:input="removeTheme(data.item)" close>

@@ -11,6 +11,8 @@
             :disabled="disabled"
             item-value="code"
             item-text="title"
+            append-outer-icon="help_outline"
+            v-on:click:append-outer="$h.show(name)"
             flat>
         <template slot="selection" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})

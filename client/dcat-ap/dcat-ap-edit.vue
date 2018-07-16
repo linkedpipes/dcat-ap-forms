@@ -22,7 +22,8 @@
             </v-stepper-header>
             <v-stepper-items>
                 <v-stepper-content :step="1">
-                    <app-dataset :dataset="data.dataset"/>
+                    <app-dataset :dataset="data.dataset"
+                        v-on:help="onHelp"/>
                 </v-stepper-content>
                 <v-stepper-content :step="2">
                     <app-distribution-selector
@@ -45,6 +46,7 @@
                 v-model="ui.step"
                 :isValid="isDatasetValid() && areDistributionsValid()"
                 v-on:download="download"/>
+        <app-help/>
     </v-content>
 </template>
 
@@ -61,6 +63,7 @@
     import ExportSummary from "./export-summary";
     import {exportToJsonLd} from "./export-to-jsonld";
     import {downloadAsJsonLd} from "@/app-service/download";
+    import Help from "@/app-service/help";
 
     export default {
         "name": "app-dcat-ap-edit",
@@ -69,7 +72,8 @@
             "app-distribution": DistributionEdit,
             "app-distribution-selector": DistributionSelector,
             "app-step-navigation": StepperNavigation,
-            "app-export-summary": ExportSummary
+            "app-export-summary": ExportSummary,
+            "app-help": Help
         },
         "data": () => ({
             "data": {
@@ -144,6 +148,9 @@
                 const jsonld = exportToJsonLd(
                     this.data.dataset, this.data.distributions);
                 downloadAsJsonLd("nkod-registrace.jsonld", jsonld)
+            },
+            "onHelp": function(name) {
+                console.log("showHelp", name);
             }
         }
     };

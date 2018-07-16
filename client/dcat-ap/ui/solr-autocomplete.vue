@@ -1,6 +1,5 @@
 <template>
     <v-autocomplete
-            ref="autocomplete"
             :name="name"
             :loading="loading"
             :items="items"
@@ -11,6 +10,8 @@
             item-text="title"
             :error-messages="errorMessages"
             item-value="code"
+            append-outer-icon="help_outline"
+            v-on:click:append-outer="$h.show(name)"
             flat>
         <template slot="no-data">
             <v-list-tile>

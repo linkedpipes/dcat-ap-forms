@@ -21,7 +21,7 @@
                 item-value="value"
                 required/>
         <v-layout row wrap>
-            <v-flex xs12 lg6 xl2>
+            <v-flex xs12 lg6>
                 <v-autocomplete
                         id="dataset_ruian_type"
                         v-model="dataset.ruian_type"
@@ -31,7 +31,7 @@
                         item-value="value"
                         required/>
             </v-flex>
-            <v-flex xs12 lg6 xl2>
+            <v-flex xs12 lg6>
                 <app-ruain-autocomplete
                         name="dataset_ruian"
                         v-model="dataset.ruian"
@@ -56,13 +56,13 @@
         </v-combobox>
 
         <v-layout row wrap>
-            <v-flex xs12 lg6 xl3>
+            <v-flex xs12 lg6>
                 <v-text-field
                         name="contact_point_name"
                         v-model="dataset.contact_point_name"
                         :label="$labels.get('contact_point_name')"/>
             </v-flex>
-            <v-flex xs12 lg6 xl3>
+            <v-flex xs12 lg6>
                 <v-text-field
                         name="contact_point_email"
                         v-model="dataset.contact_point_email"
@@ -73,12 +73,12 @@
         </v-layout>
 
         <v-layout row wrap>
-            <v-flex xs12 lg6 xl2>
+            <v-flex xs12 lg6>
                 <app-date-picker
                         v-model="dataset.temporal_start"
                         :label="$labels.get('temporal_start')" />
             </v-flex>
-            <v-flex xs12 lg6 xl2>
+            <v-flex xs12 lg6>
                 <app-date-picker
                         v-model="dataset.temporal_end"
                         :label="$labels.get('temporal_end')" />

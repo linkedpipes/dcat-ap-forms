@@ -10,14 +10,14 @@
         </h2>
         <div>
             <v-layout row wrap>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-select
                             :items="author_license_types"
                             v-model="distribution.license_author_type"
                             :label="$labels.get('license_author_type')"
                             item-text="label" item-value="value" required/>
                 </v-flex>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-text-field
                             name="distribution_license_author_name"
                             :disabled="!isCcByAuthor"
@@ -26,7 +26,7 @@
                             :label="$labels.get('license_author_name')"
                             :error-messages="err_license_author_name"/>
                 </v-flex>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-text-field
                             name="distribution_license_author_custom"
                             :disabled="!isCustomAuthor"
@@ -39,14 +39,14 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-select
                             :items="db_author_license_types"
                             v-model="distribution.license_db_type"
                             :label="$labels.get('license_db_type')"
                             item-text="label" item-value="value" required/>
                 </v-flex>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-text-field
                             name="distribution_license_db_name"
                             :disabled="!isCcByDb"
@@ -55,7 +55,7 @@
                             :label="$labels.get('license_db_name')"
                             :error-messages="err_license_db_name"/>
                 </v-flex>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-text-field
                             name="distribution_license_db_custom"
                             :disabled="!isCustomDb"
@@ -68,7 +68,7 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-select
                             :items="db_special_license_types"
                             v-model="distribution.license_specialdb_type"
@@ -76,8 +76,8 @@
                             item-text="label"
                             item-value="value" required/>
                 </v-flex>
-                <v-flex xs12 lg4 xl2/>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4/>
+                <v-flex xs12 lg4>
                     <v-text-field
                             name="distribution_license_specialdb_custom"
                             :disabled="!isCustomSpecialDb"
@@ -89,7 +89,7 @@
                 </v-flex>
             </v-layout>
             <v-layout row wrap>
-                <v-flex xs12 lg4 xl2>
+                <v-flex xs12 lg4>
                     <v-select
                             :items="personal_data_links"
                             v-model="distribution.license_personal_type"
@@ -111,7 +111,7 @@
                     :error-messages="err_url"
                     required type="url"/>
             <v-layout row wrap>
-                <v-flex xs12 lg6 xl2>
+                <v-flex xs12 lg6>
                     <app-solr-autocomplete
                             name="distribution_format"
                             v-model="distribution.format"
@@ -120,7 +120,7 @@
                             :error-messages="err_format"
                             code-list="file-type"/>
                 </v-flex>
-                <v-flex xs12 lg6 xl2>
+                <v-flex xs12 lg6>
                     <app-solr-autocomplete
                             name="media_type"
                             v-model="distribution.media_type"

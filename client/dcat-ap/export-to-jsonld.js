@@ -142,7 +142,7 @@ function license(distribution) {
             output[pu + "autor"] = asValue(distribution.license_author_name);
             break;
         case "NO":
-            output[pu + "autorské-dílo"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-autorská-díla");
+            output[pu + "autorské-dílo"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-autorská-díla/");
             break;
         case "CUSTOM":
             output[pu + "autorské-dílo"] = asIri(distribution.license_author_custom);
@@ -175,7 +175,7 @@ function license(distribution) {
             output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://creativecommons.org/publicdomain/zero/1.0/");
             break;
         case "NO":
-            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://opendata.gov.cz/podmínky-užití:není-chráněna-zvláštním-právem-pořizovatele-databáze");
+            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://opendata.gov.cz/podmínky-užití:není-chráněna-zvláštním-právem-pořizovatele-databáze/");
             break;
         case "CUSTOM":
             output[pu + "databáze-chráněná-zvláštními-právy"] = asIri(distribution.license_specialdb_custom);
@@ -188,10 +188,10 @@ function license(distribution) {
 
     switch(distribution.license_personal_type) {
         case "YES":
-            output[pu + "osobní-údaje"] = asIri("https://opendata.gov.cz/podmínky-užití:obsahuje-osobní-údaje");
+            output[pu + "osobní-údaje"] = asIri("https://opendata.gov.cz/podmínky-užití:obsahuje-osobní-údaje/");
             break;
         case "NO":
-            output[pu + "osobní-údaje"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-osobní-údaje");
+            output[pu + "osobní-údaje"] = asIri("https://opendata.gov.cz/podmínky-užití:neobsahuje-osobní-údaje/");
             break;
         default:
             console.error("Unexpected license_personal_type value:",

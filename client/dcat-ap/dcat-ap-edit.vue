@@ -38,6 +38,7 @@
                 <v-stepper-content :step="3">
                     <app-export-summary
                             :dataset="data.dataset"
+                            :is-valid="isDatasetValid() && areDistributionsValid()"
                             :distributions="data.distributions"/>
                 </v-stepper-content>
             </v-stepper-items>
@@ -61,8 +62,6 @@
     import DistributionSelector from "./ui/distribution-selector";
     import StepperNavigation from "./ui/step-navigation";
     import ExportSummary from "./export-summary";
-    import {exportToJsonLd} from "./export-to-jsonld";
-    import {downloadAsJsonLd} from "@/app-service/download";
     import Help from "@/app-service/help";
 
     export default {
@@ -144,12 +143,7 @@
                     });
                 }
             },
-            "download": function () {
-                const jsonld = exportToJsonLd(
-                    this.data.dataset, this.data.distributions);
-                downloadAsJsonLd("nkod-registrace.jsonld", jsonld)
-            },
-            "onHelp": function(name) {
+            "onHelp": function (name) {
                 console.log("showHelp", name);
             }
         }

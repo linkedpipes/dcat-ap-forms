@@ -80,12 +80,22 @@ function isValidFormat(value) {
     return value.includes('/');
 }
 
-export function isDistributionValid(distribution) {
-    return provided(distribution.url) &&
-        url(distribution.url) &&
-        provided(distribution.format) &&
-        provided(distribution.media_type) &&
-        isValidFormat(distribution.format);
+export function isDistributionValid(dist) {
+    return provided(dist.url) &&
+        url(dist.url) &&
+        provided(dist.format) &&
+        isValidFormat(dist.format) &&
+        provided(dist.media_type) &&
+        isAuthorValid(
+            dist.license_author_type, dist.license_author_name) &&
+        isCustomValid(
+            dist.license_author_type, dist.license_db_custom) &&
+        isAuthorValid(
+            dist.license_db_type, dist.license_db_name) &&
+        isCustomValid(
+            dist.license_db_type, dist.license_author_custom) &&
+        isCustomValid(
+            dist.license_specialdb_type, dist.license_specialdb_custom);
 }
 
 function validateAuthor(licence_prop, name_prop) {
@@ -96,15 +106,19 @@ function validateAuthor(licence_prop, name_prop) {
         if (!shouldValidate(value, validators, name_prop)) {
             return [];
         }
-        if (licence !== "CC BY") {
+        if (isAuthorValid(licence, value)) {
             return [];
-        }
-        if (value === "") {
-            return [this.$labels.get("author_name_missing")];
         } else {
-            return [];
+            return [this.$labels.get("author_name_missing")];
         }
     }
+}
+
+function isAuthorValid(licence, value) {
+    if (licence !== "CC BY") {
+        return true;
+    }
+    return value !== "";
 }
 
 function validateCustom(licence_prop, custom_prop, invalid_prop) {
@@ -127,4 +141,11 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
             return [this.$labels.get(invalid_prop)]
         }
     }
+}
+
+function isCustomValid(licence, value) {
+    if (licence !== "CUSTOM") {
+        return true;
+    }
+    return provided(value) && url(value);
 }

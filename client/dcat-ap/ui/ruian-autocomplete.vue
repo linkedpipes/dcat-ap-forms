@@ -1,6 +1,6 @@
 <template>
     <v-autocomplete
-            :name="name"
+            id="ruian"
             :loading="loading"
             :items="items"
             :search-input.sync="search"
@@ -12,7 +12,7 @@
             item-value="code"
             item-text="title"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show(name)"
+            v-on:click:append-outer="$h.show('ruian')"
             flat>
         <template slot="selection" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})
@@ -36,7 +36,6 @@
     export default {
         "name": "app-ruian-autocomplete",
         "props": {
-            "name": {"type": String, "required": false},
             "value": {"type": String, "required": true},
             "label": {"type": String, "required": false},
             "errorMessages": {"required": false},

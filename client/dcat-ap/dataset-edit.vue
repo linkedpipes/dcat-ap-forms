@@ -35,6 +35,7 @@
                         item-text="cs" item-value="value"
                         append-outer-icon="help_outline"
                         v-on:click:append-outer="$h.show('ruian_type')"
+                        v-on:input="onRuainTypeInput"
                         required/>
             </v-flex>
             <v-flex xs12 lg6>
@@ -163,15 +164,16 @@
         "computed": {
             ...createDatasetValidators()
         },
-        "watch": {
-            "dataset": function () {
-                console.log("dataset", arguments);
-            }
-        },
         "methods": {
             "removeKeyword": function (item) {
                 const index = this.dataset.keywords.indexOf(item);
                 this.dataset.keywords.splice(index, 1);
+            },
+            "onRuainTypeInput": function(newValue, oldValue) {
+                if (newValue === oldValue) {
+                    return;
+                }
+                this.dataset.ruian = "";
             }
         }
     };

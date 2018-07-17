@@ -1,6 +1,6 @@
 <template>
     <v-autocomplete
-            :name="name"
+            :id="id"
             :loading="loading"
             :items="items"
             :search-input.sync="search"
@@ -12,7 +12,7 @@
             item-value="code"
             :append-icon="null"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show(name)"
+            v-on:click:append-outer="$h.show(id)"
             flat cache-items multiple chips>
         <template slot="selection" slot-scope="data">
             <v-chip v-on:input="removeTheme(data.item)" close>
@@ -35,7 +35,7 @@
     export default {
         "name": "app-solr-chips-autocomplete",
         "props": {
-            "name": {"type": String, "required": false},
+            "id": {"type": String, "required": true},
             "value": {"type": Array, "required": true},
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},

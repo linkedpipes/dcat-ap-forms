@@ -1,6 +1,6 @@
 <template>
     <v-menu
-            :name="name"
+            :id="id"
             ref="menu"
             v-model="menu"
             :return-value="value"
@@ -16,7 +16,7 @@
                 v-on:input="onInput"
                 prepend-icon="event"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show(name)"
+                v-on:click:append-outer="$h.show(id)"
                 readonly clearable/>
         <v-date-picker
                 ref="picker"
@@ -29,7 +29,7 @@
     export default {
         "name": "app-date-picker",
         "props": {
-            "name": {"required": true},
+            "id": {"required": true},
             "value": {"required": true},
             "label": {"type": String, "required": true}
         },

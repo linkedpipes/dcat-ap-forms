@@ -1,6 +1,6 @@
 <template>
     <v-autocomplete
-            :name="name"
+            :id="id"
             :loading="loading"
             :items="items"
             :search-input.sync="search"
@@ -11,7 +11,7 @@
             :error-messages="errorMessages"
             item-value="code"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show(name)"
+            v-on:click:append-outer="$h.show(id)"
             flat>
         <template slot="no-data">
             <v-list-tile>
@@ -29,7 +29,7 @@
     export default {
         "name": "app-solr-autocomplete",
         "props": {
-            "name": {"type": String, "required": false},
+            "id": {"type": String, "required": false},
             "value": {"type": String, "required": true},
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},

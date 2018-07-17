@@ -90,14 +90,14 @@
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <app-date-picker
-                        name="temporal_start"
+                        id="temporal_start"
                         v-model="dataset.temporal_start"
                         :label="$labels.get('temporal_start')"
                         append-outer-icon="help_outline"/>
             </v-flex>
             <v-flex xs12 lg6>
                 <app-date-picker
-                        name="temporal_end"
+                        id="temporal_end"
                         v-model="dataset.temporal_end"
                         :label="$labels.get('temporal_end')"/>
             </v-flex>
@@ -125,12 +125,10 @@
                 required clearable/>
 
         <app-solr-chips-autocomplete
-                name="data_theme"
+                id="themes"
                 v-model="dataset.themes"
                 :label="$labels.get('themes')"
                 :no-data-prompt="$labels.get('themes_autocomplete_no_data')"
-                append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('themes')"
                 code-list="themes"/>
 
     </v-container>

@@ -1,15 +1,15 @@
 export function provided(value) {
-    return value.length > 0;
+    return value !== null && value.length > 0;
 }
 
 export function email(value) {
     const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-    return value.length === 0 || emailPattern.test(value);
+    return !provided(value) || emailPattern.test(value);
 }
 
 export function url(value) {
     const urlPattern = /(http(s)?:\/\/.)[^ ]+$/;
-    return value.length === 0 || urlPattern.test(value);
+    return !provided(value) || urlPattern.test(value);
 }
 
 export function apply(selector, property, rule, message) {
@@ -34,15 +34,11 @@ export function shouldValidate(value, validators, property) {
     if (validators[property]) {
         return true;
     }
-    if (!isEmpty(value)) {
+    if (provided(value)) {
         validators[property] = true;
         return true;
     }
     return false;
-}
-
-function isEmpty(value) {
-    return value.length === 0 || value === "";
 }
 
 export function applyArray(selector, property, rules) {

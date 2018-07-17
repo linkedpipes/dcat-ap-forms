@@ -7,7 +7,7 @@
                 :error-messages="err_title"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('dataset_title')"
-                required/>
+                required clearable/>
         <v-textarea
                 id="dataset_description"
                 v-model="dataset.description"
@@ -15,7 +15,7 @@
                 :error-messages="err_description"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('dataset_description')"
-                rows="3" required auto-grow/>
+                rows="3" required auto-grow clearable/>
         <v-autocomplete
                 id="dataset_accrual_periodicity"
                 v-model="dataset.accrual_periodicity"
@@ -24,7 +24,7 @@
                 item-text="cs" item-value="value"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('accrual_periodicity')"
-                required/>
+                required clearable/>
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-autocomplete
@@ -72,7 +72,8 @@
                         v-model="dataset.contact_point_name"
                         :label="$labels.get('contact_point_name')"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('contact_point_name')"/>
+                        v-on:click:append-outer="$h.show('contact_point_name')"
+                        clearable/>
             </v-flex>
             <v-flex xs12 lg6>
                 <v-text-field
@@ -82,7 +83,7 @@
                         :error-messages="err_contact_point_email"
                         append-outer-icon="help_outline"
                         v-on:click:append-outer="$h.show('contact_point_email')"
-                        type="email"/>
+                        type="email" clearable/>
             </v-flex>
         </v-layout>
 
@@ -110,7 +111,7 @@
                 :error-messages="err_documentation"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('documentation')"
-                type="url"/>
+                type="url" clearable/>
 
         <v-autocomplete
                 id="dataset_theme"
@@ -121,7 +122,7 @@
                 item-text="cs" item-value="value"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('dataset_theme')"
-                required/>
+                required clearable/>
 
         <app-solr-chips-autocomplete
                 name="data_theme"

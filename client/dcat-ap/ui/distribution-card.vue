@@ -34,7 +34,7 @@
                         <a v-if="distribution.license_author_type == 'NO'"
                            href="https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
                            title="Neobsahuje autorská díla"
-                           target="_blank" >
+                           target="_blank">
                             <v-icon color="green">turned_in</v-icon>
                         </a>
                         <a v-if="distribution.license_author_type == 'MULTI'"
@@ -46,7 +46,7 @@
                         <a v-if="distribution.license_author_type == 'CUSTOM'"
                            :href="distribution.license_author_custom"
                            title="Vlastní licence (nedoporučeno)"
-                           target="_blank" >
+                           target="_blank">
                             <v-icon color="red">help</v-icon>
                         </a>
                         DB:
@@ -119,7 +119,7 @@
                     <v-icon>class</v-icon>
                 </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile v-if="distribution.schema.length > 0">
+            <v-list-tile v-if="schemaProvided">
                 <v-list-tile-content>
                     <v-list-tile-title>
                         {{distribution.schema}}
@@ -145,11 +145,17 @@
         "props": {
             "distribution": {"type": Object, "required": true}
         },
+        "computed": {
+            "schemaProvided": function () {
+                return this.distribution.schema !== null &&
+                    this.distribution.schema.length > 0;
+            }
+        },
         "methods": {
-            "downloadDistribution": function() {
+            "downloadDistribution": function () {
                 downloadUrl(this.distribution.url);
             },
-            "downloadSchema" :  function () {
+            "downloadSchema": function () {
                 downloadUrl(this.schema.url);
             }
         }

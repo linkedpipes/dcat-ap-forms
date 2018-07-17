@@ -29,7 +29,8 @@
                             :label="$labels.get('license_author_name')"
                             :error-messages="err_license_author_name"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_author_name')"/>
+                            v-on:click:append-outer="$h.show('license_author_name')"
+                            clearable/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -41,7 +42,7 @@
                             :error-messages="err_license_author_custom"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_author_custom')"
-                            type="url"/>
+                            type="url" clearable/>
                 </v-flex>
             </v-layout>
 
@@ -65,7 +66,8 @@
                             :label="$labels.get('license_db_name')"
                             :error-messages="err_license_db_name"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_db_name')"/>
+                            v-on:click:append-outer="$h.show('license_db_name')"
+                            clearable/>
                 </v-flex>
                 <v-flex xs12 lg4>
                     <v-text-field
@@ -77,7 +79,7 @@
                             :error-messages="err_license_db_custom"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_db_custom')"
-                            type="url"/>
+                            type="url" clearable/>
                 </v-flex>
             </v-layout>
 
@@ -90,7 +92,7 @@
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_specialdb_type')"
-                            required/>
+                            required clearable/>
                 </v-flex>
                 <v-flex xs12 lg4/>
                 <v-flex xs12 lg4>
@@ -103,7 +105,7 @@
                             :error-messages="err_license_specialdb_custom"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_specialdb_custom')"
-                            type="url"/>
+                            type="url" clearable/>
                 </v-flex>
             </v-layout>
 
@@ -116,7 +118,7 @@
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_personal_type')"
-                            required/>
+                            required clearable/>
                 </v-flex>
             </v-layout>
 
@@ -132,7 +134,7 @@
                     :error-messages="err_url"
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h.show('distribution_url')"
-                    required type="url"/>
+                    required type="url" clearable/>
             <v-layout row wrap>
                 <v-flex xs12 lg6>
                     <app-solr-autocomplete
@@ -159,7 +161,8 @@
                     v-model="distribution.title"
                     :label="$labels.get('distribution_title')"
                     append-outer-icon="help_outline"
-                    v-on:click:append-outer="$h.show('distribution_title')"/>
+                    v-on:click:append-outer="$h.show('distribution_title')"
+                    clearable/>
             <v-text-field
                     name="distribution_schema"
                     v-model="distribution.schema"
@@ -167,7 +170,7 @@
                     :error-messages="err_schema"
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h.show('distribution_schema_link')"
-                    type="url"/>
+                    type="url" clearable/>
         </div>
         <div v-if="canBeDeleted">
             <v-btn v-on:click="onDelete" flat>

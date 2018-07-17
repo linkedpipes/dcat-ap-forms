@@ -1,26 +1,20 @@
 <template>
-    <v-layout row>
-        <v-btn v-on:click="onPrevious"
-               v-if="value > 1"
-               flat>
-            <v-icon>arrow_back</v-icon>
-            {{prevLabel}}
+    <v-bottom-nav
+            :active="value"
+            color="transparent" absolute app>
+        <v-btn color="blue" flat :value="1" v-on:click="onClick(1)">
+            <span>{{$labels.get('nav_dataset')}}</span>
+            <v-icon>note</v-icon>
         </v-btn>
-        <v-spacer/>
-        <v-btn v-on:click="onNext"
-               v-if="value < 3"
-               flat color="primary">
-            {{nextLabel}}
-            <v-icon>arrow_forward</v-icon>
+        <v-btn color="blue" flat :value="2" v-on:click="onClick(2)">
+            <span>{{$labels.get('nav_distributions')}}</span>
+            <v-icon>attach_file</v-icon>
         </v-btn>
-        <v-btn v-on:click="onDownload"
-               :disabled="!isValid"
-               v-if="value === 3"
-               flat color="primary">
-            <v-icon>file_download</v-icon>
-            {{$labels.get('nav_download')}}
+        <v-btn color="blue" flat :value="3" v-on:click="onClick(3)">
+            <span>{{$labels.get('nav_download')}}</span>
+            <v-icon>cloud_download</v-icon>
         </v-btn>
-    </v-layout>
+    </v-bottom-nav>
 </template>
 
 <script>
@@ -28,35 +22,10 @@
         "name": "app-step-navigation",
         "props": {
             "value": {"required": true},
-            "isValid" : {"required": true}
-        },
-        "computed": {
-            "prevLabel": function() {
-                switch (this.value) {
-                    case 2:
-                        return this.$labels.get("nav_dataset");
-                    case 3:
-                        return this.$labels.get("nav_distributions")
-                }
-            },
-            "nextLabel": function() {
-                switch (this.value) {
-                    case 1:
-                        return this.$labels.get("nav_distributions");
-                    case 2:
-                        return this.$labels.get("nav_download")
-                }
-            }
         },
         "methods": {
-            "onPrevious": function () {
-                this.$emit("input", this.value - 1);
-            },
-            "onNext": function () {
-                this.$emit("input", this.value + 1);
-            },
-            "onDownload": function() {
-                this.$emit("download");
+            "onClick": function (value) {
+                this.$emit("input", value);
             }
         }
     }

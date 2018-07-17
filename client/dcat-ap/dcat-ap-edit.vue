@@ -4,7 +4,7 @@
             <v-stepper-header>
                 <v-stepper-step editable
                                 :complete="ui.step > 1"
-                                :rules="[() => isDatasetValid()]"
+                                :rules="[isDatasetValid]"
                                 :step="1">
                     {{$labels.get("step_dataset")}}
                 </v-stepper-step>
@@ -23,7 +23,7 @@
             <v-stepper-items>
                 <v-stepper-content :step="1">
                     <app-dataset :dataset="data.dataset"
-                        v-on:help="onHelp"/>
+                                 v-on:help="onHelp"/>
                 </v-stepper-content>
                 <v-stepper-content :step="2">
                     <app-distribution-selector
@@ -43,10 +43,7 @@
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
-        <app-step-navigation
-                v-model="ui.step"
-                :isValid="isDatasetValid() && areDistributionsValid()"
-                v-on:download="download"/>
+        <app-step-navigation v-model="ui.step" />
         <app-help/>
     </v-content>
 </template>

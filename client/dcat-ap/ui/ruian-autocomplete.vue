@@ -45,7 +45,12 @@
         },
         "data": () => ({
             "loading": false,
-            "items": [],
+            "items": [{
+                "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
+                "notation": "1",
+                "title": "Česká republika",
+                "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
+            }],
             "search": null,
             "ignoreNextSearch": false
         }),

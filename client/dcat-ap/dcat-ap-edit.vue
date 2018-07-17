@@ -43,7 +43,7 @@
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
-        <app-step-navigation v-model="ui.step" />
+        <app-step-navigation v-model="ui.step"/>
         <app-help/>
     </v-content>
 </template>

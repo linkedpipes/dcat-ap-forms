@@ -1,7 +1,7 @@
 export const labels = {
     "get": get,
     "data": {
-        "app_header": "Registrace datové sady do NKOD",
+        "app_header": "Registrace datové sady",
         "step_dataset": "Datová sada",
         "step_distribution": "Distribuce",
         "step_download": "Stažení",
@@ -64,7 +64,21 @@ export const labels = {
         "custom_license_missing": "Odkaz na vlastní licenci je povinný.",
         "dataset_theme": "Téma datové sady",
         "dataset_theme_invalid": "Téma datové sady je povinné.",
-        "help_dataset_title": "<h3>Název datové sady</h3><div>Použitý název datové sady.</div>"
+        "help_dataset_title": "<h3>Název datové sady</h3><p>Zadejte název publikované datové sady. Měl by být krátký, věcný a výstižný. Jde o jedno z hlavních vyhledávacích kritérií, podle kterých budou uživatelé vaše data hledat. Zvažte například, zda slova jako &quot;seznam&quot; nejsou v názvu nadbytečná vzhledem k tomu, že většina datových sad bývají seznamy.</p>",
+        "help_dataset_description": "<h3>Popis datové sady</h3><p>Zadejte delší popis publikované datové sady. Napište co datová sada obsahuje, jak se dá použít a také na co si případně při jejím používání dávat pozor.</p>",
+        "help_accrual_periodicity": "<h3>Periodicita aktualizace</h3><p>Slouží k informování uživatelů datové sady o tom, jak často mají kontrolovat, zda je k dispozici její aktualizace. Není tedy přesným vyjádřením toho, kdy nastane příští aktualizace.</p>",
+        "help_ruian_type":"<h3>Související území - typ prvku RÚIAN</h3><p>Identifikátor území, kterého se publikovaná datová sada týká. Prvky se vybírají z Registru územní identifikace, adres a nemovitostí RÚIAN. Nejprve vyberte typ prvku, následně zadejte jeho kód.</p>",
+        "help_ruian":"<h3>Související území - kód prvku RÚIAN</h3><p>Identifikátor území, kterého se publikovaná datová sada týká. Prvky se vybírají z Registru územní identifikace, adres a nemovitostí RÚIAN. Nejprve vyberte typ prvku, následně zadejte jeho kód.</p>",
+        "help_keywords":"<h3>Klíčová slova</h3><p>Klíčová slova charakterizující publikovanou datovou sadu. Slouží k vyhledávání datových sad napříč poskytovateli. Nemělo by se tedy jednat o interní identifikátory poskytovatele, nýbrž o slova, která by k popisu datové sady použilo co nejvíce uživatelů. Pro inspiraci doporučujeme se podívat na podobné datové sady, které jsou již v NKOD zaregistrovány.</p>",
+        "help_contact_point_name":"<h3>Jméno kurátora dat</h3><p>Jméno osoby či útvaru, který lze kontaktovat ohledně zpětné vazby k této datové sadě. Jedná se o důležitý komunikační kanál, kterým mohou uživatelé hlásit chyby nebo nesrovnalosti v datové sadě.</p>",
+        "help_contact_point_email":"<h3>Email kurátora dat</h3><p>Emailová adresa osoby či útvaru, který lze kontaktovat ohledně zpětné vazby k této datové sadě. Jedná se o důležitý komunikační kanál, kterým mohou uživatelé hlásit chyby nebo nesrovnalosti v datové sadě.</p>",
+        "help_temporal_start":"<h3>Dotčené časové období</h3><p>Časové období, kterého se datová sada týká. Například pro rozpočet za rok 2017 zde bude vyplněno začátek: <code>2017-01-01</code> a konec: <code>2017-12-31</code>.</p>",
+        "help_temporal_end":"<h3>Dotčené časové období</h3><p>Časové období, kterého se datová sada týká. Například pro rozpočet za rok 2017 zde bude vyplněno začátek: <code>2017-01-01</code> a konec: <code>2017-12-31</code>.</p>",
+        "help_documentation":"<h3>Odkaz na dokumentaci datové sady</h3><p>URL webové stránky, na které se nachází podrobná odkumentace publikované datové sady. Zdůrazňujeme, že se má jednat o URL <strong>webové stránky</strong>. Jakékoliv dokumenty připravené pro tisk (<code>*.doc</code><code>*.docx</code> či dokonce <code>*.pdf</code>) jsou v prostředí webu nevhodné.</p>",
+        "help_dataset_theme":"<h3>Téma datové sady</h3><p>Téma datové sady z evropského číselníku. Slouží k zařazení datové sady do jednoho ze základních témat, kterými lze klasifikovat datové sady napříč Evropou.</p>",
+        "help_themes":"<h3>EuroVoc témata</h3><p>Témata z evropského mnohojazyčného tezauru EuroVoc. Slouží k přesnější klasifikaci datové sady.</p>"
+
+
     }
 };
 

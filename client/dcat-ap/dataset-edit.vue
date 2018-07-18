@@ -16,15 +16,47 @@
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('dataset_description')"
                 rows="3" required auto-grow clearable/>
-        <v-autocomplete
-                id="dataset_accrual_periodicity"
-                v-model="dataset.accrual_periodicity"
-                :items="frequencies"
-                :label="$labels.get('accrual_periodicity')"
-                item-text="cs" item-value="value"
+        <v-layout row wrap>
+            <v-flex xs12 lg6>
+                <v-autocomplete
+                        id="dataset_theme"
+                        v-model="dataset.dataset_theme"
+                        :items="dataset_themes"
+                        :label="$labels.get('dataset_theme')"
+                        :error-messages="err_dataset_theme"
+                        item-text="cs" item-value="value"
+                        append-outer-icon="help_outline"
+                        v-on:click:append-outer="$h.show('dataset_theme')"
+                        required/>
+            </v-flex>
+            <v-flex xs12 lg6>
+                <v-autocomplete
+                        id="dataset_accrual_periodicity"
+                        v-model="dataset.accrual_periodicity"
+                        :items="frequencies"
+                        :label="$labels.get('accrual_periodicity')"
+                        item-text="cs" item-value="value"
+                        append-outer-icon="help_outline"
+                        v-on:click:append-outer="$h.show('accrual_periodicity')"
+                        required/>
+            </v-flex>
+        </v-layout>
+
+        <v-combobox
+                id="keywords"
+                v-model="dataset.keywords"
+                :label="$labels.get('keywords')"
+                :error-messages="err_keywords"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('accrual_periodicity')"
-                required/>
+                v-on:click:append-outer="$h.show('keywords')"
+                append-icon="" required chips multiple>
+            <template slot="selection" slot-scope="data">
+                <v-chip close @input="removeKeyword(data.item)">
+                    <strong>{{data.item}}</strong>
+                </v-chip>
+            </template>
+        </v-combobox>
+
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-autocomplete
@@ -50,20 +82,22 @@
             </v-flex>
         </v-layout>
 
-        <v-combobox
-                id="keywords"
-                v-model="dataset.keywords"
-                :label="$labels.get('keywords')"
-                :error-messages="err_keywords"
-                append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('keywords')"
-                append-icon="" required chips multiple>
-            <template slot="selection" slot-scope="data">
-                <v-chip close @input="removeKeyword(data.item)">
-                    <strong>{{data.item}}</strong>
-                </v-chip>
-            </template>
-        </v-combobox>
+        <v-layout row wrap>
+            <v-flex xs12 lg6>
+                <app-date-picker
+                        id="temporal_start"
+                        v-model="dataset.temporal_start"
+                        :label="$labels.get('temporal_start')"
+                        append-outer-icon="help_outline"/>
+            </v-flex>
+            <v-flex xs12 lg6>
+                <app-date-picker
+                        id="temporal_end"
+                        v-model="dataset.temporal_end"
+                        :label="$labels.get('temporal_end')"/>
+            </v-flex>
+            <v-spacer></v-spacer>
+        </v-layout>
 
         <v-layout row wrap>
             <v-flex xs12 lg6>
@@ -87,23 +121,6 @@
             </v-flex>
         </v-layout>
 
-        <v-layout row wrap>
-            <v-flex xs12 lg6>
-                <app-date-picker
-                        id="temporal_start"
-                        v-model="dataset.temporal_start"
-                        :label="$labels.get('temporal_start')"
-                        append-outer-icon="help_outline"/>
-            </v-flex>
-            <v-flex xs12 lg6>
-                <app-date-picker
-                        id="temporal_end"
-                        v-model="dataset.temporal_end"
-                        :label="$labels.get('temporal_end')"/>
-            </v-flex>
-            <v-spacer></v-spacer>
-        </v-layout>
-
         <v-text-field
                 id="documentation"
                 v-model="dataset.documentation"
@@ -112,17 +129,6 @@
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('documentation')"
                 type="url" clearable/>
-
-        <v-autocomplete
-                id="dataset_theme"
-                v-model="dataset.dataset_theme"
-                :items="dataset_themes"
-                :label="$labels.get('dataset_theme')"
-                :error-messages="err_dataset_theme"
-                item-text="cs" item-value="value"
-                append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('dataset_theme')"
-                required/>
 
         <app-solr-chips-autocomplete
                 id="themes"

@@ -92,7 +92,7 @@
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_specialdb_type')"
-                            required clearable/>
+                            required/>
                 </v-flex>
                 <v-flex xs12 lg4/>
                 <v-flex xs12 lg4>
@@ -118,7 +118,7 @@
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
                             v-on:click:append-outer="$h.show('license_personal_type')"
-                            required clearable/>
+                            required/>
                 </v-flex>
             </v-layout>
 

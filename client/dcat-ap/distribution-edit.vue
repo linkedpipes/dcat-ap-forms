@@ -157,13 +157,6 @@
                 </v-flex>
             </v-layout>
             <v-text-field
-                    id="distribution_title"
-                    v-model="distribution.title"
-                    :label="$labels.get('distribution_title')"
-                    append-outer-icon="help_outline"
-                    v-on:click:append-outer="$h.show('distribution_title')"
-                    clearable/>
-            <v-text-field
                     id="distribution_schema"
                     v-model="distribution.schema"
                     :label="$labels.get('distribution_schema_link')"
@@ -171,6 +164,13 @@
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h.show('distribution_schema_link')"
                     type="url" clearable/>
+            <v-text-field
+                    id="distribution_title"
+                    v-model="distribution.title"
+                    :label="$labels.get('distribution_title')"
+                    append-outer-icon="help_outline"
+                    v-on:click:append-outer="$h.show('distribution_title')"
+                    clearable/>
         </div>
         <div v-if="canBeDeleted">
             <v-btn v-on:click="onDelete" flat>

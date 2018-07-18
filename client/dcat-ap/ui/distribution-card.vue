@@ -1,5 +1,5 @@
 <template>
-    <v-flex xs12 sm4 md3>
+    <v-flex xs12 lg6>
         <v-card>
             <v-card-title>
                 <div v-if="distribution.title.length > 0" class="headline mb-0">
@@ -116,9 +116,16 @@
                             {{$labels.get('media_type')}}
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
-                    <v-list-tile-action>
-                        <v-icon>class</v-icon>
-                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            {{distribution.format}}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('distribution_format')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
                 </v-list-tile>
                 <v-list-tile v-if="schemaProvided">
                     <v-list-tile-content>

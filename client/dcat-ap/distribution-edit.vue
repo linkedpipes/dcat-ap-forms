@@ -10,7 +10,7 @@
         </h2>
         <div>
             <v-layout row wrap>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-select
                             :items="author_license_types"
                             v-model="distribution.license_author_type"
@@ -20,7 +20,7 @@
                             v-on:click:append-outer="$h.show('license_author_type')"
                             required/>
                 </v-flex>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-text-field
                             id="distribution_license_author_name"
                             :disabled="!isCcByAuthor"
@@ -32,7 +32,7 @@
                             v-on:click:append-outer="$h.show('license_author_name')"
                             clearable/>
                 </v-flex>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-text-field
                             id="distribution_license_author_custom"
                             :disabled="!isCustomAuthor"
@@ -47,7 +47,7 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-select
                             :items="db_author_license_types"
                             v-model="distribution.license_db_type"
@@ -57,7 +57,7 @@
                             v-on:click:append-outer="$h.show('license_db_type')"
                             required/>
                 </v-flex>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-text-field
                             id="distribution_license_db_name"
                             :disabled="!isCcByDb"
@@ -69,7 +69,7 @@
                             v-on:click:append-outer="$h.show('license_db_name')"
                             clearable/>
                 </v-flex>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-text-field
                             id="distribution_license_db_custom"
                             :disabled="!isCustomDb"
@@ -84,7 +84,7 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-select
                             :items="db_special_license_types"
                             v-model="distribution.license_specialdb_type"
@@ -94,8 +94,8 @@
                             v-on:click:append-outer="$h.show('license_specialdb_type')"
                             required/>
                 </v-flex>
-                <v-flex xs12 lg4/>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4/>
+                <v-flex xs12 md4>
                     <v-text-field
                             id="distribution_license_specialdb_custom"
                             :disabled="!isCustomSpecialDb"
@@ -110,7 +110,7 @@
             </v-layout>
 
             <v-layout row wrap>
-                <v-flex xs12 lg4>
+                <v-flex xs12 md4>
                     <v-select
                             :items="personal_data_links"
                             v-model="distribution.license_personal_type"
@@ -136,7 +136,7 @@
                     v-on:click:append-outer="$h.show('distribution_url')"
                     required type="url" clearable/>
             <v-layout row wrap>
-                <v-flex xs12 lg6>
+                <v-flex xs12 md6>
                     <app-solr-autocomplete
                             id="distribution_format"
                             v-model="distribution.format"
@@ -145,7 +145,7 @@
                             :error-messages="err_format"
                             code-list="file-type"/>
                 </v-flex>
-                <v-flex xs12 lg6>
+                <v-flex xs12 md6>
                     <app-solr-autocomplete
                             id="distribution_media_type"
                             v-model="distribution.media_type"

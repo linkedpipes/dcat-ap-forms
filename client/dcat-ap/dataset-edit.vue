@@ -17,7 +17,7 @@
                 v-on:click:append-outer="$h.show('dataset_description')"
                 rows="3" required auto-grow clearable/>
         <v-layout row wrap>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <v-autocomplete
                         id="dataset_theme"
                         v-model="dataset.dataset_theme"
@@ -29,7 +29,7 @@
                         v-on:click:append-outer="$h.show('dataset_theme')"
                         required/>
             </v-flex>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <v-autocomplete
                         id="dataset_accrual_periodicity"
                         v-model="dataset.accrual_periodicity"
@@ -58,7 +58,7 @@
         </v-combobox>
 
         <v-layout row wrap>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <v-autocomplete
                         id="dataset_ruian_type"
                         v-model="dataset.ruian_type"
@@ -70,7 +70,7 @@
                         v-on:input="onRuainTypeInput"
                         required/>
             </v-flex>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <app-ruain-autocomplete
                         id="dataset_ruian"
                         v-model="dataset.ruian"
@@ -83,14 +83,14 @@
         </v-layout>
 
         <v-layout row wrap>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <app-date-picker
                         id="temporal_start"
                         v-model="dataset.temporal_start"
                         :label="$labels.get('temporal_start')"
                         append-outer-icon="help_outline"/>
             </v-flex>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <app-date-picker
                         id="temporal_end"
                         v-model="dataset.temporal_end"
@@ -100,7 +100,7 @@
         </v-layout>
 
         <v-layout row wrap>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <v-text-field
                         id="contact_point_name"
                         v-model="dataset.contact_point_name"
@@ -109,7 +109,7 @@
                         v-on:click:append-outer="$h.show('contact_point_name')"
                         clearable/>
             </v-flex>
-            <v-flex xs12 lg6>
+            <v-flex xs12 md6>
                 <v-text-field
                         id="contact_point_email"
                         v-model="dataset.contact_point_email"

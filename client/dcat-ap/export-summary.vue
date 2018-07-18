@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-lg>
+    <v-container fluid grid-list-lg pa-0>
         <v-layout align-center>
             <v-flex>
                 <div class="display-3">{{dataset.title}}</div>

@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-lg>
+    <v-container fluid grid-list-lg pa-0>
         <h2 class="headline">
             {{$labels.get('headline_distribution_license')}}
             <a href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti" target="_blank" class="info_link">

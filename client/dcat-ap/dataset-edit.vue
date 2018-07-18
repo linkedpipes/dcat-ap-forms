@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid grid-list-lg>
+    <v-container fluid grid-list-lg pa-0>
         <v-text-field
                 id="dataset_title"
                 v-model="dataset.title"

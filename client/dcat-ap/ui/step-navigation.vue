@@ -1,5 +1,5 @@
 <template>
-    <v-bottom-nav :active="value">
+    <v-bottom-nav :active="value" absolute>
         <v-btn color="blue" flat :value="1" v-on:click="onClick(1)">
             <span>{{$labels.get('nav_dataset')}}</span>
             <v-icon>note</v-icon>

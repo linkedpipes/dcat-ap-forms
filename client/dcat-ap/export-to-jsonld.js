@@ -13,8 +13,7 @@ export function exportToJsonLd(dataset, distributions) {
     };
 
     if (dataset.accrual_periodicity !== "") {
-        const url = "http://publications.europa.eu/" +
-            "resource/authority/frequency/" + dataset.accrual_periodicity;
+        const url = dataset.accrual_periodicity;
         output["http://purl.org/dc/terms/accrualPeriodicity"] = asIri(url);
     }
     if (dataset.ruian !== null) {

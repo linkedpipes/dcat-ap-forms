@@ -4,7 +4,7 @@ export function createDataset() {
     return {
         "title": "",
         "description": "",
-        "accrual_periodicity": "",
+        "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
         "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
         "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
         "temporal_start": "",

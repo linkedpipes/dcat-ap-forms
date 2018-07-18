@@ -1,91 +1,90 @@
 export default [
     {
         "cs": "denní",
-        "value": "DAILY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/DAILY"
     },
     {
         "cs": "týdenní",
-        "value": "WEEKLY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
     },
     {
         "cs": "měsíční",
-        "value": "MONTHLY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
     },
     {
         "cs": "čtvrtletní",
-        "value": "QUARTERLY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
     },
     {
         "cs": "pololetní",
-        "value": "ANNUAL_2"
+        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL_2"
     },
-
     {
         "cs": "roční",
-        "value": "ANNUAL"
+        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL"
     },
     {
         "cs": "průběžně aktualizovaná",
-        "value": "UPDATE_CONT"
+        "value": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"
     },
     {
         "cs": "nikdy",
-        "value": "NEVER"
+        "value": "http://publications.europa.eu/resource/authority/frequency/NEVER"
     },
     {
         "cs": "nepravidelná",
-        "value": "IRREG"
+        "value": "http://publications.europa.eu/resource/authority/frequency/IRREG"
     },
     {
         "cs": "neznámá",
-        "value": "UNKNOWN"
+        "value": "http://publications.europa.eu/resource/authority/frequency/UNKNOWN"
     },
     {
         "cs": "dvakrát denně",
-        "value": "DAILY_2"
+        "value": "http://publications.europa.eu/resource/authority/frequency/DAILY_2"
     },
     {
         "cs": "dvakrát týdně",
-        "value": "WEEKLY_2"
+        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_2"
     },
     {
         "cs": "třikrát týdně",
-        "value": "WEEKLY_3"
+        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_3"
     },
     {
         "cs": "jednou za čtrnáct dní",
-        "value": "BIWEEKLY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/BIWEEKLY"
     },
     {
         "cs": "dvakrát za měsíc",
-        "value": "MONTHLY_2"
+        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY_2"
     },
     {
         "cs": "třikrát za měsíc",
-        "value": "MONTHLY_3"
+        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY_3"
     },
     {
         "cs": "jednou za dva měsíce",
-        "value": "BIMONTHLY"
+        "value": "http://publications.europa.eu/resource/authority/frequency/BIMONTHLY"
     },
     {
         "cs": "třikrát do roka",
-        "value": "ANNUAL_3"
+        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL_3"
     },
     {
         "cs": "jednou za dva roky",
-        "value": "BIENNIAL"
+        "value": "http://publications.europa.eu/resource/authority/frequency/BIENNIAL"
     },
     {
         "cs": "jednou za tři roky",
-        "value": "TRIENNIAL"
+        "value": "http://publications.europa.eu/resource/authority/frequency/TRIENNIAL"
     },
     {
         "cs": "průběžně",
-        "value": "CONT"
+        "value": "http://publications.europa.eu/resource/authority/frequency/CONT"
     },
     {
         "cs": "ostatní",
-        "value": "OTHER"
+        "value": "http://publications.europa.eu/resource/authority/frequency/OTHER"
     }
 ];

@@ -24,7 +24,7 @@
                 item-text="cs" item-value="value"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('accrual_periodicity')"
-                required clearable/>
+                required/>
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-autocomplete
@@ -122,7 +122,7 @@
                 item-text="cs" item-value="value"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h.show('dataset_theme')"
-                required clearable/>
+                required/>
 
         <app-solr-chips-autocomplete
                 id="themes"

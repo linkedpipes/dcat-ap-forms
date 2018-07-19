@@ -5,6 +5,7 @@
     const server = require("./server.common");
     server.initialize(app);
     initializeWebpack(app);
+    initializeStatic(app);
     server.start(app);
 })();
 
@@ -23,4 +24,12 @@ function initializeWebpack(app) {
         }
     }));
     app.use(webpackHotMiddleware(webpackCompiler));
+}
+
+
+function initializeStatic(app) {
+    const express = require("express");
+    const path = require("path");
+    const assetsPath = path.join(__dirname, "../public/assets");
+    app.use("/assets", express.static(assetsPath));
 }

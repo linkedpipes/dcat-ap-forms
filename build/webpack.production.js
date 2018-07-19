@@ -4,6 +4,7 @@ const common = Object.assign({}, require("./webpack.common"));
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
 module.exports = merge(common, {
@@ -48,6 +49,11 @@ module.exports = merge(common, {
         }),
         new MiniCssExtractPlugin({
             "filename": "main.[hash].css"
-        })
+        }),
+        new CopyWebpackPlugin([
+            {
+                "from": path.join(__dirname, "..", "public", "assets"),
+                "to": path.join(__dirname, "..", "dist", "assets")}
+        ])
     ]
 });

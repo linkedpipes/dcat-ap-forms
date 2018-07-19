@@ -49,7 +49,7 @@ export const labels = {
         "no_distribution": "Datová sada teď neobsahuje žádné distribuce.",
         "delete_distribution": "Smaž distribuci",
         "headline_distribution_license": "Podmínky užití distribuce",
-        "headline_distribution_access": "Přístupové údaje",
+        "headline_distribution_access": "Přístup k distribuci",
         "distribution_download": "Soubor ke stažení",
         "media_type": "Media type",
         "media_type_missing" : "Media type je povinný.",

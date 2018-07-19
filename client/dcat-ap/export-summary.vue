@@ -90,21 +90,22 @@
                 </v-layout>
             </v-flex>
         </v-layout>
-        <br/>
-        <v-divider/>
-        <br/>
-        <p>
-            Zde vidíte náhled registrované datové sady.
-            Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky <code>uur3q2i</code>.
-        </p>
-        <br/>
-        <v-layout row>
-            <v-spacer/>
-            <v-btn v-on:click="onDownload" :disabled="!isValid"
-                   color="blue" flat>
-                <span>{{$labels.get('nav_download')}}</span>
-                <v-icon>file_download</v-icon>
-            </v-btn>
+        <v-divider class="my-2"/>
+        <v-layout row wrap>
+            <v-flex xs12 sm8 md9 lg10 xl11>
+                <p>
+                    Zde vidíte náhled registrované datové sady.                 
+                    <span :hidden="!isValid">Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky <code>uur3q2i</code>.</span>
+                    <span :hidden="isValid" class="red--text">Formulář ještě není správně vyplněn.</span>
+                </p>
+            </v-flex>
+            <v-flex xs12 sm4 md3 lg2 xl1 class="text-xs-right">
+                <v-btn round v-on:click="onDownload" :disabled="!isValid"
+                       color="success">
+                    <span>{{$labels.get('nav_download')}}</span>
+                    <v-icon right>file_download</v-icon>
+                </v-btn>
+            </v-flex>
         </v-layout>
     </v-container>
 </template>

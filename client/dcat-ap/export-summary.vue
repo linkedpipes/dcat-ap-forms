@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
-        <p class="display-3">{{dataset.title}}</p>
+        <h2 class="display-1">{{dataset.title}}</h2>
         <p class="subheading">{{dataset.description}}</p>
         <v-layout row wrap>
             <v-flex xs12 md6>
@@ -67,7 +67,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openDocumentation">
-                                <v-icon color="blue">forward</v-icon>
+                                <v-icon color="blue">link</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
@@ -83,7 +83,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openRuian">
-                                <v-icon color="blue">forward</v-icon>
+                                <v-icon color="blue">link</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
@@ -127,18 +127,21 @@
         </v-layout>
         <v-divider class="my-2"/>
         <v-layout row wrap>
-            <v-flex xs12 sm8 md9 lg10 xl11>
+            <v-flex xs12 sm8 md9 lg9 xl10>
                 <p>
                     Zde vidíte náhled registrované datové sady.
                     <span :hidden="!isValid">Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky <code>uur3q2i</code>.</span>
                     <span :hidden="isValid" class="red--text">Formulář ještě není správně vyplněn.</span>
+                    {{$labels.get('summary_info')}}
+                    <span :hidden="!isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
+                    <span :hidden="isValid" class="red--text">{{$labels.get('summary_error')}}</span>
                 </p>
             </v-flex>
-            <v-flex xs12 sm4 md3 lg2 xl1 class="text-xs-right">
+            <v-flex xs12 sm4 md3 lg3 xl2 class="text-xs-right">
                 <v-btn round v-on:click="onDownload" :disabled="!isValid"
                        color="success">
+                    <v-icon left>file_download</v-icon>
                     <span>{{$labels.get('nav_download')}}</span>
-                    <v-icon right>file_download</v-icon>
                 </v-btn>
             </v-flex>
         </v-layout>

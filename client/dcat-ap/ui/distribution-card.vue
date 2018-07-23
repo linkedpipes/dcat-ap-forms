@@ -10,21 +10,6 @@
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{distribution.url }}
-                        </v-list-tile-title>
-                        <v-list-tile-sub-title>
-                            {{$labels.get('distribution_download')}}
-                        </v-list-tile-sub-title>
-                    </v-list-tile-content>
-                    <v-list-tile-action>
-                        <v-btn flat icon v-on:click="downloadDistribution">
-                            <v-icon color="primary">file_download</v-icon>
-                        </v-btn>
-                    </v-list-tile-action>
-                </v-list-tile>
-                <v-list-tile>
-                    <v-list-tile-content>
-                        <v-list-tile-title>
                             AD:
                             <a v-if="distribution.license_author_type == 'CC BY'"
                                href="https://creativecommons.org/licenses/by/4.0/"
@@ -110,12 +95,32 @@
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>
+                            {{distribution.url }}
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('distribution_download')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn flat icon v-on:click="downloadDistribution">
+                            <v-icon color="blue">file_download</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
                             {{mediaTypeLabel}}
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
                             {{$labels.get('media_type')}}
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn flat icon v-on:click="openMediaType">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
                 </v-list-tile>
                 <v-list-tile>
                     <v-list-tile-content>
@@ -138,7 +143,7 @@
                     </v-list-tile-content>
                     <v-list-tile-action>
                         <v-btn flat icon v-on:click="downloadSchema">
-                            <v-icon color="primary">description</v-icon>
+                            <v-icon color="blue">link</v-icon>
                         </v-btn>
                     </v-list-tile-action>
                 </v-list-tile>
@@ -186,6 +191,9 @@
             },
             "downloadSchema": function () {
                 downloadUrl(this.schema.url);
+            },
+			"openMediaType": function () {
+                downloadUrl(this.distribution.media_type);
             }
         }
     }

@@ -86,11 +86,11 @@ export function isDistributionValid(dist) {
         isAuthorValid(
             dist.license_author_type, dist.license_author_name) &&
         isCustomValid(
-            dist.license_author_type, dist.license_db_custom) &&
+            dist.license_author_type, dist.license_author_custom) &&
         isAuthorValid(
             dist.license_db_type, dist.license_db_name) &&
         isCustomValid(
-            dist.license_db_type, dist.license_author_custom) &&
+            dist.license_db_type, dist.license_db_custom) &&
         isCustomValid(
             dist.license_specialdb_type, dist.license_specialdb_custom);
 }

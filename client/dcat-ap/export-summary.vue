@@ -1,7 +1,7 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
         <h2 class="display-1">{{dataset.title}}</h2>
-        <p class="subheading">{{dataset.description}}</p>
+        <pre class="subheading">{{dataset.description}}</pre>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-list two-line subheader>
@@ -70,6 +70,11 @@
                                 {{$labels.get('contact_point_email')}}
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
+                        <v-list-tile-action>
+                            <v-btn icon ripple v-on:click="openUrl('mailto:' + dataset.contact_point_email)">
+                                <v-icon color="blue">alternate_email</v-icon>
+                            </v-btn>
+                        </v-list-tile-action>
                     </v-list-tile>
                     <v-divider v-if="dataset.contact_point_email"></v-divider>
                     <v-list-tile avatar v-if="dataset.documentation">
@@ -221,6 +226,9 @@
                 } else {
                     return value["title"];
                 }
+            },
+            "openUrl": function (url) {
+                downloadUrl(url);
             }
         }
     }

@@ -1,7 +1,7 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
         <h2 class="display-1">{{dataset.title}}</h2>
-        <pre class="subheading">{{dataset.description}}</pre>
+        <div class="subheading multiline">{{dataset.description}}</div>
         <v-layout row wrap>
             <v-flex xs12 md6>
                 <v-list two-line subheader>
@@ -237,3 +237,9 @@
         window.open(uri);
     }
 </script>
+
+<style scoped>
+    .multiline {
+        white-space: pre-wrap;
+    }
+</style>

@@ -27,9 +27,6 @@ export function createDistribution() {
         //
         "$validators": {
             "force": false
-        },
-        "$labels": {
-            "media_type": ""
         }
     }
 }

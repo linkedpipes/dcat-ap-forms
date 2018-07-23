@@ -8,7 +8,7 @@
                     <v-list-tile>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{themeToLabel(dataset.dataset_theme)}}
+                                {{datasetThemeToLabel(dataset.dataset_theme)}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('dataset_theme')}}
@@ -18,7 +18,8 @@
                     <v-divider></v-divider>
                     <v-list-tile>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{frequencyToLabel(dataset.accrual_periodicity)}}
+                            <v-list-tile-title>
+                                {{frequencyToLabel(dataset.accrual_periodicity)}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('accrual_periodicity')}}
@@ -73,7 +74,8 @@
                     <v-divider v-if="dataset.documentation"></v-divider>
                     <v-list-tile v-if="dataset.ruian">
                         <v-list-tile-content>
-                            <v-list-tile-title>{{dataset.$labels.ruian}}
+                            <v-list-tile-title>
+                                {{ruainLabel}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('ruian_iri')}}
@@ -100,8 +102,10 @@
                             v-if="dataset.temporal_start || dataset.temporal_end"></v-divider>
                     <v-list-tile v-if="dataset.themes.length">
                         <v-list-tile-content>
-                            <v-list-tile-title><span
-                                    v-for="theme in dataset.themes">{{theme}} </span>
+                            <v-list-tile-title>
+                                <span v-for="(theme, index) in dataset.themes">
+                                    {{themeToLabel(theme)}}
+                                </span>
                             </v-list-tile-title>
                             <v-list-tile-sub-title>{{$labels.get('themes')}}
                             </v-list-tile-sub-title>
@@ -124,7 +128,7 @@
         <v-layout row wrap>
             <v-flex xs12 sm8 md9 lg10 xl11>
                 <p>
-                    Zde vidíte náhled registrované datové sady.                 
+                    Zde vidíte náhled registrované datové sady.
                     <span :hidden="!isValid">Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky <code>uur3q2i</code>.</span>
                     <span :hidden="isValid" class="red--text">Formulář ještě není správně vyplněn.</span>
                 </p>
@@ -144,8 +148,9 @@
     import {exportToJsonLd} from "./export-to-jsonld";
     import {downloadAsJsonLd} from "@/app-service/download";
     import DistributionCard from "./ui/distribution-card";
-    import {getLabel as themeToLabel} from "@/dcat-ap/codelists/dataset_theme";
-    import {getLabel as frequencyToLabel} from "@/dcat-ap/codelists/frequencies.js";
+    import {getLabel as themeToLabel} from "./codelists/dataset_theme";
+    import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";
+    import {getItem} from "./codelists/local-storage";
 
     export default {
         "name": "app-export-summary",
@@ -156,6 +161,17 @@
             "dataset": {"type": Object, "required": true},
             "distributions": {"type": Array, "required": true},
             "isValid": {"type": Boolean, "required": true}
+        },
+        "computed": {
+            "ruainLabel": function () {
+                const iri = this.dataset.ruian;
+                const value = getItem("ruian", iri);
+                if (value === undefined) {
+                    return iri;
+                } else {
+                    return value["title"];
+                }
+            },
         },
         "methods": {
             "onDownload": function () {
@@ -168,8 +184,16 @@
             "openRuian": function () {
                 downloadUrl(this.dataset.ruian);
             },
-            "themeToLabel": themeToLabel,
-            "frequencyToLabel": frequencyToLabel
+            "datasetThemeToLabel": themeToLabel,
+            "frequencyToLabel": frequencyToLabel,
+            "themeToLabel": function (iri) {
+                const value = getItem("themes", iri);
+                if (value === undefined) {
+                    return iri;
+                } else {
+                    return value["title"];
+                }
+            }
         }
     }
 

@@ -12,7 +12,7 @@
             item-value="code"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h.show(id)"
-            flat>
+            flat no-filter>
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
@@ -25,6 +25,7 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
+    import {addItems} from "./../codelists/local-storage";
 
     export default {
         "name": "app-solr-autocomplete",
@@ -58,6 +59,7 @@
                 this.loading = true;
                 const url = createQueryUrl(this.codeList, query);
                 fetchJson(url).then((response) => {
+                    addItems(this.codeList, response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;
                 });
@@ -65,12 +67,6 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
-                // Also emit the label.
-                for (let index in this.items) {
-                    if (this.items[index].code === value) {
-                        this.$emit("update:label", this.items[index].title);
-                    }
-                }
             }
         }
     }

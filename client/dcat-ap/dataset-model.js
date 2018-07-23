@@ -17,9 +17,6 @@ export function createDataset() {
         "keywords": [],
         "$validators": {
             "force": false
-        },
-        "$labels": {
-            "ruian": "Česká republika (1)"
         }
     }
 }

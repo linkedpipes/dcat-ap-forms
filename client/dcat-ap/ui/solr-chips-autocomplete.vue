@@ -7,13 +7,13 @@
             :value="value"
             :label="label"
             v-on:input="onInput"
-            item-text="title"
             :error-messages="errorMessages"
-            item-value="code"
             :append-icon="null"
+            item-text="title"
+            item-value="code"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h.show(id)"
-            flat cache-items multiple chips>
+            flat cache-items multiple chips no-filter>
         <template slot="selection" slot-scope="data">
             <v-chip v-on:input="removeTheme(data.item)" close>
                 <strong>{{data.item.title}}</strong>
@@ -31,6 +31,7 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
+    import {addItems} from "./../codelists/local-storage";
 
     export default {
         "name": "app-solr-chips-autocomplete",
@@ -64,6 +65,7 @@
                 this.loading = true;
                 const url = createQueryUrl(this.codeList, query);
                 fetchJson(url).then((response) => {
+                    addItems(this.codeList, response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;
                 });
@@ -87,6 +89,5 @@
         return "/api/v1/codelist/" + codeList +
             "?search=*" + encodeURIComponent(query) + "*";
     }
-
 
 </script>

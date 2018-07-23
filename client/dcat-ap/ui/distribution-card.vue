@@ -110,7 +110,7 @@
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{distribution.$labels.media_type}}
+                            {{mediaTypeLabel}}
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
                             {{$labels.get('media_type')}}
@@ -120,7 +120,7 @@
                 <v-list-tile>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            {{distribution.format}}
+                            {{formatLabel}}
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
                             {{$labels.get('distribution_format')}}
@@ -149,6 +149,8 @@
 </template>
 
 <script>
+    import {getItem} from "./../codelists/local-storage";
+
     export default {
         "name": "app-distribution-card",
         "props": {
@@ -158,6 +160,24 @@
             "schemaProvided": function () {
                 return this.distribution.schema !== null &&
                     this.distribution.schema.length > 0;
+            },
+            "mediaTypeLabel": function() {
+                const iri = this.distribution.media_type;
+                const value = getItem("media-types",iri);
+                if (value === undefined) {
+                    return undefined;
+                } else {
+                    return value["title"];
+                }
+            },
+            "formatLabel": function() {
+                const iri = this.distribution.format;
+                const value = getItem("file-type",iri);
+                if (value === undefined) {
+                    return undefined;
+                } else {
+                    return value["title"];
+                }
             }
         },
         "methods": {

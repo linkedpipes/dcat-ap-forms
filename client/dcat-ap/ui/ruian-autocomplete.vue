@@ -13,7 +13,7 @@
             item-text="title"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h.show('ruian')"
-            flat>
+            flat no-filter>
         <template slot="selection" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})
         </template>
@@ -32,6 +32,16 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
+    import {addItems} from "./../codelists/local-storage";
+
+    const defaultItem = {
+        "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
+        "notation": "1",
+        "title": "Česká republika",
+        "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
+    };
+
+    addItems("ruain", [defaultItem]);
 
     export default {
         "name": "app-ruian-autocomplete",
@@ -44,12 +54,7 @@
         },
         "data": () => ({
             "loading": false,
-            "items": [{
-                "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
-                "notation": "1",
-                "title": "Česká republika",
-                "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
-            }],
+            "items": [defaultItem],
             "search": null,
             "ignoreNextSearch": false
         }),
@@ -69,6 +74,7 @@
                 this.loading = true;
                 let url = createQueryUrl(query, "cs", this.type);
                 fetchJson(url).then((response) => {
+                    addItems("ruian", response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;
                 });
@@ -76,12 +82,6 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
-                // Also emit the label.
-                for (let index in this.items) {
-                    if (this.items[index].code === value) {
-                        this.$emit("update:label", this.items[index].title);
-                    }
-                }
             }
         }
     }

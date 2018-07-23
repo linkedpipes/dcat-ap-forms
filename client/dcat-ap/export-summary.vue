@@ -104,6 +104,7 @@
                         <v-list-tile-content>
                             <v-list-tile-title>
                                 <span v-for="(theme, index) in dataset.themes">
+                                    {{index > 0 ? "," : ""}}
                                     {{themeToLabel(theme)}}
                                 </span>
                             </v-list-tile-title>

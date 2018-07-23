@@ -76,6 +76,12 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
+                // Also emit the label.
+                for (let index in this.items) {
+                    if (this.items[index].code === value) {
+                        this.$emit("update:label", this.items[index].title);
+                    }
+                }
             }
         }
     }

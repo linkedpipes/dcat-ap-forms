@@ -1,4 +1,4 @@
-export default [
+const codelist = [
     {
         "cs": "denní",
         "value": "http://publications.europa.eu/resource/authority/frequency/DAILY"
@@ -88,3 +88,15 @@ export default [
         "value": "http://publications.europa.eu/resource/authority/frequency/OTHER"
     }
 ];
+
+
+export default codelist;
+
+export function getLabel(iri) {
+    for (let index in codelist) {
+        if (codelist[index]["value"] === iri) {
+            return codelist[index]["cs"];
+        }
+    }
+    return iri;
+}

@@ -1,4 +1,4 @@
-export default [
+const codelist = [
     {
         "value": "http://publications.europa.eu/resource/authority/data-theme/AGRI",
         "cs": "Zemědělství, rybolov, lesnictví a výživa"
@@ -42,4 +42,15 @@ export default [
         "value": "http://publications.europa.eu/resource/authority/data-theme/TRAN",
         "cs": "Doprava"
     }
-]
+];
+
+export default codelist;
+
+export function getLabel(iri) {
+    for (let index in codelist) {
+        if (codelist[index]["value"] === iri) {
+            return codelist[index]["cs"];
+        }
+    }
+    return iri;
+}

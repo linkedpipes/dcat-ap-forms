@@ -17,6 +17,9 @@ export function createDataset() {
         "keywords": [],
         "$validators": {
             "force": false
+        },
+        "$labels": {
+            "ruian": "Česká republika (1)"
         }
     }
 }
@@ -48,7 +51,7 @@ export function createDatasetValidators() {
             (t) => t.dataset, "documentation",
             url,
             "documentation_invalid"),
-        "err_dataset_theme" : apply(
+        "err_dataset_theme": apply(
             (t) => t.dataset, "dataset_theme",
             provided,
             "dataset_theme_invalid"),

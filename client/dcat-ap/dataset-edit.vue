@@ -78,6 +78,7 @@
                         :error-messages="err_ruian"
                         code-list="ruian"
                         :type="dataset.ruian_type"
+                        v-on:update:label="dataset.$labels.ruian = $event"
                         :disabled="dataset.ruian_type === ''"/>
             </v-flex>
         </v-layout>

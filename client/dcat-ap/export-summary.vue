@@ -7,15 +7,22 @@
                 <v-list two-line>
                     <v-list-tile>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{dataset.dataset_theme}}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{$labels.get('dataset_theme')}}</v-list-tile-sub-title>
+                            <v-list-tile-title>
+                                {{themeToLabel(dataset.dataset_theme)}}
+                            </v-list-tile-title>
+                            <v-list-tile-sub-title>
+                                {{$labels.get('dataset_theme')}}
+                            </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
                     <v-list-tile>
                         <v-list-tile-content>
-                            <v-list-tile-title>{{dataset.accrual_periodicity}}</v-list-tile-title>
-                            <v-list-tile-sub-title>{{$labels.get('accrual_periodicity')}}</v-list-tile-sub-title>
+                            <v-list-tile-title>{{frequencyToLabel(dataset.accrual_periodicity)}}
+                            </v-list-tile-title>
+                            <v-list-tile-sub-title>
+                                {{$labels.get('accrual_periodicity')}}
+                            </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
@@ -113,6 +120,8 @@
     import {exportToJsonLd} from "./export-to-jsonld";
     import {downloadAsJsonLd} from "@/app-service/download";
     import DistributionCard from "./ui/distribution-card";
+    import {getLabel as themeToLabel} from "@/dcat-ap/codelists/dataset_theme";
+    import {getLabel as frequencyToLabel} from "@/dcat-ap/codelists/frequencies.js";
 
     export default {
         "name": "app-export-summary",
@@ -134,10 +143,12 @@
             },
             "openRuian": function () {
                 downloadUrl(this.dataset.ruian);
-            }
+            },
+            "themeToLabel": themeToLabel,
+            "frequencyToLabel": frequencyToLabel
         }
     }
-    
+
     function downloadUrl(uri) {
         window.open(uri);
     }

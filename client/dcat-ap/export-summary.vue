@@ -4,8 +4,11 @@
         <p class="subheading">{{dataset.description}}</p>
         <v-layout row wrap>
             <v-flex xs12 md6>
-                <v-list two-line>
-                    <v-list-tile>
+                <v-list two-line subheader>
+                    <v-list-tile avatar>
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">category</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
                                 {{datasetThemeToLabel(dataset.dataset_theme)}}
@@ -16,7 +19,10 @@
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
-                    <v-list-tile>
+                    <v-list-tile avatar>
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">snooze</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
                                 {{frequencyToLabel(dataset.accrual_periodicity)}}
@@ -27,7 +33,10 @@
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider></v-divider>
-                    <v-list-tile v-if="dataset.keywords.length">
+                    <v-list-tile avatar v-if="dataset.keywords.length">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">short_text</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title><span
                                     v-for="keyword in dataset.keywords">{{keyword}} </span>
@@ -37,7 +46,10 @@
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider v-if="dataset.keywords.length"></v-divider>
-                    <v-list-tile v-if="dataset.contact_point_name">
+                    <v-list-tile avatar v-if="dataset.contact_point_name">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">person</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{dataset.contact_point_name}}
                             </v-list-tile-title>
@@ -46,8 +58,11 @@
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-divider v-if="dataset.contact_point_name"></v-divider>
+                    <v-divider avatar v-if="dataset.contact_point_name"></v-divider>
                     <v-list-tile v-if="dataset.contact_point_email">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">alternate_email</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{dataset.contact_point_email}}
                             </v-list-tile-title>
@@ -57,7 +72,10 @@
                         </v-list-tile-content>
                     </v-list-tile>
                     <v-divider v-if="dataset.contact_point_email"></v-divider>
-                    <v-list-tile v-if="dataset.documentation">
+                    <v-list-tile avatar v-if="dataset.documentation">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">description</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{dataset.documentation}}
                             </v-list-tile-title>
@@ -72,7 +90,10 @@
                         </v-list-tile-action>
                     </v-list-tile>
                     <v-divider v-if="dataset.documentation"></v-divider>
-                    <v-list-tile v-if="dataset.ruian">
+                    <v-list-tile avatar v-if="dataset.ruian">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">place</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
                                 {{ruainLabel}}
@@ -88,8 +109,11 @@
                         </v-list-tile-action>
                     </v-list-tile>
                     <v-divider v-if="dataset.ruian"></v-divider>
-                    <v-list-tile
+                    <v-list-tile avatar
                             v-if="dataset.temporal_start || dataset.temporal_end">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">calendar_today</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>{{dataset.temporal_start}}<span
                                     v-if="dataset.temporal_end"> - {{dataset.temporal_end}}</span>
@@ -100,7 +124,10 @@
                     </v-list-tile>
                     <v-divider
                             v-if="dataset.temporal_start || dataset.temporal_end"></v-divider>
-                    <v-list-tile v-if="dataset.themes.length">
+                    <v-list-tile avatar v-if="dataset.themes.length">
+                        <v-list-tile-avatar>
+                            <v-icon class="blue white--text">category</v-icon>
+                        </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
                                 <span v-for="(theme, index) in dataset.themes">
@@ -129,9 +156,6 @@
         <v-layout row wrap>
             <v-flex xs12 sm8 md9 lg9 xl10>
                 <p>
-                    Zde vidíte náhled registrované datové sady.
-                    <span :hidden="!isValid">Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky <code>uur3q2i</code>.</span>
-                    <span :hidden="isValid" class="red--text">Formulář ještě není správně vyplněn.</span>
                     {{$labels.get('summary_info')}}
                     <span :hidden="!isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
                     <span :hidden="isValid" class="red--text">{{$labels.get('summary_error')}}</span>

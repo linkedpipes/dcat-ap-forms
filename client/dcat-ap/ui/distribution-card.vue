@@ -2,97 +2,245 @@
     <v-flex xs12 lg6>
         <v-card>
             <v-card-title>
-                <div v-if="distribution.title.length > 0" class="headline mb-0">
+                <h3 v-if="distribution.title.length > 0" class="headline mb-0">
                     {{distribution.title}}
-                </div>
+                </h3>
             </v-card-title>
-            <v-list>
-                <v-list-tile>
+            <v-list two-line subheader>
+                <v-subheader>
+                  {{ $labels.get('headline_distribution_license') }}
+                </v-subheader>
+                <v-list-tile avatar v-if="distribution.license_author_type == 'CC BY'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text">turned_in</v-icon>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
-                            AD:
-                            <a v-if="distribution.license_author_type == 'CC BY'"
-                               href="https://creativecommons.org/licenses/by/4.0/"
-                               title="Jedno autorské dílo licencované CC BY 4.0"
-                               target="_blank">
-                                CC BY
-                            </a>
-                            <a v-if="distribution.license_author_type == 'NO'"
-                               href="https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
-                               title="Neobsahuje autorská díla"
-                               target="_blank">
-                                <v-icon color="green">turned_in</v-icon>
-                            </a>
-                            <a v-if="distribution.license_author_type == 'MULTI'"
-                               href="https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/"
-                               title="Obsahuje více autorských děl"
-                               target="_blank">
-                                <v-icon color="red">list</v-icon>
-                            </a>
-                            <a v-if="distribution.license_author_type == 'CUSTOM'"
-                               :href="distribution.license_author_custom"
-                               title="Vlastní licence (nedoporučeno)"
-                               target="_blank">
-                                <v-icon color="red">help</v-icon>
-                            </a>
-                            DB:
-                            <a v-if="distribution.license_db_type == 'CC BY'"
-                               href="https://creativecommons.org/licenses/by/4.0/"
-                               title="Databáze licencována CC BY 4.0"
-                               target="_blank">
-                                CC BY
-                            </a>
-                            <a v-if="distribution.license_db_type == 'NO'"
-                               href="https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
-                               title="Není autorskoprávně chráněnou databází"
-                               target="_blank">
-                                <v-icon color="green">turned_in</v-icon>
-                            </a>
-                            <a v-if="distribution.license_db_type == 'CUSTOM'"
-                               :href="distribution.license_specialdb_custom"
-                               title="Vlastní licence (nedoporučeno)"
-                               target="_blank">
-                                <v-icon color="red">help</v-icon>
-                            </a>
-                            ZP:
-                            <a v-if="distribution.license_specialdb_type == 'CC0'"
-                               href="https://creativecommons.org/publicdomain/zero/1.0/"
-                               title="CC0"
-                               target="_blank">
-                                CC0
-                            </a>
-                            <a v-if="distribution.license_specialdb_type == 'NO'"
-                               href="https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
-                               title="Není chráněna zvláštním právem pořizovatele databáze"
-                               target="_blank">
-                                <v-icon color="green">turned_in</v-icon>
-                            </a>
-                            <a v-if="distribution.license_specialdb_type == 'CUSTOM'"
-                               :href="distribution.license_specialdb_custom"
-                               title="Vlastní licence (nedoporučeno)"
-                               target="_blank">
-                                <v-icon color="red">help</v-icon>
-                            </a>
-                            OÚ:
-                            <a v-if="distribution.license_personal_type == 'NO'"
-                               href="https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
-                               title="Neobsahuje osobní údaje"
-                               target="_blank">
-                                <v-icon color="green">person</v-icon>
-                            </a>
-                            <a v-if="distribution.license_personal_type == 'YES'"
-                               href="https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/"
-                               title="Obsahuje osobní údaje"
-                               target="_blank">
-                                <v-icon color="red">person</v-icon>
-                            </a>
+                            <span class="hidden-lg-and-down">Autorské dílo licencované </span>CC BY 4.0
                         </v-list-tile-title>
                         <v-list-tile-sub-title>
-                            {{$labels.get('terms_of_use')}}
+                            {{distribution.license_author_name}}
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
                 </v-list-tile>
-                <v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_author_type == 'NO'" >
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text"></v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Neobsahuje<span class="hidden-lg-and-down"> autorská díla</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_author_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_author_type == 'MULTI'">
+                    <v-list-tile-avatar>
+                        <v-icon class="red white--text">list</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Obsahuje více<span class="hidden-sm-and-down"> autorských</span> děl
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_author_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_author_type == 'CUSTOM'">
+                    <v-list-tile-avatar>
+                        <v-icon class="red white--text">help</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Vlastní licence<span class="hidden-lg-and-down"> (nedoporučeno)</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{distribution.license_author_custom}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl(distribution.license_author_custom)">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                
+                <v-list-tile avatar v-if="distribution.license_db_type == 'CC BY'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text">turned_in</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            <span class="hidden-lg-and-down">Databáze licencována </span>CC BY 4.0
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{distribution.license_db_name}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_db_type == 'NO'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text"></v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            <span class="hidden-lg-and-down">Není autorskoprávně chráněnou databází</span>
+                            <span class="hidden-xl-only">Není chráněna</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_db_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>              
+                <v-list-tile avatar v-if="distribution.license_db_type == 'CUSTOM'">
+                    <v-list-tile-avatar>
+                        <v-icon class="red white--text">help</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Vlastní licence<span class="hidden-lg-and-down"> (nedoporučeno)</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{distribution.license_db_custom}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl(distribution.license_db_custom)">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                
+                <v-list-tile avatar v-if="distribution.license_specialdb_type == 'CC0'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text">turned_in</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            CC0
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_specialdb_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/publicdomain/zero/1.0/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_specialdb_type == 'NO'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text"></v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            <span class="hidden-lg-and-down">Není chráněna zvláštním právem pořizovatele databáze</span>
+                            <span class="hidden-xl-only">Není chráněna</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_specialdb_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_specialdb_type == 'CUSTOM'">
+                    <v-list-tile-avatar>
+                        <v-icon class="red white--text">help</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Vlastní licence<span class="hidden-lg-and-down"> (nedoporučeno)</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_specialdb_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl(distribution.license_specialdb_custom)">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+
+                <v-list-tile avatar v-if="distribution.license_personal_type == 'NO'">
+                    <v-list-tile-avatar>
+                        <v-icon class="green white--text">person</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Neobsahuje<span class="hidden-lg-and-down"> osobní údaje</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_personal_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+                <v-list-tile avatar v-if="distribution.license_personal_type == 'YES'">
+                    <v-list-tile-avatar>
+                        <v-icon class="red white--text">person</v-icon>
+                    </v-list-tile-avatar>
+                    <v-list-tile-content>
+                        <v-list-tile-title>
+                            Obsahuje<span class="hidden-lg-and-down"> osobní údaje</span>
+                        </v-list-tile-title>
+                        <v-list-tile-sub-title>
+                            {{$labels.get('license_personal_type')}}
+                        </v-list-tile-sub-title>
+                    </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/')">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>                    
+                    </v-list-tile-action>
+                </v-list-tile>
+            </v-list>
+            <v-divider/>
+            <v-list two-line subheader>         
+                <v-subheader>
+                  {{ $labels.get('headline_distribution_access') }}
+                </v-subheader>
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                        <v-icon class="blue white--text">cloud_download</v-icon>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
                             {{distribution.url }}
@@ -103,11 +251,14 @@
                     </v-list-tile-content>
                     <v-list-tile-action>
                         <v-btn flat icon v-on:click="downloadDistribution">
-                            <v-icon color="blue">file_download</v-icon>
+                            <v-icon color="blue">link</v-icon>
                         </v-btn>
                     </v-list-tile-action>
                 </v-list-tile>
-                <v-list-tile>
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                        <v-icon class="blue white--text">info</v-icon>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
                             {{mediaTypeLabel}}
@@ -122,7 +273,10 @@
                         </v-btn>
                     </v-list-tile-action>
                 </v-list-tile>
-                <v-list-tile>
+                <v-list-tile avatar>
+                    <v-list-tile-avatar>
+                        <v-icon class="blue white--text">info</v-icon>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
                             {{formatLabel}}
@@ -132,7 +286,10 @@
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
                 </v-list-tile>
-                <v-list-tile v-if="schemaProvided">
+                <v-list-tile avatar v-if="schemaProvided">
+                    <v-list-tile-avatar>
+                        <v-icon class="blue white--text">description</v-icon>
+                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>
                             {{distribution.schema}}
@@ -192,8 +349,11 @@
             "downloadSchema": function () {
                 downloadUrl(this.schema.url);
             },
-			"openMediaType": function () {
+            "openMediaType": function () {
                 downloadUrl(this.distribution.media_type);
+            },
+            "openUrl": function (url) {
+                downloadUrl(url);
             }
         }
     }

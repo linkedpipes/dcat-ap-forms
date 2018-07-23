@@ -116,6 +116,11 @@
                             {{$labels.get('media_type')}}
                         </v-list-tile-sub-title>
                     </v-list-tile-content>
+                    <v-list-tile-action>
+                        <v-btn flat icon v-on:click="openMediaType">
+                            <v-icon color="blue">link</v-icon>
+                        </v-btn>
+                    </v-list-tile-action>
                 </v-list-tile>
                 <v-list-tile>
                     <v-list-tile-content>
@@ -166,6 +171,9 @@
             },
             "downloadSchema": function () {
                 downloadUrl(this.schema.url);
+            },
+			"openMediaType": function () {
+                downloadUrl(this.distribution.media_type);
             }
         }
     }

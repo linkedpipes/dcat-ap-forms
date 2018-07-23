@@ -123,7 +123,8 @@
             </v-layout>
 
         </div>
-        <h2 class="headline">
+        <v-divider/>
+        <h2 class="headline mt-2">
             {{$labels.get('headline_distribution_access')}}
         </h2>
         <div>

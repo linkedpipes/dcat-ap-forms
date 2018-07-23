@@ -41,7 +41,7 @@
         "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
     };
 
-    addItems("ruain", [defaultItem]);
+    addItems("ruian", [defaultItem]);
 
     export default {
         "name": "app-ruian-autocomplete",

@@ -101,7 +101,7 @@
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{ruainLabel}}
+                                {{ruianLabel}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('ruian_iri')}}
@@ -196,7 +196,7 @@
             "isValid": {"type": Boolean, "required": true}
         },
         "computed": {
-            "ruainLabel": function () {
+            "ruianLabel": function () {
                 const iri = this.dataset.ruian;
                 const value = getItem("ruian", iri);
                 if (value === undefined) {

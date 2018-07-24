@@ -7,18 +7,12 @@
             :value="value"
             :label="label"
             v-on:input="onInput"
-            :error-messages="errorMessages"
-            :append-icon="null"
             item-text="title"
+            :error-messages="errorMessages"
             item-value="code"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show(id)"
-            flat cache-items multiple chips no-filter>
-        <template slot="selection" slot-scope="data">
-            <v-chip v-on:input="removeTheme(data.item)" close>
-                <strong>{{data.item.title}}</strong>
-            </v-chip>
-        </template>
+            v-on:click:append-outer="$h(id)"
+            flat no-filter>
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
@@ -31,13 +25,13 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
-    import {addItems} from "./../codelists/local-storage";
+    import {addItems} from "../codelists/local-storage";
 
     export default {
-        "name": "app-solr-chips-autocomplete",
+        "name": "app-solr-autocomplete",
         "props": {
-            "id": {"type": String, "required": true},
-            "value": {"type": Array, "required": true},
+            "id": {"type": String, "required": false},
+            "value": {"type": String, "required": true},
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},
             "errorMessages": {"required": false},
@@ -73,14 +67,6 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
-            },
-            "removeTheme": function (item) {
-                const index = this.value.indexOf(item.code);
-                const newValue = [
-                    ... this.value.slice(0, index),
-                    ... this.value.slice(index + 1)
-                ];
-                this.$emit("input", newValue);
             }
         }
     }

@@ -1,8 +1,8 @@
 <template>
-    <v-bottom-sheet v-if="data.isOpen" v-model="data.isOpen" lazy>
+    <v-bottom-sheet v-if="isOpen" v-model="isOpen" lazy>
         <v-card>
             <v-card-text>
-                <span v-html="$labels.get('help_' + data.name)"/>
+                <span v-html="$labels.get('help_' + name)"/>
             </v-card-text>
         </v-card>
     </v-bottom-sheet>
@@ -12,13 +12,12 @@
 
     const data = {
         "isOpen": false,
-        "value": "",
-        "show": onShow
+        "name": ""
     };
 
     function onShow(name) {
-        data.isOpen = true;
         data.name = name;
+        data.isOpen = true;
     }
 
     export const Plugin = {
@@ -27,15 +26,18 @@
 
     function install(Vue, options) {
         Object.defineProperty(Vue.prototype, "$h", {
-            "get": () => data
+            "get": () => onShow
         });
     }
 
     export default {
         "name": "app-help",
-        "data": () => ({
-            "data": data
-        })
+        "data": () => data,
+        "watch": {
+            "$route" : function(location) {
+                this.isOpen = false;
+            }
+        }
     }
 
 </script>

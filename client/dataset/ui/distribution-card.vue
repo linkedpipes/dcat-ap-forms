@@ -311,7 +311,7 @@
 </template>
 
 <script>
-    import {getItem} from "./../codelists/local-storage";
+    import {getItem} from "../codelists/local-storage";
 
     export default {
         "name": "app-distribution-card",

@@ -1,11 +1,14 @@
 import VueRouter from "vue-router";
-import DcatApEdit from "@/dcat-ap/dcat-ap-edit.vue";
+import Dataset from "@/dataset/dataset.vue";
 
 const router = new VueRouter({
     "routes": [
         {
             "path": "/",
-            "component": DcatApEdit
+            "component": Dataset
+        }, {
+            "path": "/dataset",
+            "component": Dataset
         }
     ]
 });

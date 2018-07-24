@@ -1,6 +1,6 @@
 <template>
     <v-autocomplete
-            id="ruian"
+            :id="id"
             :loading="loading"
             :items="items"
             :search-input.sync="search"
@@ -8,22 +8,21 @@
             :label="label"
             v-on:input="onInput"
             :error-messages="errorMessages"
-            :disabled="disabled"
-            item-value="code"
+            :append-icon="null"
             item-text="title"
+            item-value="code"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show('ruian')"
-            flat no-filter>
+            v-on:click:append-outer="$h(id)"
+            flat cache-items multiple chips no-filter>
         <template slot="selection" slot-scope="data">
-            {{data.item.title}} ({{data.item.notation}})
-        </template>
-        <template slot="item" slot-scope="data">
-            {{data.item.title}} ({{data.item.notation}})
+            <v-chip v-on:input="removeTheme(data.item)" close>
+                <strong>{{data.item.title}}</strong>
+            </v-chip>
         </template>
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
-                    {{$labels.get('ruian_autocomplete_no_data')}}
+                    {{noDataPrompt}}
                 </v-list-tile-title>
             </v-list-tile>
         </template>
@@ -32,29 +31,21 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
-    import {addItems} from "./../codelists/local-storage";
-
-    const defaultItem = {
-        "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
-        "notation": "1",
-        "title": "Česká republika",
-        "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
-    };
-
-    addItems("ruian", [defaultItem]);
+    import {addItems} from "../codelists/local-storage";
 
     export default {
-        "name": "app-ruian-autocomplete",
+        "name": "app-solr-chips-autocomplete",
         "props": {
-            "value": {"type": String, "required": true},
+            "id": {"type": String, "required": true},
+            "value": {"type": Array, "required": true},
             "label": {"type": String, "required": false},
+            "codeList": {"type": String, "required": true},
             "errorMessages": {"required": false},
-            "disabled": {"type": Boolean, "default": false},
-            "type": {"type": String}
+            "noDataPrompt": {"type": String, "required": true}
         },
         "data": () => ({
             "loading": false,
-            "items": [defaultItem],
+            "items": [],
             "search": null,
             "ignoreNextSearch": false
         }),
@@ -72,9 +63,9 @@
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
-                let url = createQueryUrl(query, "cs", this.type);
+                const url = createQueryUrl(this.codeList, query);
                 fetchJson(url).then((response) => {
-                    addItems("ruian", response.json.response.docs);
+                    addItems(this.codeList, response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;
                 });
@@ -82,14 +73,21 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
+            },
+            "removeTheme": function (item) {
+                const index = this.value.indexOf(item.code);
+                const newValue = [
+                    ... this.value.slice(0, index),
+                    ... this.value.slice(index + 1)
+                ];
+                this.$emit("input", newValue);
             }
         }
     }
 
-    function createQueryUrl(query, language, type) {
-        return "/api/v1/codelist/ruian" +
-            "?search=*" + encodeURIComponent(query) + "*" +
-            "&lang=" + language + "&type=" + type
+    function createQueryUrl(codeList, query) {
+        return "/api/v1/codelist/" + codeList +
+            "?search=*" + encodeURIComponent(query) + "*";
     }
 
 </script>

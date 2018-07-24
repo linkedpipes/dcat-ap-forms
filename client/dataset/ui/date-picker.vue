@@ -16,7 +16,7 @@
                 v-on:input="onInput"
                 prepend-icon="event"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show(id)"
+                v-on:click:append-outer="$h(id)"
                 readonly clearable/>
         <v-date-picker
                 ref="picker"

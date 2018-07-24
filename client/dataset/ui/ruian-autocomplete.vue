@@ -1,22 +1,29 @@
 <template>
     <v-autocomplete
-            :id="id"
+            id="ruian"
             :loading="loading"
             :items="items"
             :search-input.sync="search"
             :value="value"
             :label="label"
             v-on:input="onInput"
-            item-text="title"
             :error-messages="errorMessages"
+            :disabled="disabled"
             item-value="code"
+            item-text="title"
             append-outer-icon="help_outline"
-            v-on:click:append-outer="$h.show(id)"
+            v-on:click:append-outer="$h('ruian')"
             flat no-filter>
+        <template slot="selection" slot-scope="data">
+            {{data.item.title}} ({{data.item.notation}})
+        </template>
+        <template slot="item" slot-scope="data">
+            {{data.item.title}} ({{data.item.notation}})
+        </template>
         <template slot="no-data">
             <v-list-tile>
                 <v-list-tile-title>
-                    {{noDataPrompt}}
+                    {{$labels.get('ruian_autocomplete_no_data')}}
                 </v-list-tile-title>
             </v-list-tile>
         </template>
@@ -25,21 +32,29 @@
 
 <script>
     import {fetchJson} from "@/app-service/http";
-    import {addItems} from "./../codelists/local-storage";
+    import {addItems} from "../codelists/local-storage";
+
+    const defaultItem = {
+        "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
+        "notation": "1",
+        "title": "Česká republika",
+        "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
+    };
+
+    addItems("ruian", [defaultItem]);
 
     export default {
-        "name": "app-solr-autocomplete",
+        "name": "app-ruian-autocomplete",
         "props": {
-            "id": {"type": String, "required": false},
             "value": {"type": String, "required": true},
             "label": {"type": String, "required": false},
-            "codeList": {"type": String, "required": true},
             "errorMessages": {"required": false},
-            "noDataPrompt": {"type": String, "required": true}
+            "disabled": {"type": Boolean, "default": false},
+            "type": {"type": String}
         },
         "data": () => ({
             "loading": false,
-            "items": [],
+            "items": [defaultItem],
             "search": null,
             "ignoreNextSearch": false
         }),
@@ -57,9 +72,9 @@
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
-                const url = createQueryUrl(this.codeList, query);
+                let url = createQueryUrl(query, "cs", this.type);
                 fetchJson(url).then((response) => {
-                    addItems(this.codeList, response.json.response.docs);
+                    addItems("ruian", response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;
                 });
@@ -71,9 +86,10 @@
         }
     }
 
-    function createQueryUrl(codeList, query) {
-        return "/api/v1/codelist/" + codeList +
-            "?search=*" + encodeURIComponent(query) + "*";
+    function createQueryUrl(query, language, type) {
+        return "/api/v1/codelist/ruian" +
+            "?search=*" + encodeURIComponent(query) + "*" +
+            "&lang=" + language + "&type=" + type
     }
 
 </script>

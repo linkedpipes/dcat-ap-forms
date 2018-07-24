@@ -1,6 +1,6 @@
 <template>
     <v-content>
-        <v-stepper v-model="ui.step" v-on:input="onStepperInput">
+        <v-stepper :value="ui.step" v-on:input="onStepperInput">
             <v-stepper-header>
                 <v-stepper-step editable
                                 :complete="ui.step > 1"
@@ -22,8 +22,7 @@
             </v-stepper-header>
             <v-stepper-items>
                 <v-stepper-content :step="1">
-                    <app-dataset :dataset="data.dataset"
-                                 v-on:help="onHelp"/>
+                    <app-dataset :dataset="data.dataset"/>
                 </v-stepper-content>
                 <v-stepper-content :step="2">
                     <app-distribution-selector
@@ -44,13 +43,12 @@
             </v-stepper-items>
         </v-stepper>
         <app-step-navigation v-model="ui.step"/>
-        <app-help/>
     </v-content>
 </template>
 
 <script>
-    import DatasetEdit from "./dataset-edit";
-    import DistributionEdit from "./distribution-edit";
+    import DatasetEdit from "./dataset-record-edit";
+    import DistributionEdit from "./distribution-record-edit";
     import {createDataset, isDatasetValid} from "./dataset-model";
     import {
         createDistribution,
@@ -59,7 +57,6 @@
     import DistributionSelector from "./ui/distribution-selector";
     import StepperNavigation from "./ui/step-navigation";
     import ExportSummary from "./export-summary";
-    import Help from "@/app-service/help";
 
     export default {
         "name": "app-dcat-ap-edit",
@@ -68,8 +65,7 @@
             "app-distribution": DistributionEdit,
             "app-distribution-selector": DistributionSelector,
             "app-step-navigation": StepperNavigation,
-            "app-export-summary": ExportSummary,
-            "app-help": Help
+            "app-export-summary": ExportSummary
         },
         "data": () => ({
             "data": {
@@ -87,6 +83,13 @@
                 "distributions": false
             }
         }),
+        "watch": {
+            "$route" : function(location) {
+                if (location.query.step !== this.ui.step) {
+                    this.ui.step = location.query.step;
+                }
+            }
+        },
         "methods": {
             "isDatasetValid": function () {
                 if (!this.validation.dataset) {
@@ -139,9 +142,11 @@
                         distribution.$validators.force = true;
                     });
                 }
-            },
-            "onHelp": function (name) {
-                console.log("showHelp", name);
+                this.$router.push({
+                    "query": {
+                        "step": value
+                    }
+                });
             }
         }
     };

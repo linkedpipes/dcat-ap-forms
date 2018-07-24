@@ -6,7 +6,7 @@
                 :label="$labels.get('dataset_title')"
                 :error-messages="err_title"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('dataset_title')"
+                v-on:click:append-outer="$h('dataset_title')"
                 required clearable/>
         <v-textarea
                 id="dataset_description"
@@ -14,7 +14,7 @@
                 :label="$labels.get('dataset_description')"
                 :error-messages="err_description"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('dataset_description')"
+                v-on:click:append-outer="$h('dataset_description')"
                 rows="3" required auto-grow clearable/>
         <v-layout row wrap>
             <v-flex xs12 md6>
@@ -26,7 +26,7 @@
                         :error-messages="err_dataset_theme"
                         item-text="cs" item-value="value"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('dataset_theme')"
+                        v-on:click:append-outer="$h('dataset_theme')"
                         required/>
             </v-flex>
             <v-flex xs12 md6>
@@ -37,7 +37,7 @@
                         :label="$labels.get('accrual_periodicity')"
                         item-text="cs" item-value="value"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('accrual_periodicity')"
+                        v-on:click:append-outer="$h('accrual_periodicity')"
                         required/>
             </v-flex>
         </v-layout>
@@ -48,7 +48,7 @@
                 :label="$labels.get('keywords')"
                 :error-messages="err_keywords"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('keywords')"
+                v-on:click:append-outer="$h('keywords')"
                 append-icon="" required chips multiple>
             <template slot="selection" slot-scope="data">
                 <v-chip close @input="removeKeyword(data.item)">
@@ -66,7 +66,7 @@
                         :label="$labels.get('ruian_type')"
                         item-text="cs" item-value="value"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('ruian_type')"
+                        v-on:click:append-outer="$h('ruian_type')"
                         v-on:input="onRuainTypeInput"
                         required/>
             </v-flex>
@@ -107,7 +107,7 @@
                         v-model="dataset.contact_point_name"
                         :label="$labels.get('contact_point_name')"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('contact_point_name')"
+                        v-on:click:append-outer="$h('contact_point_name')"
                         clearable/>
             </v-flex>
             <v-flex xs12 md6>
@@ -117,7 +117,7 @@
                         :label="$labels.get('contact_point_email')"
                         :error-messages="err_contact_point_email"
                         append-outer-icon="help_outline"
-                        v-on:click:append-outer="$h.show('contact_point_email')"
+                        v-on:click:append-outer="$h('contact_point_email')"
                         type="email" clearable/>
             </v-flex>
         </v-layout>
@@ -128,7 +128,7 @@
                 :label="$labels.get('documentation')"
                 :error-messages="err_documentation"
                 append-outer-icon="help_outline"
-                v-on:click:append-outer="$h.show('documentation')"
+                v-on:click:append-outer="$h('documentation')"
                 type="url" clearable/>
 
         <app-solr-chips-autocomplete
@@ -152,7 +152,7 @@
     import DatasetThemes from "./codelists/dataset_theme";
 
     export default {
-        "name": "app-dataset-edit",
+        "name": "app-dataset-record-edit",
         "components": {
             "app-date-picker": DatePicker,
             "app-ruain-autocomplete": RuianAutocomplete,

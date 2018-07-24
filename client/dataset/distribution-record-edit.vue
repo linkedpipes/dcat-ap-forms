@@ -17,7 +17,7 @@
                             :label="$labels.get('license_author_type')"
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_author_type')"
+                            v-on:click:append-outer="$h('license_author_type')"
                             required/>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -29,7 +29,7 @@
                             :label="$labels.get('license_author_name')"
                             :error-messages="err_license_author_name"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_author_name')"
+                            v-on:click:append-outer="$h('license_author_name')"
                             clearable/>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -41,7 +41,7 @@
                             :label="$labels.get('license_author_custom')"
                             :error-messages="err_license_author_custom"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_author_custom')"
+                            v-on:click:append-outer="$h('license_author_custom')"
                             type="url" clearable/>
                 </v-flex>
             </v-layout>
@@ -54,7 +54,7 @@
                             :label="$labels.get('license_db_type')"
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_db_type')"
+                            v-on:click:append-outer="$h('license_db_type')"
                             required/>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -66,7 +66,7 @@
                             :label="$labels.get('license_db_name')"
                             :error-messages="err_license_db_name"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_db_name')"
+                            v-on:click:append-outer="$h('license_db_name')"
                             clearable/>
                 </v-flex>
                 <v-flex xs12 md4>
@@ -78,7 +78,7 @@
                             :label="$labels.get('license_db_custom')"
                             :error-messages="err_license_db_custom"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_db_custom')"
+                            v-on:click:append-outer="$h('license_db_custom')"
                             type="url" clearable/>
                 </v-flex>
             </v-layout>
@@ -91,7 +91,7 @@
                             :label="$labels.get('license_specialdb_type')"
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_specialdb_type')"
+                            v-on:click:append-outer="$h('license_specialdb_type')"
                             required/>
                 </v-flex>
                 <v-flex xs12 md4/>
@@ -104,7 +104,7 @@
                             :label="$labels.get('license_specialdb_custom')"
                             :error-messages="err_license_specialdb_custom"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_specialdb_custom')"
+                            v-on:click:append-outer="$h('license_specialdb_custom')"
                             type="url" clearable/>
                 </v-flex>
             </v-layout>
@@ -117,7 +117,7 @@
                             :label="$labels.get('license_personal_type')"
                             item-text="label" item-value="value"
                             append-outer-icon="help_outline"
-                            v-on:click:append-outer="$h.show('license_personal_type')"
+                            v-on:click:append-outer="$h('license_personal_type')"
                             required/>
                 </v-flex>
             </v-layout>
@@ -134,7 +134,7 @@
                     :label="$labels.get('distribution_url')"
                     :error-messages="err_url"
                     append-outer-icon="help_outline"
-                    v-on:click:append-outer="$h.show('distribution_url')"
+                    v-on:click:append-outer="$h('distribution_url')"
                     required type="url" clearable/>
             <v-layout row wrap>
                 <v-flex xs12 md6>
@@ -162,14 +162,14 @@
                     :label="$labels.get('distribution_schema_link')"
                     :error-messages="err_schema"
                     append-outer-icon="help_outline"
-                    v-on:click:append-outer="$h.show('distribution_schema_link')"
+                    v-on:click:append-outer="$h('distribution_schema_link')"
                     type="url" clearable/>
             <v-text-field
                     id="distribution_title"
                     v-model="distribution.title"
                     :label="$labels.get('distribution_title')"
                     append-outer-icon="help_outline"
-                    v-on:click:append-outer="$h.show('distribution_title')"
+                    v-on:click:append-outer="$h('distribution_title')"
                     clearable/>
         </div>
         <div v-if="canBeDeleted">
@@ -193,7 +193,7 @@
     import SolrAutocomplete from "./ui/solr-autocomplete";
 
     export default {
-        "name": "app-distribution-edit",
+        "name": "app-distribution-record-edit",
         "components": {
             "app-date-picker": DatePicker,
             "app-solr-autocomplete": SolrAutocomplete

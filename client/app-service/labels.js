@@ -111,7 +111,31 @@ export const labels = {
         "help_license_db_custom": "<h3>Odkaz na vlastní licenci k originální databázi</h3><p>Pokud je distribuce licencována jako originální databáze pomocí vlastní licence, což <strong>se nedoporučuje</strong>, uveďte zde URL na webovou stránku s jejím textem.</p>",
         "help_license_specialdb_type": "<h3>Zvláštní právo pořizovatele databáze</h3><p>Tato položka se řídí <a href=\"https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti#zvláštní_práva_pořizovatele_databáze\" target=\"_blank\">podrobným návodem</a>. Její správné vyplnění je stěžejní pro to, aby byla mohla být distribuce datové sady považována za otevřenou. Věnujte tedy jejímu vyplnění maximální pozornost.</p>",
         "help_license_specialdb_custom": "<h3>Odkaz na vlastní licenci týkající se zvláštního práva pořizovatele databáze</h3><p>Pokud je distribuce licencována kvůli zvláštním právům pořizovatele databáze pomocí vlastní licence, což <strong>se nedoporučuje</strong>, uveďte zde URL na webovou stránku s jejím textem.</p>",
-        "help_license_personal_type": "<h3>Osobní údaje</h3><p>Uveďte, zda distribuce datové sady obsahuje osobní údaje. Pokud ano, informujete tím uživatele této distribuce, že jejím použitím se na ně vztahují povinnosti správce osobních údajů.</p>"
+        "help_license_personal_type": "<h3>Osobní údaje</h3><p>Uveďte, zda distribuce datové sady obsahuje osobní údaje. Pokud ano, informujete tím uživatele této distribuce, že jejím použitím se na ně vztahují povinnosti správce osobních údajů.</p>",
+        "license_author_ccby_full": "Autorské dílo licencované CC BY 4.0",
+        "license_author_ccby_short": "CC BY 4.0",
+        "license_author_no_full": "Neobsahuje autorská díla",
+        "license_author_no_short": "Neobsahuje",
+        "license_author_multi_full": "Obsahuje více autorských děl",
+        "license_author_multi_short": "Obsahuje více děl",
+        "license_author_custom_full": "Vlastní licence (nedoporučeno)",
+        "license_author_custom_short": "Vlastní licence",
+        "license_db_ccby_full": "Databáze licencována CC BY 4.0",
+        "license_db_ccby_short": "CC BY 4.0",
+        "license_db_no_full": "Není autorskoprávně chráněnou databází",
+        "license_db_no_short": "Není chráněna",
+        "license_db_custom_full": "Vlastní licence (nedoporučeno)",
+        "license_db_custom_short": "Vlastní licence",
+        "license_specialdb_cc0_full": "Licencováno CC0",
+        "license_specialdb_cc0_short": "CC0",
+        "license_specialdb_no_full": "Není chráněna zvláštním právem pořizovatele databáze",
+        "license_specialdb_no_short": "Není chráněna",
+        "license_specialdb_custom_full": "Vlastní licence (nedoporučeno)",
+        "license_specialdb_custom_short": "Vlastní licence",
+        "license_personal_no_full": "Neobsahuje osobní údaje",
+        "license_personal_no_short": "Neobsahuje",
+        "license_personal_yes_full": "Obsahuje osobní údaje",
+        "license_personal_yes_short": "Obsahuje"
 
     }
 };

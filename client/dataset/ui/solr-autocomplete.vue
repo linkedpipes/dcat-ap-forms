@@ -12,6 +12,7 @@
             item-value="code"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h(id)"
+            :prepend-icon="prependIcon"
             flat no-filter>
         <template slot="no-data">
             <v-list-tile>
@@ -35,7 +36,8 @@
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},
             "errorMessages": {"required": false},
-            "noDataPrompt": {"type": String, "required": true}
+            "noDataPrompt": {"type": String, "required": true},
+            "prependIcon": {"type": String}
         },
         "data": () => ({
             "loading": false,

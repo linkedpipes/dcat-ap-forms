@@ -13,6 +13,7 @@
             item-value="code"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h(id)"
+            :prepend-icon="prependIcon"
             flat cache-items multiple chips>
         <template slot="selection" slot-scope="data">
             <v-chip v-on:input="removeTheme(data.item)" close>
@@ -41,7 +42,8 @@
             "label": {"type": String, "required": false},
             "codeList": {"type": String, "required": true},
             "errorMessages": {"required": false},
-            "noDataPrompt": {"type": String, "required": true}
+            "noDataPrompt": {"type": String, "required": true},
+            "prependIcon": {"type": String}
         },
         "data": () => ({
             "loading": false,

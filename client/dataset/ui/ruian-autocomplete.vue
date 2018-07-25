@@ -13,6 +13,7 @@
             item-text="title"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h('ruian')"
+            :prepend-icon="prependIcon"
             flat no-filter>
         <template slot="selection" slot-scope="data">
             {{data.item.title}} ({{data.item.notation}})
@@ -50,7 +51,8 @@
             "label": {"type": String, "required": false},
             "errorMessages": {"required": false},
             "disabled": {"type": Boolean, "default": false},
-            "type": {"type": String}
+            "type": {"type": String},
+            "prependIcon": {"type": String}
         },
         "data": () => ({
             "loading": false,

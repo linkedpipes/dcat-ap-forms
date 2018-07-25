@@ -6,6 +6,7 @@
                 :label="$labels.get('dataset_title')"
                 :error-messages="err_title"
                 append-outer-icon="help_outline"
+                :hint="$labels.get('hint_dataset_title')"
                 v-on:click:append-outer="$h('dataset_title')"
                 required clearable/>
         <v-textarea
@@ -14,6 +15,7 @@
                 :label="$labels.get('dataset_description')"
                 :error-messages="err_description"
                 append-outer-icon="help_outline"
+                :hint="$labels.get('hint_dataset_description')"
                 v-on:click:append-outer="$h('dataset_description')"
                 rows="3" required auto-grow clearable/>
         <v-layout row wrap>
@@ -48,6 +50,7 @@
                 :label="$labels.get('keywords')"
                 :error-messages="err_keywords"
                 append-outer-icon="help_outline"
+                :hint="$labels.get('hint_keywords')"
                 v-on:click:append-outer="$h('keywords')"
                 append-icon="" required chips multiple>
             <template slot="selection" slot-scope="data">
@@ -106,6 +109,7 @@
                         id="contact_point_name"
                         v-model="dataset.contact_point_name"
                         :label="$labels.get('contact_point_name')"
+                        :hint="$labels.get('hint_contact_point_name')"
                         append-outer-icon="help_outline"
                         v-on:click:append-outer="$h('contact_point_name')"
                         clearable/>
@@ -116,6 +120,7 @@
                         v-model="dataset.contact_point_email"
                         :label="$labels.get('contact_point_email')"
                         :error-messages="err_contact_point_email"
+                        :hint="$labels.get('hint_contact_point_email')"
                         append-outer-icon="help_outline"
                         v-on:click:append-outer="$h('contact_point_email')"
                         type="email" clearable/>
@@ -127,6 +132,7 @@
                 v-model="dataset.documentation"
                 :label="$labels.get('documentation')"
                 :error-messages="err_documentation"
+                :hint="$labels.get('hint_documentation')"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h('documentation')"
                 type="url" clearable/>

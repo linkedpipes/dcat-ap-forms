@@ -82,6 +82,9 @@
             "onInput": function (value) {
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
+            },
+            "clearItemCache": function() {
+                this.items = [];
             }
         }
     }

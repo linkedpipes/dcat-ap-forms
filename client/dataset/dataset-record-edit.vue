@@ -81,6 +81,7 @@
             </v-flex>
             <v-flex xs12 md6>
                 <app-ruain-autocomplete
+                        ref="ruain"
                         id="dataset_ruian"
                         v-model="dataset.ruian"
                         :label="$labels.get('ruian')"
@@ -197,6 +198,7 @@
                     return;
                 }
                 this.dataset.ruian = "";
+                this.$refs.ruain.clearItemCache();
             }
         }
     };

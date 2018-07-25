@@ -1,8 +1,8 @@
 <template>
     <v-flex xs12>
         <v-card>
-            <v-card-title>
-                <h3 v-if="distribution.title.length > 0" class="headline mb-0">
+            <v-card-title v-if="distribution.title.length > 0">
+                <h3 class="headline mb-0">
                     {{distribution.title}}
                 </h3>
             </v-card-title>

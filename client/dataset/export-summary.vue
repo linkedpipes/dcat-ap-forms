@@ -17,7 +17,7 @@
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-list two-line subheader>
-                    <v-list-tile avatar>
+                    <v-list-tile avatar v-if="dataset.dataset_theme.length">
                         <v-list-tile-avatar>
                             <v-icon class="blue white--text">category</v-icon>
                         </v-list-tile-avatar>
@@ -30,7 +30,7 @@
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-divider></v-divider>
+                    <v-divider v-if="dataset.dataset_theme.length"></v-divider>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
                             <v-icon class="blue white--text">snooze</v-icon>

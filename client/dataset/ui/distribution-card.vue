@@ -26,7 +26,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -44,7 +44,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -62,7 +62,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="red">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -80,7 +80,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl(distribution.license_author_custom)">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="red">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -99,7 +99,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -118,7 +118,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>              
@@ -136,7 +136,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl(distribution.license_db_custom)">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="red">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -155,7 +155,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://creativecommons.org/publicdomain/zero/1.0/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -174,7 +174,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -192,7 +192,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl(distribution.license_specialdb_custom)">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="red">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -211,7 +211,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="green">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
@@ -229,7 +229,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn icon ripple v-on:click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/')">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="red">help_outline</v-icon>
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>

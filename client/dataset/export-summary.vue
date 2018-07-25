@@ -1,12 +1,12 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
         <v-layout row wrap>
-            <v-flex xs12>
+            <v-flex v-if="!isValid">
                 <v-alert :value="!isValid" outline type="error">
                     {{$labels.get('summary_error')}}
                 </v-alert>
             </v-flex>
-            <v-flex xs12>
+            <v-flex v-if="isValid">
                 <v-alert :value="isValid" outline type="success">
 					{{$labels.get('summary_download')}} <code>uur3q2i</code>.
                 </v-alert>

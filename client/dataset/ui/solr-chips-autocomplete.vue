@@ -13,7 +13,7 @@
             item-value="code"
             append-outer-icon="help_outline"
             v-on:click:append-outer="$h(id)"
-            flat cache-items multiple chips no-filter>
+            flat cache-items multiple chips>
         <template slot="selection" slot-scope="data">
             <v-chip v-on:input="removeTheme(data.item)" close>
                 <strong>{{data.item.title}}</strong>

@@ -260,7 +260,7 @@
                         </v-list-tile>
                         <v-list-tile avatar>
                             <v-list-tile-avatar>
-                                <v-icon class="blue white--text">info</v-icon>
+                                <v-icon class="blue white--text">description</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -278,7 +278,7 @@
                         </v-list-tile>
                         <v-list-tile avatar>
                             <v-list-tile-avatar>
-                                <v-icon class="blue white--text">info</v-icon>
+                                <v-icon class="blue white--text">description</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -291,7 +291,7 @@
                         </v-list-tile>
                         <v-list-tile avatar v-if="schemaProvided">
                             <v-list-tile-avatar>
-                                <v-icon class="blue white--text">description</v-icon>
+                                <v-icon class="blue white--text">link</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>

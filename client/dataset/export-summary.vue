@@ -3,7 +3,7 @@
         <h2 class="display-1">{{dataset.title}}</h2>
         <div class="subheading multiline">{{dataset.description}}</div>
         <v-layout row wrap>
-            <v-flex xs12 md6>
+            <v-flex xs12 lg6>
                 <v-list two-line subheader>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
@@ -148,7 +148,7 @@
                 </v-list>
             </v-flex>
 
-            <v-flex xs12 md6>
+            <v-flex xs12 lg6>
                 <v-layout row wrap>
                     <app-distribution-card
                             v-for="(item, index) in distributions"

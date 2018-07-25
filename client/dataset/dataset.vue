@@ -42,7 +42,12 @@
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
-        <app-step-navigation v-model="ui.step"/>
+        <div class="hidden-md-and-up">
+            <app-step-navigation-mobile v-model="ui.step"/>
+        </div>
+        <div class="hidden-sm-and-down">
+            <app-step-navigation-desktop v-model="ui.step"/>
+        </div>
     </v-content>
 </template>
 
@@ -55,7 +60,8 @@
         isDistributionValid
     } from "./distribution-model";
     import DistributionSelector from "./ui/distribution-selector";
-    import StepperNavigation from "./ui/step-navigation";
+    import StepperNavigationMobile from "./ui/step-navigation-mobile";
+    import StepperNavigationDesktop from "./ui/step-navigation-desktop";
     import ExportSummary from "./export-summary";
 
     export default {
@@ -64,7 +70,8 @@
             "app-dataset": DatasetEdit,
             "app-distribution": DistributionEdit,
             "app-distribution-selector": DistributionSelector,
-            "app-step-navigation": StepperNavigation,
+            "app-step-navigation-mobile": StepperNavigationMobile,
+            "app-step-navigation-desktop": StepperNavigationDesktop,
             "app-export-summary": ExportSummary
         },
         "data": () => ({

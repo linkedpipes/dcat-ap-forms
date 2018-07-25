@@ -131,7 +131,7 @@
                             v-if="dataset.temporal_start || dataset.temporal_end"></v-divider>
                     <v-list-tile avatar v-if="dataset.themes.length">
                         <v-list-tile-avatar>
-                            <v-icon class="blue white--text">category</v-icon>
+                            <v-icon class="blue white--text">euro_symbol</v-icon>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>

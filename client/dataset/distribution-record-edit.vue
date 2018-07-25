@@ -139,6 +139,7 @@
                     :label="$labels.get('distribution_url')"
                     :hint="$labels.get('hint_distribution_url')"
                     :error-messages="err_url"
+					prepend-icon="cloud_download"
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h('distribution_url')"
                     required type="url" clearable/>
@@ -147,6 +148,7 @@
                     <app-solr-autocomplete
                             id="distribution_format"
                             v-model="distribution.format"
+							prepend-icon="help"
                             :label="$labels.get('distribution_format')"
                             :no-data-prompt="$labels.get('format_autocomplete_no_data')"
                             :error-messages="err_format"
@@ -157,6 +159,7 @@
                             id="distribution_media_type"
                             v-model="distribution.media_type"
                             :label="$labels.get('distribution_media_type')"
+							prepend-icon="help"
                             :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
                             :error-messages="err_media_type"
                             code-list="media-types"/>
@@ -168,6 +171,7 @@
                     :label="$labels.get('distribution_schema_link')"
                     :hint="$labels.get('hint_distribution_schema')"
                     :error-messages="err_schema"
+					prepend-icon="description"
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h('distribution_schema_link')"
                     type="url" clearable/>
@@ -176,6 +180,7 @@
                     v-model="distribution.title"
                     :hint="$labels.get('hint_distribution_title')"
                     :label="$labels.get('distribution_title')"
+					prepend-icon="label"
                     append-outer-icon="help_outline"
                     v-on:click:append-outer="$h('distribution_title')"
                     clearable/>

@@ -60,7 +60,7 @@ export const labels = {
         "nav_download": "Stáhnout",
         "nav_dataset": "Datová sada",
         "nav_distributions": "Distribuce",
-        "summary_download":"Hotový registrační záznam stáhněte a zašlete jako přílohu do datové schránky ",
+        "summary_download":"Registrační záznam stáhněte a zašlete jako přílohu do datové schránky ",
         "summary_error":"Formulář ještě není správně vyplněn.",
         "summary_info":"Zde vidíte náhled registrované datové sady.",
         "ruian_autocomplete_no_data": "Začněte psát název územního prvku",

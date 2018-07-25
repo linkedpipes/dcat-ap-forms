@@ -1,5 +1,17 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
+        <v-layout row wrap>
+            <v-flex xs12>
+                <v-alert :value="!isValid" outline type="error">
+                    {{$labels.get('summary_error')}}
+                </v-alert>
+            </v-flex>
+            <v-flex xs12>
+                <v-alert :value="isValid" outline type="success">
+					{{$labels.get('summary_download')}} <code>uur3q2i</code>.
+                </v-alert>
+            </v-flex>
+        </v-layout>
         <h2 class="display-1">{{dataset.title}}</h2>
         <div class="subheading multiline">{{dataset.description}}</div>
         <v-layout row wrap>
@@ -158,22 +170,18 @@
             </v-flex>
         </v-layout>
         <v-divider class="my-2"/>
-        <v-layout row wrap>
-            <v-flex xs12 sm8 md9 lg9 xl10>
-                <p>
-                    {{$labels.get('summary_info')}}
-                    <span :hidden="!isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
-                    <span :hidden="isValid" class="red--text">{{$labels.get('summary_error')}}</span>
-                </p>
-            </v-flex>
-            <v-flex xs12 sm4 md3 lg3 xl2 class="text-xs-right">
-                <v-btn round v-on:click="onDownload" :disabled="!isValid"
-                       color="success">
-                    <v-icon left>file_download</v-icon>
-                    <span>{{$labels.get('nav_download')}}</span>
-                </v-btn>
-            </v-flex>
-        </v-layout>
+		<v-layout row>
+			<v-spacer/>
+			<v-tooltip bottom>
+				<v-btn slot="activator" round v-on:click="onDownload" :disabled="!isValid"
+					   color="success">
+					<v-icon left>file_download</v-icon>
+					<span>{{$labels.get('nav_download')}}</span>
+				</v-btn>
+				<span v-if="isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
+				<span v-if="!isValid">{{$labels.get('summary_error')}}</span>
+			</v-tooltip>
+		</v-layout>
     </v-container>
 </template>
 

@@ -33,7 +33,7 @@
                         </v-list-tile>
                         <v-list-tile avatar v-if="distribution.license_author_type == 'NO'" >
                             <v-list-tile-avatar>
-                                <v-icon slot="activator" class="green white--text"></v-icon>
+                                <v-icon slot="activator" class="green white--text">not_interested</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -110,7 +110,7 @@
                         </v-list-tile>
                         <v-list-tile avatar v-if="distribution.license_db_type == 'NO'">
                             <v-list-tile-avatar>
-                                <v-icon class="green white--text"></v-icon>
+                                <v-icon class="green white--text">not_interested</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>
@@ -168,7 +168,7 @@
                         </v-list-tile>
                         <v-list-tile avatar v-if="distribution.license_specialdb_type == 'NO'">
                             <v-list-tile-avatar>
-                                <v-icon class="green white--text"></v-icon>
+                                <v-icon class="green white--text">not_interested</v-icon>
                             </v-list-tile-avatar>
                             <v-list-tile-content>
                                 <v-list-tile-title>

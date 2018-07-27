@@ -1,6 +1,6 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
-        <v-layout row wrap>
+        <v-layout row>
             <v-flex v-if="!isValid">
                 <v-alert :value="!isValid" outline type="error">
                     {{$labels.get('summary_error')}}
@@ -12,8 +12,18 @@
                 </v-alert>
             </v-flex>
         </v-layout>
-        <h2 class="display-1">{{dataset.title}}</h2>
-        <div class="subheading multiline">{{dataset.description}}</div>
+		<v-layout row>
+			<v-flex md10>
+				<h2 class="display-1">{{dataset.title}}</h2>
+			</v-flex>
+			<v-spacer/>
+			<v-btn class="hidden-xs-only" round outline v-on:click="onDownload" :disabled="!isValid"
+				   color="success">
+				<v-icon left>file_download</v-icon>
+				<span>{{$labels.get('nav_download')}}</span>
+			</v-btn>
+		</v-layout>
+        <p class="subheading multiline">{{dataset.description}}</p>
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-list two-line subheader>
@@ -174,7 +184,7 @@
 			<v-spacer/>
 			<v-tooltip bottom>
 				<v-btn slot="activator" round v-on:click="onDownload" :disabled="!isValid"
-					   color="success">
+					   color="success" outline>
 					<v-icon left>file_download</v-icon>
 					<span>{{$labels.get('nav_download')}}</span>
 				</v-btn>

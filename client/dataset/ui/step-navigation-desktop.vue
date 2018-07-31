@@ -1,5 +1,5 @@
 <template>
-    <v-layout row>
+    <v-layout row mt-1>
         <v-btn v-on:click="onPrevious"
                v-if="value > 1"
                flat>

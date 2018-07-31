@@ -181,7 +181,7 @@
     import {exportToJsonLd} from "./export-to-jsonld";
     import {downloadAsJsonLd} from "@/app-service/download";
     import DistributionCard from "./ui/distribution-card";
-    import {getLabel as themeToLabel} from "./codelists/dataset_theme";
+    import {getLabel as themeToLabel} from "./codelists/dataset-theme";
     import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";
     import {getItem} from "./codelists/local-storage";
 

@@ -162,12 +162,12 @@
 <script>
     import {createDatasetValidators} from "./dataset-model";
     import DatePicker from "./ui/date-picker";
-    import RuinTypeCodelist from "./codelists/ruian_type"
+    import RuinTypeCodelist from "./codelists/ruian-type"
     import FrequenciesCodeList from "./codelists/frequencies";
     import SolrAutocomplete from "./ui/solr-autocomplete";
     import RuianAutocomplete from "./ui/ruian-autocomplete";
     import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
-    import DatasetThemes from "./codelists/dataset_theme";
+    import DatasetThemes from "./codelists/dataset-theme";
 
     export default {
         "name": "app-dataset-record-edit",

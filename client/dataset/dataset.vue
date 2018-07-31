@@ -65,7 +65,7 @@
     import ExportSummary from "./export-summary";
 
     export default {
-        "name": "app-dcat-ap-edit",
+        "name": "app-dataset-edit",
         "components": {
             "app-dataset": DatasetEdit,
             "app-distribution": DistributionEdit,

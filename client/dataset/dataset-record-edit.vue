@@ -143,7 +143,7 @@
                 :label="$labels.get('documentation')"
                 :error-messages="err_documentation"
                 :hint="$labels.get('hint_documentation')"
-                prepend-icon="link"
+                prepend-icon="open_in_new"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h('documentation')"
                 type="url" clearable/>

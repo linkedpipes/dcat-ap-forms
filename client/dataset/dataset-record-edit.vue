@@ -80,8 +80,8 @@
                         required/>
             </v-flex>
             <v-flex xs12 md6>
-                <app-ruain-autocomplete
-                        ref="ruain"
+                <app-ruian-autocomplete
+                        ref="ruian"
                         id="dataset_ruian"
                         v-model="dataset.ruian"
                         :label="$labels.get('ruian')"
@@ -100,12 +100,16 @@
                         id="temporal_start"
                         v-model="dataset.temporal_start"
                         :label="$labels.get('temporal_start')"
+						:hint="$labels.get('hint_temporal_start')"
+						persistent-hint
                         append-outer-icon="help_outline"/>
             </v-flex>
             <v-flex xs12 md6>
                 <app-date-picker
                         id="temporal_end"
                         v-model="dataset.temporal_end"
+						:hint="$labels.get('hint_temporal_end')"
+						persistent-hint
                         :label="$labels.get('temporal_end')"/>
             </v-flex>
             <v-spacer></v-spacer>
@@ -173,7 +177,7 @@
         "name": "app-dataset-record-edit",
         "components": {
             "app-date-picker": DatePicker,
-            "app-ruain-autocomplete": RuianAutocomplete,
+            "app-ruian-autocomplete": RuianAutocomplete,
             "app-solr-autocomplete": SolrAutocomplete,
             "app-solr-chips-autocomplete": SolrChipsAutocomplete
         },
@@ -198,7 +202,7 @@
                     return;
                 }
                 this.dataset.ruian = "";
-                this.$refs.ruain.clearItemCache();
+                this.$refs.ruian.clearItemCache();
             }
         }
     };

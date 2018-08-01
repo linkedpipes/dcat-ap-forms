@@ -112,7 +112,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openDocumentation">
-                                <v-icon color="blue">link</v-icon>
+                                <v-icon color="blue">open_in_new</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
@@ -131,7 +131,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openRuian">
-                                <v-icon color="blue">link</v-icon>
+                                <v-icon color="blue">open_in_new</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>

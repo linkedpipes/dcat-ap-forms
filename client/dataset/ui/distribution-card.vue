@@ -264,7 +264,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn flat icon v-on:click="downloadDistribution">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="blue">open_in_new</v-icon>
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>
@@ -282,7 +282,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn flat icon v-on:click="openMediaType">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="blue">open_in_new</v-icon>
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>
@@ -313,7 +313,7 @@
                             </v-list-tile-content>
                             <v-list-tile-action>
                                 <v-btn flat icon v-on:click="downloadSchema">
-                                    <v-icon color="blue">link</v-icon>
+                                    <v-icon color="blue">open_in_new</v-icon>
                                 </v-btn>
                             </v-list-tile-action>
                         </v-list-tile>

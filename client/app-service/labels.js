@@ -91,7 +91,7 @@ export const labels = {
         "hint_contact_point_name": "Osoba či útvar, kterému bude chodit zpětná vazba.",
         "hint_documentation": "Uveďte HTTPS URL webové stránky s dokumentací datové sady.",
         "hint_contact_point_email": "Email, kam ve vaší organizaci bude chodit zpětná vazba.",
-        "help_themes": "<h3>EuroVoc témata</h3><p>Témata z evropského mnohojazyčného tezauru EuroVoc. Slouží k přesnější klasifikaci datové sady.</p>",
+        "help_themes": "<h3>EuroVoc témata</h3><p>Témata z <a href=\"https://publications.europa.eu/cs/web/eu-vocabularies/th-top-concept-scheme/-/resource/eurovoc/100141?target=Browse&\" target=\"_blank\">evropského mnohojazyčného tezauru EuroVoc</a>. Slouží k přesnější klasifikaci datové sady.</p>",
         "help_distribution_schema_link": "<h3>Odkaz na schéma distribuce</h3><p>URL strojově čitelného schématu, vůči kterému je soubor ke stažení reprezentovaný touto distribucí validní. Například pro XML soubor to bude soubor XSD (XML Schema), pro CSV soubor to bude jeho JSON descriptor dle doporučení CSV on the Web, pro JSON soubor to bude jeho JSON schéma, atd.</p>",
         "hint_distribution_title": "Uveďte název distribuce, který ji odliší od ostatních distribucí datové sady.",
         "help_distribution_title": "<h3>Název distribuce</h3><p>Název distribuce, který ji odliší od ostatních distribucí datové sady.</p>",

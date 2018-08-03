@@ -1,6 +1,9 @@
+import CatalogLabels from "@/catalog/labels";
+
 export const labels = {
     "get": get,
     "data": {
+         ...CatalogLabels,
         "app_header": "Registrace datové sady",
         "step_dataset": "Datová sada",
         "step_distribution": "Distribuce",
@@ -138,7 +141,6 @@ export const labels = {
         "license_personal_no_short": "Neobsahuje",
         "license_personal_yes_full": "Obsahuje osobní údaje",
         "license_personal_yes_short": "Obsahuje"
-
     }
 };
 

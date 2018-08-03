@@ -1,0 +1,88 @@
+<template>
+    <v-container fluid grid-list-lg pa-0>
+        <v-stepper :value="ui.step" v-on:input="onStepperInput">
+            <v-stepper-header>
+                <v-stepper-step editable
+                                :complete="ui.step > 1"
+                                :rules="[isCatalogValid]"
+                                :step="1">
+                    {{$labels.get("step_catalog")}}
+                </v-stepper-step>
+                <v-divider/>
+                <v-stepper-step editable :step="2">
+                    {{$labels.get("step_download")}}
+                </v-stepper-step>
+            </v-stepper-header>
+            <v-stepper-items>
+                <v-stepper-content :step="1">
+                    <app-catalog :catalog="data.catalog"/>
+                </v-stepper-content>
+                <v-stepper-content :step="2">
+                    <app-export :catalog="data.catalog"
+                                :is-valid="isCatalogValid()"/>
+                </v-stepper-content>
+            </v-stepper-items>
+        </v-stepper>
+        <div class="hidden-md-and-up">
+            <app-step-navigation-mobile v-model="ui.step"/>
+        </div>
+        <div class="hidden-sm-and-down">
+            <app-step-navigation-desktop v-model="ui.step"/>
+        </div>
+    </v-container>
+</template>
+
+<script>
+    import {createCatalog, isCatalogValid} from "./catalog-model";
+    import CatalogEdit from "./catalog-edit-record";
+    import ExportSummary from "./export-summary";
+    import StepperNavigationMobile from "./ui/step-navigation-mobile";
+    import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+
+    export default {
+        "name": "app-catalog-edit",
+        "components": {
+            "app-step-navigation-mobile": StepperNavigationMobile,
+            "app-step-navigation-desktop": StepperNavigationDesktop,
+            "app-catalog" : CatalogEdit,
+            "app-export": ExportSummary
+        },
+        "data": () => ({
+            "data": {
+                "catalog": createCatalog()
+            },
+            "ui": {
+                "step": 1
+            },
+            "validation": {
+                "catalog": false
+            }
+        }),
+        "watch": {
+            "$route" : function(location) {
+                if (location.query.step !== this.ui.step) {
+                    this.ui.step = location.query.step;
+                }
+            }
+        },
+        "methods": {
+            "isCatalogValid": function () {
+                if (!this.validation.catalog) {
+                    return true;
+                }
+                return isCatalogValid(this.data.catalog);
+            },
+            "onStepperInput": function (value) {
+                if (!this.validation.catalog && value > 1) {
+                    this.validation.catalog = true;
+                    this.data.catalog.$validators.force = true;
+                }
+                this.$router.push({
+                    "query": {
+                        "step": value
+                    }
+                });
+            }
+        }
+    }
+</script>

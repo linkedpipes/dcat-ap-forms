@@ -107,7 +107,7 @@ function exportDistribution(distribution) {
     const output = {
         "@type": ["http://www.w3.org/ns/dcat#Distribution"],
         "http://www.w3.org/ns/dcat#downloadURL" : asIri(distribution.url),
-        "http://purl.org/dc/terms/mediaType" : asIri(distribution.media_type),
+        "http://www.w3.org/ns/dcat#mediaType" : asIri(distribution.media_type),
         "http://purl.org/dc/terms/format" : asIri(distribution.format),
         "https://data.gov.cz/slovník/podmínky-užití/specifikace": license(distribution)
     };

@@ -1,11 +1,33 @@
 <template>
     <v-container fluid grid-list-lg pa-0>
-        <h2 class="display-1">{{dataset.title}}</h2>
-        <div class="subheading multiline">{{dataset.description}}</div>
+        <v-layout row>
+            <v-flex v-if="!isValid">
+                <v-alert :value="!isValid" outline type="error">
+                    {{$labels.get('summary_error')}}
+                </v-alert>
+            </v-flex>
+            <v-flex v-if="isValid">
+                <v-alert :value="isValid" outline type="success">
+                    {{$labels.get('summary_download')}} <code>uur3q2i</code>.
+                </v-alert>
+            </v-flex>
+        </v-layout>
+        <v-layout row>
+            <v-flex md10>
+                <h2 class="display-1">{{dataset.title}}</h2>
+            </v-flex>
+            <v-spacer/>
+            <v-btn class="hidden-xs-only" round outline v-on:click="onDownload" :disabled="!isValid"
+                   color="success">
+                <v-icon left>file_download</v-icon>
+                <span>{{$labels.get('nav_download')}}</span>
+            </v-btn>
+        </v-layout>
+        <p class="subheading multiline">{{dataset.description}}</p>
         <v-layout row wrap>
             <v-flex xs12 lg6>
                 <v-list two-line subheader>
-                    <v-list-tile avatar>
+                    <v-list-tile avatar v-if="dataset.dataset_theme.length">
                         <v-list-tile-avatar>
                             <v-icon class="blue white--text">category</v-icon>
                         </v-list-tile-avatar>
@@ -18,7 +40,7 @@
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
-                    <v-divider></v-divider>
+                    <v-divider v-if="dataset.dataset_theme.length"></v-divider>
                     <v-list-tile avatar>
                         <v-list-tile-avatar>
                             <v-icon class="blue white--text">snooze</v-icon>
@@ -38,8 +60,11 @@
                             <v-icon class="blue white--text">short_text</v-icon>
                         </v-list-tile-avatar>
                         <v-list-tile-content>
-                            <v-list-tile-title><span
-                                    v-for="keyword in dataset.keywords">{{keyword}} </span>
+                            <v-list-tile-title>
+                                <span v-for="(keyword, index) in dataset.keywords">
+                                        {{index > 0 ? "," : ""}}
+                                        {{keyword}}
+                                </span>
                             </v-list-tile-title>
                             <v-list-tile-sub-title>{{$labels.get('keywords')}}
                             </v-list-tile-sub-title>
@@ -90,7 +115,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openDocumentation">
-                                <v-icon color="blue">link</v-icon>
+                                <v-icon color="blue">open_in_new</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
@@ -109,7 +134,7 @@
                         </v-list-tile-content>
                         <v-list-tile-action>
                             <v-btn icon ripple v-on:click="openRuian">
-                                <v-icon color="blue">link</v-icon>
+                                <v-icon color="blue">open_in_new</v-icon>
                             </v-btn>
                         </v-list-tile-action>
                     </v-list-tile>
@@ -158,21 +183,17 @@
             </v-flex>
         </v-layout>
         <v-divider class="my-2"/>
-        <v-layout row wrap>
-            <v-flex xs12 sm8 md9 lg9 xl10>
-                <p>
-                    {{$labels.get('summary_info')}}
-                    <span :hidden="!isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
-                    <span :hidden="isValid" class="red--text">{{$labels.get('summary_error')}}</span>
-                </p>
-            </v-flex>
-            <v-flex xs12 sm4 md3 lg3 xl2 class="text-xs-right">
-                <v-btn round v-on:click="onDownload" :disabled="!isValid"
-                       color="success">
+        <v-layout row>
+            <v-spacer/>
+            <v-tooltip bottom>
+                <v-btn slot="activator" round v-on:click="onDownload" :disabled="!isValid"
+                       color="success" outline>
                     <v-icon left>file_download</v-icon>
                     <span>{{$labels.get('nav_download')}}</span>
                 </v-btn>
-            </v-flex>
+                <span v-if="isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
+                <span v-if="!isValid">{{$labels.get('summary_error')}}</span>
+            </v-tooltip>
         </v-layout>
     </v-container>
 </template>

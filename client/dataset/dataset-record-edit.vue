@@ -5,7 +5,7 @@
                 v-model="dataset.title"
                 :label="$labels.get('dataset_title')"
                 :error-messages="err_title"
-				prepend-icon="label"
+		prepend-icon="label"
                 append-outer-icon="help_outline"
                 :hint="$labels.get('hint_dataset_title')"
                 v-on:click:append-outer="$h('dataset_title')"
@@ -15,7 +15,7 @@
                 v-model="dataset.description"
                 :label="$labels.get('dataset_description')"
                 :error-messages="err_description"
-				prepend-icon="description"
+		prepend-icon="description"
                 append-outer-icon="help_outline"
                 :hint="$labels.get('hint_dataset_description')"
                 v-on:click:append-outer="$h('dataset_description')"
@@ -26,7 +26,7 @@
                         id="dataset_theme"
                         v-model="dataset.dataset_theme"
                         prepend-icon="category"
-						:items="dataset_themes"
+			:items="dataset_themes"
                         :label="$labels.get('dataset_theme')"
                         :error-messages="err_dataset_theme"
                         item-text="cs" item-value="value"
@@ -80,8 +80,8 @@
                         required/>
             </v-flex>
             <v-flex xs12 md6>
-                <app-ruain-autocomplete
-                        ref="ruain"
+                <app-ruian-autocomplete
+                        ref="ruian"
                         id="dataset_ruian"
                         v-model="dataset.ruian"
                         :label="$labels.get('ruian')"
@@ -100,12 +100,16 @@
                         id="temporal_start"
                         v-model="dataset.temporal_start"
                         :label="$labels.get('temporal_start')"
+						:hint="$labels.get('hint_temporal_start')"
+						persistent-hint
                         append-outer-icon="help_outline"/>
             </v-flex>
             <v-flex xs12 md6>
                 <app-date-picker
                         id="temporal_end"
                         v-model="dataset.temporal_end"
+						:hint="$labels.get('hint_temporal_end')"
+						persistent-hint
                         :label="$labels.get('temporal_end')"/>
             </v-flex>
             <v-spacer></v-spacer>
@@ -173,7 +177,7 @@
         "name": "app-dataset-record-edit",
         "components": {
             "app-date-picker": DatePicker,
-            "app-ruain-autocomplete": RuianAutocomplete,
+            "app-ruian-autocomplete": RuianAutocomplete,
             "app-solr-autocomplete": SolrAutocomplete,
             "app-solr-chips-autocomplete": SolrChipsAutocomplete
         },
@@ -198,7 +202,7 @@
                     return;
                 }
                 this.dataset.ruian = "";
-                this.$refs.ruain.clearItemCache();
+                this.$refs.ruian.clearItemCache();
             }
         }
     };

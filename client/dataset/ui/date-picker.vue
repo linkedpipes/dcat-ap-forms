@@ -17,6 +17,8 @@
                 prepend-icon="event"
                 append-outer-icon="help_outline"
                 v-on:click:append-outer="$h(id)"
+                :hint="hint"
+                :persistent-hint="persistentHint"
                 readonly clearable/>
         <v-date-picker
                 ref="picker"
@@ -31,7 +33,9 @@
         "props": {
             "id": {"required": true},
             "value": {"required": true},
-            "label": {"type": String, "required": true}
+            "label": {"type": String, "required": true},
+            "hint": {"type": String, "required": false},
+            "persistentHint": {"type": Boolean, "required": false}
         },
         "data": () => ({
             "menu": false

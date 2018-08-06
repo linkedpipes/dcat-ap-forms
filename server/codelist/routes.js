@@ -17,7 +17,7 @@ const configuration = require('../config');
 function createCodelistGet(baseUrl, sorted) {
     let querySuffix = "";
     if (sorted) {
-        querySuffix += "&sort=prio desc"
+        querySuffix += "&sort=priority desc"
     }
     return (req, res) => {
         const url = baseUrl + "/query?q=" + getSolrQuery(req) + querySuffix;

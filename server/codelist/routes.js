@@ -4,20 +4,23 @@ const configuration = require('../config');
 
 (function initialize() {
     const router = express.Router();
-    router.get("/media-types", createCodelistGet(
-        configuration.solr_media_types));
-    router.get("/file-type", createCodelistGet(
-        configuration.solr_file_type));
+    router.get("/media-types", createCodelistGet( //
+        configuration.solr_media_types, true));
+    router.get("/file-type", createCodelistGet( //
+        configuration.solr_file_type, true));
     router.get("/themes", createCodelistGet(
         configuration.solr_themes));
     router.get("/ruian", createRuianCodelistGet());
     module.exports = router;
 })();
 
-function createCodelistGet(baseUrl) {
+function createCodelistGet(baseUrl, sorted) {
+    let querySuffix = "";
+    if (sorted) {
+        querySuffix += "&sort=prio desc"
+    }
     return (req, res) => {
-        const url = baseUrl + "/query?q=" + getSolrQuery(req);
-        console.log("URL", url);
+        const url = baseUrl + "/query?q=" + getSolrQuery(req) + querySuffix;
         request.get({"url": url}).on("error", (error) => {
             handleError(res, error);
         }).pipe(res);

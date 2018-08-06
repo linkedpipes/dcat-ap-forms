@@ -1,42 +1,45 @@
+import {
+    DCTERMS,
+    DCATAP,
+    FOAF,
+    VCARD,
+    SCHEMA,
+    PU,
+    CREATIVE_COMMONS
+} from "/app-service/vocabulary";
+
+
 export function exportToJsonLd(dataset, distributions) {
     const output = {
-        "@type": ["http://www.w3.org/ns/dcat#Dataset"],
-        "http://purl.org/dc/terms/title":
-            asLangString(dataset.title),
-        "http://purl.org/dc/terms/description":
-            asLangString(dataset.description),
-        //
-        "http://www.w3.org/ns/dcat#keyword":
-            dataset.keywords.map((keyword) => asLangString(keyword)),
-        "http://www.w3.org/ns/dcat#distribution":
-            distributions.map((distribution) => exportDistribution(distribution))
+        "@type": [DCATAP.Dataset],
+        [DCTERMS.title]: asLangString(dataset.title),
+        [DCTERMS.description]: asLangString(dataset.description),
+        [DCATAP.keyword]: dataset.keywords.map((keyword) => asLangString(keyword)),
+        [DCATAP.distribution]: distributions.map((distribution) => exportDistribution(distribution))
     };
 
     if (dataset.accrual_periodicity !== "") {
         const url = dataset.accrual_periodicity;
-        output["http://purl.org/dc/terms/accrualPeriodicity"] = asIri(url);
+        output[DCTERMS.accrualPeriodicity] = asIri(url);
     }
     if (dataset.ruian !== null) {
-        output["http://purl.org/dc/terms/spatial"] = asIri(dataset.ruian);
+        output[DCTERMS.spatial] = asIri(dataset.ruian);
     }
     if (dataset.documentation !== "") {
-        output["http://xmlns.com/foaf/0.1/page"] =
-            asIri(dataset.documentation);
+        output[FOAF.page] = asIri(dataset.documentation);
     }
 
     const themes = [dataset.dataset_theme, ...dataset.themes];
-    output["http://www.w3.org/ns/dcat#theme"] = themes.map((t) => asIri(t));
+    output[DCATAP.theme] = themes.map((t) => asIri(t));
 
     const temporal = exportTemporal(dataset);
     if (temporal !== undefined) {
-        output["http://purl.org/dc/terms/temporal"] = temporal;
+        output[DCTERMS.temporal] = temporal;
     }
     const contactPoint = exportContactPoint(dataset);
     if (contactPoint !== undefined) {
-        output["http://www.w3.org/ns/dcat#contactPoint"] = contactPoint;
+        output[DCATAP.contactPoint] = contactPoint;
     }
-
-    console.log(output);
 
     return output;
 }
@@ -66,16 +69,16 @@ function exportTemporal(dataset) {
         return undefined;
     }
     const output = {
-        "@type": ["http://purl.org/dc/terms/PeriodOfTime"]
+        "@type": [DCTERMS.PeriodOfTime]
     };
     if (dataset.temporal_start !== undefined) {
-        output["http://schema.org/startDate"] = {
+        output[SCHEMA.startDate] = {
             "@type": "http://www.w3.org/2001/XMLSchema#date",
             "@value": dataset.temporal_start
         };
     }
     if (dataset.temporal_end !== undefined) {
-        output["http://schema.org/endDate"] = {
+        output[SCHEMA.endDate] = {
             "@type": "http://www.w3.org/2001/XMLSchema#date",
             "@value": dataset.temporal_end
         };
@@ -85,41 +88,37 @@ function exportTemporal(dataset) {
 
 function exportContactPoint(dataset) {
     const output = {
-        "@type": ["http://www.w3.org/2006/vcard/ns#Organization"]
+        "@type": [VCARD.Organization]
     };
     if (dataset.contact_point_name === "" &&
         dataset.contact_point_email === "") {
         return undefined;
     }
     if (dataset.contact_point_name !== "") {
-        output["http://www.w3.org/2006/vcard/ns#fn"] =
-            asLangString(dataset.contact_point_name);
+        output[VCARD.fn] = asLangString(dataset.contact_point_name);
     }
     if (dataset.contact_point_email !== "") {
-        output["http://www.w3.org/2006/vcard/ns#hasEmail"] =
-            asLangString(dataset.contact_point_email);
+        output[VCARD.hasEmail] = asLangString(dataset.contact_point_email);
     }
     return output;
 }
 
 function exportDistribution(distribution) {
-    // url, format, license_link, schema, title
+
     const output = {
-        "@type": ["http://www.w3.org/ns/dcat#Distribution"],
-        "http://www.w3.org/ns/dcat#downloadURL" : asIri(distribution.url),
-        "http://www.w3.org/ns/dcat#mediaType" : asIri(distribution.media_type),
-        "http://purl.org/dc/terms/format" : asIri(distribution.format),
-        "https://data.gov.cz/slovník/podmínky-užití/specifikace": license(distribution)
+        "@type": [DCATAP.Distribution],
+        [DCATAP.downloadURL]: asIri(distribution.url),
+        [DCATAP.mediaType]: asIri(distribution.media_type),
+        [DCTERMS.format]: asIri(distribution.format),
+        [PU.specifikace]: license(distribution)
     };
 
     if (distribution.schema !== "") {
-        output["http://purl.org/dc/terms/conformsTo"] =
-            asIri(distribution.schema);
+        output[DCTERMS.conformsTo] = asIri(distribution.schema);
     }
 
     if (distribution.title !== "") {
-        output["http://purl.org/dc/terms/title"] =
-            asLangString(distribution.title);
+        output[DCTERMS.title] = asLangString(distribution.title);
     }
 
     return output;
@@ -127,41 +126,39 @@ function exportDistribution(distribution) {
 
 function license(distribution) {
     const output = {
-        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace"
+        "@type": PU.Specifikace
     };
 
-    const pu = "https://data.gov.cz/slovník/podmínky-užití/";
-
-    switch(distribution.license_author_type) {
+    switch (distribution.license_author_type) {
         case "MULTI":
-            output[pu + "autorské-dílo"] = asIri("https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/");
+            output[PU.autorskeDilo] = asIri(PU.obsahujeViceAutorskychDel);
             break;
         case "CC BY":
-            output[pu + "autorské-dílo"] = asIri("https://creativecommons.org/licenses/by/4.0/");
-            output[pu + "autor"] = asValue(distribution.license_author_name);
+            output[PU.autorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
+            output[PU.autor] = asValue(distribution.license_author_name);
             break;
         case "NO":
-            output[pu + "autorské-dílo"] = asIri("https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/");
+            output[PU.autorskeDilo] = asIri(PU.neobsahujeAutorskaDila);
             break;
         case "CUSTOM":
-            output[pu + "autorské-dílo"] = asIri(distribution.license_author_custom);
+            output[PU.autorskeDilo] = asIri(distribution.license_author_custom);
             break;
         default:
-            logging.error("Unexpected license_author_type value:",
+            console.error("Unexpected license_author_type value:",
                 distribution.license_author_type);
             break;
     }
 
-    switch(distribution.license_db_type) {
+    switch (distribution.license_db_type) {
         case "CC BY":
-            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://creativecommons.org/licenses/by/4.0/");
-            output[pu + "autor-databáze"] = asValue(distribution.license_db_name);
+            output[PU.databazeJakoAutorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
+            output[PU.autorDatabaze] = asValue(distribution.license_db_name);
             break;
         case "NO":
-            output[pu + "databáze-jako-autorské-dílo"] = asIri("https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/");
+            output[PU.databazeJakoAutorskeDilo] = asIri(PU.neniAutorskopravneChranenouDatabazi);
             break;
         case "CUSTOM":
-            output[pu + "databáze-jako-autorské-dílo"] = asIri(distribution.license_db_custom);
+            output[PU.databazeJakoAutorskeDilo] = asIri(distribution.license_db_custom);
             break;
         default:
             console.error("Unexpected license_db_type value:",
@@ -171,13 +168,13 @@ function license(distribution) {
 
     switch (distribution.license_specialdb_type) {
         case "CC0":
-            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://creativecommons.org/publicdomain/zero/1.0/");
+            output[PU.databazeChranenaZvlastnimiPravy] = asIri(CREATIVE_COMMONS.PUBLIC_ZERO_10);
             break;
         case "NO":
-            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri("https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/");
+            output[PU.databazeChranenaZvlastnimiPravy] = asIri(PU.neniChranenazvlastnimPravemPorizovateleDatabaze);
             break;
         case "CUSTOM":
-            output[pu + "databáze-chráněná-zvláštními-právy"] = asIri(distribution.license_specialdb_custom);
+            output[PU.databazeChranenaZvlastnimiPravy] = asIri(distribution.license_specialdb_custom);
             break;
         default:
             console.error("Unexpected license_specialdb_type value:",
@@ -185,12 +182,12 @@ function license(distribution) {
             break;
     }
 
-    switch(distribution.license_personal_type) {
+    switch (distribution.license_personal_type) {
         case "YES":
-            output[pu + "osobní-údaje"] = asIri("https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/");
+            output[PU.osobniUdaje] = asIri(PU.obsahujeOsobniUdaje);
             break;
         case "NO":
-            output[pu + "osobní-údaje"] = asIri("https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/");
+            output[PU.osobniUdaje] = asIri(PU.neobsahujeOsobniUdaje);
             break;
         default:
             console.error("Unexpected license_personal_type value:",

@@ -10,7 +10,7 @@ export function createCatalog() {
     return {
         "title": "Title",
         "url": "http://url",
-        "contact_point_name": "",
+        "contact_point_name": "Pepa",
         "contact_point_email": "email@com.cz",
         "type": "https://data.gov.cz/slovník/nkod/DcatApLkod",
         "$validators": {
@@ -34,8 +34,13 @@ export function createCatalogValidators() {
         "err_contact_point_email": applyArray(
             (t) => t.catalog, "contact_point_email",
             [
-                [provided, "contact_contact_point_email_missing"],
-                [email, "contact_contact_point_email_invalid"]
+                [provided, "catalog_contact_point_email_missing"],
+                [email, "catalog_contact_point_email_invalid"]
+            ]),
+		"err_contact_point_name": applyArray(
+            (t) => t.catalog, "contact_point_name",
+            [
+                [provided, "catalog_contact_point_name_missing"]
             ]),
     };
 }
@@ -45,6 +50,7 @@ export function isCatalogValid(catalog) {
         provided(catalog.url) &&
         url(catalog.url) &&
         provided(catalog.contact_point_email) &&
+        provided(catalog.contact_point_name) &&
         email(catalog.contact_point_email) &&
         provided(catalog.type);
 }

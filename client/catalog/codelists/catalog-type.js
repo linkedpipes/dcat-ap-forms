@@ -1,6 +1,6 @@
 const codelist = [
     {
-        "value": "https://data.gov.cz/slovník/nkod/Ckan",
+        "value": "https://data.gov.cz/slovník/nkod/CkanApiLkod",
         "cs": "CKAN API"
     },
     {

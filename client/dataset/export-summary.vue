@@ -230,7 +230,7 @@
         "methods": {
             "onDownload": function () {
                 const jsonld = exportToJsonLd(this.dataset, this.distributions);
-                downloadAsJsonLd("nkod-registrace.jsonld", jsonld)
+                downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
             },
             "openDocumentation": function () {
                 downloadUrl(this.dataset.documentation);

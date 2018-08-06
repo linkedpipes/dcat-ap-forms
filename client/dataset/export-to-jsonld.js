@@ -5,13 +5,14 @@ import {
     VCARD,
     SCHEMA,
     PU,
-    CREATIVE_COMMONS
+    CREATIVE_COMMONS,
+    NKOD
 } from "/app-service/vocabulary";
 
 
 export function exportToJsonLd(dataset, distributions) {
     const output = {
-        "@type": [DCATAP.Dataset],
+        "@type": [DCATAP.Dataset, NKOD.Formular],
         [DCTERMS.title]: asLangString(dataset.title),
         [DCTERMS.description]: asLangString(dataset.description),
         [DCATAP.keyword]: dataset.keywords.map((keyword) => asLangString(keyword)),

@@ -25,11 +25,47 @@
                    color="success"
                    round outline>
                 <v-icon left>file_download</v-icon>
-                <span>{{$labels.get('nav_download')}}</span>
+                <span>{{$labels.get('button_download')}}</span>
             </v-btn>
         </v-layout>
 
-        <v-list two-line subheader>
+        <v-list two-line>
+            
+			<v-list-tile avatar>
+                <v-list-tile-avatar>
+                    <v-icon class="blue white--text">person</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        {{catalog.contact_point_name}}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                        {{$labels.get('catalog_contact_point_name')}}
+                    </v-list-tile-sub-title>
+                </v-list-tile-content>
+            </v-list-tile>
+            <v-divider/>
+
+            <v-list-tile avatar>
+                <v-list-tile-avatar>
+                    <v-icon class="blue white--text">alternate_email</v-icon>
+                </v-list-tile-avatar>
+                <v-list-tile-content>
+                    <v-list-tile-title>
+                        {{catalog.contact_point_email}}
+                    </v-list-tile-title>
+                    <v-list-tile-sub-title>
+                        {{$labels.get('catalog_contact_point_email')}}
+                    </v-list-tile-sub-title>
+                </v-list-tile-content>
+                <v-list-tile-action>
+                    <v-btn icon ripple v-on:click="sendEmail">
+                        <v-icon color="blue">alternate_email</v-icon>
+                    </v-btn>
+                </v-list-tile-action>
+            </v-list-tile>
+            <v-divider/>
+
             <v-list-tile avatar>
                 <v-list-tile-avatar>
                     <v-icon class="blue white--text">category</v-icon>
@@ -47,7 +83,7 @@
 
             <v-list-tile avatar>
                 <v-list-tile-avatar>
-                    <v-icon class="blue white--text">collections_bookmark</v-icon>
+                    <v-icon class="blue white--text">link</v-icon>
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                     <v-list-tile-title>
@@ -63,39 +99,6 @@
                     </v-btn>
                 </v-list-tile-action>
             </v-list-tile>
-            <v-divider/>
-            <v-list-tile avatar v-if="catalog.contact_point_name">
-                <v-list-tile-avatar>
-                    <v-icon class="blue white--text">person</v-icon>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>
-                        {{catalog.contact_point_name}}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                        {{$labels.get('catalog_contact_point_name')}}
-                    </v-list-tile-sub-title>
-                </v-list-tile-content>
-            </v-list-tile>
-            <v-divider/>
-            <v-list-tile>
-                <v-list-tile-avatar>
-                    <v-icon class="blue white--text">alternate_email</v-icon>
-                </v-list-tile-avatar>
-                <v-list-tile-content>
-                    <v-list-tile-title>
-                        {{catalog.contact_point_email}}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                        {{$labels.get('catalog_hint_contact_point_email')}}
-                    </v-list-tile-sub-title>
-                </v-list-tile-content>
-                <v-list-tile-action>
-                    <v-btn icon ripple v-on:click="sendEmail">
-                        <v-icon color="blue">alternate_email</v-icon>
-                    </v-btn>
-                </v-list-tile-action>
-            </v-list-tile>
 
         </v-list>
         <v-divider class="my-2"/>
@@ -108,7 +111,7 @@
                        color="success"
                        round outline>
                     <v-icon left>file_download</v-icon>
-                    <span>{{$labels.get('nav_download')}}</span>
+                    <span>{{$labels.get('button_download')}}</span>
                 </v-btn>
                 <span v-if="isValid">
                     {{$labels.get('summary_download')}}
@@ -134,7 +137,7 @@
         "methods": {
             "onDownload": function () {
                 const jsonld = exportToJsonLd(this.catalog);
-                downloadAsJsonLd("nkod-registrace-katalogu.jsonld", jsonld)
+                downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
             },
             "openCatalog": function() {
                 window.open(this.catalog.url);

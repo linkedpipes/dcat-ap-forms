@@ -9,6 +9,12 @@ export function exportToJsonLd(catalog) {
     if (contactPoint !== undefined) {
         output["http://www.w3.org/ns/dcat#contactPoint"] = contactPoint;
     }
+	
+	if (catalog.homepage !== "") {
+		output["http://xmlns.com/foaf/0.1/homepage"] = {
+			"@id": catalog.homepage
+		}
+	}
 
     console.log(output);
 

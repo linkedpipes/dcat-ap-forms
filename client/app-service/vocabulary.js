@@ -58,3 +58,7 @@ export const CREATIVE_COMMONS = {
     "BY_40": "https://creativecommons.org/licenses/by/4.0/",
     "PUBLIC_ZERO_10": "https://creativecommons.org/publicdomain/zero/1.0/"
 };
+
+export const NKOD = {
+    "Formular": "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+};

@@ -20,7 +20,7 @@
             <v-btn class="hidden-xs-only" round outline v-on:click="onDownload" :disabled="!isValid"
                    color="success">
                 <v-icon left>file_download</v-icon>
-                <span>{{$labels.get('nav_download')}}</span>
+                <span>{{$labels.get('button_download')}}</span>
             </v-btn>
         </v-layout>
         <p class="subheading multiline">{{dataset.description}}</p>
@@ -189,7 +189,7 @@
                 <v-btn slot="activator" round v-on:click="onDownload" :disabled="!isValid"
                        color="success" outline>
                     <v-icon left>file_download</v-icon>
-                    <span>{{$labels.get('nav_download')}}</span>
+                    <span>{{$labels.get('button_download')}}</span>
                 </v-btn>
                 <span v-if="isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
                 <span v-if="!isValid">{{$labels.get('summary_error')}}</span>
@@ -230,7 +230,7 @@
         "methods": {
             "onDownload": function () {
                 const jsonld = exportToJsonLd(this.dataset, this.distributions);
-                downloadAsJsonLd("nkod-registrace.jsonld", jsonld)
+                downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
             },
             "openDocumentation": function () {
                 downloadUrl(this.dataset.documentation);

@@ -25,7 +25,7 @@
                    color="success"
                    round outline>
                 <v-icon left>file_download</v-icon>
-                <span>{{$labels.get('nav_download')}}</span>
+                <span>{{$labels.get('button_download')}}</span>
             </v-btn>
         </v-layout>
 
@@ -108,7 +108,7 @@
                        color="success"
                        round outline>
                     <v-icon left>file_download</v-icon>
-                    <span>{{$labels.get('nav_download')}}</span>
+                    <span>{{$labels.get('button_download')}}</span>
                 </v-btn>
                 <span v-if="isValid">
                     {{$labels.get('summary_download')}}

@@ -25,7 +25,7 @@
 </template>
 
 <script>
-    import {fetchJson} from "@/app-service/http";
+    import {getLocalJson} from "@/app-service/http";
     import {addItems} from "../codelists/local-storage";
 
     export default {
@@ -60,7 +60,7 @@
             "querySelections": function (query) {
                 this.loading = true;
                 const url = createQueryUrl(this.codeList, query);
-                fetchJson(url).then((response) => {
+                getLocalJson(url).then((response) => {
                     addItems(this.codeList, response.json.response.docs);
                     this.items = response.json.response.docs;
                     this.loading = false;

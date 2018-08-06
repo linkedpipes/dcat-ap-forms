@@ -51,7 +51,8 @@ curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": false, "docValues": false},
-    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false}    
+    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "prio", "type": "pint" , "indexed": true, "docValues": true}    
 }'
 
 curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:application/json' --data-binary '{
@@ -60,7 +61,8 @@ curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:ap
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": false, "docValues": false},
-    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false}
+    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "prio", "type": "pint" , "indexed": true, "docValues": true}    
 }'
 
 curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:application/json' --data-binary '{

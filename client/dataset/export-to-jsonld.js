@@ -1,6 +1,6 @@
 export function exportToJsonLd(dataset, distributions) {
     const output = {
-        "@type": ["http://www.w3.org/ns/dcat#Dataset", "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/DCATFormulář"],
+        "@type": ["http://www.w3.org/ns/dcat#Dataset", "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"],
         "http://purl.org/dc/terms/title":
             asLangString(dataset.title),
         "http://purl.org/dc/terms/description":

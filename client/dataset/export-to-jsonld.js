@@ -7,7 +7,7 @@ import {
     PU,
     CREATIVE_COMMONS,
     NKOD
-} from "/app-service/vocabulary";
+} from "@/app-service/vocabulary";
 
 
 export function exportToJsonLd(dataset, distributions) {

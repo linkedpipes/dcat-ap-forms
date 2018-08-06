@@ -10,10 +10,10 @@ export default {
     
     "catalog_contact_point_name": "Jméno správce katalogu",
     "hint_catalog_contact_point_name": "Sem budeme adresovat případné problémy s katalogem.",
-	"help_catalog_contact_point_name": "<h3>Jméno správce katalogu</h3><p>Jméno správce lokálního katalogu otevřených dat, se kterým lze komunikovat o případných problémech s katalogem. To může být třeba problém s formátem API, přístupností rozhraní, apod.</p>",
+    "help_catalog_contact_point_name": "<h3>Jméno správce katalogu</h3><p>Jméno správce lokálního katalogu otevřených dat, se kterým lze komunikovat o případných problémech s katalogem. To může být třeba problém s formátem API, přístupností rozhraní, apod.</p>",
     "catalog_contact_point_name_missing": "Jméno správce katalogu je povinné.",
 
-	"catalog_contact_point_email": "Email správce katalogu",
+    "catalog_contact_point_email": "Email správce katalogu",
     "hint_catalog_contact_point_email": "Sem budeme psát s případnými problémy s vaším katalogem.",
     "help_catalog_contact_point_email": "<h3>Email správce katalogu</h3><p>Email správce lokálního katalogu otevřených dat, se kterým lze komunikovat o případných problémech s katalogem. To může být třeba problém s formátem API, přístupností rozhraní, apod.</p>",
     "catalog_contact_point_email_missing": "Email správce katalogu je povinný",
@@ -27,4 +27,10 @@ export default {
     "help_catalog_url": "<h3>URL LKOD API</h3><p>Pro DCAT-AP API je toto URL vašeho katalogu, tj. instance třídy <code>dcat:Catalog</code>, například <code>https://data.gov.cz/lkod/mdcr/katalog</code>. Pro CKAN API je to URL funkce <code>package_list</code>, například <code>https://data.cssz.cz/api/3/action/package_list</code>.</p>",
     "catalog_url_missing": "HTTPS URL LKOD API je povinné",
     "catalog_url_invalid": "Nevalidní HTTPS URL LKOD API",
+    
+    "homepage": "Domácí stránka katalogu",
+    "hint_homepage": "URL domácí stránky vašeho lokálního katalogu otevřených dat.",
+    "help_homepage": "<h3>Domácí stránka katalogu</h3><p>Uveďte URL domácí stránky vašho katalogu, pokud existuje. Váš lokální katalog může obsahovat větší množství informací a souvislostí, než se dostane do Národního katalogu otevřených dat. Proto můžete chtít, aby se uživatelé po nalezení vaší datové sady v NKOD mohli podívat i do vašeho katalogu.</p>",
+    "homepage_invalid": "Domácí stránka katalogu musí být validní HTTPS URL.",
+
 };

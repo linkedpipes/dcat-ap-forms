@@ -12,6 +12,7 @@ export function createCatalog() {
         "url": "http://url",
         "contact_point_name": "Pepa",
         "contact_point_email": "email@com.cz",
+		"homepage": "https://data.cssz.cz",
         "type": "https://data.gov.cz/slovník/nkod/DcatApLkod",
         "$validators": {
             "force": false
@@ -42,6 +43,11 @@ export function createCatalogValidators() {
             [
                 [provided, "catalog_contact_point_name_missing"]
             ]),
+		"err_homepage": applyArray(
+            (t) => t.catalog, "homepage",
+            [
+                [url, "homepage_invalid"]
+            ]),
     };
 }
 
@@ -52,5 +58,6 @@ export function isCatalogValid(catalog) {
         provided(catalog.contact_point_email) &&
         provided(catalog.contact_point_name) &&
         email(catalog.contact_point_email) &&
+		url(catalog.homepage) &&
         provided(catalog.type);
 }

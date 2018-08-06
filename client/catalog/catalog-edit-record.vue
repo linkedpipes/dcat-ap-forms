@@ -58,6 +58,16 @@
                 :hint="$labels.get('hint_catalog_url')"
                 v-on:click:append-outer="$h('catalog_url')"
                 required clearable/>
+        <v-text-field
+                id="catalog_homepage"
+                v-model="catalog.homepage"
+                :label="$labels.get('homepage')"
+                :error-messages="err_homepage"
+                prepend-icon="home"
+                append-outer-icon="help_outline"
+                :hint="$labels.get('hint_homepage')"
+                v-on:click:append-outer="$h('homepage')"
+                clearable/>
     </v-container>
 </template>
 

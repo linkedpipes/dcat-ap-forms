@@ -38,7 +38,6 @@ module.exports = {
             "inject": true
         }),
         new webpack.DefinePlugin({
-            "URL_PREFIX" : "\".\""
         })
     ]
 };

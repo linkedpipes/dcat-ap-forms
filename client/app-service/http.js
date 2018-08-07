@@ -12,7 +12,7 @@ export const ERROR_PARSING = "PARSING";
 export const ERROR_RESPONSE = "RESPONSE";
 
 export function getLocalJson(url, accept) {
-    return fetchJson("GET", URL_PREFIX + url, accept);
+    return fetchJson("GET", "." + url, accept);
 }
 
 export function getRemoteJson(url, accept) {

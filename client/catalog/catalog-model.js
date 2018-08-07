@@ -8,11 +8,11 @@ import {
 
 export function createCatalog() {
     return {
-        "title": "Title",
-        "url": "http://url",
-        "contact_point_name": "Pepa",
-        "contact_point_email": "email@com.cz",
-		"homepage": "https://data.cssz.cz",
+        "title": "",
+        "url": "",
+        "contact_point_name": "",
+        "contact_point_email": "",
+		"homepage": "",
         "type": "https://data.gov.cz/slovník/nkod/DcatApLkod",
         "$validators": {
             "force": false

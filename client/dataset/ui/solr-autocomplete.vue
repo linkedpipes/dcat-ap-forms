@@ -45,6 +45,13 @@
             "search": null,
             "ignoreNextSearch": false
         }),
+        "mounted": function () {
+            const url = createTitleQueryUrl(this.codeList, this.value);
+            getLocalJson(url).then((response) => {
+                addItems(this.codeList, response.json.response.docs);
+                this.items = response.json.response.docs;
+            });
+        },
         "watch": {
             "search": function (value) {
                 if (this.ignoreNextSearch) {
@@ -76,6 +83,12 @@
     function createQueryUrl(codeList, query) {
         return "/api/v1/codelist/" + codeList +
             "?search=*" + encodeURIComponent(query) + "*";
+    }
+
+    function createTitleQueryUrl(codeList, iri) {
+        const escapedIri = iri.replace(":", "\\:");
+        return "/api/v1/codelist/" + codeList +
+            "?iri=" + encodeURIComponent(escapedIri);
     }
 
 </script>

@@ -35,15 +35,6 @@
     import {getLocalJson} from "@/app-service/http";
     import {addItems} from "../codelists/local-storage";
 
-    const defaultItem = {
-        "code": "https://linked.cuzk.cz/resource/ruian/stat/1",
-        "notation": "1",
-        "title": "Česká republika",
-        "type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST"
-    };
-
-    addItems("ruian", [defaultItem]);
-
     export default {
         "name": "app-ruian-autocomplete",
         "props": {
@@ -56,10 +47,17 @@
         },
         "data": () => ({
             "loading": false,
-            "items": [defaultItem],
+            "items": [],
             "search": null,
             "ignoreNextSearch": false
         }),
+        "mounted": function () {
+            const url = createTitleQueryUrl(this.codeList, this.value);
+            getLocalJson(url).then((response) => {
+                addItems(this.codeList, response.json.response.docs);
+                this.items = response.json.response.docs;
+            });
+        },
         "watch": {
             "search": function (value) {
                 if (this.ignoreNextSearch) {
@@ -95,6 +93,12 @@
         return "/api/v1/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + language + "&type=" + type
+    }
+
+    function createTitleQueryUrl(codeList, iri) {
+        const escapedIri = iri.replace(":", "\\:");
+        return "/api/v1/codelist/ruian" +
+            "?iri=" + encodeURIComponent(escapedIri);
     }
 
 </script>

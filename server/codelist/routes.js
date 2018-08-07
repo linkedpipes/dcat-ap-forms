@@ -4,9 +4,9 @@ const configuration = require('../config');
 
 (function initialize() {
     const router = express.Router();
-    router.get("/media-types", createCodelistGet( //
+    router.get("/media-types", createCodelistGet(
         configuration.solr_media_types, true));
-    router.get("/file-type", createCodelistGet( //
+    router.get("/file-type", createCodelistGet(
         configuration.solr_file_type, true));
     router.get("/themes", createCodelistGet(
         configuration.solr_themes));
@@ -28,7 +28,11 @@ function createCodelistGet(baseUrl, sorted) {
 }
 
 function getSolrQuery(req) {
-    return "title:" + encodeURIComponent(req.query.search);
+    if (req.query.search) {
+        return "title:" + encodeURIComponent(req.query.search);
+    } else if (req.query.iri) {
+        return "code:" + encodeURIComponent(req.query.iri);
+    }
 }
 
 function handleError(res, error) {

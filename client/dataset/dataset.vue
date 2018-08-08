@@ -1,5 +1,5 @@
 <template>
-    <v-content>
+    <v-content v-if="data.ready">
         <v-stepper :value="ui.step" v-on:input="onStepperInput">
             <v-stepper-header>
                 <v-stepper-step editable
@@ -49,20 +49,29 @@
             <app-step-navigation-desktop v-model="ui.step"/>
         </div>
     </v-content>
+    <v-content v-else>
+
+    </v-content>
 </template>
 
 <script>
     import DatasetEdit from "./dataset-record-edit";
     import DistributionEdit from "./distribution-record-edit";
-    import {createDataset, isDatasetValid} from "./dataset-model";
+    import {
+        createDataset,
+        isDatasetValid,
+        decorateDataset
+    } from "./dataset-model";
     import {
         createDistribution,
-        isDistributionValid
+        isDistributionValid,
+        decorateDistribution
     } from "./distribution-model";
     import DistributionSelector from "./ui/distribution-selector";
     import StepperNavigationMobile from "./ui/step-navigation-mobile";
     import StepperNavigationDesktop from "./ui/step-navigation-desktop";
     import ExportSummary from "./export-summary";
+    import {importFromUrl} from "./import-from-url";
 
     export default {
         "name": "app-dataset-edit",
@@ -76,10 +85,9 @@
         },
         "data": () => ({
             "data": {
-                "dataset": createDataset(),
-                "distributions": [
-                    createDistribution()
-                ]
+                "ready": false,
+                "dataset": undefined,
+                "distributions": []
             },
             "ui": {
                 "step": 1,
@@ -91,11 +99,31 @@
             }
         }),
         "watch": {
-            "$route" : function(location) {
-                if (location.query.step !== this.ui.step) {
+            "$route": function (location) {
+                if (location.query.step === undefined) {
+                    this.ui.step = 1;
+                } else if (location.query.step !== this.ui.step) {
                     this.ui.step = location.query.step;
                 }
             }
+        },
+        "mounted": function () {
+            const url = this.$route.query.url;
+            if (url === undefined) {
+                this.data.dataset = createDataset();
+                this.data.distributions.push(createDistribution());
+                this.data.ready = true;
+                return;
+            }
+            console.time("loading from url");
+            importFromUrl(url).then((result) => {
+                const distributions = Object.values(result.distributions)
+                    .map(item => decorateDistribution(item));
+                this.data.dataset = decorateDataset(result.dataset);
+                this.data.distributions = distributions;
+                this.data.ready = true;
+                console.timeEnd("loading from url");
+            });
         },
         "methods": {
             "isDatasetValid": function () {

@@ -60,3 +60,43 @@ export default [
         "cs": "Správní obvod obce s rozšířenou působností"
     }
 ];
+
+export function typeFromUrl(url) {
+    if (url.indexOf("adresni-misto") !== -1) {
+
+    } else if (url.indexOf("/cast-obce/") !== -1) {
+        return "https://linked.cuzk.cz/ontology/ruian/TypPrvku/CO";
+    } else if (url.indexOf("/katastralni-uzemi/") !== -1) {
+
+    } else if (url.indexOf("/kraj-1960/") !== -1) {
+
+    } else if (url.indexOf("/momc/") !== -1) {
+
+    } else if (url.indexOf("/mop/") !== -1) {
+
+    } else if (url.indexOf("/obec/") !== -1) {
+
+    } else if (url.indexOf("/okres/") !== -1) {
+        return "https://linked.cuzk.cz/ontology/ruian/TypPrvku/OK";
+    } else if (url.indexOf("/orp/") !== -1) {
+
+    } else if (url.indexOf("/parcela/") !== -1) {
+
+    } else if (url.indexOf("/pou/") !== -1) {
+
+    } else if (url.indexOf("/region-soudrznosti/") !== -1) {
+        return "https://linked.cuzk.cz/ontology/ruian/TypPrvku/RS";
+    } else if (url.indexOf("/zjs/") !== -1) {
+
+    } else if (url.indexOf("/stat/") !== -1) {
+        return "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST";
+    } else if (url.indexOf("/stavebni-objekt/") !== -1) {
+
+    } else if (url.indexOf("/ulice/") !== -1) {
+        return "https://linked.cuzk.cz/ontology/ruian/TypPrvku/UL";
+    } else if (url.indexOf("/volebni-okrsek/") !== -1) {
+
+    } else if (url.indexOf("/vusc/") !== -1) {
+
+    }
+}

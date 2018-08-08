@@ -1,3 +1,7 @@
+export const SKOS = {
+    "inScheme" : "http://www.w3.org/2004/02/skos/core#inScheme"
+};
+
 export const DCTERMS = {
     "title": "http://purl.org/dc/terms/title",
     "temporal": "http://purl.org/dc/terms/temporal",

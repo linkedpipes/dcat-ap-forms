@@ -177,8 +177,13 @@
                         distribution.$validators.force = true;
                     });
                 }
+                if (this.$route.query.step === undefined && value === 1) {
+                    // Prevent redirect after the initial page is shown.
+                    return;
+                }
                 this.$router.push({
                     "query": {
+                        ...this.$route.query,
                         "step": value
                     }
                 });

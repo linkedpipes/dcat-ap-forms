@@ -8,7 +8,7 @@ import {
 } from "@/app-service/validators";
 
 export function createDistribution() {
-    return {
+    return decorateDistribution({
         "license_author_type": "NO",
         "license_author_name": "",
         "license_author_custom": "",
@@ -23,14 +23,18 @@ export function createDistribution() {
         "format": "",
         "media_type": "",
         "schema": "",
-        "title": "",
-        //
+        "title": ""
+    });
+}
+
+export function decorateDistribution(distribution) {
+    return {
+        ...distribution,
         "$validators": {
             "force": false
         }
     }
 }
-
 
 export function createDistributionValidators() {
     return {

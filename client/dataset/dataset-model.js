@@ -1,7 +1,7 @@
 import {apply, email, provided, url} from "@/app-service/validators";
 
 export function createDataset() {
-    return {
+    return decorateDataset({
         "title": "",
         "description": "",
         "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
@@ -14,13 +14,18 @@ export function createDataset() {
         "themes": [],
         "contact_point_name": "",
         "contact_point_email": "",
-        "keywords": [],
+        "keywords": []
+    })
+}
+
+export function decorateDataset(dataset) {
+    return {
+        ...dataset,
         "$validators": {
             "force": false
         }
     }
 }
-
 
 export function createDatasetValidators() {
     return {

@@ -38,6 +38,7 @@
     import ExportSummary from "./export-summary";
     import StepperNavigationMobile from "./ui/step-navigation-mobile";
     import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+    import setPageTitle from "@/app-service/page-title";
 
     export default {
         "name": "app-catalog-edit",
@@ -64,6 +65,9 @@
                     this.ui.step = location.query.krok;
                 }
             }
+        },
+        "mounted": function() {
+            setPageTitle("Registrace lokálního katalogu do NKOD");
         },
         "methods": {
             "isCatalogValid": function () {

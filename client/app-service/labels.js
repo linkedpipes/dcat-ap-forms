@@ -4,7 +4,6 @@ export const labels = {
     "get": get,
     "data": {
          ...CatalogLabels,
-        "app_header": "Registrace datové sady",
         "step_dataset": "Datová sada",
         "step_distribution": "Distribuce",
         "step_download": "Shrnutí",

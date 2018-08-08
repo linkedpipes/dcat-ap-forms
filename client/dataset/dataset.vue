@@ -72,6 +72,7 @@
     import StepperNavigationDesktop from "./ui/step-navigation-desktop";
     import ExportSummary from "./export-summary";
     import {importFromUrl} from "./import-from-url";
+    import setPageTitle from "@/app-service/page-title";
 
     export default {
         "name": "app-dataset-edit",
@@ -108,6 +109,8 @@
             }
         },
         "mounted": function () {
+            setPageTitle("Registrace datové sady do NKOD");
+
             const url = this.$route.query.url;
             if (url === undefined) {
                 this.data.dataset = createDataset();

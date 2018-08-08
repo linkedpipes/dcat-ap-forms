@@ -11,7 +11,7 @@ const router = new VueRouter({
             "path": "/" + encodeURI("registrace-datové-sady"),
             "component": Dataset
         }, {
-            "path": "/" + encodeURI("registrace-lokálního-catalogu"),
+            "path": "/" + encodeURI("registrace-lokálního-katalogu"),
             "component": Catalog
         }
     ]

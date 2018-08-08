@@ -21,12 +21,14 @@ import {typeFromUrl} from "./codelists/ruian-type";
 console.error("Using predefined URL as a data source.");
 
 function UPDATE_URL(url) {
-    const query = encodeURIComponent("define sql:describe-mode \"CBD\"  DESCRIBE <" + url + ">");
-    return "https://dev.nkod.opendata.cz/sparql?query=" + query + "&output=application%2Fld%2Bjson";
+    // const query = encodeURIComponent("define sql:describe-mode \"CBD\"  DESCRIBE <" + url + ">");
+    // return "https://dev.nkod.opendata.cz/sparql?query=" + query + "&output=application%2Fld%2Bjson";
+    return url;
 }
 
 export function importFromUrl(url) {
     return getRemoteJson(UPDATE_URL(url), "application/ld+json").then((response) => {
+
         const graphData = getDefaultGraphData(normalize(response.json));
         const dataset = getByType(graphData, DCATAP.Dataset)[0];
 

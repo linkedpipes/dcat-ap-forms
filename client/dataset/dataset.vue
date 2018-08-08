@@ -1,5 +1,5 @@
 <template>
-    <v-content v-if="data.ready">
+    <v-content v-if="data.status === 'ready'">
         <v-stepper :value="ui.step" v-on:input="onStepperInput">
             <v-stepper-header>
                 <v-stepper-step editable
@@ -49,8 +49,13 @@
             <app-step-navigation-desktop v-model="ui.step"/>
         </div>
     </v-content>
+    <v-content v-else-if="data.status === 'error'">
+        <p class="text-xs-center mt-5">
+            {{$labels.get("cant_import_dataset")}}
+        </p>
+    </v-content>
     <v-content v-else>
-
+        <!-- No content. -->
     </v-content>
 </template>
 
@@ -86,9 +91,10 @@
         },
         "data": () => ({
             "data": {
-                "ready": false,
+                "status": "loading",
                 "dataset": undefined,
-                "distributions": []
+                "distributions": [],
+                "error": undefined
             },
             "ui": {
                 "step": 1,
@@ -115,17 +121,21 @@
             if (url === undefined) {
                 this.data.dataset = createDataset();
                 this.data.distributions.push(createDistribution());
-                this.data.ready = true;
+                this.data.status = "ready";
                 return;
             }
+
             console.time("loading from url");
             importFromUrl(url).then((result) => {
                 const distributions = Object.values(result.distributions)
                     .map(item => decorateDistribution(item));
                 this.data.dataset = decorateDataset(result.dataset);
                 this.data.distributions = distributions;
-                this.data.ready = true;
+                this.data.status = "ready";
                 console.timeEnd("loading from url");
+            }).catch((error) => {
+                this.data.status = "error";
+                this.data.error = error;
             });
         },
         "methods": {

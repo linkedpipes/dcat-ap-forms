@@ -31,6 +31,9 @@ export function importFromUrl(url) {
 
         const graphData = getDefaultGraphData(normalize(response.json));
         const dataset = getByType(graphData, DCATAP.Dataset)[0];
+        if (dataset === undefined) {
+            throw {"error": "FETCH"};
+        }
 
         const temporalIri = getValue(dataset, DCTERMS.temporal);
         const contactPointIri = getValue(dataset, DCATAP.contactPoint);

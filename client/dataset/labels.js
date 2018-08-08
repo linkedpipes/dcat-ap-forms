@@ -135,5 +135,6 @@ export default {
     "license_personal_no_full": "Neobsahuje osobní údaje",
     "license_personal_no_short": "Neobsahuje",
     "license_personal_yes_full": "Obsahuje osobní údaje",
-    "license_personal_yes_short": "Obsahuje"
+    "license_personal_yes_short": "Obsahuje",
+    "cant_import_dataset": "Nepodařilo se importovat datovou sadu."
 }

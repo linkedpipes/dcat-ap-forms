@@ -100,10 +100,10 @@
         }),
         "watch": {
             "$route": function (location) {
-                if (location.query.step === undefined) {
+                if (location.query.krok === undefined) {
                     this.ui.step = 1;
-                } else if (location.query.step !== this.ui.step) {
-                    this.ui.step = location.query.step;
+                } else if (location.query.krok !== this.ui.krok) {
+                    this.ui.step = location.query.krok;
                 }
             }
         },
@@ -177,14 +177,14 @@
                         distribution.$validators.force = true;
                     });
                 }
-                if (this.$route.query.step === undefined && value === 1) {
+                if (this.$route.query.krok === undefined && value === 1) {
                     // Prevent redirect after the initial page is shown.
                     return;
                 }
                 this.$router.push({
                     "query": {
                         ...this.$route.query,
-                        "step": value
+                        "krok": value
                     }
                 });
             }

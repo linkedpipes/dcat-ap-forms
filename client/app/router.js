@@ -8,10 +8,10 @@ const router = new VueRouter({
             "path": "/",
             "component": Dataset
         }, {
-            "path": "/dataset",
+            "path": "/" + encodeURI("registrace-datové-sady"),
             "component": Dataset
         }, {
-            "path": "/catalog",
+            "path": "/" + encodeURI("registrace-lokálního-catalogu"),
             "component": Catalog
         }
     ]

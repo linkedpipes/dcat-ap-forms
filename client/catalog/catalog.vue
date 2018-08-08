@@ -60,8 +60,8 @@
         }),
         "watch": {
             "$route" : function(location) {
-                if (location.query.step !== this.ui.step) {
-                    this.ui.step = location.query.step;
+                if (location.query.krok !== this.ui.krok) {
+                    this.ui.step = location.query.krok;
                 }
             }
         },
@@ -77,9 +77,13 @@
                     this.validation.catalog = true;
                     this.data.catalog.$validators.force = true;
                 }
+                if (this.$route.query.krok === undefined && value === 1) {
+                    // Prevent redirect after the initial page is shown.
+                    return;
+                }
                 this.$router.push({
                     "query": {
-                        "step": value
+                        "krok": value
                     }
                 });
             }

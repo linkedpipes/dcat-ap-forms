@@ -239,8 +239,8 @@ function createDistributionObject(distribution) {
     const title = getValue(distribution, DCTERMS.title);
     return {
         "url": getValue(distribution, DCATAP.downloadURL),
-        "format": getValue(distribution, DCTERMS.format),
-        "media_type": getValue(distribution, DCATAP.mediaType),
+        "format": undefinedToEmpty(getValue(distribution, DCTERMS.format)),
+        "media_type": undefinedToEmpty(getValue(distribution, DCATAP.mediaType)),
         "schema": undefinedToEmpty(conformsTo),
         "title": undefinedToEmpty(title),
         //

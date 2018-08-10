@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const {VueLoaderPlugin} = require("vue-loader");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const config = require("../configuration");
 
 module.exports = {
     "entry": [
@@ -38,6 +39,7 @@ module.exports = {
             "inject": true
         }),
         new webpack.DefinePlugin({
+            "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy)
         })
     ]
 };

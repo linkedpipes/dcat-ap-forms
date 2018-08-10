@@ -18,17 +18,16 @@ import {
 } from "@/app-service/vocabulary";
 import {typeFromUrl} from "./codelists/ruian-type";
 
-console.error("Using predefined URL as a data source.");
-
-function UPDATE_URL(url) {
-    // const query = encodeURIComponent("define sql:describe-mode \"CBD\"  DESCRIBE <" + url + ">");
-    // return "https://dev.nkod.opendata.cz/sparql?query=" + query + "&output=application%2Fld%2Bjson";
-    return url;
+function update_url(url) {
+    if (DEREFERENCE_PROXY === "") {
+        return url;
+    } else {
+        return DEREFERENCE_PROXY.replace("{}", encodeURIComponent(url));
+    }
 }
 
 export function importFromUrl(url) {
-    return getRemoteJson(UPDATE_URL(url), "application/ld+json").then((response) => {
-
+    return getRemoteJson(update_url(url), "application/ld+json").then((response) => {
         const graphData = getDefaultGraphData(normalize(response.json));
         const dataset = getByType(graphData, DCATAP.Dataset)[0];
         if (dataset === undefined) {
@@ -40,14 +39,13 @@ export function importFromUrl(url) {
         const distributionsIri = getValues(dataset, DCATAP.distribution);
         const themesIri = getValues(dataset, DCATAP.theme);
 
-        const toFetch = [
+        const references = [
             temporalIri,
             contactPointIri,
             ...distributionsIri,
-            ...themesIri
-        ];
+        ].filter((value) => value !== undefined);
 
-        return fetchResources(toFetch).then((responses) => {
+        return obtainsResources(graphData, references).then((responses) => {
             const datasetModel = {
                 ...parseDataset(dataset),
                 //
@@ -58,12 +56,12 @@ export function importFromUrl(url) {
                 "dataset_theme": "",
                 "themes": [],
                 //
-                ...parseThemes(themesIri, responses),
+                ...parseThemes(themesIri),
                 ...parseContactPoint(contactPointIri, responses[contactPointIri]),
                 ...parseTemporal(temporalIri, responses[temporalIri])
             };
 
-            return parseDistributions(distributionsIri, responses)
+            return parseDistributions(graphData, distributionsIri, responses)
                 .then((distributionsModel) => {
                     return {
                         "dataset": datasetModel,
@@ -74,24 +72,38 @@ export function importFromUrl(url) {
     });
 }
 
-function fetchResources(data) {
+function obtainsResources(graphData, referenceEntities) {
     return mapPromises(
-        data, (url) => getRemoteJson(UPDATE_URL(url), "application/ld+json"));
+        referenceEntities, (iri) => resolveEntity(graphData, iri), true);
 }
 
-function mapPromises(keys, func) {
+function mapPromises(keys, func, catchSilent) {
     return keys.reduce((promise, key) => promise.then(
         (output) => func(key)
             .then(response => {
                 output[key] = response;
                 return output;
             })
-            .catch(response => {
-                output[key] = response;
-                return output;
+            .catch(error => {
+                if (catchSilent) {
+                    output[key] = error;
+                    return output;
+                } else {
+                    throw error;
+                }
             })
         )
         , Promise.resolve([]));
+}
+
+function resolveEntity(data, iri) {
+    const entity = getByIri(data, iri);
+    if (entity === undefined) {
+        return getRemoteJson(update_url(iri), "application/ld+json");
+    } else {
+        // Fake fetch response with entity.
+        return Promise.resolve({"json": {"@graph": [entity]}})
+    }
 }
 
 function parseDataset(dataset) {
@@ -136,23 +148,15 @@ function parseSpatial(values) {
     };
 }
 
-function parseThemes(iris, responses) {
+function parseThemes(iris) {
     const output = {
         "dataset_theme": "",
         "themes": []
     };
     iris.forEach((iri) => {
-        const response = responses[iri];
-        if (response.error || response.json === undefined) {
-            return;
-        }
-        const graphData = getDefaultGraphData(normalize(response.json));
-        const entity = getByIri(graphData, iri);
-        if (entity === undefined) {
-            return;
-        }
-        const inScheme = getValues(entity, SKOS.inScheme);
-        if (inScheme.indexOf("http://publications.europa.eu/resource/authority/data-theme") !== -1) {
+        const isDatasetTheme = iri.startsWith(
+            "http://publications.europa.eu/resource/authority/data-theme/");
+        if (isDatasetTheme) {
             output["dataset_theme"] = iri;
         } else {
             output["themes"].push(iri);
@@ -162,7 +166,7 @@ function parseThemes(iris, responses) {
 }
 
 function parseContactPoint(iri, response) {
-    if (response.error || response.json === undefined) {
+    if (iri === undefined || response.error || response.json === undefined) {
         return {};
     }
     const graphData = getDefaultGraphData(normalize(response.json));
@@ -177,7 +181,7 @@ function parseContactPoint(iri, response) {
 }
 
 function parseTemporal(iri, response) {
-    if (response.error || response.json === undefined) {
+    if (iri === undefined || response.error || response.json === undefined) {
         return {};
     }
     const graphData = getDefaultGraphData(normalize(response.json));
@@ -191,42 +195,59 @@ function parseTemporal(iri, response) {
     }
 }
 
-function parseDistributions(iris, responses) {
+function parseDistributions(graphData, iris, responses) {
     return mapPromises(
-        iris, (iri) => parseDistribution(iri, responses[iri]));
+        iris,
+        (iri) => parseDistribution(graphData, iri, responses[iri]),
+        false);
 }
 
-function parseDistribution(iri, response) {
+function parseDistribution(data, iri, response) {
     if (response.error || response.json === undefined) {
-        return {};
+        return Promise.resolve({});
     }
+
     const graphData = getDefaultGraphData(normalize(response.json));
     const distribution = getByIri(graphData, iri);
+    if (distribution === undefined) {
+        return Promise.reject({
+            "error": "INVALID_DATA",
+            "message": "Missing distribution: " + iri
+        })
+    }
+
     const termsOfUseIri = getValue(distribution, PU.specifikace);
 
+    if (termsOfUseIri === undefined) {
+        return Promise.resolve(createDistributionObject(distribution));
+    }
+
+    return resolveEntity(data, termsOfUseIri).then((response) => ({
+        ...createDistributionObject(distribution),
+        ...parseTermsOfUse(termsOfUseIri, response)
+    }));
+}
+
+function createDistributionObject(distribution) {
     const conformsTo = getValue(distribution, DCTERMS.conformsTo);
     const title = getValue(distribution, DCTERMS.title);
-
-    return getRemoteJson(UPDATE_URL(termsOfUseIri), "application/ld+json")
-        .then((response) => ({
-            "url": getValue(distribution, DCATAP.downloadURL),
-            "format": getValue(distribution, DCTERMS.format),
-            "media_type": getValue(distribution, DCATAP.mediaType),
-            "schema": undefinedToEmpty(conformsTo),
-            "title": undefinedToEmpty(title),
-            //
-            "license_author_type": "NO",
-            "license_author_name": "",
-            "license_author_custom": "",
-            "license_db_type": "NO",
-            "license_db_name": "",
-            "license_db_custom": "",
-            "license_specialdb_type": "NO",
-            "license_specialdb_custom": "",
-            "license_personal_type": "NO",
-            //
-            ...parseTermsOfUse(termsOfUseIri, response)
-        }));
+    return {
+        "url": getValue(distribution, DCATAP.downloadURL),
+        "format": getValue(distribution, DCTERMS.format),
+        "media_type": getValue(distribution, DCATAP.mediaType),
+        "schema": undefinedToEmpty(conformsTo),
+        "title": undefinedToEmpty(title),
+        //
+        "license_author_type": "NO",
+        "license_author_name": "",
+        "license_author_custom": "",
+        "license_db_type": "NO",
+        "license_db_name": "",
+        "license_db_custom": "",
+        "license_specialdb_type": "NO",
+        "license_specialdb_custom": "",
+        "license_personal_type": "NO",
+    }
 }
 
 function parseTermsOfUse(iri, response) {

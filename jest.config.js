@@ -18,5 +18,8 @@ module.exports = {
     "roots": [
         "client",
         "server"
-    ]
+    ],
+    "globals": {
+        "DEREFERENCE_PROXY": ""
+    }
 };

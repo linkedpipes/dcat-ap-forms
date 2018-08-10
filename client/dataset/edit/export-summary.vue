@@ -199,7 +199,7 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-to-jsonld";
+    import {exportToJsonLd} from "./export-dataset";
     import {downloadAsJsonLd} from "@/app-service/download";
     import DistributionCard from "./ui/distribution-card";
     import {getLabel as themeToLabel} from "./codelists/dataset-theme";

@@ -128,6 +128,7 @@ http.getRemoteJson = (url) => {
 };
 
 const EXPECTED_DATASET = {
+    "iri": "https://katalog-mdcr/a86",
     "title": "Seznam dopravců veřejné osobní dopravy obsažených v CIS JŘ",
     "description": "Obsahem datové sady je ....",
     "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_3",

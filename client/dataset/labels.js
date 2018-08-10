@@ -137,5 +137,7 @@ export default {
     "license_personal_yes_full": "Obsahuje osobní údaje",
     "license_personal_yes_short": "Obsahuje",
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
-    "edit_page_title": "Registrace datové sady do NKOD"
+    "edit_page_title": "Registrace datové sady do NKOD",
+    "delete_page_title": "Odstranění datové sady z NKOD",
+    "delete_summary_download": "Stažený soubor stáhněte a zašlete jako přílohu do datové schránky "
 }

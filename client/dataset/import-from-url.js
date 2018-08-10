@@ -5,7 +5,8 @@ import {
     getByType,
     getValue,
     getValues,
-    getByIri
+    getByIri,
+    getId
 } from "@/app-service/jsonld";
 import {
     DCTERMS,
@@ -112,6 +113,7 @@ function resolveEntity(data, iri) {
 
 function parseDataset(dataset) {
     return {
+        "iri" : getId(dataset),
         "title": getValue(dataset, DCTERMS.title),
         "description": getValue(dataset, DCTERMS.description),
         "accrual_periodicity": getValue(dataset, DCTERMS.accrualPeriodicity),

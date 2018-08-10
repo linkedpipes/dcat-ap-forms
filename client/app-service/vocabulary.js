@@ -1,5 +1,5 @@
 export const SKOS = {
-    "inScheme" : "http://www.w3.org/2004/02/skos/core#inScheme"
+    "inScheme": "http://www.w3.org/2004/02/skos/core#inScheme"
 };
 
 export const DCTERMS = {
@@ -14,7 +14,7 @@ export const DCTERMS = {
 };
 
 export const DCATAP = {
-    "Dataset" : "http://www.w3.org/ns/dcat#Dataset",
+    "Dataset": "http://www.w3.org/ns/dcat#Dataset",
     "contactPoint": "http://www.w3.org/ns/dcat#contactPoint",
     "distribution": "http://www.w3.org/ns/dcat#distribution",
     "theme": "http://www.w3.org/ns/dcat#theme",
@@ -65,4 +65,12 @@ export const CREATIVE_COMMONS = {
 
 export const NKOD = {
     "Formular": "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+};
+
+export const ADMS = {
+    "status": "http://www.w3.org/ns/adms#status"
+};
+
+export const STATUS = {
+    "Withdrawn": "http://purl.org/adms/status/Withdrawn"
 };

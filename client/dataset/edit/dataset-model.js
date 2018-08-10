@@ -2,6 +2,7 @@ import {apply, email, provided, url} from "@/app-service/validators";
 
 export function createDataset() {
     return decorateDataset({
+        "iri": undefined,
         "title": "",
         "description": "",
         "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",

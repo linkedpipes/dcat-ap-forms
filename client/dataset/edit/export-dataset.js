@@ -12,6 +12,7 @@ import {
 
 export function exportToJsonLd(dataset, distributions) {
     const output = {
+        "@id": dataset.iri,
         "@type": [DCATAP.Dataset, NKOD.Formular],
         [DCTERMS.title]: asLangString(dataset.title),
         [DCTERMS.description]: asLangString(dataset.description),

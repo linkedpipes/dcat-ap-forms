@@ -1,21 +1,19 @@
 import VueRouter from "vue-router";
-import Dataset from "@/dataset/dataset.vue";
-import Catalog from "@/catalog/catalog.vue";
+import DatasetEdit from "@/dataset/edit/dataset.vue";
+import CatalogEdit from "@/catalog/edit/catalog.vue";
 import Home from "@/home/home";
 
-const router = new VueRouter({
+export default router = new VueRouter({
     "routes": [
         {
             "path": "/",
             "component": Home
         }, {
             "path": "/" + encodeURI("registrace-datové-sady"),
-            "component": Dataset
+            "component": DatasetEdit
         }, {
             "path": "/" + encodeURI("registrace-lokálního-katalogu"),
-            "component": Catalog
+            "component": CatalogEdit
         }
     ]
 });
-
-export default router;

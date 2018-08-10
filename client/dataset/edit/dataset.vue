@@ -134,6 +134,7 @@
                 this.data.status = "ready";
                 console.timeEnd("loading from url");
             }).catch((error) => {
+                console.error(error);
                 this.data.status = "error";
                 this.data.error = error;
             });

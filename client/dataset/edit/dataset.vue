@@ -76,7 +76,7 @@
     import StepperNavigationMobile from "./ui/step-navigation-mobile";
     import StepperNavigationDesktop from "./ui/step-navigation-desktop";
     import ExportSummary from "./export-summary";
-    import {importFromUrl} from "./import-from-url";
+    import {importDataset} from "../import-from-url";
     import setPageTitle from "@/app-service/page-title";
 
     export default {
@@ -115,7 +115,7 @@
             }
         },
         "mounted": function () {
-            setPageTitle("Registrace datové sady do NKOD");
+            setPageTitle(this.$labels.get("edit_page_title"));
 
             const url = this.$route.query.url;
             if (url === undefined) {
@@ -125,14 +125,12 @@
                 return;
             }
 
-            console.time("loading from url");
-            importFromUrl(url).then((result) => {
+            importDataset(url).then((result) => {
                 const distributions = Object.values(result.distributions)
                     .map(item => decorateDistribution(item));
                 this.data.dataset = decorateDataset(result.dataset);
                 this.data.distributions = distributions;
                 this.data.status = "ready";
-                console.timeEnd("loading from url");
             }).catch((error) => {
                 console.error(error);
                 this.data.status = "error";

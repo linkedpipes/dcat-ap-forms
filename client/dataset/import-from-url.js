@@ -16,7 +16,7 @@ import {
     PU,
     SKOS
 } from "@/app-service/vocabulary";
-import {typeFromUrl} from "./codelists/ruian-type";
+import {typeFromUrl} from "./edit/codelists/ruian-type";
 
 function update_url(url) {
     if (DEREFERENCE_PROXY === "") {
@@ -26,8 +26,8 @@ function update_url(url) {
     }
 }
 
-export function importFromUrl(url) {
-    return getRemoteJson(update_url(url), "application/ld+json").then((response) => {
+export function importDataset(url) {
+    return getRemoteJsonLd(url).then((response) => {
         const graphData = getDefaultGraphData(normalize(response.json));
         const dataset = getByType(graphData, DCATAP.Dataset)[0];
         if (dataset === undefined) {
@@ -70,6 +70,10 @@ export function importFromUrl(url) {
                 });
         });
     });
+}
+
+function getRemoteJsonLd(url) {
+    return getRemoteJson(update_url(url), "application/ld+json");
 }
 
 function obtainsResources(graphData, referenceEntities) {
@@ -312,4 +316,22 @@ function parsePersonalData(termsOfUse) {
     } else {
         return "NO";
     }
+}
+
+export function importMinimalDataset(url) {
+    return getRemoteJsonLd(url).then((response) => {
+        const graphData = getDefaultGraphData(normalize(response.json));
+        const dataset = getByType(graphData, DCATAP.Dataset)[0];
+        if (dataset === undefined) {
+            throw {"error": "FETCH"};
+        }
+
+        const datasetModel = {
+            ...parseDataset(dataset),
+        };
+
+        return {
+            "dataset": datasetModel,
+        };
+    });
 }

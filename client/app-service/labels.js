@@ -14,8 +14,6 @@ export const Labels = {
 };
 
 function install(Vue, options) {
-
-    // Add property getter to every component.
     Object.defineProperty(Vue.prototype, "$labels", {
         "get": function () {
             return {
@@ -23,7 +21,6 @@ function install(Vue, options) {
             };
         }
     });
-
 }
 
 export const Plugin = {

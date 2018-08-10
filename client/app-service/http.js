@@ -1,5 +1,5 @@
 /**
- * Server is offline, missing CORS.
+ * Server is offline or missing CORS.
  */
 export const ERROR_FETCH = "FETCH";
 /**

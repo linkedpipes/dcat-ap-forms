@@ -15,11 +15,6 @@
         "name": ""
     };
 
-    function onShow(name) {
-        data.name = name;
-        data.isOpen = true;
-    }
-
     export const Plugin = {
         "install": install
     };
@@ -28,6 +23,11 @@
         Object.defineProperty(Vue.prototype, "$h", {
             "get": () => onShow
         });
+    }
+
+    function onShow(name) {
+        data.name = name;
+        data.isOpen = true;
     }
 
     export default {

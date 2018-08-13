@@ -11,13 +11,16 @@ const router = new VueRouter({
             "component": Home
         }, {
             "path": "/" + encodeURI("registrace-datové-sady"),
-            "component": DatasetEdit
+            "component": DatasetEdit,
+            "name": "dataset-registration"
         }, {
             "path": "/" + encodeURI("odstranění-datové-sady"),
-            "component": DatasetDelete
+            "component": DatasetDelete,
+            "name": "dataset-withdrawn"
         }, {
             "path": "/" + encodeURI("registrace-lokálního-katalogu"),
-            "component": CatalogEdit
+            "component": CatalogEdit,
+            "name": "catalog-registration"
         }
     ]
 });

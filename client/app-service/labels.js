@@ -1,5 +1,6 @@
 import CatalogLabels from "@/catalog/labels";
 import DatasetLabels from "@/dataset/labels";
+import HomeLabels from "@/home/labels";
 
 const VuetifyLocalization = {
     "noDataText": "Dotazu neodpovídají žádná data."
@@ -9,6 +10,7 @@ export const Labels = {
     "cs": {
         ...CatalogLabels,
         ...DatasetLabels,
+        ...HomeLabels,
         ...VuetifyLocalization
     }
 };

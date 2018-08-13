@@ -54,7 +54,7 @@
         "mounted": function () {
             const url = createTitleQueryUrl(this.codeList, this.value);
             getLocalJson(url).then((response) => {
-                addItems(this.codeList, response.json.response.docs);
+                addItems("ruian", response.json.response.docs);
                 this.items = response.json.response.docs;
             });
         },

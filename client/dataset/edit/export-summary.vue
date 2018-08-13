@@ -126,7 +126,7 @@
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{ruianLabel}}
+                                {{getRuianLabel()}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('ruian_iri')}}
@@ -216,8 +216,8 @@
             "distributions": {"type": Array, "required": true},
             "isValid": {"type": Boolean, "required": true}
         },
-        "computed": {
-            "ruianLabel": function () {
+        "methods": {
+            "getRuianLabel": function () {
                 const iri = this.dataset.ruian;
                 const value = getItem("ruian", iri);
                 if (value === undefined) {
@@ -226,8 +226,6 @@
                     return value["title"];
                 }
             },
-        },
-        "methods": {
             "onDownload": function () {
                 const jsonld = exportToJsonLd(this.dataset, this.distributions);
                 downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)

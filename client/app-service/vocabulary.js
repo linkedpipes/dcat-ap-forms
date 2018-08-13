@@ -64,7 +64,9 @@ export const CREATIVE_COMMONS = {
 };
 
 export const NKOD = {
-    "Formular": "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    "Formular": "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
+    "lkod": "https://data.gov.cz/slovník/nkod/lkod"
+
 };
 
 export const ADMS = {

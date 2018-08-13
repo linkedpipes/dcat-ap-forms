@@ -33,4 +33,7 @@ export default {
     "help_homepage": "<h3>Domácí stránka katalogu</h3><p>Uveďte URL domácí stránky vašho katalogu, pokud existuje. Váš lokální katalog může obsahovat větší množství informací a souvislostí, než se dostane do Národního katalogu otevřených dat. Proto můžete chtít, aby se uživatelé po nalezení vaší datové sady v NKOD mohli podívat i do vašeho katalogu.</p>",
     "homepage_invalid": "Domácí stránka katalogu musí být validní HTTPS URL.",
 
+    "catalog_delete_page_title": "Odstranění lokálního katalogu z NKOD",
+    "missing-catalog": "Chybí odkaz na dataovou sadu.",
+    "catalog_delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky "
 };

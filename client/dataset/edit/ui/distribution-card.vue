@@ -243,6 +243,20 @@
                                 </v-btn>                    
                             </v-list-tile-action>
                         </v-list-tile>
+                        <v-list-tile avatar v-if="distribution.license_personal_type == 'UNKNOWN'">
+                            <v-list-tile-avatar>
+                                <v-icon class="red white--text">help</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    <span class="hidden-lg-and-down">{{$labels.get('license_personal_unknown_full')}}</span>
+                                    <span class="hidden-xl-only">{{$labels.get('license_personal_unknown_short')}}</span>
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                    {{$labels.get('license_personal_type')}}
+                                </v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
                     </v-list>
                 </v-flex>
                 <v-flex xs12 sm6>

@@ -21,5 +21,6 @@ export const db_special_license_types = [
 
 export const personal_data_links = [
     {"label": "Obsahuje osobní údaje", "value": "YES"},
-    {"label": "Neobsahuje osobní údaje", "value": "NO"}
+    {"label": "Neobsahuje osobní údaje", "value": "NO"},
+    {"label": "Může obsahovat osobní údaje (nespecifikováno)", "value": "UNKNOWN"}  
 ];

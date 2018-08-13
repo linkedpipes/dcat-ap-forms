@@ -1,16 +1,19 @@
 <template>
     <v-container fluid grid-list-lg>
+        <v-alert :value="true" color="warning" icon="warning" outline>
+            {{$labels.get("delete_summary_alert")}}
+            <code>{{$labels.get("datová_schránka_nkod")}}</code>.</v-alert>
         <v-layout row>
             <v-flex md10>
                 <h2 class="display-1">{{dataset.title}}</h2>
             </v-flex>
             <v-spacer/>
-            <v-btn v-on:click="onExport"
+            <!--<v-btn v-on:click="onExport"
                    class="hidden-xs-only" color="success"
                    round outline>
                 <v-icon left>file_download</v-icon>
                 <span>{{$labels.get("button_download")}}</span>
-            </v-btn>
+            </v-btn>-->
         </v-layout>
         <p class="subheading multiline">{{dataset.description}}</p>
         <v-divider class="my-2"/>
@@ -24,7 +27,7 @@
                 </v-btn>
                 <span>
                     {{$labels.get("dataset_delete_summary_download")}}
-                    <code>uur3q2i</code>.
+                    <code>{{$labels.get("nkod_databox")}}</code>.
                 </span>
             </v-tooltip>
         </v-layout>

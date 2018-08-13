@@ -6,11 +6,16 @@ const VuetifyLocalization = {
     "noDataText": "Dotazu neodpovídají žádná data."
 };
 
+const GlobalLabels = {
+    "nkod_databox" : "uur3q2i"
+};
+
 export const Labels = {
     "cs": {
         ...CatalogLabels,
         ...DatasetLabels,
         ...HomeLabels,
+        ...GlobalLabels,
         ...VuetifyLocalization
     }
 };

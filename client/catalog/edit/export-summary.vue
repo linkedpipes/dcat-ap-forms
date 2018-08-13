@@ -115,7 +115,7 @@
                 </v-btn>
                 <span v-if="isValid">
                     {{$labels.get('summary_download')}}
-                    <code>uur3q2i</code>.
+                    <code>{{$labels.get("nkod_databox")}}</code>.
                 </span>
                 <span v-if="!isValid">{{$labels.get('summary_error')}}</span>
             </v-tooltip>

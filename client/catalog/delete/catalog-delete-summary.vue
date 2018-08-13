@@ -23,7 +23,7 @@
                 </v-btn>
                 <span>
                     {{$labels.get("catalog_delete_summary_download")}}
-                    <code>uur3q2i</code>.
+                    <code>{{$labels.get("nkod_databox")}}</code>.
                 </span>
             </v-tooltip>
         </v-layout>

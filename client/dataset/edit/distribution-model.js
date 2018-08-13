@@ -98,7 +98,7 @@ export function isDistributionValid(dist) {
             dist.license_db_type, dist.license_db_custom) &&
         isCustomValid(
             dist.license_specialdb_type, dist.license_specialdb_custom) &&
-        isPersonalVaild(
+        isPersonalValid(
             dist.license_personal_type);
 }
 
@@ -166,7 +166,5 @@ function validatePersonal() {
 }
 
 function isPersonalValid(value) {
-    if (value !== "UNKNOWN") {
-        return true;
-    }
+    return value !== "UNKNOWN";
 }

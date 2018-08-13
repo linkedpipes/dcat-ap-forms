@@ -8,7 +8,7 @@
             </v-flex>
             <v-flex v-if="isValid">
                 <v-alert :value="isValid" outline type="success">
-                    {{$labels.get('summary_download')}} <code>{{$labels.get('datová_schránka_nkod')}}</code>.
+                    {{$labels.get('summary_download')}} <code>{{$labels.get('nkod_databox')}}</code>.
                 </v-alert>
             </v-flex>
         </v-layout>

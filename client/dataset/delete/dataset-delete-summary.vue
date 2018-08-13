@@ -2,7 +2,7 @@
     <v-container fluid grid-list-lg>
         <v-alert :value="true" color="warning" icon="warning" outline>
             {{$labels.get("delete_summary_alert")}}
-            <code>{{$labels.get("datová_schránka_nkod")}}</code>.</v-alert>
+            <code>{{$labels.get("nkod_databox")}}</code>.</v-alert>
         <v-layout row>
             <v-flex md10>
                 <h2 class="display-1">{{dataset.title}}</h2>

@@ -23,7 +23,7 @@
                     <span>{{$labels.get("button_download")}}</span>
                 </v-btn>
                 <span>
-                    {{$labels.get("delete_summary_download")}}
+                    {{$labels.get("dataset_delete_summary_download")}}
                     <code>uur3q2i</code>.
                 </span>
             </v-tooltip>

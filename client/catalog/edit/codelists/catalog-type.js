@@ -9,8 +9,6 @@ const codelist = [
     }
 ];
 
-console.error("Update CKAN API IRI");
-
 export default codelist;
 
 export function getLabel(iri) {

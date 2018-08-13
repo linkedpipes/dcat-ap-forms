@@ -8,7 +8,7 @@
             </v-flex>
             <v-flex v-if="isValid">
                 <v-alert :value="isValid" outline type="success">
-                    {{$labels.get('summary_download')}} <code>uur3q2i</code>.
+                    {{$labels.get('summary_download')}} <code>{{$labels.get('datová_schránka_nkod')}}</code>.
                 </v-alert>
             </v-flex>
         </v-layout>
@@ -191,7 +191,7 @@
                     <v-icon left>file_download</v-icon>
                     <span>{{$labels.get('button_download')}}</span>
                 </v-btn>
-                <span v-if="isValid">{{$labels.get('summary_download')}} <code>uur3q2i</code>.</span>
+                <span v-if="isValid">{{$labels.get('summary_download')}} <code>{{$labels.get('datová_schránka_nkod')}}</code>.</span>
                 <span v-if="!isValid">{{$labels.get('summary_error')}}</span>
             </v-tooltip>
         </v-layout>

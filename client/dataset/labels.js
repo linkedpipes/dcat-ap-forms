@@ -139,5 +139,7 @@ export default {
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
     "edit_page_title": "Registrace datové sady do NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
-    "delete_summary_download": "Stažený soubor stáhněte a zašlete jako přílohu do datové schránky "
+    "delete_summary_alert": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
+	"delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky ",
+	"datová_schránka_nkod": "uur3q2i"
 }

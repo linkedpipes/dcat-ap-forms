@@ -14,10 +14,9 @@ export function addItems(type, items) {
     });
 }
 
-export function getItem(type, url) {
+export function getItem(type, iri) {
     if (storage[type] === undefined) {
         return undefined;
     }
-    return storage[type][url];
+    return storage[type][iri];
 }
-

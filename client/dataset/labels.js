@@ -136,10 +136,13 @@ export default {
     "license_personal_no_short": "Neobsahuje",
     "license_personal_yes_full": "Obsahuje osobní údaje",
     "license_personal_yes_short": "Obsahuje",
+    "license_personal_unknown_full": "Může obsahovat osobní údaje (nespecifikováno)",
+    "license_personal_unknown_short": "Nespecifikováno",
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
     "edit_page_title": "Registrace datové sady do NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
     "delete_summary_alert": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
-	"delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky ",
-	"datová_schránka_nkod": "uur3q2i"
+    "delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky ",
+    "datová_schránka_nkod": "uur3q2i",
+    "personal_invalid": "Pro registraci do NKOD je nutné specifikovat, zda distribuce obsahuje osobní údaje či nikoliv."
 }

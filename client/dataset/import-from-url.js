@@ -315,8 +315,10 @@ function parsePersonalData(termsOfUse) {
     const iri = getValue(termsOfUse, PU.osobniUdaje);
     if ("https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/" === iri) {
         return "YES";
-    } else {
+    } else if ("https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/" === iri) {
         return "NO";
+    } else {
+        return "UNKNOWN";
     }
 }
 

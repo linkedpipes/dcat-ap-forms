@@ -57,6 +57,7 @@ export function createDistributionValidators() {
             "license_specialdb_custom",
             "license_specialdb_custom_invalid"
         ),
+        "err_personal": validatePersonal(),
         //
         "err_url": applyArray(
             (t) => t.distribution, "url",
@@ -96,7 +97,9 @@ export function isDistributionValid(dist) {
         isCustomValid(
             dist.license_db_type, dist.license_db_custom) &&
         isCustomValid(
-            dist.license_specialdb_type, dist.license_specialdb_custom);
+            dist.license_specialdb_type, dist.license_specialdb_custom) &&
+        isPersonalVaild(
+            dist.license_personal_type);
 }
 
 function validateAuthor(licence_prop, name_prop) {
@@ -149,4 +152,21 @@ function isCustomValid(licence, value) {
         return true;
     }
     return provided(value) && url(value);
+}
+
+function validatePersonal() {
+    return function () {
+        const value = this.distribution["license_personal_type"];
+        if (value === "UNKNOWN") {
+            return [this.$labels.get("personal_invalid")];
+        } else {
+            return [] ;
+        }
+    }
+}
+
+function isPersonalValid(value) {
+    if (value !== "UNKNOWN") {
+        return true;
+    }
 }

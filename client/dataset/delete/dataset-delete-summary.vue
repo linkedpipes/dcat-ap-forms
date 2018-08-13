@@ -1,7 +1,7 @@
 <template>
     <v-container fluid grid-list-lg>
-		<v-alert :value="true" color="warning" icon="warning" outline>
-			{{$labels.get("delete_summary_alert")}}
+        <v-alert :value="true" color="warning" icon="warning" outline>
+            {{$labels.get("delete_summary_alert")}}
             <code>{{$labels.get("datová_schránka_nkod")}}</code>.</v-alert>
         <v-layout row>
             <v-flex md10>

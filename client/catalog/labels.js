@@ -35,5 +35,5 @@ export default {
 
     "catalog_delete_page_title": "Odstranění lokálního katalogu z NKOD",
     "missing-catalog": "Chybí odkaz na dataovou sadu.",
-    "catalog_delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky "
+    "catalog_delete_summary_download": "Pokud opravdu chcete zrušit registraci lokálního katalogu, stažený soubor zašlete jako přílohu do datové schránky "
 };

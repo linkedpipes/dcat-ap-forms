@@ -1,33 +1,47 @@
 <template>
-    <v-container fluid grid-list-lg>
-        <v-layout row>
-            <v-flex md10>
-                <h2 class="display-1">{{catalog.url}}</h2>
-            </v-flex>
-            <v-spacer/>
-            <v-btn v-on:click="onExport"
-                   class="hidden-xs-only" color="success"
-                   round outline>
-                <v-icon left>file_download</v-icon>
-                <span>{{$labels.get("button_download")}}</span>
-            </v-btn>
-        </v-layout>
-        <v-divider class="my-2"/>
-        <v-layout row>
-            <v-spacer/>
-            <v-tooltip bottom>
+    <v-card>
+        <v-container fluid>
+            <div>
+                <div class="headline">
+                    {{$labels.get("catalog_delete_page_title")}}
+                </div>
+                <div>
+                    <v-list two-line subheader>
+                        <v-list-tile avatar>
+                            <v-list-tile-avatar>
+                                <v-icon class="blue white--text">link</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{catalog.url}}
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                    {{$labels.get("catalog_url")}}
+                                </v-list-tile-sub-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                                <v-btn icon ripple v-on:click="openUrl(catalog.url)">
+                                    <v-icon color="blue">open_in_new</v-icon>
+                                </v-btn>
+                            </v-list-tile-action>
+                        </v-list-tile>
+                    </v-list>
+                </div>
+            </div>
+            <v-card-actions>
+                <div>
+                    {{$labels.get("catalog_delete_summary_download")}}
+                    <code>{{$labels.get("nkod_databox")}}</code>.
+                </div>
+                <v-spacer/>
                 <v-btn slot="activator" round v-on:click="onExport"
-                       color="success" outline>
+                       color="warning" outline>
                     <v-icon left>file_download</v-icon>
                     <span>{{$labels.get("button_download")}}</span>
                 </v-btn>
-                <span>
-                    {{$labels.get("catalog_delete_summary_download")}}
-                    <code>{{$labels.get("nkod_databox")}}</code>.
-                </span>
-            </v-tooltip>
-        </v-layout>
-    </v-container>
+            </v-card-actions>
+        </v-container>
+    </v-card>
 </template>
 
 <script>
@@ -44,9 +58,16 @@
                 const jsonld = exportToJsonLd(this.catalog);
                 downloadAsJsonLd(
                     "nkod-odstranění-datové-sady.jsonld.txt",jsonld)
-            }
+            },
+            "openUrl": function (url) {
+                downloadUrl(url);
+            }           
         }
     }
+
+    function downloadUrl(uri) {
+        window.open(uri);
+    }   
 
 </script>
 

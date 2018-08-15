@@ -141,7 +141,6 @@ export default {
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
     "edit_page_title": "Registrace datové sady do NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
-    "delete_summary_alert": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
-    "dataset_delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky ",
+    "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
     "personal_invalid": "Pro registraci do NKOD je nutné specifikovat, zda distribuce obsahuje osobní údaje či nikoliv."
 }

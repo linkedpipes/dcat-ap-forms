@@ -142,5 +142,5 @@ export default {
     "edit_page_title": "Registrace datové sady do NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
     "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
-    "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položku \"Může obsahovat osobní údaje\" je třeba změnit."
+    "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položka \"Může obsahovat osobní údaje\" slouží pouze pro editaci starých záznamů a je třeba ji specifikovat."
 }

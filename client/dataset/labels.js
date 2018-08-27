@@ -98,7 +98,7 @@ export default {
     "hint_distribution_url": "Uveďte HTTPS URL souboru ke stažení.",
     "hint_distribution_schema": "Uveďte HTTPS URL strojově čitelného schématu distribuce (XSD, CSVW, ...).",
     "help_distribution_url": "<h3>Odkaz na soubor ke stažení</h3><p>HTTPS URL <strong>souboru ke stažení</strong>. Nemělo by se zde tedy vyskytnout URL webové stránky s textem či dalšími odkazy. Rovněž by se zde nemělo vyskytnout URL webové služby, která potřebuje další parametry k tomu, aby vrátila soubor. Naopak  URL volání webové služby, na které se vrátí soubor ke stažení obsahující všechna data datové sady v daném formátu zde být může.</p>",
-    "help_license_author_type": "<h3>Autorské dílo</h3><p>Tato položka se řídí <a href=\"https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti#autorská_práva\" target=\"_blank\">podrobným návodem</a>. Její správné vyplnění je stěžejní pro to, aby byla mohla být distribuce datové sady považována za otevřenou. Věnujte tedy jejímu vyplnění maximální pozornost.</p>",
+    "help_license_author_type": "<h3>Autorské dílo</h3><p>Tato položka se řídí <a href=\"https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti#autorská_práva\" target=\"_blank\">podrobným návodem</a>. Její správné vyplnění je stěžejní pro to, aby byla mohla být distribuce datové sady považována za otevřenou. Věnujte tedy jejímu vyplnění maximální pozornost. Pokud zvolíte položku &quot;Obsahuje více autorských děl&quot;, ujistěte se, že pro každé autorské dílo v distribuci je otevřená licence řádně specifikována.</p>",
     "help_license_author_name": "<h3>Jména autorů díla</h3><p>Pokud je distribuce licencována pomocí CC BY 4.0, uveďte zde jména autorů díla, která jsou nezbytnou součástí informace o poskytnuté licenci a která je následně třeba uvést všude tam, kde je distribuce datové sady použita.</p>",
     "help_license_author_custom": "<h3>Odkaz na vlastní licenci k autorskému dílu</h3><p>Pokud je distribuce licencována pomocí vlastní licence, což <strong>se nedoporučuje</strong>, uveďte zde URL na webovou stránku s jejím textem.</p>",
     "help_license_db_type": "<h3>Originální databáze</h3><p>Tato položka se řídí <a href=\"https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti#autorskoprávní_ochrana_databáze_jako_díla\" target=\"_blank\">podrobným návodem</a>. Její správné vyplnění je stěžejní pro to, aby byla mohla být distribuce datové sady považována za otevřenou. Věnujte tedy jejímu vyplnění maximální pozornost.</p>",
@@ -141,7 +141,6 @@ export default {
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
     "edit_page_title": "Registrace datové sady do NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
-    "delete_summary_alert": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
-    "dataset_delete_summary_download": "Stažený soubor zašlete jako přílohu do datové schránky ",
-    "personal_invalid": "Pro registraci do NKOD je nutné specifikovat, zda distribuce obsahuje osobní údaje či nikoliv."
+    "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor do datové schránky ",
+    "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položka \"Může obsahovat osobní údaje\" slouží pouze pro editaci starých záznamů a je třeba ji specifikovat."
 }

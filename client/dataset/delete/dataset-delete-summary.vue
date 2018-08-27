@@ -1,37 +1,56 @@
 <template>
-    <v-container fluid grid-list-lg>
-        <v-alert :value="true" color="warning" icon="warning" outline>
-            {{$labels.get("delete_summary_alert")}}
-            <code>{{$labels.get("nkod_databox")}}</code>.</v-alert>
-        <v-layout row>
-            <v-flex md10>
-                <h2 class="display-1">{{dataset.title}}</h2>
-            </v-flex>
-            <v-spacer/>
-            <!--<v-btn v-on:click="onExport"
-                   class="hidden-xs-only" color="success"
-                   round outline>
-                <v-icon left>file_download</v-icon>
-                <span>{{$labels.get("button_download")}}</span>
-            </v-btn>-->
-        </v-layout>
-        <p class="subheading multiline">{{dataset.description}}</p>
-        <v-divider class="my-2"/>
-        <v-layout row>
-            <v-spacer/>
-            <v-tooltip bottom>
-                <v-btn slot="activator" round v-on:click="onExport"
-                       color="success" outline>
-                    <v-icon left>file_download</v-icon>
-                    <span>{{$labels.get("button_download")}}</span>
-                </v-btn>
-                <span>
+    <v-card>
+        <v-container fluid>
+            <div>
+                <div class="headline">
+                    {{$labels.get("delete_page_title")}}
+                </div>
+                <div>
+                    <v-list two-line>
+                        <v-list-tile avatar>
+                            <v-list-tile-avatar>
+                                <v-icon class="blue white--text">label</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{dataset.title}}
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                    {{$labels.get("dataset_title")}}
+                                </v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                        <v-list-tile avatar>
+                            <v-list-tile-avatar>
+                                <v-icon class="blue white--text">description</v-icon>
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title>
+                                    {{dataset.description}}
+                                </v-list-tile-title>
+                                <v-list-tile-sub-title>
+                                    {{$labels.get("dataset_description")}}
+                                </v-list-tile-sub-title>
+                            </v-list-tile-content>
+                        </v-list-tile>
+                    </v-list>
+                </div>
+            </div>
+            <v-card-actions>
+                <div>
                     {{$labels.get("dataset_delete_summary_download")}}
                     <code>{{$labels.get("nkod_databox")}}</code>.
-                </span>
-            </v-tooltip>
-        </v-layout>
-    </v-container>
+                </div>
+                <v-spacer/>
+                <v-btn slot="activator" round v-on:click="onExport"
+                       color="warning" outline>
+                    <v-icon left>file_download</v-icon>
+
+                    <span>{{$labels.get("button_download")}}</span>
+                </v-btn>
+            </v-card-actions>
+        </v-container>
+    </v-card>
 </template>
 
 <script>

@@ -126,7 +126,7 @@
                         </v-list-tile-avatar>
                         <v-list-tile-content>
                             <v-list-tile-title>
-                                {{getRuianLabel()}}
+                                {{ruianLabel}}
                             </v-list-tile-title>
                             <v-list-tile-sub-title>
                                 {{$labels.get('ruian_iri')}}
@@ -178,7 +178,8 @@
                     <app-distribution-card
                             v-for="(item, index) in distributions"
                             :key="index"
-                            :distribution="item"/>
+                            :distribution="item"
+                            :codelist="codelist"/>
                 </v-layout>
             </v-flex>
         </v-layout>
@@ -214,18 +215,21 @@
         "props": {
             "dataset": {"type": Object, "required": true},
             "distributions": {"type": Array, "required": true},
-            "isValid": {"type": Boolean, "required": true}
+            "isValid": {"type": Boolean, "required": true},
+            "codelist": {"type": Object, "required": true}
         },
-        "methods": {
-            "getRuianLabel": function () {
+        "computed": {
+            "ruianLabel": function () {
                 const iri = this.dataset.ruian;
-                const value = getItem("ruian", iri);
+                const value = getItem(this.codelist, "ruian", iri);
                 if (value === undefined) {
                     return iri;
                 } else {
                     return value["title"];
                 }
-            },
+            }
+        },
+        "methods": {
             "onDownload": function () {
                 const jsonld = exportToJsonLd(this.dataset, this.distributions);
                 downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
@@ -239,7 +243,7 @@
             "datasetThemeToLabel": themeToLabel,
             "frequencyToLabel": frequencyToLabel,
             "themeToLabel": function (iri) {
-                const value = getItem("themes", iri);
+                const value = getItem(this.codelist, "themes", iri);
                 if (value === undefined) {
                     return iri;
                 } else {

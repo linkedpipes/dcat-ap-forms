@@ -38,7 +38,8 @@
                     <app-export-summary
                             :dataset="data.dataset"
                             :is-valid="isDatasetValid() && areDistributionsValid()"
-                            :distributions="data.distributions"/>
+                            :distributions="data.distributions"
+                            :codelist="data.codelist"/>
                 </v-stepper-content>
             </v-stepper-items>
         </v-stepper>
@@ -78,6 +79,7 @@
     import ExportSummary from "./export-summary";
     import {importDataset} from "../import-from-url";
     import setPageTitle from "@/app-service/page-title";
+    import {getStore} from "./codelists/local-storage";
 
     export default {
         "name": "app-dataset-edit",
@@ -91,6 +93,7 @@
         },
         "data": () => ({
             "data": {
+                "codelist": getStore(),
                 "status": "loading",
                 "dataset": undefined,
                 "distributions": [],
@@ -116,7 +119,6 @@
         },
         "mounted": function () {
             setPageTitle(this.$labels.get("edit_page_title"));
-
             const url = this.$route.query.url;
             if (url === undefined) {
                 this.data.dataset = createDataset();

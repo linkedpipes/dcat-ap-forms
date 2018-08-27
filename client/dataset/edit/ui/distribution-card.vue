@@ -344,27 +344,28 @@
     export default {
         "name": "app-distribution-card",
         "props": {
-            "distribution": {"type": Object, "required": true}
+            "distribution": {"type": Object, "required": true},
+            "codelist": {"type": Object, "required": true}
         },
         "computed": {
             "schemaProvided": function () {
                 return this.distribution.schema !== null &&
                     this.distribution.schema.length > 0;
             },
-            "mediaTypeLabel": function() {
+            "mediaTypeLabel": function () {
                 const iri = this.distribution.media_type;
-                const value = getItem("media-types",iri);
+                const value = getItem(this.codelist, "media-types", iri);
                 if (value === undefined) {
-                    return undefined;
+                    return iri;
                 } else {
                     return value["title"];
                 }
             },
-            "formatLabel": function() {
+            "formatLabel": function () {
                 const iri = this.distribution.format;
-                const value = getItem("file-type",iri);
+                const value = getItem(this.codelist, "file-type", iri);
                 if (value === undefined) {
-                    return undefined;
+                    return iri;
                 } else {
                     return value["title"];
                 }

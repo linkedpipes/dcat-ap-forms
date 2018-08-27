@@ -3,7 +3,7 @@ export function provided(value) {
 }
 
 export function email(value) {
-    const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+    const emailPattern = /^[^ ]+@[^ ]+$/;
     return !provided(value) || emailPattern.test(value);
 }
 

@@ -1829,7 +1829,7 @@
         ],
         "http://plugins.linkedpipes.com/ontology/t-mustache#template": [
           {
-            "@value": "{{!\n  PREFIX mustache: <http://plugins.linkedpipes.com/ontology/t-mustache#>\n  PREFIX nkod: <https://data.gov.cz/slovník/nkod/>\n}}\n\n[\n{{#http://localhost/item}}\n{{^mustache:first}},{{/mustache:first}}\n{\n    \"id\": \"{{@id}}\",\n    \"code\": \"{{@id}}\",\n    \"title\" : \"{{http://www.w3.org/2004/02/skos/core#prefLabel}}\",\n    \"prio\" : \"{{nkod:priorita}}\"\n}\n{{/http://localhost/item}}\n]"
+            "@value": "{{!\n  PREFIX mustache: <http://plugins.linkedpipes.com/ontology/t-mustache#>\n  PREFIX nkod: <https://data.gov.cz/slovník/nkod/>\n}}\n\n[\n{{#http://localhost/item}}\n{{^mustache:first}},{{/mustache:first}}\n{\n    \"id\": \"{{@id}}\",\n    \"code\": \"{{@id}}\",\n    \"title\" : \"{{http://www.w3.org/2004/02/skos/core#prefLabel}}\",\n    \"priority\" : \"{{nkod:priorita}}\"\n}\n{{/http://localhost/item}}\n]"
           }
         ],
         "http://plugins.linkedpipes.com/ontology/t-mustache#templateControl": [
@@ -1972,7 +1972,7 @@
         ],
         "http://plugins.linkedpipes.com/ontology/t-mustache#template": [
           {
-            "@value": "{{!\n  PREFIX mustache: <http://plugins.linkedpipes.com/ontology/t-mustache#>\n  PREFIX nkod: <https://data.gov.cz/slovník/nkod/>\n}}\n\n[\n{{#http://localhost/item}}\n{{^mustache:first}},{{/mustache:first}}\n{\n    \"id\": \"{{@id}}\",\n    \"code\": \"{{@id}}\",\n    \"title\" : \"{{http://purl.org/dc/terms/title}}\",\n    \"prio\" : \"{{nkod:priorita}}\"\n}\n{{/http://localhost/item}}\n]"
+            "@value": "{{!\n  PREFIX mustache: <http://plugins.linkedpipes.com/ontology/t-mustache#>\n  PREFIX nkod: <https://data.gov.cz/slovník/nkod/>\n}}\n\n[\n{{#http://localhost/item}}\n{{^mustache:first}},{{/mustache:first}}\n{\n    \"id\": \"{{@id}}\",\n    \"code\": \"{{@id}}\",\n    \"title\" : \"{{http://purl.org/dc/terms/title}}\",\n    \"priority\" : \"{{nkod:priorita}}\"\n}\n{{/http://localhost/item}}\n]"
           }
         ],
         "http://plugins.linkedpipes.com/ontology/t-mustache#templateControl": [

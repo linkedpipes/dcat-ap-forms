@@ -7,6 +7,7 @@ export default {
     "catalog_title": "Název lokálního katalogu otevřených dat",
     "hint_catalog_title": "Název registrovaného lokálního katalogu otevřených dat. Pokud má instituce jen jeden, může to být třeba \"Katalog otevřených dat XXX\"",
     "help_catalog_title": "<h3>Název lokálního katalogu otevřených dat</h3><p>Typicky to bývá <code>Otevřená data XY</code>. Pokud by jedna instituce měla více lokálních katalogů, pak by je název měl rozlišovat.</p>",
+    "catalog_title_missing": "Název lokálního katalogu otevřených dat je povinný.",
     
     "catalog_contact_point_name": "Jméno správce katalogu",
     "hint_catalog_contact_point_name": "Sem budeme adresovat případné problémy s katalogem.",

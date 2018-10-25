@@ -25,7 +25,7 @@ export function createCatalogValidators() {
         "err_title": apply(
             (t) => t.catalog, "title",
             provided,
-            "catalog_title_invalid"),
+            "catalog_title_missing"),
         "err_url": applyArray(
             (t) => t.catalog, "url",
             [

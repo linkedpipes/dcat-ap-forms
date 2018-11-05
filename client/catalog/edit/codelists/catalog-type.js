@@ -5,7 +5,11 @@ const codelist = [
     },
     {
         "value": "https://data.gov.cz/slovník/nkod/DcatApLkod",
-        "cs": "DCAT-AP"
+        "cs": "DCAT-AP Dokumenty"
+    },
+	{
+        "value": "https://data.gov.cz/slovník/nkod/DcatApSparql",
+        "cs": "DCAT-AP SPARQL Endpoint"
     }
 ];
 

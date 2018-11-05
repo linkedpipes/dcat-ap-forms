@@ -21,7 +21,7 @@ export default {
     "catalog_contact_point_email_invalid": "Neplatný email správce katalogu",
 
     "catalog_type": "Typ API lokálního katalogu",
-    "help_catalog_type": "<h3>Typ API lokálního katalogu</h3><p>V současnosti jsou podporovány 2 typy LKOD API. DCAT-AP API je preferovanou volbou zlaoženou na <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">evropském standardu DCAT-AP v1.1</a>. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> je podporováno v režimu zpětné kompatibility, ale neumožňuje využít všech možností harvestace do NKOD.</p>",
+    "help_catalog_type": "<h3>Typ API lokálního katalogu</h3><p>V současnosti jsou podporovány 3 typy LKOD API. Preferovanými volbami založenými na <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">evropském standardu DCAT-AP v1.1</a> jsou DCAT-AP Dokumenty a DCAT-AP SPARQL Endpoint. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> je podporováno v režimu zpětné kompatibility, ale neumožňuje využít všech možností harvestace do NKOD.</p>",
 
     "catalog_url": "URL LKOD API",
     "hint_catalog_url": "HTTPS URL funkce package_list pro CKAN API, URL instance dcat:Catalog pro DCAT-AP API.",

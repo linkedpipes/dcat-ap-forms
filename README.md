@@ -75,8 +75,8 @@ curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:applicatio
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
-    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
 }'
 
 curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:application/json' --data-binary '{
@@ -89,8 +89,8 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
-    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
 }'
 
 ```

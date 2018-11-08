@@ -19,6 +19,12 @@ module.exports = merge(common, {
                     "vue-style-loader",
                     "css-loader"
                 ]
+            }, {
+                // Apply linter during run development.
+                "enforce": "pre",
+                "test": /\.(js|vue)$/,
+                "loader": "eslint-loader",
+                "exclude": /node_modules/
             }
         ]
     },

@@ -66,7 +66,7 @@
             "onExport": function () {
                 const jsonld = exportToJsonLd(this.catalog);
                 downloadAsJsonLd(
-                    "nkod-odstranění-datové-sady.jsonld.txt",jsonld)
+                    "nkod-odstranění-katalogu.jsonld.txt",jsonld)
             },
             "openUrl": function (url) {
                 downloadUrl(url);

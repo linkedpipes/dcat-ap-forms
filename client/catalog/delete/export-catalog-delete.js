@@ -13,7 +13,7 @@ import {
 
 export function exportToJsonLd(dataset) {
     const output = {
-        "@type": [DCATAP.Dataset, NKOD.Formular],
+        "@type": [DCATAP.Catalog, NKOD.Formular],
         "@id": dataset.iri,
         [ADMS.status]: [STATUS.Withdrawn]
     };

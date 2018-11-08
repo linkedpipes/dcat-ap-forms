@@ -18,11 +18,6 @@ module.exports = (api) => {
 
     const ignore = [];
 
-    if (api.env(["development"])) {
-        plugins.push("react-hot-loader/babel");
-        ignore.push("node_modules");
-    }
-
     return {
         "presets": presets,
         "plugins": plugins,

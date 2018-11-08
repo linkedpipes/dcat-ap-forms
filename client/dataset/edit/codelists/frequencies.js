@@ -1,101 +1,124 @@
+const prefix = "http://publications.europa.eu/resource/authority/frequency/";
+
 const codelist = [
     {
+        "value": prefix + "DAILY",
         "cs": "denní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/DAILY"
+        "en": "denní"
     },
     {
+        "value": prefix + "WEEKLY",
         "cs": "týdenní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY"
+        "en": "týdenní"
     },
     {
+        "value": prefix + "MONTHLY",
         "cs": "měsíční",
-        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+        "en": "měsíční"
     },
     {
+        "value": prefix + "QUARTERLY",
         "cs": "čtvrtletní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/QUARTERLY"
+        "en": "čtvrtletní"
     },
     {
+        "value": prefix + "ANNUAL_2",
         "cs": "pololetní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL_2"
+        "en": "pololetní"
     },
     {
+        "value": prefix + "ANNUAL",
         "cs": "roční",
-        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL"
+        "en": "roční"
     },
     {
+        "value": prefix + "UPDATE_CONT",
         "cs": "průběžně aktualizovaná",
-        "value": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"
+        "en": "průběžně aktualizovaná"
     },
     {
+        "value": prefix + "NEVER",
         "cs": "nikdy",
-        "value": "http://publications.europa.eu/resource/authority/frequency/NEVER"
+        "en": "nikdy"
     },
     {
+        "value": prefix + "IRREG",
         "cs": "nepravidelná",
-        "value": "http://publications.europa.eu/resource/authority/frequency/IRREG"
+        "en": "nepravidelná"
     },
     {
+        "value": prefix + "UNKNOWN",
         "cs": "neznámá",
-        "value": "http://publications.europa.eu/resource/authority/frequency/UNKNOWN"
+        "en": "neznámá"
     },
     {
+        "value": prefix + "DAILY_2",
         "cs": "dvakrát denně",
-        "value": "http://publications.europa.eu/resource/authority/frequency/DAILY_2"
+        "en": "dvakrát denně"
     },
     {
+        "value": prefix + "WEEKLY_2",
         "cs": "dvakrát týdně",
-        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_2"
+        "en": "dvakrát týdně"
     },
     {
+        "value": prefix + "WEEKLY_3",
         "cs": "třikrát týdně",
-        "value": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_3"
+        "en": "třikrát týdně"
     },
     {
+        "value": prefix + "BIWEEKLY",
         "cs": "jednou za čtrnáct dní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/BIWEEKLY"
+        "en": "jednou za čtrnáct dní"
     },
     {
+        "value": prefix + "MONTHLY_2",
         "cs": "dvakrát za měsíc",
-        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY_2"
+        "en": "dvakrát za měsíc"
     },
     {
+        "value": prefix + "MONTHLY_3",
         "cs": "třikrát za měsíc",
-        "value": "http://publications.europa.eu/resource/authority/frequency/MONTHLY_3"
+        "en": "třikrát za měsíc"
     },
     {
+        "value": prefix + "BIMONTHLY",
         "cs": "jednou za dva měsíce",
-        "value": "http://publications.europa.eu/resource/authority/frequency/BIMONTHLY"
+        "en": "jednou za dva měsíce"
     },
     {
+        "value": prefix + "ANNUAL_3",
         "cs": "třikrát do roka",
-        "value": "http://publications.europa.eu/resource/authority/frequency/ANNUAL_3"
+        "en": "třikrát do roka"
     },
     {
+        "value": prefix + "BIENNIAL",
         "cs": "jednou za dva roky",
-        "value": "http://publications.europa.eu/resource/authority/frequency/BIENNIAL"
+        "en": "jednou za dva roky"
     },
     {
+        "value": prefix + "TRIENNIAL",
         "cs": "jednou za tři roky",
-        "value": "http://publications.europa.eu/resource/authority/frequency/TRIENNIAL"
+        "en": "jednou za tři roky"
     },
     {
+        "value": prefix + "CONT",
         "cs": "průběžně",
-        "value": "http://publications.europa.eu/resource/authority/frequency/CONT"
+        "en": "průběžně"
     },
     {
+        "value": prefix + "OTHER",
         "cs": "ostatní",
-        "value": "http://publications.europa.eu/resource/authority/frequency/OTHER"
+        "en": "ostatní"
     }
 ];
 
-
 export default codelist;
 
-export function getLabel(iri) {
+export function getLabel(iri, lang) {
     for (let index in codelist) {
         if (codelist[index]["value"] === iri) {
-            return codelist[index]["cs"];
+            return codelist[index][lang];
         }
     }
     return iri;

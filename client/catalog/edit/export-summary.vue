@@ -136,7 +136,7 @@
         </v-btn>
         <span v-if="isValid">
           {{ $labels.get('summary_download') }}
-          <code>{{ $labels.get("nkod_databox") }}</code>.
+          <code>{{ nkodDatabox }}</code>.
         </span>
         <span v-if="!isValid">{{ $labels.get('summary_error') }}</span>
       </v-tooltip>
@@ -154,6 +154,11 @@
         "props": {
             "catalog": {"type": Object, "required": true},
             "isValid": {"type": Boolean, "required": true}
+        },
+        "computed": {
+            "nkodDatabox": function() {
+                return NKOD_ISDS;
+            }
         },
         "methods": {
             "onDownload": function () {

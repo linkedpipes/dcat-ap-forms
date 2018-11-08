@@ -14,15 +14,15 @@
     append-outer-icon="help_outline"
     flat
     no-filter
-    @input="onInput" 
+    @input="onInput"
     @click:append-outer="$h('ruian')">
-    <template 
-      slot="selection" 
+    <template
+      slot="selection"
       slot-scope="data">
       {{ data.item.title }} ({{ data.item.notation }})
     </template>
-    <template 
-      slot="item" 
+    <template
+      slot="item"
       slot-scope="data">
       {{ data.item.title }} ({{ data.item.notation }})
     </template>
@@ -57,7 +57,8 @@
             "ignoreNextSearch": false
         }),
         "mounted": function () {
-            const url = createTitleQueryUrl(this.codeList, this.value);
+            const url = createTitleQueryUrl(
+                this.codeList, this.value, this.$vuetify.lang.current);
             getLocalJson(url).then((response) => {
                 addItems("ruian", response.json.response.docs);
                 this.items = response.json.response.docs;
@@ -77,7 +78,8 @@
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
-                let url = createQueryUrl(query, this.type);
+                let url = createQueryUrl(
+                    query, this.type, this.$vuetify.lang.current);
                 getLocalJson(url).then((response) => {
                     addItems("ruian", response.json.response.docs);
                     this.items = response.json.response.docs;
@@ -88,22 +90,24 @@
                 this.ignoreNextSearch = true;
                 this.$emit("input", value);
             },
-            "clearItemCache": function() {
+            "clearItemCache": function () {
                 this.items = [];
             }
         }
     }
 
-    function createQueryUrl(query, type) {
+    function createQueryUrl(query, type, lang) {
         return "/api/v1/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
+            "&lang=" + lang +
             "&type=" + type
     }
 
-    function createTitleQueryUrl(codeList, iri) {
+    function createTitleQueryUrl(codeList, iri, lang) {
         const escapedIri = iri.replace(":", "\\:");
         return "/api/v1/codelist/ruian" +
-            "?iri=" + encodeURIComponent(escapedIri);
+            "?iri=" + encodeURIComponent(escapedIri) +
+            "&lang=" + lang;
     }
 
 </script>

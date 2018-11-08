@@ -1,16 +1,33 @@
 const path = require("path");
 const webpack = require("webpack");
 const {VueLoaderPlugin} = require("vue-loader");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const config = require("../configuration");
 
+const entryPath = path.join(__dirname, "..", "client", "app-entry");
+
 module.exports = {
-    "entry": [
-        path.join(__dirname, "..", "client", "index.js")
-    ],
+    "entry": {
+        "catalog-registration-cs":
+            path.join(entryPath, "catalog-registration-cs.js"),
+        "catalog-registration-en":
+            path.join(entryPath, "catalog-registration-en.js"),
+        "catalog-withdrawn-cs":
+            path.join(entryPath, "catalog-withdrawn-cs.js"),
+        "catalog-withdrawn-en":
+            path.join(entryPath, "catalog-withdrawn-en.js"),
+        "dataset-registration-cs":
+            path.join(entryPath, "dataset-registration-cs.js"),
+        "dataset-registration-en":
+            path.join(entryPath, "dataset-registration-en.js"),
+        "dataset-withdrawn-cs":
+            path.join(entryPath, "dataset-withdrawn-cs.js"),
+        "dataset-withdrawn-en":
+            path.join(entryPath, "dataset-withdrawn-en.js"),
+        "home":
+            path.join(entryPath, "home.js")
+    },
     "output": {
         "path": path.join(__dirname, "..", "dist"),
-        "filename": "bundle.js",
         "publicPath": "./"
     },
     "resolve": {
@@ -33,13 +50,9 @@ module.exports = {
     },
     "plugins": [
         new VueLoaderPlugin(),
-        new HtmlWebpackPlugin({
-            "filename": "index.html",
-            "template": path.join(__dirname, "..", "public", "index.html"),
-            "inject": true
-        }),
         new webpack.DefinePlugin({
-            "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy)
+            "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy),
+            "NKOD_ISDS": JSON.stringify(config.nkod_databox)
         })
     ]
 };

@@ -116,6 +116,9 @@
         }),
         "watch": {
             "$route": function (location) {
+
+                console.log("$route", location);
+
                 if (location.query.krok === undefined) {
                     this.ui.step = 1;
                 } else if (location.query.krok !== this.ui.krok) {
@@ -125,6 +128,7 @@
         },
         "mounted": function () {
             setPageTitle(this.$labels.get("edit_page_title"));
+
             const url = this.$route.query.url;
             if (url === undefined) {
                 this.data.dataset = createDataset();

@@ -36,7 +36,7 @@
       <v-card-actions>
         <div>
           {{ $labels.get("catalog_delete_summary_download") }}
-          <code>{{ $labels.get("nkod_databox") }}</code>.
+          <code>{{ nkodDatabox }}</code>.
         </div>
         <v-spacer/>
         <v-btn 
@@ -61,6 +61,11 @@
         "name": "app-export-summary",
         "props": {
             "catalog": {"type": Object, "required": true}
+        },
+        "computed": {
+            "nkodDatabox": function() {
+                return NKOD_ISDS;
+            }
         },
         "methods": {
             "onExport": function () {

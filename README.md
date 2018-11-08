@@ -49,7 +49,8 @@ curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
     "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}    
 }'
 
@@ -59,7 +60,8 @@ curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:ap
         "filters": [{"class":"solr.LowerCaseFilterFactory"}]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "title", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
     "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}    
 }'
 
@@ -73,8 +75,8 @@ curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:applicatio
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "title", "type": "ascii_text" , "indexed": true, "docValues": false}
+    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
 }'
 
 curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:application/json' --data-binary '{
@@ -87,7 +89,8 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
-    "add-field": {"name": "title", "type": "ascii_text" , "indexed": true, "docValues": false}
+    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
 }'
 
 ```

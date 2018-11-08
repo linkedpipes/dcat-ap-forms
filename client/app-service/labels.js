@@ -1,24 +1,14 @@
-import CatalogLabels from "@/catalog/labels";
-import DatasetLabels from "@/dataset/labels";
-import HomeLabels from "@/home/labels";
-
-const VuetifyLocalization = {
-    "noDataText": "Dotazu neodpovídají žádná data."
-};
-
-const GlobalLabels = {
-    "nkod_databox" : "uur3q2i"
-};
-
-export const Labels = {
-    "cs": {
-        ...CatalogLabels,
-        ...DatasetLabels,
-        ...HomeLabels,
-        ...GlobalLabels,
-        ...VuetifyLocalization
+export function prepareLabels() {
+    let result = {};
+    for (let index = 0; index < arguments.length; ++index) {
+        const arg = arguments[index];
+        result = {
+            ...result,
+            ...arg
+        };
     }
-};
+    return result;
+}
 
 function install(Vue, options) {
     Object.defineProperty(Vue.prototype, "$labels", {
@@ -33,5 +23,3 @@ function install(Vue, options) {
 export const Plugin = {
     "install": install
 };
-
-

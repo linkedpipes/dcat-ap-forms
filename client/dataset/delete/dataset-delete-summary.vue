@@ -39,7 +39,7 @@
       <v-card-actions>
         <div>
           {{ $labels.get("dataset_delete_summary_download") }}
-          <code>{{ $labels.get("nkod_databox") }}</code>.
+          <code>{{ nkodDatabox }}</code>.
         </div>
         <v-spacer/>
         <v-btn 
@@ -49,7 +49,6 @@
           outline 
           @click="onExport">
           <v-icon left>file_download</v-icon>
-
           <span>{{ $labels.get("button_download") }}</span>
         </v-btn>
       </v-card-actions>
@@ -65,6 +64,11 @@
         "name": "app-export-summary",
         "props": {
             "dataset": {"type": Object, "required": true}
+        },
+        "computed": {
+            "nkodDatabox": function() {
+                return NKOD_ISDS;
+            }
         },
         "methods": {
             "onExport": function () {

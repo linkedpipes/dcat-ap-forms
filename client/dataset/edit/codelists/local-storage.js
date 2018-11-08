@@ -6,6 +6,8 @@ import Vue from "vue";
 
 const storage = {};
 
+// We can change language on fly, so the items need to contains all language
+// mutations.
 export function addItems(type, items) {
     if (storage[type] === undefined) {
         // We need to add this in reactive way otherwise Vue wont detect
@@ -19,11 +21,16 @@ export function addItems(type, items) {
     });
 }
 
-export function getItem(store, type, iri) {
+export function getItem(store, type, iri, lang) {
     if (store[type] === undefined) {
         return undefined;
     }
-    return store[type][iri];
+    const item = store[type][iri];
+    if (item) {
+        return item["lang"];
+    } else {
+        return undefined;
+    }
 }
 
 export function getStore() {

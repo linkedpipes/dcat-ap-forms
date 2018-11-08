@@ -41,7 +41,3 @@ export function getValues(entity, predicate) {
     });
     return output;
 }
-
-// TODO Add tests with undefined entities.
-
-

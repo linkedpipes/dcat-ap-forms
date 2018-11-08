@@ -79,7 +79,7 @@ export function createDistributionValidators() {
 }
 
 function isValidFormat(value) {
-    return value.includes('/');
+    return value.includes("/");
 }
 
 export function isDistributionValid(dist) {

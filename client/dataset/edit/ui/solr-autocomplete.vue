@@ -47,7 +47,8 @@
             "ignoreNextSearch": false
         }),
         "mounted": function () {
-            const url = createTitleQueryUrl(this.codeList, this.value);
+            const url = createTitleQueryUrl(
+                this.codeList, this.value, this.$vuetify.lang.current);
             getLocalJson(url).then((response) => {
                 addItems(this.codeList, response.json.response.docs);
                 this.items = response.json.response.docs;
@@ -67,7 +68,8 @@
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
-                const url = createQueryUrl(this.codeList, query);
+                const url = createQueryUrl(
+                    this.codeList, query, this.$vuetify.lang.current);
                 getLocalJson(url).then((response) => {
                     addItems(this.codeList, response.json.response.docs);
                     this.items = response.json.response.docs;
@@ -81,15 +83,17 @@
         }
     }
 
-    function createQueryUrl(codeList, query) {
+    function createQueryUrl(codeList, query, lang) {
         return "/api/v1/codelist/" + codeList +
-            "?search=*" + encodeURIComponent(query) + "*";
+            "?search=*" + encodeURIComponent(query) + "*" +
+            "&lang=" + lang;
     }
 
-    function createTitleQueryUrl(codeList, iri) {
+    function createTitleQueryUrl(codeList, iri, lang) {
         const escapedIri = iri.replace(":", "\\:");
         return "/api/v1/codelist/" + codeList +
-            "?iri=" + encodeURIComponent(escapedIri);
+            "?iri=" + encodeURIComponent(escapedIri) +
+            "&lang=" + lang;
     }
 
 </script>

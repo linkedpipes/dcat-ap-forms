@@ -17,8 +17,8 @@
           :value="isValid"
           outline
           type="success">
-          {{ $labels.get('summary_download') }} <code>{{
-          $labels.get('nkod_databox') }}</code>.
+          {{ $labels.get('summary_download') }}
+          <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
     </v-layout>
@@ -251,7 +251,9 @@
           <v-icon left>file_download</v-icon>
           <span>{{ $labels.get('button_download') }}</span>
         </v-btn>
-        <span v-if="isValid">{{ $labels.get('summary_download') }} <code>{{ $labels.get('nkod_databox') }}</code>.</span>
+        <span v-if="isValid">{{ $labels.get('summary_download') }}
+          <code>{{ nkodDatabox }}</code>.
+        </span>
         <span v-if="!isValid">{{ $labels.get('summary_error') }}</span>
       </v-tooltip>
     </v-layout>
@@ -280,12 +282,16 @@
         "computed": {
             "ruianLabel": function () {
                 const iri = this.dataset.ruian;
-                const value = getItem(this.codelist, "ruian", iri);
+                const value = getItem(
+                    this.codelist, "ruian", iri, this.$vuetify.lang.current);
                 if (value === undefined) {
                     return iri;
                 } else {
                     return value["title"];
                 }
+            },
+            "nkodDatabox": function() {
+                return NKOD_ISDS;
             }
         },
         "methods": {

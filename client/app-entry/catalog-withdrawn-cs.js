@@ -1,29 +1,30 @@
 import Vue from "vue";
-import VueRouter from "vue-router";
 import Vuetify from "vuetify";
-import App from "@/app/app";
-import router from "@/app/router";
-import {Labels, Plugin as LabelsPlugin} from "@/app-service/labels";
+import VueRouter from "vue-router";
+
+import App from "./catalog-withdrawn.vue";
+import {prepareLabels, Plugin as LabelsPlugin} from "@/app-service/labels";
 import {Plugin as Help} from "@/app-service/help";
+import AppLabels from "@/app/labels-cs";
+import CatalogLabels from "@/catalog/labels-cs";
 
 require("vuetify/dist/vuetify.css");
 
 Vue.config.productionTip = false;
 
-Vue.use(VueRouter);
 Vue.use(Vuetify, {
     "lang": {
-        "locales": Labels,
+        "locales": {"cs": prepareLabels(AppLabels, CatalogLabels)},
         "current": "cs"
     }
 });
+Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
-
 
 /* eslint-disable no-new */
 new Vue({
     "el": "#app",
-    "router": router,
+    "router": new VueRouter(),
     "render": (h) => h(App)
 });

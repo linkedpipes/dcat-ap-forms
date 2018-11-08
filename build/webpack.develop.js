@@ -5,9 +5,25 @@ const common = Object.assign({}, require("./webpack.common"));
 module.exports = merge(common, {
     "mode": "development",
     "devtool": "eval",
-    "entry": [
-        "webpack-hot-middleware/client"
-    ],
+    "entry": {
+        "webpack-hot-middleware": "webpack-hot-middleware/client"
+    },
+    "output": {
+        "filename": "[name].js",
+    },
+    "optimization": {
+        "splitChunks": {
+            "cacheGroups": {
+                "commons": {
+                    "test": /[\\/]node_modules[\\/]/,
+                    "name": "commons",
+                    "chunks": "all",
+                    "filename": "[name].js"
+                }
+            }
+        },
+        "occurrenceOrder": true
+    },
     "devServer": {
         "hot": true
     },

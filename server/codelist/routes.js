@@ -1,6 +1,6 @@
 const express = require("express");
 const request = require("request");
-const configuration = require('../config');
+const configuration = require("../config");
 
 (function initialize() {
     const router = express.Router();
@@ -29,7 +29,7 @@ function createCodelistGet(baseUrl, sorted) {
 
 function getSolrQuery(req) {
     if (req.query.search) {
-        return "title:" + encodeURIComponent(req.query.search);
+        return req.query.lang + ":" + encodeURIComponent(req.query.search);
     } else if (req.query.iri) {
         return "code:" + encodeURIComponent(req.query.iri);
     }
@@ -48,7 +48,6 @@ function createRuianCodelistGet() {
         if (req.query.type !== undefined) {
             url += "&fq=type:\"" + encodeURIComponent(req.query.type) + "\"";
         }
-        console.log("URL", url);
         request.get({"url": url}).on("error", (error) => {
             handleError(res, error);
         }).pipe(res);

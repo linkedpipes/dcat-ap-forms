@@ -1,55 +1,71 @@
+const prefix = "http://publications.europa.eu/resource/authority/data-theme/";
+
 const codelist = [
     {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/TRAN",
-        "cs": "Doprava"
+        "value": prefix + "TRAN",
+        "cs": "Doprava",
+        "en": "Doprava"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/ENER",
-        "cs": "Energie"
+        "value": prefix + "ENER",
+        "cs": "Energie",
+        "en": "Energie"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/ECON",
-        "cs": "Hospodářství a finance"
+        "value": prefix + "ECON",
+        "cs": "Hospodářství a finance",
+        "en": "Hospodářství a finance"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/INTR",
-        "cs": "Mezinárodní otázky"
+        "value": prefix + "INTR",
+        "cs": "Mezinárodní otázky",
+        "en": "Mezinárodní otázky"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/SOCI",
-        "cs": "Populace a společnost"
+        "value": prefix + "SOCI",
+        "cs": "Populace a společnost",
+        "en": "Populace a společnost"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/OP_DATPRO",
-        "cs": "Předběžné údaje"
+        "value": prefix + "OP_DATPRO",
+        "cs": "Předběžné údaje",
+        "en": "Předběžné údaje"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/REGI",
-        "cs": "Regiony a města"
+        "value": prefix + "REGI",
+        "cs": "Regiony a města",
+        "en": "Regiony a města"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/JUST",
-        "cs": "Spravedlnost, právní systém a veřejná bezpečnost"
+        "value": prefix + "JUST",
+        "cs": "Spravedlnost, právní systém a veřejná bezpečnost",
+        "en": "Spravedlnost, právní systém a veřejná bezpečnost"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/TECH",
-        "cs": "Věda a technika"
+        "value": prefix + "TECH",
+        "cs": "Věda a technika",
+        "en": "Věda a technika"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/GOVE",
-        "cs": "Vláda a veřejný sektor"
+        "value": prefix + "GOVE",
+        "cs": "Vláda a veřejný sektor",
+        "en": "Vláda a veřejný sektor"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/EDUC",
-        "cs": "Vzdělávání, kultura a sport"
+        "value": prefix + "EDUC",
+        "cs": "Vzdělávání, kultura a sport",
+        "en": "Vzdělávání, kultura a sport"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/HEAL",
-        "cs": "Zdraví"
+        "value": prefix + "HEAL",
+        "cs": "Zdraví",
+        "en": "Zdraví"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/AGRI",
-        "cs": "Zemědělství, rybolov, lesnictví a výživa"
+        "value": prefix + "AGRI",
+        "cs": "Zemědělství, rybolov, lesnictví a výživa",
+        "en": "Zemědělství, rybolov, lesnictví a výživa"
     }, {
-        "value": "http://publications.europa.eu/resource/authority/data-theme/ENVI",
-        "cs": "Životní prostředí"
+        "value": prefix + "ENVI",
+        "cs": "Životní prostředí",
+        "en": "Životní prostředí"
     }
 ];
 
 export default codelist;
 
-export function getLabel(iri) {
+export function getLabel(iri, lang) {
     for (let index in codelist) {
         if (codelist[index]["value"] === iri) {
-            return codelist[index]["cs"];
+            return codelist[index][lang];
         }
     }
     return iri;

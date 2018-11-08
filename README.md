@@ -75,6 +75,7 @@ curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:applicatio
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
 }'

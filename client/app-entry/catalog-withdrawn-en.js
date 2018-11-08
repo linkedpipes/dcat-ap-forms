@@ -25,6 +25,6 @@ Vue.use(Help);
 /* eslint-disable no-new */
 new Vue({
     "el": "#app",
-    "router": new VueRouter(),
+    "router": new VueRouter({"mode": "history"}),
     "render": (h) => h(App)
 });

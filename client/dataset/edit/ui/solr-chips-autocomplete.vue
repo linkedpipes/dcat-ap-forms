@@ -1,33 +1,40 @@
 <template>
-    <v-autocomplete
-            :id="id"
-            :loading="loading"
-            :items="items"
-            :search-input.sync="search"
-            :value="value"
-            :label="label"
-            v-on:input="onInput"
-            :error-messages="errorMessages"
-            :append-icon="null"
-            item-text="title"
-            item-value="code"
-            append-outer-icon="help_outline"
-            v-on:click:append-outer="$h(id)"
-            :prepend-icon="prependIcon"
-            flat cache-items multiple chips>
-        <template slot="selection" slot-scope="data">
-            <v-chip v-on:input="removeTheme(data.item)" close>
-                <strong>{{data.item.title}}</strong>
-            </v-chip>
-        </template>
-        <template slot="no-data">
-            <v-list-tile>
-                <v-list-tile-title>
-                    {{noDataPrompt}}
-                </v-list-tile-title>
-            </v-list-tile>
-        </template>
-    </v-autocomplete>
+  <v-autocomplete
+    :id="id"
+    :loading="loading"
+    :items="items"
+    :search-input.sync="search"
+    :value="value"
+    :label="label"
+    :error-messages="errorMessages"
+    :append-icon="null"
+    :item-text="$vuetify.lang.current"
+    :prepend-icon="prependIcon"
+    item-value="code"
+    append-outer-icon="help_outline"
+    flat
+    cache-items
+    multiple 
+    chips 
+    @input="onInput" 
+    @click:append-outer="$h(id)">
+    <template 
+      slot="selection" 
+      slot-scope="data">
+      <v-chip 
+        close 
+        @input="removeTheme(data.item)">
+        <strong>{{ data.item.title }}</strong>
+      </v-chip>
+    </template>
+    <template slot="no-data">
+      <v-list-tile>
+        <v-list-tile-title>
+          {{ noDataPrompt }}
+        </v-list-tile-title>
+      </v-list-tile>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>

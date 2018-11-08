@@ -1,19 +1,24 @@
 <template>
-    <v-layout row mt-1>
-        <v-btn v-on:click="onPrevious"
-               v-if="value > 1"
-               flat>
-            <v-icon>arrow_back</v-icon>
-            {{prevLabel}}
-        </v-btn>
-        <v-spacer/>
-        <v-btn v-on:click="onNext"
-               v-if="value < 2"
-               flat color="primary">
-            {{nextLabel}}
-            <v-icon>arrow_forward</v-icon>
-        </v-btn>
-    </v-layout>
+  <v-layout 
+    row 
+    mt-1>
+    <v-btn 
+      v-if="value > 1"
+      flat
+      @click="onPrevious">
+      <v-icon>arrow_back</v-icon>
+      {{ prevLabel }}
+    </v-btn>
+    <v-spacer/>
+    <v-btn 
+      v-if="value < 2"
+      flat
+      color="primary" 
+      @click="onNext">
+      {{ nextLabel }}
+      <v-icon>arrow_forward</v-icon>
+    </v-btn>
+  </v-layout>
 </template>
 
 <script>

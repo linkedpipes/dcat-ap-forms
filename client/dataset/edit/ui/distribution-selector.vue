@@ -1,25 +1,37 @@
 <template>
-    <div class="centred">
-        <v-btn v-on:click="onPrevious"
-               :disabled="value < 1"
-               flat icon>
-            <v-icon>navigate_before</v-icon>
-        </v-btn>
-        <v-btn v-for="(item, index) in distributions" :key="index" flat icon>
-            <v-icon v-on:click="onSelect(index)"
-                    :color="index === value ? 'blue' : undefined">
-                lens
-            </v-icon>
-        </v-btn>
-        <v-btn v-on:click="onNew" flat icon>
-            <v-icon color="green">add_circle</v-icon>
-        </v-btn>
-        <v-btn v-on:click="onNext"
-               :disabled="value + 1 >= distributions.length"
-               flat icon>
-            <v-icon>navigate_next</v-icon>
-        </v-btn>
-    </div>
+  <div class="centred">
+    <v-btn 
+      :disabled="value < 1"
+      flat
+      icon 
+      @click="onPrevious">
+      <v-icon>navigate_before</v-icon>
+    </v-btn>
+    <v-btn 
+      v-for="(item, index) in distributions" 
+      :key="index" 
+      flat 
+      icon>
+      <v-icon 
+        :color="index === value ? 'blue' : undefined"
+        @click="onSelect(index)">
+        lens
+      </v-icon>
+    </v-btn>
+    <v-btn 
+      flat 
+      icon 
+      @click="onNew">
+      <v-icon color="green">add_circle</v-icon>
+    </v-btn>
+    <v-btn 
+      :disabled="value + 1 >= distributions.length"
+      flat
+      icon 
+      @click="onNext">
+      <v-icon>navigate_next</v-icon>
+    </v-btn>
+  </div>
 </template>
 
 <script>

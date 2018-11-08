@@ -1,27 +1,28 @@
 <template>
-    <v-autocomplete
-            :id="id"
-            :loading="loading"
-            :items="items"
-            :search-input.sync="search"
-            :value="value"
-            :label="label"
-            v-on:input="onInput"
-            item-text="title"
-            :error-messages="errorMessages"
-            item-value="code"
-            append-outer-icon="help_outline"
-            v-on:click:append-outer="$h(id)"
-            :prepend-icon="prependIcon"
-            flat no-filter>
-        <template slot="no-data">
-            <v-list-tile>
-                <v-list-tile-title>
-                    {{noDataPrompt}}
-                </v-list-tile-title>
-            </v-list-tile>
-        </template>
-    </v-autocomplete>
+  <v-autocomplete
+    :id="id"
+    :loading="loading"
+    :items="items"
+    :search-input.sync="search"
+    :value="value"
+    :label="label"
+    :item-text="$vuetify.lang.current"
+    :error-messages="errorMessages"
+    :prepend-icon="prependIcon"
+    item-value="code"
+    append-outer-icon="help_outline"
+    flat
+    no-filter
+    @input="onInput" 
+    @click:append-outer="$h(id)">
+    <template slot="no-data">
+      <v-list-tile>
+        <v-list-tile-title>
+          {{ noDataPrompt }}
+        </v-list-tile-title>
+      </v-list-tile>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>

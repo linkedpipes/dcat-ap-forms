@@ -1,34 +1,39 @@
 <template>
-    <v-autocomplete
-            id="ruian"
-            :loading="loading"
-            :items="items"
-            :search-input.sync="search"
-            :value="value"
-            :label="label"
-            v-on:input="onInput"
-            :error-messages="errorMessages"
-            :disabled="disabled"
-            item-value="code"
-            item-text="title"
-            append-outer-icon="help_outline"
-            v-on:click:append-outer="$h('ruian')"
-            :prepend-icon="prependIcon"
-            flat no-filter>
-        <template slot="selection" slot-scope="data">
-            {{data.item.title}} ({{data.item.notation}})
-        </template>
-        <template slot="item" slot-scope="data">
-            {{data.item.title}} ({{data.item.notation}})
-        </template>
-        <template slot="no-data">
-            <v-list-tile>
-                <v-list-tile-title>
-                    {{$labels.get('ruian_autocomplete_no_data')}}
-                </v-list-tile-title>
-            </v-list-tile>
-        </template>
-    </v-autocomplete>
+  <v-autocomplete
+    id="ruian"
+    :loading="loading"
+    :items="items"
+    :search-input.sync="search"
+    :value="value"
+    :label="label"
+    :error-messages="errorMessages"
+    :disabled="disabled"
+    :item-text="$vuetify.lang.current"
+    :prepend-icon="prependIcon"
+    item-value="code"
+    append-outer-icon="help_outline"
+    flat
+    no-filter
+    @input="onInput" 
+    @click:append-outer="$h('ruian')">
+    <template 
+      slot="selection" 
+      slot-scope="data">
+      {{ data.item.title }} ({{ data.item.notation }})
+    </template>
+    <template 
+      slot="item" 
+      slot-scope="data">
+      {{ data.item.title }} ({{ data.item.notation }})
+    </template>
+    <template slot="no-data">
+      <v-list-tile>
+        <v-list-tile-title>
+          {{ $labels.get('ruian_autocomplete_no_data') }}
+        </v-list-tile-title>
+      </v-list-tile>
+    </template>
+  </v-autocomplete>
 </template>
 
 <script>
@@ -72,7 +77,7 @@
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
-                let url = createQueryUrl(query, "cs", this.type);
+                let url = createQueryUrl(query, this.type);
                 getLocalJson(url).then((response) => {
                     addItems("ruian", response.json.response.docs);
                     this.items = response.json.response.docs;
@@ -89,10 +94,10 @@
         }
     }
 
-    function createQueryUrl(query, language, type) {
+    function createQueryUrl(query, type) {
         return "/api/v1/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
-            "&lang=" + language + "&type=" + type
+            "&type=" + type
     }
 
     function createTitleQueryUrl(codeList, iri) {

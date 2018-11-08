@@ -1,18 +1,18 @@
 <template>
-    <v-content v-if="data.status === 'ready'">
-        <app-summary :catalog="data.catalog"/>
-    </v-content>
-    <v-content v-else-if="data.status === 'missing-dataset'">
-        <!-- TODO Add content -->
-    </v-content>
-    <v-content v-else-if="data.status === 'error'">
-        <p class="text-xs-center mt-5">
-            {{$labels.get("cant_import_dataset")}}
-        </p>
-    </v-content>
-    <v-content v-else>
-        <!-- No content. -->
-    </v-content>
+  <v-content v-if="data.status === 'ready'">
+    <app-summary :catalog="data.catalog"/>
+  </v-content>
+  <v-content v-else-if="data.status === 'missing-dataset'">
+    <!-- TODO Add content -->
+  </v-content>
+  <v-content v-else-if="data.status === 'error'">
+    <p class="text-xs-center mt-5">
+      {{ $labels.get("cant_import_dataset") }}
+    </p>
+  </v-content>
+  <v-content v-else>
+    <!-- No content. -->
+  </v-content>
 </template>
 
 <script>

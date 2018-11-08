@@ -1,30 +1,33 @@
 <template>
-    <v-menu
-            :id="id"
-            ref="menu"
-            v-model="menu"
-            :return-value="value"
-            :nudge-right="40"
-            :close-on-content-click="false"
-            transition="scale-transition"
-            min-width="15rem"
-            lazy offset-y full-width>
-        <v-text-field
-                slot="activator"
-                :value="value"
-                :label="label"
-                v-on:input="onInput"
-                prepend-icon="event"
-                append-outer-icon="help_outline"
-                v-on:click:append-outer="$h(id)"
-                :hint="hint"
-                :persistent-hint="persistentHint"
-                readonly clearable/>
-        <v-date-picker
-                ref="picker"
-                :value="value"
-                @change="save"/>
-    </v-menu>
+  <v-menu
+    ref="menu"
+    :id="id"
+    v-model="menu"
+    :return-value="value"
+    :nudge-right="40"
+    :close-on-content-click="false"
+    transition="scale-transition"
+    min-width="15rem"
+    lazy 
+    offset-y 
+    full-width>
+    <v-text-field
+      slot="activator"
+      :value="value"
+      :label="label"
+      :hint="hint"
+      :persistent-hint="persistentHint"
+      prepend-icon="event"
+      append-outer-icon="help_outline"
+      readonly
+      clearable
+      @input="onInput" 
+      @click:append-outer="$h(id)"/>
+    <v-date-picker
+      ref="picker"
+      :value="value"
+      @change="save"/>
+  </v-menu>
 </template>
 
 <script>

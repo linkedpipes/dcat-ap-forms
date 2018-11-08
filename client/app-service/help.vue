@@ -1,11 +1,14 @@
 <template>
-    <v-bottom-sheet v-if="isOpen" v-model="isOpen" lazy>
-        <v-card>
-            <v-card-text>
-                <span v-html="$labels.get('help_' + name)"/>
-            </v-card-text>
-        </v-card>
-    </v-bottom-sheet>
+  <v-bottom-sheet 
+    v-if="isOpen" 
+    v-model="isOpen" 
+    lazy>
+    <v-card>
+      <v-card-text>
+        <span v-html="$labels.get('help_' + name)"/>
+      </v-card-text>
+    </v-card>
+  </v-bottom-sheet>
 </template>
 
 <script>
@@ -34,7 +37,7 @@
         "name": "app-help",
         "data": () => data,
         "watch": {
-            "$route" : function(location) {
+            "$route": function (location) {
                 this.isOpen = false;
             }
         }

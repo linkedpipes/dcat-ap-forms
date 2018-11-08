@@ -1,63 +1,69 @@
 <template>
-    <v-content v-if="data.status === 'ready'">
-        <v-stepper :value="ui.step" v-on:input="onStepperInput">
-            <v-stepper-header>
-                <v-stepper-step editable
-                                :complete="ui.step > 1"
-                                :rules="[isDatasetValid]"
-                                :step="1">
-                    {{$labels.get("step_dataset")}}
-                </v-stepper-step>
-                <v-divider/>
-                <v-stepper-step editable
-                                :complete="ui.step > 2"
-                                :rules="[areDistributionsValid]"
-                                :step="2">
-                    {{$labels.get("step_distribution")}}
-                </v-stepper-step>
-                <v-divider/>
-                <v-stepper-step editable :step="3">
-                    {{$labels.get("step_download")}}
-                </v-stepper-step>
-            </v-stepper-header>
-            <v-stepper-items>
-                <v-stepper-content :step="1">
-                    <app-dataset :dataset="data.dataset"/>
-                </v-stepper-content>
-                <v-stepper-content :step="2">
-                    <app-distribution-selector
-                            v-model="ui.distribution"
-                            v-on:add="addDistribution"
-                            :distributions="data.distributions"/>
-                    <app-distribution
-                            :distribution="data.distributions[ui.distribution]"
-                            :canBeDeleted="data.distributions.length > 1"
-                            v-on:delete="deleteDistribution"/>
-                </v-stepper-content>
-                <v-stepper-content :step="3">
-                    <app-export-summary
-                            :dataset="data.dataset"
-                            :is-valid="isDatasetValid() && areDistributionsValid()"
-                            :distributions="data.distributions"
-                            :codelist="data.codelist"/>
-                </v-stepper-content>
-            </v-stepper-items>
-        </v-stepper>
-        <div class="hidden-md-and-up">
-            <app-step-navigation-mobile v-model="ui.step"/>
-        </div>
-        <div class="hidden-sm-and-down">
-            <app-step-navigation-desktop v-model="ui.step"/>
-        </div>
-    </v-content>
-    <v-content v-else-if="data.status === 'error'">
-        <p class="text-xs-center mt-5">
-            {{$labels.get("cant_import_dataset")}}
-        </p>
-    </v-content>
-    <v-content v-else>
-        <!-- No content. -->
-    </v-content>
+  <v-content v-if="data.status === 'ready'">
+    <v-stepper 
+      :value="ui.step" 
+      @input="onStepperInput">
+      <v-stepper-header>
+        <v-stepper-step 
+          :complete="ui.step > 1"
+          :rules="[isDatasetValid]"
+          :step="1"
+          editable>
+          {{ $labels.get("step_dataset") }}
+        </v-stepper-step>
+        <v-divider/>
+        <v-stepper-step 
+          :complete="ui.step > 2"
+          :rules="[areDistributionsValid]"
+          :step="2"
+          editable>
+          {{ $labels.get("step_distribution") }}
+        </v-stepper-step>
+        <v-divider/>
+        <v-stepper-step 
+          :step="3" 
+          editable>
+          {{ $labels.get("step_download") }}
+        </v-stepper-step>
+      </v-stepper-header>
+      <v-stepper-items>
+        <v-stepper-content :step="1">
+          <app-dataset :dataset="data.dataset"/>
+        </v-stepper-content>
+        <v-stepper-content :step="2">
+          <app-distribution-selector
+            v-model="ui.distribution"
+            :distributions="data.distributions"
+            @add="addDistribution"/>
+          <app-distribution
+            :distribution="data.distributions[ui.distribution]"
+            :can-be-deleted="data.distributions.length > 1"
+            @delete="deleteDistribution"/>
+        </v-stepper-content>
+        <v-stepper-content :step="3">
+          <app-export-summary
+            :dataset="data.dataset"
+            :is-valid="isDatasetValid() && areDistributionsValid()"
+            :distributions="data.distributions"
+            :codelist="data.codelist"/>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+    <div class="hidden-md-and-up">
+      <app-step-navigation-mobile v-model="ui.step"/>
+    </div>
+    <div class="hidden-sm-and-down">
+      <app-step-navigation-desktop v-model="ui.step"/>
+    </div>
+  </v-content>
+  <v-content v-else-if="data.status === 'error'">
+    <p class="text-xs-center mt-5">
+      {{ $labels.get("cant_import_dataset") }}
+    </p>
+  </v-content>
+  <v-content v-else>
+    <!-- No content. -->
+  </v-content>
 </template>
 
 <script>

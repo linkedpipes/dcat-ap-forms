@@ -10,7 +10,7 @@ export function download(filename, data, mimeType) {
     else {
         const element = document.createElement("a");
         const href = window.URL.createObjectURL(blob);
-        const url = [mimeType, element.download, element.href].join(':');
+        const url = [mimeType, element.download, element.href].join(":");
 
         element.setAttribute("href", href);
         element.setAttribute("download", filename);

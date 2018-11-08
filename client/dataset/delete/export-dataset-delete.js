@@ -1,11 +1,5 @@
 import {
-    DCTERMS,
     DCATAP,
-    FOAF,
-    VCARD,
-    SCHEMA,
-    PU,
-    CREATIVE_COMMONS,
     NKOD,
     ADMS,
     STATUS
@@ -14,7 +8,7 @@ import {
 export function exportToJsonLd(dataset) {
     const output = {
         "@type": [DCATAP.Dataset, NKOD.Formular],
-        "@id": dataset.iri,
+        "@id": {"@id": dataset.iri},
         [ADMS.status]: [STATUS.Withdrawn]
     };
     return output;

@@ -15,7 +15,7 @@ export const DCTERMS = {
 
 export const DCATAP = {
     "Dataset": "http://www.w3.org/ns/dcat#Dataset",
-    "dcat:Catalog ": "http://www.w3.org/ns/dcat#Catalog",
+    "Catalog ": "http://www.w3.org/ns/dcat#Catalog",
     "contactPoint": "http://www.w3.org/ns/dcat#contactPoint",
     "distribution": "http://www.w3.org/ns/dcat#distribution",
     "theme": "http://www.w3.org/ns/dcat#theme",

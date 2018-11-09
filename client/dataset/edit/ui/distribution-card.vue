@@ -26,8 +26,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_author_ccby_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_author_ccby_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_author_ccby_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_author_ccby_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ distribution.license_author_name }}
@@ -52,8 +56,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_author_no_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_author_no_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_author_no_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_author_no_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_author_type') }}
@@ -76,8 +84,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_author_multi_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_author_multi_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_author_multi_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_author_multi_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_author_type') }}
@@ -100,8 +112,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_author_custom_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_author_custom_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_author_custom_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_author_custom_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ distribution.license_author_custom }}
@@ -125,8 +141,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_db_ccby_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_db_ccby_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_db_ccby_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_db_ccby_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ distribution.license_db_name }}
@@ -149,8 +169,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_db_no_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_db_no_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_db_no_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_db_no_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_db_type') }}
@@ -173,8 +197,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_db_custom_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_db_custom_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_db_custom_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_db_custom_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ distribution.license_db_custom }}
@@ -198,8 +226,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_specialdb_cc0_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_specialdb_cc0_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_specialdb_cc0_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_specialdb_cc0_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_specialdb_type') }}
@@ -222,8 +254,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_specialdb_no_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_specialdb_no_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_specialdb_no_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_specialdb_no_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_specialdb_type') }}
@@ -246,8 +282,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_specialdb_custom_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_specialdb_custom_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_specialdb_custom_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_specialdb_custom_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ distribution.license_specialdb_custom }}
@@ -262,8 +302,7 @@
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
-
-            <v-list-tile 
+            <v-list-tile
               v-if="distribution.license_personal_type == 'NO'" 
               avatar>
               <v-list-tile-avatar>
@@ -271,8 +310,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_personal_no_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_personal_no_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_personal_no_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_personal_no_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_personal_type') }}
@@ -295,8 +338,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_personal_yes_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_personal_yes_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_personal_yes_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_personal_yes_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_personal_type') }}
@@ -319,8 +366,12 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  <span class="hidden-lg-and-down">{{ $labels.get('license_personal_unknown_full') }}</span>
-                  <span class="hidden-xl-only">{{ $labels.get('license_personal_unknown_short') }}</span>
+                  <span class="hidden-lg-and-down">
+                    {{ $labels.get('license_personal_unknown_full') }}
+                  </span>
+                  <span class="hidden-xl-only">
+                    {{ $labels.get('license_personal_unknown_short') }}
+                  </span>
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $labels.get('license_personal_type') }}

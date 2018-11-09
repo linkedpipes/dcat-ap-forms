@@ -66,8 +66,7 @@
             @click:append-outer="$h('license_author_custom')"/>
         </v-flex>
       </v-layout>
-
-      <v-layout 
+      <v-layout
         row 
         wrap>
         <v-flex 
@@ -115,8 +114,7 @@
             @click:append-outer="$h('license_db_custom')"/>
         </v-flex>
       </v-layout>
-
-      <v-layout 
+      <v-layout
         row 
         wrap>
         <v-flex 
@@ -152,8 +150,7 @@
             @click:append-outer="$h('license_specialdb_custom')"/>
         </v-flex>
       </v-layout>
-
-      <v-layout 
+      <v-layout
         row 
         wrap>
         <v-flex 
@@ -171,7 +168,6 @@
             @click:append-outer="$h('license_personal_type')"/>
         </v-flex>
       </v-layout>
-
     </div>
     <v-divider/>
     <h2 class="headline mt-2">

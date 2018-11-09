@@ -64,7 +64,9 @@
                     this.codeList, value, this.$vuetify.lang.current);
                 getLocalJson(url).then((response) => {
                     addItems(this.codeList, response.json.response.docs);
-                    this.items = [...this.items, ...response.json.response.docs];
+                    this.items = [
+                        ...this.items, ...response.json.response.docs
+                    ];
                 });
             })
         },

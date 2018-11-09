@@ -56,8 +56,9 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{ datasetThemeToLabel(dataset.dataset_theme,
-                                       $vuetify.lang.current) }}
+                {{ datasetThemeToLabel(
+                  dataset.dataset_theme, $vuetify.lang.current)
+                }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $labels.get('dataset_theme') }}
@@ -71,8 +72,9 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{ frequencyToLabel(dataset.accrual_periodicity,
-                                    $vuetify.lang.current) }}
+                {{ frequencyToLabel(
+                  dataset.accrual_periodicity, $vuetify.lang.current)
+                }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $labels.get('accrual_periodicity') }}
@@ -88,8 +90,8 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <span 
-                  v-for="(keyword, index) in dataset.keywords" 
+                <span
+                  v-for="(keyword, index) in dataset.keywords"
                   :key="keyword">
                   {{ index > 0 ? "," : "" }}
                   {{ keyword }}
@@ -192,8 +194,10 @@
               <v-icon class="blue white--text">calendar_today</v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ dataset.temporal_start }}<span
-                v-if="dataset.temporal_end"> - {{ dataset.temporal_end }}</span>
+              <v-list-tile-title>{{ dataset.temporal_start }}
+                <span v-if="dataset.temporal_end">
+                  - {{ dataset.temporal_end }}
+                </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>{{ $labels.get('temporal') }}
               </v-list-tile-sub-title>
@@ -209,8 +213,8 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <span 
-                  v-for="(theme, index) in dataset.themes" 
+                <span
+                  v-for="(theme, index) in dataset.themes"
                   :key="theme">
                   {{ index > 0 ? "," : "" }}
                   {{ themeToLabel(theme) }}
@@ -290,7 +294,7 @@
                     return value;
                 }
             },
-            "nkodDatabox": function() {
+            "nkodDatabox": function () {
                 return NKOD_ISDS;
             }
         },

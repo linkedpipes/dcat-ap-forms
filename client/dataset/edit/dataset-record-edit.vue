@@ -62,7 +62,6 @@
           @click:append-outer="$h('accrual_periodicity')"/>
       </v-flex>
     </v-layout>
-
     <v-combobox
       id="keywords"
       v-model="dataset.keywords"
@@ -86,8 +85,7 @@
         </v-chip>
       </template>
     </v-combobox>
-
-    <v-layout 
+    <v-layout
       row 
       wrap>
       <v-flex 
@@ -122,8 +120,7 @@
           @update:label="dataset.$labels.ruian = $event"/>
       </v-flex>
     </v-layout>
-
-    <v-layout 
+    <v-layout
       row 
       wrap>
       <v-flex 
@@ -149,8 +146,7 @@
       </v-flex>
       <v-spacer/>
     </v-layout>
-
-    <v-layout 
+    <v-layout
       row 
       wrap>
       <v-flex 
@@ -182,7 +178,6 @@
           @click:append-outer="$h('contact_point_email')"/>
       </v-flex>
     </v-layout>
-
     <v-text-field
       id="documentation"
       v-model="dataset.documentation"
@@ -194,7 +189,6 @@
       type="url"
       clearable 
       @click:append-outer="$h('documentation')"/>
-
     <app-solr-chips-autocomplete
       id="themes"
       v-model="dataset.themes"
@@ -202,7 +196,6 @@
       :no-data-prompt="$labels.get('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
       code-list="themes"/>
-
   </v-container>
 </template>
 

@@ -18,7 +18,7 @@
           outline 
           type="success">
           {{ $labels.get('catalog_summary_download') }}
-          <code>uur3q2i</code>.
+          <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
     </v-layout>
@@ -39,9 +39,7 @@
         <span>{{ $labels.get('button_download') }}</span>
       </v-btn>
     </v-layout>
-
     <v-list two-line>
-            
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <v-icon class="blue white--text">person</v-icon>
@@ -94,7 +92,6 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
-
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <v-icon class="blue white--text">link</v-icon>
@@ -116,7 +113,6 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-
     </v-list>
     <v-divider class="my-2"/>
     <v-layout 

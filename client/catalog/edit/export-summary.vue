@@ -98,7 +98,7 @@
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
-            {{ catalog.url }}
+            {{ catalog.iri }}
           </v-list-tile-title>
           <v-list-tile-sub-title>
             {{ $t('catalog_url') }}
@@ -162,7 +162,7 @@
                 downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
             },
             "openCatalog": function() {
-                window.open(this.catalog.url);
+                window.open(this.catalog.iri);
             },
             "sendEmail": function() {
                 window.open("mailto:" + this.catalog.contact_point_email)

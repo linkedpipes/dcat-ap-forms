@@ -15,7 +15,7 @@
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  {{ catalog.url }}
+                  {{ catalog.title }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $t("catalog_url") }}
@@ -25,7 +25,7 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl(catalog.url)">
+                  @click="openUrl(catalog.iri)">
                   <v-icon color="blue">open_in_new</v-icon>
                 </v-btn>
               </v-list-tile-action>

@@ -2,7 +2,7 @@
   <v-content v-if="data.status === 'ready'">
     <app-summary :catalog="data.catalog"/>
   </v-content>
-  <v-content v-else-if="data.status === 'missing-dataset'">
+  <v-content v-else-if="data.status === 'missing-catalog'">
     <!-- TODO Add content -->
   </v-content>
   <v-content v-else-if="data.status === 'error'">
@@ -34,13 +34,11 @@
         }),
         "mounted": function () {
             setPageTitle(this.$t("catalog_delete_page_title"));
-
             const url = this.$route.query.url;
             if (url === undefined) {
                 this.data.status = "missing-catalog";
                 return;
             }
-
             importCatalog(url).then((catalog) => {
                 this.data.catalog = catalog;
                 this.data.status = "ready";

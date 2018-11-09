@@ -2,21 +2,13 @@ import {getRemoteJson} from "@/app-service/http";
 import {
     normalize,
     getDefaultGraphData,
+    getTypes,
     getByType,
-    getValue,
-    getValues,
-    getByIri,
-    getId
+    getId,
+    getValue
 } from "@/app-service/jsonld";
 import {
-    DCTERMS,
-    DCATAP,
-    FOAF,
-    VCARD,
-    SCHEMA,
-    PU,
-    SKOS,
-    NKOD
+    DCATAP, DCTERMS
 } from "@/app-service/vocabulary";
 
 function update_url(url) {
@@ -34,24 +26,15 @@ export function importCatalog(url) {
         if (catalog === undefined) {
             throw {"error": "FETCH"};
         }
-        return parseCatalog(catalog);
+
+        return {
+            "iri": getId(catalog),
+            "title": getValue(catalog, DCTERMS.title),
+            "types": getTypes(catalog)
+        }
     });
 }
 
 function getRemoteJsonLd(url) {
     return getRemoteJson(update_url(url), "application/ld+json");
-}
-
-function parseCatalog(dataset) {
-    const catalogUrl = getValue(dataset, NKOD.lkod);
-    if (catalogUrl === undefined) {
-        throw {
-            "error": "INVALID_DATA",
-            "message": "missing_lkod_reference"
-        };
-    } else {
-        return {
-            "url": catalogUrl
-        }
-    }
 }

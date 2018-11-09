@@ -138,7 +138,7 @@ function license(distribution) {
             break;
         case "CC BY":
             output[PU.autorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
-            output[PU.autor] = asValue(distribution.license_author_name);
+            output[PU.autor] = asLangString(distribution.license_author_name);
             break;
         case "NO":
             output[PU.autorskeDilo] = asIri(PU.neobsahujeAutorskaDila);
@@ -155,7 +155,7 @@ function license(distribution) {
     switch (distribution.license_db_type) {
         case "CC BY":
             output[PU.databazeJakoAutorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
-            output[PU.autorDatabaze] = asValue(distribution.license_db_name);
+            output[PU.autorDatabaze] = asLangString(distribution.license_db_name);
             break;
         case "NO":
             output[PU.databazeJakoAutorskeDilo] =

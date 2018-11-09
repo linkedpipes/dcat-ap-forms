@@ -141,7 +141,7 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-to-jsonld";
+    import {exportToJsonLd} from "./export-catalog-edit";
     import {downloadAsJsonLd} from "@/app-service/download";
     import {getLabel as typeToLabel} from "./codelists/catalog-type";
 

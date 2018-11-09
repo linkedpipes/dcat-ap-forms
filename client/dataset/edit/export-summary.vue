@@ -265,7 +265,7 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-dataset";
+    import {exportToJsonLd} from "./export-dataset-edit";
     import {downloadAsJsonLd} from "@/app-service/download";
     import DistributionCard from "./ui/distribution-card";
     import {getLabel as datasetThemeToLabel} from "./codelists/dataset-theme";

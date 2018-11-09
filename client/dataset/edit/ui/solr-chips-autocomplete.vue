@@ -24,7 +24,7 @@
       <v-chip 
         close 
         @input="removeTheme(data.item)">
-        <strong>{{ data.item.title }}</strong>
+        <strong>{{ data.item[$vuetify.lang.current] }}</strong>
       </v-chip>
     </template>
     <template slot="no-data">

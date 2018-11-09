@@ -9,7 +9,7 @@
           :value="!isValid" 
           outline 
           type="error">
-          {{ $labels.get('catalog_summary_error') }}
+          {{ $t('catalog_summary_error') }}
         </v-alert>
       </v-flex>
       <v-flex v-if="isValid">
@@ -17,7 +17,7 @@
           :value="isValid" 
           outline 
           type="success">
-          {{ $labels.get('catalog_summary_download') }}
+          {{ $t('catalog_summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
@@ -36,7 +36,7 @@
         outline 
         @click="onDownload">
         <v-icon left>file_download</v-icon>
-        <span>{{ $labels.get('button_download') }}</span>
+        <span>{{ $t('button_download') }}</span>
       </v-btn>
     </v-layout>
     <v-list two-line>
@@ -49,7 +49,7 @@
             {{ catalog.contact_point_name }}
           </v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ $labels.get('catalog_contact_point_name') }}
+            {{ $t('catalog_contact_point_name') }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -64,7 +64,7 @@
             {{ catalog.contact_point_email }}
           </v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ $labels.get('catalog_contact_point_email') }}
+            {{ $t('catalog_contact_point_email') }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -87,7 +87,7 @@
             {{ typeToLabel(catalog.type, $vuetify.lang.current) }}
           </v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ $labels.get('catalog_type') }}
+            {{ $t('catalog_type') }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -101,7 +101,7 @@
             {{ catalog.url }}
           </v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ $labels.get('catalog_url') }}
+            {{ $t('catalog_url') }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -128,13 +128,13 @@
           outline 
           @click="onDownload">
           <v-icon left>file_download</v-icon>
-          <span>{{ $labels.get('button_download') }}</span>
+          <span>{{ $t('button_download') }}</span>
         </v-btn>
         <span v-if="isValid">
-          {{ $labels.get('summary_download') }}
+          {{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </span>
-        <span v-if="!isValid">{{ $labels.get('summary_error') }}</span>
+        <span v-if="!isValid">{{ $t('summary_error') }}</span>
       </v-tooltip>
     </v-layout>
   </v-container>

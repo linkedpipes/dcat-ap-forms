@@ -4,7 +4,7 @@
     grid-list-lg 
     pa-0>
     <h2 class="headline">
-      {{ $labels.get('headline_distribution_license') }}
+      {{ $t('headline_distribution_license') }}
       <a 
         href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti" 
         target="_blank" 
@@ -27,7 +27,7 @@
           <v-select
             :items="author_license_types"
             v-model="distribution.license_author_type"
-            :label="$labels.get('license_author_type')"
+            :label="$t('license_author_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
@@ -42,8 +42,8 @@
             :disabled="!isCcByAuthor"
             :required="isCcByAuthor"
             v-model="distribution.license_author_name"
-            :label="$labels.get('license_author_name')"
-            :hint="$labels.get('hint_license_author_name')"
+            :label="$t('license_author_name')"
+            :hint="$t('hint_license_author_name')"
             :error-messages="err_license_author_name"
             append-outer-icon="help_outline"
             clearable
@@ -57,8 +57,8 @@
             :disabled="!isCustomAuthor"
             :required="isCustomAuthor"
             v-model="distribution.license_author_custom"
-            :label="$labels.get('license_author_custom')"
-            :hint="$labels.get('hint_license_author_custom')"
+            :label="$t('license_author_custom')"
+            :hint="$t('hint_license_author_custom')"
             :error-messages="err_license_author_custom"
             append-outer-icon="help_outline"
             type="url"
@@ -75,7 +75,7 @@
           <v-select
             :items="db_author_license_types"
             v-model="distribution.license_db_type"
-            :label="$labels.get('license_db_type')"
+            :label="$t('license_db_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
@@ -90,8 +90,8 @@
             :disabled="!isCcByDb"
             :required="isCcByDb"
             v-model="distribution.license_db_name"
-            :label="$labels.get('license_db_name')"
-            :hint="$labels.get('hint_license_db_name')"
+            :label="$t('license_db_name')"
+            :hint="$t('hint_license_db_name')"
             :error-messages="err_license_db_name"
             append-outer-icon="help_outline"
             clearable
@@ -105,8 +105,8 @@
             :disabled="!isCustomDb"
             :required="isCustomDb"
             v-model="distribution.license_db_custom"
-            :label="$labels.get('license_db_custom')"
-            :hint="$labels.get('hint_license_db_custom')"
+            :label="$t('license_db_custom')"
+            :hint="$t('hint_license_db_custom')"
             :error-messages="err_license_db_custom"
             append-outer-icon="help_outline"
             type="url"
@@ -123,7 +123,7 @@
           <v-select
             :items="db_special_license_types"
             v-model="distribution.license_specialdb_type"
-            :label="$labels.get('license_specialdb_type')"
+            :label="$t('license_specialdb_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
@@ -141,8 +141,8 @@
             :disabled="!isCustomSpecialDb"
             :required="isCustomSpecialDb"
             v-model="distribution.license_specialdb_custom"
-            :label="$labels.get('license_specialdb_custom')"
-            :hint="$labels.get('hint_license_specialdb_custom')"
+            :label="$t('license_specialdb_custom')"
+            :hint="$t('hint_license_specialdb_custom')"
             :error-messages="err_license_specialdb_custom"
             append-outer-icon="help_outline"
             type="url"
@@ -159,7 +159,7 @@
           <v-select
             :items="personal_data_links"
             v-model="distribution.license_personal_type"
-            :label="$labels.get('license_personal_type')"
+            :label="$t('license_personal_type')"
             :item-text="$vuetify.lang.current" 
             :error-messages="err_personal"
             item-value="value"
@@ -171,14 +171,14 @@
     </div>
     <v-divider/>
     <h2 class="headline mt-2">
-      {{ $labels.get('headline_distribution_access') }}
+      {{ $t('headline_distribution_access') }}
     </h2>
     <div>
       <v-text-field
         id="distribution_url"
         v-model="distribution.url"
-        :label="$labels.get('distribution_url')"
-        :hint="$labels.get('hint_distribution_url')"
+        :label="$t('distribution_url')"
+        :hint="$t('hint_distribution_url')"
         :error-messages="err_url"
         prepend-icon="cloud_download"
         append-outer-icon="help_outline"
@@ -195,8 +195,8 @@
           <app-solr-autocomplete
             id="distribution_format"
             v-model="distribution.format"
-            :label="$labels.get('distribution_format')"
-            :no-data-prompt="$labels.get('format_autocomplete_no_data')"
+            :label="$t('distribution_format')"
+            :no-data-prompt="$t('format_autocomplete_no_data')"
             :error-messages="err_format"
             prepend-icon="description"
             code-list="file-type"/>
@@ -207,8 +207,8 @@
           <app-solr-autocomplete
             id="distribution_media_type"
             v-model="distribution.media_type"
-            :label="$labels.get('distribution_media_type')"
-            :no-data-prompt="$labels.get('media_type_autocomplete_no_data')"
+            :label="$t('distribution_media_type')"
+            :no-data-prompt="$t('media_type_autocomplete_no_data')"
             :error-messages="err_media_type"
             prepend-icon="description"
             code-list="media-types"/>
@@ -217,8 +217,8 @@
       <v-text-field
         id="distribution_schema"
         v-model="distribution.schema"
-        :label="$labels.get('distribution_schema_link')"
-        :hint="$labels.get('hint_distribution_schema')"
+        :label="$t('distribution_schema_link')"
+        :hint="$t('hint_distribution_schema')"
         :error-messages="err_schema"
         prepend-icon="link"
         append-outer-icon="help_outline"
@@ -228,8 +228,8 @@
       <v-text-field
         id="distribution_title"
         v-model="distribution.title"
-        :hint="$labels.get('hint_distribution_title')"
-        :label="$labels.get('distribution_title')"
+        :hint="$t('hint_distribution_title')"
+        :label="$t('distribution_title')"
         prepend-icon="label"
         append-outer-icon="help_outline"
         clearable
@@ -240,7 +240,7 @@
         flat 
         @click="onDelete">
         <v-icon color="error">delete</v-icon>
-        {{ $labels.get('delete_distribution') }}
+        {{ $t('delete_distribution') }}
       </v-btn>
     </div>
   </v-container>

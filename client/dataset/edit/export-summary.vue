@@ -9,7 +9,7 @@
           :value="!isValid"
           outline
           type="error">
-          {{ $labels.get('summary_error') }}
+          {{ $t('summary_error') }}
         </v-alert>
       </v-flex>
       <v-flex v-if="isValid">
@@ -17,7 +17,7 @@
           :value="isValid"
           outline
           type="success">
-          {{ $labels.get('summary_download') }}
+          {{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
@@ -35,7 +35,7 @@
         color="success"
         @click="onDownload">
         <v-icon left>file_download</v-icon>
-        <span>{{ $labels.get('button_download') }}</span>
+        <span>{{ $t('button_download') }}</span>
       </v-btn>
     </v-layout>
     <p class="subheading multiline">{{ dataset.description }}</p>
@@ -61,7 +61,7 @@
                 }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('dataset_theme') }}
+                {{ $t('dataset_theme') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -77,7 +77,7 @@
                 }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('accrual_periodicity') }}
+                {{ $t('accrual_periodicity') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -97,7 +97,7 @@
                   {{ keyword }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $labels.get('keywords') }}
+              <v-list-tile-sub-title>{{ $t('keywords') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -112,7 +112,7 @@
               <v-list-tile-title>{{ dataset.contact_point_name }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('contact_point_name') }}
+                {{ $t('contact_point_name') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -127,7 +127,7 @@
               <v-list-tile-title>{{ dataset.contact_point_email }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('contact_point_email') }}
+                {{ $t('contact_point_email') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
@@ -150,7 +150,7 @@
               <v-list-tile-title>{{ dataset.documentation }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('documentation') }}
+                {{ $t('documentation') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
@@ -174,7 +174,7 @@
                 {{ ruianLabel }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $labels.get('ruian_iri') }}
+                {{ $t('ruian_iri') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
             <v-list-tile-action>
@@ -199,7 +199,7 @@
                   - {{ dataset.temporal_end }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $labels.get('temporal') }}
+              <v-list-tile-sub-title>{{ $t('temporal') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -220,7 +220,7 @@
                   {{ themeToLabel(theme) }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $labels.get('themes') }}
+              <v-list-tile-sub-title>{{ $t('themes') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
@@ -253,12 +253,12 @@
           outline
           @click="onDownload">
           <v-icon left>file_download</v-icon>
-          <span>{{ $labels.get('button_download') }}</span>
+          <span>{{ $t('button_download') }}</span>
         </v-btn>
-        <span v-if="isValid">{{ $labels.get('summary_download') }}
+        <span v-if="isValid">{{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </span>
-        <span v-if="!isValid">{{ $labels.get('summary_error') }}</span>
+        <span v-if="!isValid">{{ $t('summary_error') }}</span>
       </v-tooltip>
     </v-layout>
   </v-container>

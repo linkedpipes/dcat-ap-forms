@@ -31,13 +31,13 @@
             "prevLabel": function() {
                 switch (this.value) {
                     case 2:
-                        return this.$labels.get("nav_catalog");
+                        return this.$t("nav_catalog");
                 }
             },
             "nextLabel": function() {
                 switch (this.value) {
                     case 1:
-                        return this.$labels.get("nav_download")
+                        return this.$t("nav_download")
                 }
             }
         },

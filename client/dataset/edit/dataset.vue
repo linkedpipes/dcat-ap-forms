@@ -9,7 +9,7 @@
           :rules="[isDatasetValid]"
           :step="1"
           editable>
-          {{ $labels.get("step_dataset") }}
+          {{ $t("step_dataset") }}
         </v-stepper-step>
         <v-divider/>
         <v-stepper-step 
@@ -17,13 +17,13 @@
           :rules="[areDistributionsValid]"
           :step="2"
           editable>
-          {{ $labels.get("step_distribution") }}
+          {{ $t("step_distribution") }}
         </v-stepper-step>
         <v-divider/>
         <v-stepper-step 
           :step="3" 
           editable>
-          {{ $labels.get("step_download") }}
+          {{ $t("step_download") }}
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
@@ -58,7 +58,7 @@
   </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
-      {{ $labels.get("cant_import_dataset") }}
+      {{ $t("cant_import_dataset") }}
     </p>
   </v-content>
   <v-content v-else>
@@ -116,9 +116,6 @@
         }),
         "watch": {
             "$route": function (location) {
-
-                console.log("$route", location);
-
                 if (location.query.krok === undefined) {
                     this.ui.step = 1;
                 } else if (location.query.krok !== this.ui.krok) {
@@ -127,7 +124,7 @@
             }
         },
         "mounted": function () {
-            setPageTitle(this.$labels.get("edit_page_title"));
+            setPageTitle(this.$t("edit_page_title"));
 
             const url = this.$route.query.url;
             if (url === undefined) {

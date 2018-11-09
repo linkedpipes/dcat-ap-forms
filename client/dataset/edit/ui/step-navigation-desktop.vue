@@ -31,17 +31,17 @@
             "prevLabel": function() {
                 switch (this.value) {
                     case 2:
-                        return this.$labels.get("nav_dataset");
+                        return this.$t("nav_dataset");
                     case 3:
-                        return this.$labels.get("nav_distributions")
+                        return this.$t("nav_distributions")
                 }
             },
             "nextLabel": function() {
                 switch (this.value) {
                     case 1:
-                        return this.$labels.get("nav_distributions");
+                        return this.$t("nav_distributions");
                     case 2:
-                        return this.$labels.get("nav_download")
+                        return this.$t("nav_download")
                 }
             }
         },

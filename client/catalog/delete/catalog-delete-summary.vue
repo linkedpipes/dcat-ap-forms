@@ -3,7 +3,7 @@
     <v-container fluid>
       <div>
         <div class="headline">
-          {{ $labels.get("catalog_delete_page_title") }}
+          {{ $t("catalog_delete_page_title") }}
         </div>
         <div>
           <v-list 
@@ -18,7 +18,7 @@
                   {{ catalog.url }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
-                  {{ $labels.get("catalog_url") }}
+                  {{ $t("catalog_url") }}
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
@@ -35,7 +35,7 @@
       </div>
       <v-card-actions>
         <div>
-          {{ $labels.get("catalog_delete_summary_download") }}
+          {{ $t("catalog_delete_summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </div>
         <v-spacer/>
@@ -46,7 +46,7 @@
           outline 
           @click="onExport">
           <v-icon left>file_download</v-icon>
-          <span>{{ $labels.get("button_download") }}</span>
+          <span>{{ $t("button_download") }}</span>
         </v-btn>
       </v-card-actions>
     </v-container>

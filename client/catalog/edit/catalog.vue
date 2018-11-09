@@ -12,13 +12,13 @@
           :rules="[isCatalogValid]"
           :step="1"
           editable>
-          {{ $labels.get("step_catalog") }}
+          {{ $t("step_catalog") }}
         </v-stepper-step>
         <v-divider/>
         <v-stepper-step 
           :step="2" 
           editable>
-          {{ $labels.get("step_download") }}
+          {{ $t("step_download") }}
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>

@@ -6,9 +6,9 @@
     <v-text-field
       id="catalog_title"
       v-model="catalog.title"
-      :label="$labels.get('catalog_title')"
+      :label="$t('catalog_title')"
       :error-messages="err_title"
-      :hint="$labels.get('hint_catalog_title')"
+      :hint="$t('hint_catalog_title')"
       prepend-icon="label"
       append-outer-icon="help_outline"
       required
@@ -23,9 +23,9 @@
         <v-text-field
           id="contact_point_name"
           v-model="catalog.contact_point_name"
-          :label="$labels.get('catalog_contact_point_name')"
+          :label="$t('catalog_contact_point_name')"
           :error-messages="err_contact_point_name"
-          :hint="$labels.get('hint_catalog_contact_point_name')"
+          :hint="$t('hint_catalog_contact_point_name')"
           prepend-icon="person"
           append-outer-icon="help_outline"
           required
@@ -38,9 +38,9 @@
         <v-text-field
           id="contact_point_email"
           v-model="catalog.contact_point_email"
-          :label="$labels.get('catalog_contact_point_email')"
+          :label="$t('catalog_contact_point_email')"
           :error-messages="err_contact_point_email"
-          :hint="$labels.get('hint_catalog_contact_point_email')"
+          :hint="$t('hint_catalog_contact_point_email')"
           prepend-icon="alternate_email"
           append-outer-icon="help_outline"
           required
@@ -53,7 +53,7 @@
       id="catalog_type"
       v-model="catalog.type"
       :items="catalogTypes"
-      :label="$labels.get('catalog_type')"
+      :label="$t('catalog_type')"
       :item-text="$vuetify.lang.current"
       prepend-icon="category" 
       item-value="value"
@@ -63,9 +63,9 @@
     <v-text-field
       id="catalog_url"
       v-model="catalog.url"
-      :label="$labels.get('catalog_url')"
+      :label="$t('catalog_url')"
       :error-messages="err_url"
-      :hint="$labels.get('hint_catalog_url')"
+      :hint="$t('hint_catalog_url')"
       prepend-icon="link"
       append-outer-icon="help_outline"
       required
@@ -74,9 +74,9 @@
     <v-text-field
       id="catalog_homepage"
       v-model="catalog.homepage"
-      :label="$labels.get('homepage')"
+      :label="$t('homepage')"
       :error-messages="err_homepage"
-      :hint="$labels.get('hint_homepage')"
+      :hint="$t('hint_homepage')"
       prepend-icon="home"
       append-outer-icon="help_outline"
       clearable

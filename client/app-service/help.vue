@@ -5,7 +5,7 @@
     lazy>
     <v-card>
       <v-card-text>
-        <span v-html="$labels.get('help_' + name)"/>
+        <span v-html="$t('help_' + name)"/>
       </v-card-text>
     </v-card>
   </v-bottom-sheet>

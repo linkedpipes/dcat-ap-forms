@@ -3,7 +3,7 @@
     <v-container fluid>
       <div>
         <div class="headline">
-          {{ $labels.get("delete_page_title") }}
+          {{ $t("delete_page_title") }}
         </div>
         <div>
           <v-list two-line>
@@ -16,7 +16,7 @@
                   {{ dataset.title }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
-                  {{ $labels.get("dataset_title") }}
+                  {{ $t("dataset_title") }}
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -29,7 +29,7 @@
                   {{ dataset.description }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
-                  {{ $labels.get("dataset_description") }}
+                  {{ $t("dataset_description") }}
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
@@ -38,7 +38,7 @@
       </div>
       <v-card-actions>
         <div>
-          {{ $labels.get("dataset_delete_summary_download") }}
+          {{ $t("dataset_delete_summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </div>
         <v-spacer/>
@@ -49,7 +49,7 @@
           outline 
           @click="onExport">
           <v-icon left>file_download</v-icon>
-          <span>{{ $labels.get("button_download") }}</span>
+          <span>{{ $t("button_download") }}</span>
         </v-btn>
       </v-card-actions>
     </v-container>

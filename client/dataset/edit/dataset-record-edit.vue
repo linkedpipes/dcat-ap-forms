@@ -6,9 +6,9 @@
     <v-text-field
       id="dataset_title"
       v-model="dataset.title"
-      :label="$labels.get('dataset_title')"
+      :label="$t('dataset_title')"
       :error-messages="err_title"
-      :hint="$labels.get('hint_dataset_title')"
+      :hint="$t('hint_dataset_title')"
       prepend-icon="label"
       append-outer-icon="help_outline"
       required
@@ -17,9 +17,9 @@
     <v-textarea
       id="dataset_description"
       v-model="dataset.description"
-      :label="$labels.get('dataset_description')"
+      :label="$t('dataset_description')"
       :error-messages="err_description"
-      :hint="$labels.get('hint_dataset_description')"
+      :hint="$t('hint_dataset_description')"
       prepend-icon="description"
       append-outer-icon="help_outline"
       rows="3"
@@ -37,7 +37,7 @@
           id="dataset_theme"
           v-model="dataset.dataset_theme"
           :items="dataset_themes"
-          :label="$labels.get('dataset_theme')"
+          :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
           :item-text="$vuetify.lang.current"
           prepend-icon="category" 
@@ -53,7 +53,7 @@
           id="dataset_accrual_periodicity"
           v-model="dataset.accrual_periodicity"
           :items="frequencies"
-          :label="$labels.get('accrual_periodicity')"
+          :label="$t('accrual_periodicity')"
           :item-text="$vuetify.lang.current"
           prepend-icon="snooze" 
           item-value="value"
@@ -65,9 +65,9 @@
     <v-combobox
       id="keywords"
       v-model="dataset.keywords"
-      :label="$labels.get('keywords')"
+      :label="$t('keywords')"
       :error-messages="err_keywords"
-      :hint="$labels.get('hint_keywords')"
+      :hint="$t('hint_keywords')"
       prepend-icon="short_text"
       append-outer-icon="help_outline"
       append-icon=""
@@ -95,7 +95,7 @@
           id="dataset_ruian_type"
           v-model="dataset.ruian_type"
           :items="ruianTypes"
-          :label="$labels.get('ruian_type')"
+          :label="$t('ruian_type')"
           :item-text="$vuetify.lang.current"
           prepend-icon="place" 
           item-value="value"
@@ -111,7 +111,7 @@
           id="dataset_ruian"
           ref="ruian"
           v-model="dataset.ruian"
-          :label="$labels.get('ruian')"
+          :label="$t('ruian')"
           :error-messages="err_ruian"
           :type="dataset.ruian_type"
           :disabled="dataset.ruian_type === ''"
@@ -129,8 +129,8 @@
         <app-date-picker
           id="temporal_start"
           v-model="dataset.temporal_start"
-          :label="$labels.get('temporal_start')"
-          :hint="$labels.get('hint_temporal_start')"
+          :label="$t('temporal_start')"
+          :hint="$t('hint_temporal_start')"
           persistent-hint
           append-outer-icon="help_outline"/>
       </v-flex>
@@ -140,8 +140,8 @@
         <app-date-picker
           id="temporal_end"
           v-model="dataset.temporal_end"
-          :hint="$labels.get('hint_temporal_end')"
-          :label="$labels.get('temporal_end')"
+          :hint="$t('hint_temporal_end')"
+          :label="$t('temporal_end')"
           persistent-hint/>
       </v-flex>
       <v-spacer/>
@@ -155,8 +155,8 @@
         <v-text-field
           id="contact_point_name"
           v-model="dataset.contact_point_name"
-          :label="$labels.get('contact_point_name')"
-          :hint="$labels.get('hint_contact_point_name')"
+          :label="$t('contact_point_name')"
+          :hint="$t('hint_contact_point_name')"
           prepend-icon="person"
           append-outer-icon="help_outline"
           clearable
@@ -168,9 +168,9 @@
         <v-text-field
           id="contact_point_email"
           v-model="dataset.contact_point_email"
-          :label="$labels.get('contact_point_email')"
+          :label="$t('contact_point_email')"
           :error-messages="err_contact_point_email"
-          :hint="$labels.get('hint_contact_point_email')"
+          :hint="$t('hint_contact_point_email')"
           prepend-icon="alternate_email"
           append-outer-icon="help_outline"
           type="email"
@@ -181,9 +181,9 @@
     <v-text-field
       id="documentation"
       v-model="dataset.documentation"
-      :label="$labels.get('documentation')"
+      :label="$t('documentation')"
       :error-messages="err_documentation"
-      :hint="$labels.get('hint_documentation')"
+      :hint="$t('hint_documentation')"
       prepend-icon="link"
       append-outer-icon="help_outline"
       type="url"
@@ -192,8 +192,8 @@
     <app-solr-chips-autocomplete
       id="themes"
       v-model="dataset.themes"
-      :label="$labels.get('themes')"
-      :no-data-prompt="$labels.get('themes_autocomplete_no_data')"
+      :label="$t('themes')"
+      :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
       code-list="themes"/>
   </v-container>

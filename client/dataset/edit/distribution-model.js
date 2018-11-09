@@ -113,7 +113,7 @@ function validateAuthor(licence_prop, name_prop) {
         if (isAuthorValid(licence, value)) {
             return [];
         } else {
-            return [this.$labels.get("author_name_missing")];
+            return [this.$t("author_name_missing")];
         }
     }
 }
@@ -137,12 +137,12 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
             return [];
         }
         if (value === "") {
-            return [this.$labels.get("custom_license_missing")];
+            return [this.$t("custom_license_missing")];
         }
         if (url(value)) {
             return [];
         } else {
-            return [this.$labels.get(invalid_prop)]
+            return [this.$t(invalid_prop)]
         }
     }
 }
@@ -158,7 +158,7 @@ function validatePersonal() {
     return function () {
         const value = this.distribution["license_personal_type"];
         if (value === "UNKNOWN") {
-            return [this.$labels.get("personal_invalid")];
+            return [this.$t("personal_invalid")];
         } else {
             return [] ;
         }

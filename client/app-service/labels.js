@@ -11,11 +11,9 @@ export function prepareLabels() {
 }
 
 function install(Vue, options) {
-    Object.defineProperty(Vue.prototype, "$labels", {
-        "get": function () {
-            return {
-                "get": (name) => this.$vuetify.t("$vuetify." + name)
-            };
+    Object.defineProperty(Vue.prototype, "$t", {
+        "value": function (name) {
+            return this.$vuetify.t("$vuetify." + name)
         }
     });
 }

@@ -7,7 +7,7 @@
       color="blue" 
       flat 
       @click="onClick(1)">
-      <span>{{ $labels.get('nav_catalog') }}</span>
+      <span>{{ $t('nav_catalog') }}</span>
       <v-icon>note</v-icon>
     </v-btn>
     <v-btn 
@@ -15,7 +15,7 @@
       color="blue" 
       flat 
       @click="onClick(2)">
-      <span>{{ $labels.get('nav_download') }}</span>
+      <span>{{ $t('nav_download') }}</span>
       <v-icon>cloud_download</v-icon>
     </v-btn>
   </v-bottom-nav>

@@ -29,7 +29,7 @@
     <template slot="no-data">
       <v-list-tile>
         <v-list-tile-title>
-          {{ $labels.get('ruian_autocomplete_no_data') }}
+          {{ $t('ruian_autocomplete_no_data') }}
         </v-list-tile-title>
       </v-list-tile>
     </template>

@@ -23,7 +23,7 @@ export function apply(selector, property, rule, message) {
         if (isValid) {
             return [];
         }
-        return [this.$labels.get(message)];
+        return [this.$t(message)];
     }
 }
 
@@ -54,7 +54,7 @@ export function applyArray(selector, property, rules) {
             if (isValid) {
                 continue;
             }
-            output.push(this.$labels.get(rules[index][1]));
+            output.push(this.$t(rules[index][1]));
         }
         return output;
     }

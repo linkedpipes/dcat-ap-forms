@@ -7,7 +7,7 @@
   </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
-      {{ $labels.get("cant_import_dataset") }}
+      {{ $t("cant_import_dataset") }}
     </p>
   </v-content>
   <v-content v-else>
@@ -33,7 +33,7 @@
             }
         }),
         "mounted": function () {
-            setPageTitle(this.$labels.get("delete_page_title"));
+            setPageTitle(this.$t("delete_page_title"));
 
             const url = this.$route.query.url;
             if (url === undefined) {

@@ -5,10 +5,10 @@ import {
     STATUS
 } from "@/app-service/vocabulary";
 
-export function exportToJsonLd(dataset) {
+export function exportToJsonLd(catalog) {
     const output = {
         "@type": [DCATAP.Catalog, NKOD.Formular],
-        "@id": {"@id": dataset.iri},
+        "@id": {"@id": catalog.iri},
         [ADMS.status]: [STATUS.Withdrawn]
     };
     return output;

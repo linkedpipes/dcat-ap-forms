@@ -30,11 +30,11 @@ function update_url(url) {
 export function importCatalog(url) {
     return getRemoteJsonLd(url).then((response) => {
         const graphData = getDefaultGraphData(normalize(response.json));
-        const dataset = getByType(graphData, DCATAP.Dataset)[0];
-        if (dataset === undefined) {
+        const catalog = getByType(graphData, DCATAP.Catalog)[0];
+        if (catalog === undefined) {
             throw {"error": "FETCH"};
         }
-        return parseCatalog(dataset);
+        return parseCatalog(catalog);
     });
 }
 

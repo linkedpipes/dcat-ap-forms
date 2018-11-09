@@ -7,7 +7,7 @@
   </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
-      {{ $t("cant_import_dataset") }}
+      {{ $t("cant_import_catalog") }}
     </p>
   </v-content>
   <v-content v-else>

@@ -101,6 +101,7 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
 Custom configuration, can be provided using Javascript configuration file. 
 The path to the custom file can be set using program argument ie.
 ```
+npm build -- -configFileLocation=./my-configuration.js
 npm start -- -configFileLocation=./my-configuration.js
 ```
 where the argument is relative path from the project root, or absolute path. 
@@ -114,5 +115,5 @@ module.exports = {
 };
 ```
 For more information about the configuration properties please refer to 
-```./configuration.js``` file and the property ```defaultConfiguration```.
+```./configuration.js``` file and a variable ```defaultConfiguration```.
 

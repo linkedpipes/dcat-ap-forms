@@ -9,15 +9,16 @@ import {
     NKOD
 } from "@/app-service/vocabulary";
 
-
 export function exportToJsonLd(dataset, distributions) {
     const output = {
         "@id": dataset.iri,
         "@type": [DCATAP.Dataset, NKOD.Formular],
         [DCTERMS.title]: asLangString(dataset.title),
         [DCTERMS.description]: asLangString(dataset.description),
-        [DCATAP.keyword]: dataset.keywords.map((keyword) => asLangString(keyword)),
-        [DCATAP.distribution]: distributions.map((distribution) => exportDistribution(distribution))
+        [DCATAP.keyword]: dataset.keywords.map(
+            (keyword) => asLangString(keyword)),
+        [DCATAP.distribution]: distributions.map(
+            (distribution) => exportDistribution(distribution))
     };
 
     if (dataset.accrual_periodicity !== "") {
@@ -100,7 +101,7 @@ function exportContactPoint(dataset) {
         output[VCARD.fn] = asLangString(dataset.contact_point_name);
     }
     if (dataset.contact_point_email !== "") {
-        output[VCARD.hasEmail] = asLangString(dataset.contact_point_email);
+        output[VCARD.hasEmail] = dataset.contact_point_email;
     }
     return output;
 }
@@ -157,10 +158,12 @@ function license(distribution) {
             output[PU.autorDatabaze] = asValue(distribution.license_db_name);
             break;
         case "NO":
-            output[PU.databazeJakoAutorskeDilo] = asIri(PU.neniAutorskopravneChranenouDatabazi);
+            output[PU.databazeJakoAutorskeDilo] =
+                asIri(PU.neniAutorskopravneChranenouDatabazi);
             break;
         case "CUSTOM":
-            output[PU.databazeJakoAutorskeDilo] = asIri(distribution.license_db_custom);
+            output[PU.databazeJakoAutorskeDilo] =
+                asIri(distribution.license_db_custom);
             break;
         default:
             console.error("Unexpected license_db_type value:",
@@ -170,13 +173,16 @@ function license(distribution) {
 
     switch (distribution.license_specialdb_type) {
         case "CC0":
-            output[PU.databazeChranenaZvlastnimiPravy] = asIri(CREATIVE_COMMONS.PUBLIC_ZERO_10);
+            output[PU.databazeChranenaZvlastnimiPravy] =
+                asIri(CREATIVE_COMMONS.PUBLIC_ZERO_10);
             break;
         case "NO":
-            output[PU.databazeChranenaZvlastnimiPravy] = asIri(PU.neniChranenazvlastnimPravemPorizovateleDatabaze);
+            output[PU.databazeChranenaZvlastnimiPravy] =
+                asIri(PU.neniChranenazvlastnimPravemPorizovateleDatabaze);
             break;
         case "CUSTOM":
-            output[PU.databazeChranenaZvlastnimiPravy] = asIri(distribution.license_specialdb_custom);
+            output[PU.databazeChranenaZvlastnimiPravy] =
+                asIri(distribution.license_specialdb_custom);
             break;
         default:
             console.error("Unexpected license_specialdb_type value:",

@@ -22,11 +22,13 @@ export const DCATAP = {
     "keyword": "http://www.w3.org/ns/dcat#keyword",
     "downloadURL": "http://www.w3.org/ns/dcat#downloadURL",
     "mediaType": "http://www.w3.org/ns/dcat#mediaType",
-    "Distribution": "http://www.w3.org/ns/dcat#Distribution"
+    "Distribution": "http://www.w3.org/ns/dcat#Distribution",
+    "endpointURL": "http://www.w3.org/ns/dcat#endpointURL"
 };
 
 export const FOAF = {
-    "page": "http://xmlns.com/foaf/0.1/page"
+    "page": "http://xmlns.com/foaf/0.1/page",
+    "homepage": "http://xmlns.com/foaf/0.1/homepage"
 };
 
 export const VCARD = {

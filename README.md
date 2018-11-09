@@ -10,7 +10,6 @@ solr.cmd create -c iana-media-types
 solr.cmd create -c mdr-file-type
 solr.cmd create -c ruian
 solr.cmd create -c eurovoc
-solr.cmd create -c dataset-themes
 ```
 
 Set core properties:

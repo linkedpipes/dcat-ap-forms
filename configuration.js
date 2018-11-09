@@ -1,16 +1,11 @@
-const solrBaseUrl = "http://localhost:8983/solr/";
-
-module.exports = {
+const defaultConfiguration = {
     "port": 8057,
-    "nkod_databox": "uur3q2i",
-    "solr_media_types": solrBaseUrl + "iana-media-types",
-    "solr_file_type": solrBaseUrl + "mdr-file-type",
-    "solr_ruian": solrBaseUrl + "ruian",
-    "solr_themes": solrBaseUrl + "eurovoc",
+    "nkod_databox": "",
+    "solr_media_types": "http://localhost:8983/solr/iana-media-types",
+    "solr_file_type": "http://localhost:8983/solr/mdr-file-type",
+    "solr_ruian": "http://localhost:8983/solr/ruian",
+    "solr_themes": "http://localhost:8983/solr/eurovoc",
     "dereference_proxy": "https://dev.nkod.opendata.cz/sparql-graph-crud?graph={}",
-    "title": {
-        "cs": "Registrační formulář pro NKOD"
-    },
     "head": [
         {
             "$type": "meta",
@@ -66,5 +61,46 @@ module.exports = {
             "href": "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons",
             "rel": "stylesheet"
         }
-    ],
+    ]
 };
+
+(function initialize() {
+
+    const configurationPath = readProperty(
+        "configFileLocation", "dcatApFormsConfig");
+    let userConfiguration = {};
+    if (configurationPath) {
+        console.log("Loading configuration from: ", configurationPath);
+        userConfiguration = require(configurationPath);
+    }
+
+    module.exports = {
+        ...defaultConfiguration,
+        ...userConfiguration,
+    };
+})();
+
+function readProperty(argName, envName) {
+    const argument = readProgramArgument("-" + argName);
+    if (argument !== undefined) {
+        return argument;
+    } else if (process.env[envName] !== undefined) {
+        return process.env[envName];
+    } else {
+        return undefined;
+    }
+}
+
+function readProgramArgument(name) {
+    let output = undefined;
+    process.argv.forEach((value) => {
+        const line = value.split("=");
+        if (line.length !== 2) {
+            return;
+        }
+        if (line[0] === name) {
+            output = line[1];
+        }
+    });
+    return output;
+}

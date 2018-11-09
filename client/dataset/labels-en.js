@@ -126,7 +126,7 @@ export default {
     "license_db_no_short": "Not copyrighted",
     "license_db_custom_full": "Custom license (not recommended)",
     "license_db_custom_short": "Custom license",
-    "license_specialdb_cc0_full": "Licencováno CC0",
+    "license_specialdb_cc0_full": "Licensed using CC0",
     "license_specialdb_cc0_short": "CC0",
     "license_specialdb_no_full": "Not protected by sui generis database rights",
     "license_specialdb_no_short": "Not protected",

@@ -439,20 +439,24 @@
             },
             "mediaTypeLabel": function () {
                 const iri = this.distribution.media_type;
-                const value = getItem(this.codelist, "media-types", iri);
+                const value = getItem(
+                    this.codelist, "media-types", iri,
+                    this.$vuetify.lang.current);
                 if (value === undefined) {
                     return iri;
                 } else {
-                    return value["title"];
+                    return value;
                 }
             },
             "formatLabel": function () {
                 const iri = this.distribution.format;
-                const value = getItem(this.codelist, "file-type", iri);
+                const value = getItem(
+                    this.codelist, "file-type", iri,
+                    this.$vuetify.lang.current);
                 if (value === undefined) {
                     return iri;
                 } else {
-                    return value["title"];
+                    return value;
                 }
             }
         },

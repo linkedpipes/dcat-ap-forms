@@ -27,7 +27,7 @@ export function getItem(store, type, iri, lang) {
     }
     const item = store[type][iri];
     if (item) {
-        return item["lang"];
+        return item[lang];
     } else {
         return undefined;
     }

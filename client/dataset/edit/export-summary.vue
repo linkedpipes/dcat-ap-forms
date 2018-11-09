@@ -287,7 +287,7 @@
                 if (value === undefined) {
                     return iri;
                 } else {
-                    return value["title"];
+                    return value;
                 }
             },
             "nkodDatabox": function() {
@@ -313,7 +313,7 @@
                 if (value === undefined) {
                     return iri;
                 } else {
-                    return value["title"];
+                    return value;
                 }
             },
             "openUrl": function (url) {

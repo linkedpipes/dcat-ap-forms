@@ -19,12 +19,12 @@
     <template
       slot="selection"
       slot-scope="data">
-      {{ data.item.title }} ({{ data.item.notation }})
+      {{ data.item[$vuetify.lang.current] }} ({{ data.item.notation }})
     </template>
     <template
       slot="item"
       slot-scope="data">
-      {{ data.item.title }} ({{ data.item.notation }})
+      {{ data.item[$vuetify.lang.current] }} ({{ data.item.notation }})
     </template>
     <template slot="no-data">
       <v-list-tile>

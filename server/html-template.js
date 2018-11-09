@@ -1,12 +1,11 @@
 const config = require("./config");
 
 function create(javascript, css, options) {
-    const langTitle = options["lang"] || options["langTitle"];
     return `
 <!DOCTYPE html>
 <html${options["lang"] ? " lang=\"" + options["lang"] + "\"" : ""}>
 <head>
-  <title>${config.html_title[langTitle]}</title>
+  <title>${options.title}</title>
   ${generateHead(css)}
 </head>
 <body>

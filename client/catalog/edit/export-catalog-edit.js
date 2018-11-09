@@ -1,23 +1,21 @@
 export function exportToJsonLd(catalog) {
     const output = {
-        "@id": catalog.url,
         "@type": ["http://www.w3.org/ns/dcat#Catalog", catalog.type],
+        "http://www.w3.org/ns/dcat#endpointURL": {
+            "@value": catalog.url,
+            "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+        },
         "http://purl.org/dc/terms/title": asLangString(catalog.title)
     };
-
     const contactPoint = exportContactPoint(catalog);
     if (contactPoint !== undefined) {
         output["http://www.w3.org/ns/dcat#contactPoint"] = contactPoint;
     }
-	
 	if (catalog.homepage !== "") {
 		output["http://xmlns.com/foaf/0.1/homepage"] = {
 			"@id": catalog.homepage
 		}
 	}
-
-    console.log(output);
-
     return output;
 }
 

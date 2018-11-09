@@ -35,5 +35,6 @@ export default {
     "summary_download": "Registrační záznam stáhněte a zašlete jako přílohu do datové schránky ",
     "nav_download": "Shrnutí",
     "summary_error": "Formulář ještě není správně vyplněn.",
+    "cant_import_catalog": "Nepodařilo se importovat katalog.",
 };
 

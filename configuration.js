@@ -67,7 +67,7 @@ const defaultConfiguration = {
 (function initialize() {
 
     const configurationPath = readProperty(
-        "configFileLocation", "dcatApFormsConfig");
+        "env.configFileLocation", "dcatApFormsConfig");
     let userConfiguration = {};
     if (configurationPath) {
         console.log("Loading configuration from: ", configurationPath);

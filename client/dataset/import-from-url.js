@@ -17,6 +17,7 @@ import {
     PU,
     SKOS
 } from "@/app-service/vocabulary";
+import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
 import {typeFromUrl} from "./edit/codelists/ruian-type";
 
 function update_url(url) {
@@ -337,5 +338,20 @@ export function importMinimalDataset(url) {
         return {
             "dataset": datasetModel,
         };
+    });
+}
+
+export function loadLabelsForDistributions(distributions, lang) {
+    const formats = new Set();
+    const mediaTypes = new Set();
+    distributions.forEach((distribution) => {
+        formats.add(distribution.format);
+        mediaTypes.add(distribution.media_type);
+    });
+    formats.forEach((iri) => {
+        fetchLabelFromCodeList("file-type", iri, lang);
+    });
+    mediaTypes.forEach((iri) => {
+        fetchLabelFromCodeList("media-types", iri, lang);
     });
 }

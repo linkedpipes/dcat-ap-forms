@@ -1,10 +1,10 @@
 <template>
   <v-content v-if="data.status === 'ready'">
-    <v-stepper 
-      :value="ui.step" 
+    <v-stepper
+      :value="ui.step"
       @input="onStepperInput">
       <v-stepper-header>
-        <v-stepper-step 
+        <v-stepper-step
           :complete="ui.step > 1"
           :rules="[isDatasetValid]"
           :step="1"
@@ -12,7 +12,7 @@
           {{ $t("step_dataset") }}
         </v-stepper-step>
         <v-divider/>
-        <v-stepper-step 
+        <v-stepper-step
           :complete="ui.step > 2"
           :rules="[areDistributionsValid]"
           :step="2"
@@ -20,8 +20,8 @@
           {{ $t("step_distribution") }}
         </v-stepper-step>
         <v-divider/>
-        <v-stepper-step 
-          :step="3" 
+        <v-stepper-step
+          :step="3"
           editable>
           {{ $t("step_download") }}
         </v-stepper-step>
@@ -83,7 +83,7 @@
     import StepperNavigationMobile from "./ui/step-navigation-mobile";
     import StepperNavigationDesktop from "./ui/step-navigation-desktop";
     import ExportSummary from "./export-summary";
-    import {importDataset} from "../import-from-url";
+    import {importDataset, loadLabelsForDistributions} from "../import-from-url";
     import setPageTitle from "@/app-service/page-title";
     import {getStore} from "./codelists/local-storage";
 
@@ -127,7 +127,7 @@
             setPageTitle(this.$t("edit_page_title"));
 
             // Set step from URL.
-            this.ui.step =  this.$route.query.krok;
+            this.ui.step = this.$route.query.krok;
 
             const url = this.$route.query.url;
             if (url === undefined) {
@@ -137,17 +137,21 @@
                 return;
             }
 
-            importDataset(url).then((result) => {
-                const distributions = Object.values(result.distributions)
-                    .map(item => decorateDistribution(item));
-                this.data.dataset = decorateDataset(result.dataset);
-                this.data.distributions = distributions;
-                this.data.status = "ready";
-            }).catch((error) => {
-                console.error(error);
-                this.data.status = "error";
-                this.data.error = error;
-            });
+            importDataset(url)
+                .then((result) => {
+                    const distributions = Object.values(result.distributions)
+                        .map(item => decorateDistribution(item));
+                    this.data.dataset = decorateDataset(result.dataset);
+                    this.data.distributions = distributions;
+                    this.data.status = "ready";
+                    return loadLabelsForDistributions(
+                        distributions, this.$vuetify.lang.current);
+                })
+                .catch((error) => {
+                    console.error(error);
+                    this.data.status = "error";
+                    this.data.error = error;
+                });
         },
         "methods": {
             "isDatasetValid": function () {

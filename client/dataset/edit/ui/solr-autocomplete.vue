@@ -13,7 +13,7 @@
     append-outer-icon="help_outline"
     flat
     no-filter
-    @input="onInput" 
+    @input="onInput"
     @click:append-outer="$h(id)">
     <template slot="no-data">
       <v-list-tile>
@@ -27,7 +27,7 @@
 
 <script>
     import {getLocalJson} from "@/app-service/http";
-    import {addItems} from "../codelists/local-storage";
+    import {addItems, fetchLabelFromCodeList} from "../codelists/local-storage";
 
     export default {
         "name": "app-solr-autocomplete",
@@ -60,7 +60,7 @@
                     this.querySelections(value)
                 }
             },
-            "value": function(value) {
+            "value": function (value) {
                 // this.ignoreNextSearch will be unset in watch.search
                 // that follow after this method.
                 if (!this.ignoreNextSearch) {
@@ -94,21 +94,9 @@
     }
 
     function fetchTitle(component, value) {
-        const url = createTitleQueryUrl(
-            component.codeList, value, component.$vuetify.lang.current);
-        getLocalJson(url).then((response) => {
-            addItems(component.codeList, response.json.response.docs);
-            component.items = response.json.response.docs;
-        });
+        fetchLabelFromCodeList(
+            component.codeList, value, component.$vuetify.lang.current)
+            .then((item) => component.items = item);
     }
-
-    function createTitleQueryUrl(codeList, iri, lang) {
-        const escapedIri = iri.replace(":", "\\:");
-        return "/api/v1/codelist/" + codeList +
-            "?iri=" + encodeURIComponent(escapedIri) +
-            "&lang=" + lang;
-    }
-
-
 
 </script>

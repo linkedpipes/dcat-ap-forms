@@ -3,6 +3,7 @@
  */
 
 import Vue from "vue";
+import {getLocalJson} from "@/app-service/http";
 
 const storage = {};
 
@@ -17,7 +18,8 @@ export function addItems(type, items) {
     }
     const storageFotType = storage[type];
     items.forEach((item) => {
-        storageFotType[item["code"]] = item;
+        // Again add to be reactive.
+        Vue.set(storageFotType, item["code"], item)
     });
 }
 
@@ -36,3 +38,20 @@ export function getItem(store, type, iri, lang) {
 export function getStore() {
     return storage;
 }
+
+export function fetchLabelFromCodeList(codeList, iri, lang) {
+    const url = createTitleQueryUrl(codeList, iri, lang);
+    return getLocalJson(url).then((response) => {
+        addItems(codeList, response.json.response.docs);
+        return response.json.response.docs;
+    });
+}
+
+function createTitleQueryUrl(codeList, iri, lang) {
+    const escapedIri = iri.replace(":", "\\:");
+    return "/api/v1/codelist/" + codeList +
+        "?iri=" + encodeURIComponent(escapedIri) +
+        "&lang=" + lang;
+}
+
+

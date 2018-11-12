@@ -126,6 +126,9 @@
         "mounted": function () {
             setPageTitle(this.$t("edit_page_title"));
 
+            // Set step from URL.
+            this.ui.step =  this.$route.query.krok;
+
             const url = this.$route.query.url;
             if (url === undefined) {
                 this.data.dataset = createDataset();

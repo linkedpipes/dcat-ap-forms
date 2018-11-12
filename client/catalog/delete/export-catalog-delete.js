@@ -6,8 +6,9 @@ import {
 export function exportToJsonLd(catalog) {
     const output = {
         "@type": catalog.types,
-        "@id": {"@id": catalog.iri},
-        [ADMS.status]: [STATUS.Withdrawn]
+        "@id": catalog.iri,
+        [ADMS.status]: {"@id": [STATUS.Withdrawn]}
     };
+    console.log("jsonld:", output);
     return output;
 }

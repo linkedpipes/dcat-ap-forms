@@ -8,8 +8,9 @@ import {
 export function exportToJsonLd(dataset) {
     const output = {
         "@type": [DCATAP.Dataset, NKOD.Formular],
-        "@id": {"@id": dataset.iri},
-        [ADMS.status]: [STATUS.Withdrawn]
+        "@id": dataset.iri,
+        [ADMS.status]: {"@id": [STATUS.Withdrawn]}
     };
+    console.log("jsonld:", output);
     return output;
 }

@@ -6,16 +6,27 @@
           {{ $t("catalog_delete_page_title") }}
         </div>
         <div>
-          <v-list 
-            two-line 
-            subheader>
+          <v-list two-line>
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+                <v-icon class="blue white--text">label</v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ catalog.title }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  {{ $t("catalog_title") }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
             <v-list-tile avatar>
               <v-list-tile-avatar>
                 <v-icon class="blue white--text">link</v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
-                  {{ catalog.title }}
+                  {{ catalog.iri }}
                 </v-list-tile-title>
                 <v-list-tile-sub-title>
                   {{ $t("catalog_url") }}

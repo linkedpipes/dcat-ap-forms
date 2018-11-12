@@ -4,112 +4,112 @@ const codelist = [
     {
         "value": prefix + "DAILY",
         "cs": "denní",
-        "en": "denní"
+        "en": "daily"
     },
     {
         "value": prefix + "WEEKLY",
         "cs": "týdenní",
-        "en": "týdenní"
+        "en": "weekly"
     },
     {
         "value": prefix + "MONTHLY",
         "cs": "měsíční",
-        "en": "měsíční"
+        "en": "monthly"
     },
     {
         "value": prefix + "QUARTERLY",
         "cs": "čtvrtletní",
-        "en": "čtvrtletní"
+        "en": "quarterly"
     },
     {
         "value": prefix + "ANNUAL_2",
         "cs": "pololetní",
-        "en": "pololetní"
+        "en": "semiannual"
     },
     {
         "value": prefix + "ANNUAL",
         "cs": "roční",
-        "en": "roční"
+        "en": "annual"
     },
     {
         "value": prefix + "UPDATE_CONT",
         "cs": "průběžně aktualizovaná",
-        "en": "průběžně aktualizovaná"
+        "en": "continuously updated"
     },
     {
         "value": prefix + "NEVER",
         "cs": "nikdy",
-        "en": "nikdy"
+        "en": "never"
     },
     {
         "value": prefix + "IRREG",
         "cs": "nepravidelná",
-        "en": "nepravidelná"
+        "en": "irregular"
     },
     {
         "value": prefix + "UNKNOWN",
         "cs": "neznámá",
-        "en": "neznámá"
+        "en": "unknown"
     },
     {
         "value": prefix + "DAILY_2",
         "cs": "dvakrát denně",
-        "en": "dvakrát denně"
+        "en": "twice a day"
     },
     {
         "value": prefix + "WEEKLY_2",
         "cs": "dvakrát týdně",
-        "en": "dvakrát týdně"
+        "en": "semiweekly"
     },
     {
         "value": prefix + "WEEKLY_3",
         "cs": "třikrát týdně",
-        "en": "třikrát týdně"
+        "en": "three times a week"
     },
     {
         "value": prefix + "BIWEEKLY",
         "cs": "jednou za čtrnáct dní",
-        "en": "jednou za čtrnáct dní"
+        "en": "biweekly"
     },
     {
         "value": prefix + "MONTHLY_2",
         "cs": "dvakrát za měsíc",
-        "en": "dvakrát za měsíc"
+        "en": "semimonthly"
     },
     {
         "value": prefix + "MONTHLY_3",
         "cs": "třikrát za měsíc",
-        "en": "třikrát za měsíc"
+        "en": "three times a month"
     },
     {
         "value": prefix + "BIMONTHLY",
         "cs": "jednou za dva měsíce",
-        "en": "jednou za dva měsíce"
+        "en": "bimonthly"
     },
     {
         "value": prefix + "ANNUAL_3",
         "cs": "třikrát do roka",
-        "en": "třikrát do roka"
+        "en": "three times a year"
     },
     {
         "value": prefix + "BIENNIAL",
         "cs": "jednou za dva roky",
-        "en": "jednou za dva roky"
+        "en": "biennial"
     },
     {
         "value": prefix + "TRIENNIAL",
         "cs": "jednou za tři roky",
-        "en": "jednou za tři roky"
+        "en": "triennial"
     },
     {
         "value": prefix + "CONT",
         "cs": "průběžně",
-        "en": "průběžně"
+        "en": "continuous"
     },
     {
         "value": prefix + "OTHER",
         "cs": "ostatní",
-        "en": "ostatní"
+        "en": "other"
     }
 ];
 

@@ -53,12 +53,12 @@ export const PU = {
     "autorDatabaze": PU_VOCAB_PREFIX + "autor-databáze",
     "osobniUdaje": PU_VOCAB_PREFIX + "osobní-údaje",
     "Specifikace": PU_VOCAB_PREFIX + "Specifikace",
-    "obsahujeViceAutorskychDel": PU_PREFIX + "obsahuje-více-autorských-děl",
-    "neobsahujeAutorskaDila": PU_PREFIX + "neobsahuje-autorská-díla",
-    "neniAutorskopravneChranenouDatabazi": PU_PREFIX + "není-autorskoprávně-chráněnou-databází",
-    "neniChranenazvlastnimPravemPorizovateleDatabaze": PU_PREFIX + "není-chráněna-zvláštním-právem-pořizovatele-databáze",
-    "obsahujeOsobniUdaje": PU_PREFIX + "obsahuje-osobní-údaje",
-    "neobsahujeOsobniUdaje": PU_PREFIX + "neobsahuje-osobní-údaje"
+    "obsahujeViceAutorskychDel": PU_PREFIX + "obsahuje-více-autorských-děl/",
+    "neobsahujeAutorskaDila": PU_PREFIX + "neobsahuje-autorská-díla/",
+    "neniAutorskopravneChranenouDatabazi": PU_PREFIX + "není-autorskoprávně-chráněnou-databází/",
+    "neniChranenazvlastnimPravemPorizovateleDatabaze": PU_PREFIX + "není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+    "obsahujeOsobniUdaje": PU_PREFIX + "obsahuje-osobní-údaje/",
+    "neobsahujeOsobniUdaje": PU_PREFIX + "neobsahuje-osobní-údaje/"
 };
 
 export const CREATIVE_COMMONS = {

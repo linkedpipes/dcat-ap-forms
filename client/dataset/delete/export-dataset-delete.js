@@ -9,7 +9,7 @@ export function exportToJsonLd(dataset) {
     const output = {
         "@type": [DCATAP.Dataset, NKOD.Formular],
         "@id": dataset.iri,
-        [ADMS.status]: {"@id": [STATUS.Withdrawn]}
+        [ADMS.status]: {"@id": STATUS.Withdrawn}
     };
     console.log("jsonld:", output);
     return output;

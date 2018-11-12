@@ -44,15 +44,11 @@
             "loading": false,
             "items": [],
             "search": null,
-            "ignoreNextSearch": false
+            "ignoreNextSearch": false,
+            "lastFetchFor": undefined
         }),
         "mounted": function () {
-            const url = createTitleQueryUrl(
-                this.codeList, this.value, this.$vuetify.lang.current);
-            getLocalJson(url).then((response) => {
-                addItems(this.codeList, response.json.response.docs);
-                this.items = response.json.response.docs;
-            });
+            fetchTitle(this, this.value);
         },
         "watch": {
             "search": function (value) {
@@ -63,11 +59,19 @@
                 if (value) {
                     this.querySelections(value)
                 }
+            },
+            "value": function(value) {
+                // this.ignoreNextSearch will be unset in watch.search
+                // that follow after this method.
+                if (!this.ignoreNextSearch) {
+                    fetchTitle(this, value);
+                }
             }
         },
         "methods": {
             "querySelections": function (query) {
                 this.loading = true;
+                this.lastFetchFor = query;
                 const url = createQueryUrl(
                     this.codeList, query, this.$vuetify.lang.current);
                 getLocalJson(url).then((response) => {
@@ -89,11 +93,22 @@
             "&lang=" + lang;
     }
 
+    function fetchTitle(component, value) {
+        const url = createTitleQueryUrl(
+            component.codeList, value, component.$vuetify.lang.current);
+        getLocalJson(url).then((response) => {
+            addItems(component.codeList, response.json.response.docs);
+            component.items = response.json.response.docs;
+        });
+    }
+
     function createTitleQueryUrl(codeList, iri, lang) {
         const escapedIri = iri.replace(":", "\\:");
         return "/api/v1/codelist/" + codeList +
             "?iri=" + encodeURIComponent(escapedIri) +
             "&lang=" + lang;
     }
+
+
 
 </script>

@@ -30,6 +30,7 @@ export function importCatalog(url) {
         return {
             "iri": getId(catalog),
             "title": getValue(catalog, DCTERMS.title),
+            "endpoint": getValue(catalog, DCATAP.endpointURL),
             "types": getTypes(catalog)
         }
     });

@@ -217,7 +217,7 @@
       <v-text-field
         id="distribution_schema"
         v-model="distribution.schema"
-        :label="$t('distribution_schema_link')"
+        :label="$t('distribution_schema_link') + $t('optional')"
         :hint="$t('hint_distribution_schema')"
         :error-messages="err_schema"
         prepend-icon="link"
@@ -229,7 +229,7 @@
         id="distribution_title"
         v-model="distribution.title"
         :hint="$t('hint_distribution_title')"
-        :label="$t('distribution_title')"
+        :label="$t('distribution_title') + $t('optional')"
         prepend-icon="label"
         append-outer-icon="help_outline"
         clearable

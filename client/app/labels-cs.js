@@ -1,3 +1,4 @@
 export default {
-    "noDataText": "Dotazu neodpovídají žádná data."
+    "noDataText": "Dotazu neodpovídají žádná data.",
+    "optional": " (volitelné)",
 }

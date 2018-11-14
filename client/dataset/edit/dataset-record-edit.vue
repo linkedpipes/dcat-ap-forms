@@ -129,7 +129,7 @@
         <app-date-picker
           id="temporal_start"
           v-model="dataset.temporal_start"
-          :label="$t('temporal_start')"
+          :label="$t('temporal_start') + $t('optional')"
           :hint="$t('hint_temporal_start')"
           persistent-hint
           append-outer-icon="help_outline"/>
@@ -141,7 +141,7 @@
           id="temporal_end"
           v-model="dataset.temporal_end"
           :hint="$t('hint_temporal_end')"
-          :label="$t('temporal_end')"
+          :label="$t('temporal_end') + $t('optional')"
           persistent-hint/>
       </v-flex>
       <v-spacer/>
@@ -155,7 +155,7 @@
         <v-text-field
           id="contact_point_name"
           v-model="dataset.contact_point_name"
-          :label="$t('contact_point_name')"
+          :label="$t('contact_point_name') + $t('optional')"
           :hint="$t('hint_contact_point_name')"
           prepend-icon="person"
           append-outer-icon="help_outline"
@@ -168,7 +168,7 @@
         <v-text-field
           id="contact_point_email"
           v-model="dataset.contact_point_email"
-          :label="$t('contact_point_email')"
+          :label="$t('contact_point_email') + $t('optional')"
           :error-messages="err_contact_point_email"
           :hint="$t('hint_contact_point_email')"
           prepend-icon="alternate_email"
@@ -181,7 +181,7 @@
     <v-text-field
       id="documentation"
       v-model="dataset.documentation"
-      :label="$t('documentation')"
+      :label="$t('documentation') + $t('optional')"
       :error-messages="err_documentation"
       :hint="$t('hint_documentation')"
       prepend-icon="link"

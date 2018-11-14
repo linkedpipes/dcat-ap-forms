@@ -74,7 +74,7 @@
     <v-text-field
       id="catalog_homepage"
       v-model="catalog.homepage"
-      :label="$t('homepage')"
+      :label="$t('homepage') + $t('optional')"
       :error-messages="err_homepage"
       :hint="$t('hint_homepage')"
       prepend-icon="home"

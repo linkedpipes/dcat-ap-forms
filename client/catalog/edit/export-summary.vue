@@ -40,6 +40,7 @@
       </v-btn>
     </v-layout>
     <v-list two-line>
+
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <v-icon class="blue white--text">person</v-icon>
@@ -92,6 +93,7 @@
         </v-list-tile-content>
       </v-list-tile>
       <v-divider/>
+
       <v-list-tile avatar>
         <v-list-tile-avatar>
           <v-icon class="blue white--text">link</v-icon>
@@ -113,6 +115,31 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+
+      <v-list-tile
+        v-if="catalog.homepage"
+        avatar>
+        <v-list-tile-avatar>
+          <v-icon class="blue white--text">home</v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>
+            {{ catalog.homepage }}
+          </v-list-tile-title>
+          <v-list-tile-sub-title>
+            {{ $t('catalog_homepage') }}
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn
+            icon
+            ripple
+            @click="openHomepage">
+            <v-icon color="blue">open_in_new</v-icon>
+          </v-btn>
+        </v-list-tile-action>
+      </v-list-tile>
+
     </v-list>
     <v-divider class="my-2"/>
     <v-layout 
@@ -152,7 +179,7 @@
             "isValid": {"type": Boolean, "required": true}
         },
         "computed": {
-            "nkodDatabox": function() {
+            "nkodDatabox": function () {
                 return NKOD_ISDS;
             }
         },
@@ -161,10 +188,13 @@
                 const jsonld = exportToJsonLd(this.catalog);
                 downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
             },
-            "openCatalog": function() {
+            "openCatalog": function () {
                 window.open(this.catalog.iri);
             },
-            "sendEmail": function() {
+            "openHomepage": function () {
+                window.open(this.catalog.homepage);
+            },
+            "sendEmail": function () {
                 window.open("mailto:" + this.catalog.contact_point_email)
             },
             "typeToLabel": typeToLabel

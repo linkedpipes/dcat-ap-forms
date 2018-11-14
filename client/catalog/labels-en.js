@@ -36,5 +36,6 @@ export default {
     "nav_download": "Summary",
     "summary_error": "The form is not yet filled in correctly.",
     "cant_import_catalog": "Unable to import catalog data.",
+    "catalog_homepage": "Catalog homepage",
 };
 

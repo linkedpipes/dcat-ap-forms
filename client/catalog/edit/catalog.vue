@@ -77,6 +77,9 @@
         },
         "mounted": function() {
             setPageTitle("Registrace lokálního katalogu do NKOD");
+
+            // Set step from URL.
+            this.ui.step = this.$route.query.krok;
         },
         "methods": {
             "isCatalogValid": function () {

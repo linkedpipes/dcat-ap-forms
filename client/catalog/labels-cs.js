@@ -36,5 +36,6 @@ export default {
     "nav_download": "Shrnutí",
     "summary_error": "Formulář ještě není správně vyplněn.",
     "cant_import_catalog": "Nepodařilo se importovat katalog.",
+    "catalog_homepage": "Domácí stránka katalogu",
 };
 

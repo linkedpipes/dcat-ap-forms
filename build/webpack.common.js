@@ -44,7 +44,11 @@ module.exports = {
                 "use": "vue-loader"
             }, {
                 "test": /\.js$/,
-                "use": "babel-loader"
+                "use": "babel-loader",
+                "include": [
+                    path.resolve(__dirname, "..", "client"),
+                    path.resolve("node_modules")
+                ]
             }
         ]
     },

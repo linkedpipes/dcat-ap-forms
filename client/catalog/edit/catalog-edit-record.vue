@@ -61,10 +61,10 @@
       required
       @click:append-outer="$h('catalog_type')"/>
     <v-text-field
-      id="catalog_url"
-      v-model="catalog.url"
+      id="catalog_endpoint"
+      v-model="catalog.endpoint"
       :label="$t('catalog_url')"
-      :error-messages="err_url"
+      :error-messages="err_endpoint"
       :hint="$t('hint_catalog_url')"
       prepend-icon="link"
       append-outer-icon="help_outline"

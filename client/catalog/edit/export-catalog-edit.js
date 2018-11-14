@@ -9,7 +9,7 @@ export function exportToJsonLd(catalog) {
     const output = {
         "@type": [DCATAP.Catalog, catalog.type],
         [DCATAP.endpointURL]: {
-            "@value": catalog.url,
+            "@value": catalog.endpoint,
             "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
         },
         [DCTERMS.title]: asLangString(catalog.title)

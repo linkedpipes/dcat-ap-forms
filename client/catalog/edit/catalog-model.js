@@ -9,7 +9,8 @@ import {
 export function createCatalog() {
     return {
         "title": "",
-        "url": "",
+        "iri": undefined,
+        "endpoint": "",
         "contact_point_name": "",
         "contact_point_email": "",
 		"homepage": "",
@@ -26,8 +27,8 @@ export function createCatalogValidators() {
             (t) => t.catalog, "title",
             provided,
             "catalog_title_missing"),
-        "err_url": applyArray(
-            (t) => t.catalog, "url",
+        "err_endpoint": applyArray(
+            (t) => t.catalog, "endpoint",
             [
                 [provided, "catalog_url_missing"],
                 [url, "catalog_url_invalid"]
@@ -53,8 +54,8 @@ export function createCatalogValidators() {
 
 export function isCatalogValid(catalog) {
     return provided(catalog.title) &&
-        provided(catalog.url) &&
-        url(catalog.url) &&
+        provided(catalog.endpoint) &&
+        url(catalog.endpoint) &&
         provided(catalog.contact_point_email) &&
         provided(catalog.contact_point_name) &&
         email(catalog.contact_point_email) &&

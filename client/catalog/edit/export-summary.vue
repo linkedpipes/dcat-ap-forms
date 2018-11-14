@@ -115,6 +115,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+      <v-divider/>
 
       <v-list-tile
         v-if="catalog.homepage"

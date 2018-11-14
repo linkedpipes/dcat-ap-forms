@@ -142,5 +142,5 @@ export default {
     "edit_page_title": "Edit of an NODC registered dataset",
     "delete_page_title": "Removal of a dataset from NODC",
     "dataset_delete_summary_download": "If you are certain that you want to remove this dataset from the NODC, send the downloaded file as an attachment of a data message with the subject \"NKOD\" to the databox ",
-    "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified."
+    "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
 }

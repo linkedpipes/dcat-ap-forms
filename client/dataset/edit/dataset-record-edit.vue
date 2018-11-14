@@ -192,7 +192,7 @@
     <app-solr-chips-autocomplete
       id="themes"
       v-model="dataset.themes"
-      :label="$t('themes')"
+      :label="$t('themes') + $t('optional')"
       :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
       code-list="themes"/>

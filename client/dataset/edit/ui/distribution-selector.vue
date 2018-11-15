@@ -7,14 +7,13 @@
       @click="onPrevious">
       <v-icon>navigate_before</v-icon>
     </v-btn>
-    <v-btn 
-      v-for="(item, index) in distributions" 
-      :key="index" 
-      flat 
-      icon>
-      <v-icon 
-        :color="index === value ? 'blue' : undefined"
-        @click="onSelect(index)">
+    <v-btn
+      v-for="(item, index) in distributions"
+      :key="index"
+      flat
+      icon
+      @click="onSelect(index)">
+      <v-icon :color="index === value ? 'blue' : undefined">
         lens
       </v-icon>
     </v-btn>

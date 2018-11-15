@@ -1,4 +1,5 @@
 import "babel-polyfill";
+import "isomorphic-fetch";
 
 import Vue from "vue";
 import Vuetify from "vuetify";

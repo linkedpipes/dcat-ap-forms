@@ -59,7 +59,7 @@ export default {
     "nav_download": "Summary",
     "nav_dataset": "Dataset",
     "nav_distributions": "Distribution",
-    "summary_download": "Download the registration record and send it as an attachment of a data message with the subject \"NKOD\" to the databox ",
+    "summary_download": "Download the registration record and send it as an attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
     "button_download": "Download",
     "summary_error": "The form is not yet filled in correctly.",
     "summary_info": "Here you can see the overview of the registered dataset.",
@@ -141,6 +141,6 @@ export default {
     "cant_import_dataset": "Unable to load requested dataset.",
     "edit_page_title": "Edit of an NODC registered dataset",
     "delete_page_title": "Removal of a dataset from NODC",
-    "dataset_delete_summary_download": "If you are certain that you want to remove this dataset from the NODC, send the downloaded file as an attachment of a data message with the subject \"NKOD\" to the databox ",
+    "dataset_delete_summary_download": "If you are certain that you want to remove this dataset from the NODC, send the downloaded file as an attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
     "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
 }

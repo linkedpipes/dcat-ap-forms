@@ -70,16 +70,19 @@
         }),
         "watch": {
             "$route" : function(location) {
-                if (location.query.krok !== this.ui.krok) {
+                if (location.query.krok === undefined) {
+                    this.ui.step = 1;
+                } else if (location.query.krok !== this.ui.krok) {
                     this.ui.step = location.query.krok;
                 }
             }
         },
         "mounted": function() {
             setPageTitle("Registrace lokálního katalogu do NKOD");
-
             // Set step from URL.
-            this.ui.step = this.$route.query.krok;
+            if (this.$route.query.krok !== undefined) {
+                this.ui.step = this.$route.query.krok;
+            }
         },
         "methods": {
             "isCatalogValid": function () {

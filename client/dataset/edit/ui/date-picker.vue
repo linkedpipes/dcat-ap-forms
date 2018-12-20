@@ -25,6 +25,7 @@
       @click:append-outer="$h(id)"/>
     <v-date-picker
       ref="picker"
+      :locale="$vuetify.lang.current"
       :value="value"
       @change="save"/>
   </v-menu>

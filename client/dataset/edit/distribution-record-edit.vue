@@ -31,6 +31,7 @@
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
+            prepend-icon="filter_1"
             required
             @click:append-outer="$h('license_author_type')"/>
         </v-flex>
@@ -46,6 +47,7 @@
             :hint="$t('hint_license_author_name')"
             :error-messages="err_license_author_name"
             append-outer-icon="help_outline"
+            prepend-icon="people"
             clearable
             @click:append-outer="$h('license_author_name')"/>
         </v-flex>
@@ -61,6 +63,7 @@
             :hint="$t('hint_license_author_custom')"
             :error-messages="err_license_author_custom"
             append-outer-icon="help_outline"
+            prepend-icon="link"
             type="url"
             clearable 
             @click:append-outer="$h('license_author_custom')"/>
@@ -79,6 +82,7 @@
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
+            prepend-icon="filter_2"
             required
             @click:append-outer="$h('license_db_type')"/>
         </v-flex>
@@ -94,6 +98,7 @@
             :hint="$t('hint_license_db_name')"
             :error-messages="err_license_db_name"
             append-outer-icon="help_outline"
+            prepend-icon="people"
             clearable
             @click:append-outer="$h('license_db_name')"/>
         </v-flex>
@@ -109,6 +114,7 @@
             :hint="$t('hint_license_db_custom')"
             :error-messages="err_license_db_custom"
             append-outer-icon="help_outline"
+            prepend-icon="link"
             type="url"
             clearable 
             @click:append-outer="$h('license_db_custom')"/>
@@ -127,6 +133,7 @@
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
+            prepend-icon="filter_3"
             required
             @click:append-outer="$h('license_specialdb_type')"/>
         </v-flex>
@@ -145,6 +152,7 @@
             :hint="$t('hint_license_specialdb_custom')"
             :error-messages="err_license_specialdb_custom"
             append-outer-icon="help_outline"
+            prepend-icon="link"
             type="url"
             clearable 
             @click:append-outer="$h('license_specialdb_custom')"/>
@@ -164,6 +172,7 @@
             :error-messages="err_personal"
             item-value="value"
             append-outer-icon="help_outline"
+            prepend-icon="filter_4"
             required
             @click:append-outer="$h('license_personal_type')"/>
         </v-flex>

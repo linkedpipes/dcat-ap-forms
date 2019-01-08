@@ -13,7 +13,7 @@
       flat
       icon
       @click="onSelect(index)">
-      <v-icon :color="index === value ? 'blue' : undefined">
+      <v-icon :color="index === value ? 'blue' : (isValid(index) ? undefined : 'red')">
         lens
       </v-icon>
     </v-btn>
@@ -34,6 +34,8 @@
 </template>
 
 <script>
+    import {isDistributionValid} from "./../distribution-model";
+
     export default {
         "name": "app-item-selector",
         "props": {
@@ -52,6 +54,15 @@
             },
             "onSelect": function (index) {
                 this.$emit("input", index);
+            },
+            "isValid": function(index) {
+                const distribution = this.distributions[index];
+                if (!distribution.$validators.force) {
+                    // Newly added distribution. User does not
+                    // visited last step after adding this one.
+                    return true;
+                }
+                return isDistributionValid(distribution);
             }
         }
     };

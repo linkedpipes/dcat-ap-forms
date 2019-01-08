@@ -55,6 +55,7 @@
       :items="catalogTypes"
       :label="$t('catalog_type')"
       :item-text="$vuetify.lang.current"
+      :error-messages="err_catalog_type"
       prepend-icon="category" 
       item-value="value"
       append-outer-icon="help_outline"

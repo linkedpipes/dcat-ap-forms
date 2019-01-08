@@ -37,5 +37,6 @@ export default {
     "summary_error": "The form is not yet filled in correctly.",
     "cant_import_catalog": "Unable to import catalog data.",
     "catalog_homepage": "Catalog homepage",
+    "catalog_type_missing": "API type of the local open data catalog is mandatory."
 };
 

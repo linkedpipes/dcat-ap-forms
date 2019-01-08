@@ -37,5 +37,6 @@ export default {
     "summary_error": "Formulář ještě není správně vyplněn.",
     "cant_import_catalog": "Nepodařilo se importovat katalog.",
     "catalog_homepage": "Domácí stránka katalogu",
+    "catalog_type_missing": "Typ lokálního katalogu je povinný."
 };
 

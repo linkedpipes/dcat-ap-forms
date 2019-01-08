@@ -14,7 +14,7 @@ export function createCatalog() {
         "contact_point_name": "",
         "contact_point_email": "",
 		"homepage": "",
-        "type": "https://data.gov.cz/slovník/nkod/DcatApLkod",
+        "type": undefined,
         "$validators": {
             "force": false
         }
@@ -49,6 +49,10 @@ export function createCatalogValidators() {
             [
                 [url, "homepage_invalid"]
             ]),
+        "err_catalog_type": apply(
+            (t) => t.catalog, "type",
+            provided,
+            "catalog_type_missing")
     };
 }
 

@@ -67,26 +67,30 @@ function asValue(value) {
 }
 
 function exportTemporal(dataset) {
-    if (dataset.temporal_start === "" &&
-        dataset.temporal_end === "") {
+    if (!containsValidDate(dataset.temporal_start) &&
+        !containsValidDate(dataset.temporal_end)) {
         return undefined;
     }
     const output = {
         "@type": [DCTERMS.PeriodOfTime]
     };
-    if (dataset.temporal_start !== undefined) {
+    if (containsValidDate(dataset.temporal_start)) {
         output[SCHEMA.startDate] = {
             "@type": "http://www.w3.org/2001/XMLSchema#date",
             "@value": dataset.temporal_start
         };
     }
-    if (dataset.temporal_end !== undefined) {
+    if (containsValidDate(dataset.temporal_end)) {
         output[SCHEMA.endDate] = {
             "@type": "http://www.w3.org/2001/XMLSchema#date",
             "@value": dataset.temporal_end
         };
     }
     return output;
+}
+
+function containsValidDate(value) {
+    return value !== undefined && value !== null && value !== "";
 }
 
 function exportContactPoint(dataset) {

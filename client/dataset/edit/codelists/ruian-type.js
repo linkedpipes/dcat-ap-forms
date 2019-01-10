@@ -80,40 +80,42 @@ export default [
 
 export function typeFromUrl(url) {
     if (url.indexOf("adresni-misto") !== -1) {
-
+        return prefix + "AD";
     } else if (url.indexOf("/cast-obce/") !== -1) {
         return prefix + "CO";
     } else if (url.indexOf("/katastralni-uzemi/") !== -1) {
-
+        return prefix + "KU";
     } else if (url.indexOf("/kraj-1960/") !== -1) {
-
+        return prefix + "KR";
     } else if (url.indexOf("/momc/") !== -1) {
-
+        return prefix + "MC";
     } else if (url.indexOf("/mop/") !== -1) {
-
+        return prefix + "MP";
     } else if (url.indexOf("/obec/") !== -1) {
-
+        return prefix + "OB";
     } else if (url.indexOf("/okres/") !== -1) {
         return prefix + "OK";
     } else if (url.indexOf("/orp/") !== -1) {
-
+        return prefix + "OP";
     } else if (url.indexOf("/parcela/") !== -1) {
-
+        return prefix + "PA";
     } else if (url.indexOf("/pou/") !== -1) {
-
+        return prefix + "PU";
     } else if (url.indexOf("/region-soudrznosti/") !== -1) {
         return prefix + "RS";
     } else if (url.indexOf("/zjs/") !== -1) {
-
+        return prefix + "ZJ";
     } else if (url.indexOf("/stat/") !== -1) {
         return prefix + "ST";
     } else if (url.indexOf("/stavebni-objekt/") !== -1) {
-
+        return prefix + "SO";
     } else if (url.indexOf("/ulice/") !== -1) {
         return prefix + "UL";
     } else if (url.indexOf("/volebni-okrsek/") !== -1) {
-
+        return prefix + "VO";
     } else if (url.indexOf("/vusc/") !== -1) {
-
+        return prefix + "VC";
+    }  else if (url.indexOf("/spravni-obvod/") !== -1) {
+        return prefix + "SP";
     }
 }

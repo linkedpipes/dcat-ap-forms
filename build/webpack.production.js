@@ -45,9 +45,7 @@ module.exports = merge(common, {
         ]
     },
     "plugins": [
-        new CleanWebpackPlugin([common.output.path], {
-            "root": path.join(__dirname, "..")
-        }),
+        new CleanWebpackPlugin(),
         new MiniCssExtractPlugin({
             "filename": "[name].[chunkhash].css"
         }),

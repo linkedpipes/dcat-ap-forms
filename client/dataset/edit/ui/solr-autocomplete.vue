@@ -14,7 +14,8 @@
     flat
     no-filter
     @input="onInput"
-    @click:append-outer="$h(id)">
+    @click:append-outer="$h(id)"
+  >
     <template slot="no-data">
       <v-list-tile>
         <v-list-tile-title>

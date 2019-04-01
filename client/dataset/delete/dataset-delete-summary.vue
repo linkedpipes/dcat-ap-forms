@@ -9,7 +9,9 @@
           <v-list two-line>
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">label</v-icon>
+                <v-icon class="blue white--text">
+                  label
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -22,7 +24,9 @@
             </v-list-tile>
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">description</v-icon>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -41,14 +45,17 @@
           {{ $t("dataset_delete_summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </div>
-        <v-spacer/>
+        <v-spacer />
         <v-btn 
           slot="activator" 
           round 
           color="warning"
           outline 
-          @click="onExport">
-          <v-icon left>file_download</v-icon>
+          @click="onExport"
+        >
+          <v-icon left>
+            file_download
+          </v-icon>
           <span>{{ $t("button_download") }}</span>
         </v-btn>
       </v-card-actions>

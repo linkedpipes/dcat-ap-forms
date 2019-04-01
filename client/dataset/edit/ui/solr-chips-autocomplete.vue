@@ -17,13 +17,16 @@
     multiple
     chips
     @input="onInput"
-    @click:append-outer="$h(id)">
+    @click:append-outer="$h(id)"
+  >
     <template
       slot="selection"
-      slot-scope="data">
+      slot-scope="data"
+    >
       <v-chip
         close
-        @input="removeTheme(data.item)">
+        @input="removeTheme(data.item)"
+      >
         <strong>{{ data.item[$vuetify.lang.current] }}</strong>
       </v-chip>
     </template>

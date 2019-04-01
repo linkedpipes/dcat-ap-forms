@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <app-dataset-withdrawn/>
-    <app-help/>
+    <app-dataset-withdrawn />
+    <app-help />
   </v-app>
 </template>
 

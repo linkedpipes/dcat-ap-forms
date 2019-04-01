@@ -8,21 +8,27 @@
       </v-card-title>
       <v-layout 
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          sm6>
+          sm6
+        >
           <v-list 
             two-line 
-            subheader>
+            subheader
+          >
             <v-subheader>
               {{ $t('headline_distribution_license') }}
             </v-subheader>
             <v-list-tile 
               v-if="distribution.license_author_type == 'CC BY'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">turned_in</v-icon>
+                <v-icon class="green white--text">
+                  turned_in
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -41,18 +47,25 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://creativecommons.org/licenses/by/4.0/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_author_type == 'NO'" 
-              avatar >
+              avatar
+            >
               <v-list-tile-avatar>
                 <v-icon 
                   slot="activator" 
-                  class="green white--text">check</v-icon>
+                  class="green white--text"
+                >
+                  check
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -71,16 +84,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_author_type == 'MULTI'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">list</v-icon>
+                <v-icon class="red white--text">
+                  list
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -99,16 +118,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/')">
-                  <v-icon color="red">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/')"
+                >
+                  <v-icon color="red">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_author_type == 'CUSTOM'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">help</v-icon>
+                <v-icon class="red white--text">
+                  help
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -127,17 +152,23 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl(distribution.license_author_custom)">
-                  <v-icon color="red">help_outline</v-icon>
+                  @click="openUrl(distribution.license_author_custom)"
+                >
+                  <v-icon color="red">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
                         
             <v-list-tile 
               v-if="distribution.license_db_type == 'CC BY'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">turned_in</v-icon>
+                <v-icon class="green white--text">
+                  turned_in
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -156,16 +187,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://creativecommons.org/licenses/by/4.0/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://creativecommons.org/licenses/by/4.0/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_db_type == 'NO'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">check</v-icon>
+                <v-icon class="green white--text">
+                  check
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -184,16 +221,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>              
             <v-list-tile 
               v-if="distribution.license_db_type == 'CUSTOM'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">help</v-icon>
+                <v-icon class="red white--text">
+                  help
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -212,17 +255,23 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl(distribution.license_db_custom)">
-                  <v-icon color="red">help_outline</v-icon>
+                  @click="openUrl(distribution.license_db_custom)"
+                >
+                  <v-icon color="red">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
                         
             <v-list-tile 
               v-if="distribution.license_specialdb_type == 'CC0'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">turned_in</v-icon>
+                <v-icon class="green white--text">
+                  turned_in
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -241,16 +290,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://creativecommons.org/publicdomain/zero/1.0/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://creativecommons.org/publicdomain/zero/1.0/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_specialdb_type == 'NO'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">check</v-icon>
+                <v-icon class="green white--text">
+                  check
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -269,16 +324,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_specialdb_type == 'CUSTOM'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">help</v-icon>
+                <v-icon class="red white--text">
+                  help
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -297,16 +358,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl(distribution.license_specialdb_custom)">
-                  <v-icon color="red">help_outline</v-icon>
+                  @click="openUrl(distribution.license_specialdb_custom)"
+                >
+                  <v-icon color="red">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile
               v-if="distribution.license_personal_type == 'NO'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="green white--text">person</v-icon>
+                <v-icon class="green white--text">
+                  person
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -325,16 +392,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/')">
-                  <v-icon color="green">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/')"
+                >
+                  <v-icon color="green">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_personal_type == 'YES'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">person</v-icon>
+                <v-icon class="red white--text">
+                  person
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -353,16 +426,22 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/')">
-                  <v-icon color="red">help_outline</v-icon>
+                  @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/')"
+                >
+                  <v-icon color="red">
+                    help_outline
+                  </v-icon>
                 </v-btn>                    
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile 
               v-if="distribution.license_personal_type == 'UNKNOWN'" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="red white--text">help</v-icon>
+                <v-icon class="red white--text">
+                  help
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -382,16 +461,20 @@
         </v-flex>
         <v-flex 
           xs12 
-          sm6>
+          sm6
+        >
           <v-list 
             two-line 
-            subheader>         
+            subheader
+          >         
             <v-subheader>
               {{ $t('headline_distribution_access') }}
             </v-subheader>
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">cloud_download</v-icon>
+                <v-icon class="blue white--text">
+                  cloud_download
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -405,14 +488,19 @@
                 <v-btn 
                   flat 
                   icon 
-                  @click="downloadDistribution">
-                  <v-icon color="blue">open_in_new</v-icon>
+                  @click="downloadDistribution"
+                >
+                  <v-icon color="blue">
+                    open_in_new
+                  </v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">description</v-icon>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -426,14 +514,19 @@
                 <v-btn 
                   flat 
                   icon 
-                  @click="openMediaType">
-                  <v-icon color="blue">open_in_new</v-icon>
+                  @click="openMediaType"
+                >
+                  <v-icon color="blue">
+                    open_in_new
+                  </v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile avatar>
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">description</v-icon>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -446,9 +539,12 @@
             </v-list-tile>
             <v-list-tile 
               v-if="schemaProvided" 
-              avatar>
+              avatar
+            >
               <v-list-tile-avatar>
-                <v-icon class="blue white--text">link</v-icon>
+                <v-icon class="blue white--text">
+                  link
+                </v-icon>
               </v-list-tile-avatar>
               <v-list-tile-content>
                 <v-list-tile-title>
@@ -462,8 +558,11 @@
                 <v-btn 
                   flat 
                   icon 
-                  @click="downloadSchema">
-                  <v-icon color="blue">open_in_new</v-icon>
+                  @click="downloadSchema"
+                >
+                  <v-icon color="blue">
+                    open_in_new
+                  </v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>

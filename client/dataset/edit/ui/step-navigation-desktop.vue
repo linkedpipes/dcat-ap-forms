@@ -1,20 +1,23 @@
 <template>
   <v-layout 
     row 
-    mt-1>
+    mt-1
+  >
     <v-btn 
       v-if="value > 1"
       flat
-      @click="onPrevious">
+      @click="onPrevious"
+    >
       <v-icon>arrow_back</v-icon>
       {{ prevLabel }}
     </v-btn>
-    <v-spacer/>
+    <v-spacer />
     <v-btn 
       v-if="value < 3"
       flat
       color="primary" 
-      @click="onNext">
+      @click="onNext"
+    >
       {{ nextLabel }}
       <v-icon>arrow_forward</v-icon>
     </v-btn>

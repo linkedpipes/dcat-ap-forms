@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <app-catalog-registration/>
-    <app-help/>
+    <app-catalog-registration />
+    <app-help />
   </v-app>
 </template>
 

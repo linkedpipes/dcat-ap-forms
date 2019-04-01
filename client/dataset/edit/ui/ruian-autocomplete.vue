@@ -15,15 +15,18 @@
     flat
     no-filter
     @input="onInput"
-    @click:append-outer="$h('ruian')">
+    @click:append-outer="$h('ruian')"
+  >
     <template
       slot="selection"
-      slot-scope="data">
+      slot-scope="data"
+    >
       {{ data.item[$vuetify.lang.current] }} ({{ data.item.notation }})
     </template>
     <template
       slot="item"
-      slot-scope="data">
+      slot-scope="data"
+    >
       {{ data.item[$vuetify.lang.current] }} ({{ data.item.notation }})
     </template>
     <template slot="no-data">

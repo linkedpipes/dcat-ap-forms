@@ -1,6 +1,6 @@
 <template>
   <v-content v-if="data.status === 'ready'">
-    <app-summary :catalog="data.catalog"/>
+    <app-summary :catalog="data.catalog" />
   </v-content>
   <v-content v-else-if="data.status === 'missing-catalog'">
     <!-- TODO Add content -->

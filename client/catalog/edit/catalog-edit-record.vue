@@ -2,7 +2,8 @@
   <v-container 
     fluid 
     grid-list-lg 
-    pa-0>
+    pa-0
+  >
     <v-text-field
       id="catalog_title"
       v-model="catalog.title"
@@ -13,13 +14,16 @@
       append-outer-icon="help_outline"
       required
       clearable 
-      @click:append-outer="$h('catalog_title')"/>
+      @click:append-outer="$h('catalog_title')"
+    />
     <v-layout 
       row 
-      wrap>
+      wrap
+    >
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-text-field
           id="contact_point_name"
           v-model="catalog.contact_point_name"
@@ -30,11 +34,13 @@
           append-outer-icon="help_outline"
           required
           clearable
-          @click:append-outer="$h('catalog_contact_point_name')"/>
+          @click:append-outer="$h('catalog_contact_point_name')"
+        />
       </v-flex>
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-text-field
           id="contact_point_email"
           v-model="catalog.contact_point_email"
@@ -46,7 +52,8 @@
           required
           type="email"
           clearable 
-          @click:append-outer="$h('catalog_contact_point_email')"/>
+          @click:append-outer="$h('catalog_contact_point_email')"
+        />
       </v-flex>
     </v-layout>
     <v-autocomplete
@@ -60,7 +67,8 @@
       item-value="value"
       append-outer-icon="help_outline"
       required
-      @click:append-outer="$h('catalog_type')"/>
+      @click:append-outer="$h('catalog_type')"
+    />
     <v-text-field
       id="catalog_endpoint"
       v-model="catalog.endpoint"
@@ -71,7 +79,8 @@
       append-outer-icon="help_outline"
       required
       clearable 
-      @click:append-outer="$h('catalog_url')"/>
+      @click:append-outer="$h('catalog_url')"
+    />
     <v-text-field
       id="catalog_homepage"
       v-model="catalog.homepage"
@@ -81,7 +90,8 @@
       prepend-icon="home"
       append-outer-icon="help_outline"
       clearable
-      @click:append-outer="$h('homepage')"/>
+      @click:append-outer="$h('homepage')"
+    />
   </v-container>
 </template>
 

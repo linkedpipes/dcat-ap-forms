@@ -4,7 +4,8 @@
       :disabled="value < 1"
       flat
       icon 
-      @click="onPrevious">
+      @click="onPrevious"
+    >
       <v-icon>navigate_before</v-icon>
     </v-btn>
     <v-btn
@@ -12,7 +13,8 @@
       :key="index"
       flat
       icon
-      @click="onSelect(index)">
+      @click="onSelect(index)"
+    >
       <v-icon :color="index === value ? 'blue' : (isValid(index) ? undefined : 'red')">
         lens
       </v-icon>
@@ -20,14 +22,18 @@
     <v-btn 
       flat 
       icon 
-      @click="onNew">
-      <v-icon color="green">add_circle</v-icon>
+      @click="onNew"
+    >
+      <v-icon color="green">
+        add_circle
+      </v-icon>
     </v-btn>
     <v-btn 
       :disabled="value + 1 >= distributions.length"
       flat
       icon 
-      @click="onNext">
+      @click="onNext"
+    >
       <v-icon>navigate_next</v-icon>
     </v-btn>
   </div>

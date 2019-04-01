@@ -2,10 +2,11 @@
   <v-bottom-sheet 
     v-if="isOpen" 
     v-model="isOpen" 
-    lazy>
+    lazy
+  >
     <v-card>
       <v-card-text>
-        <span v-html="$t('help_' + name)"/>
+        <span v-html="$t('help_' + name)" />
       </v-card-text>
     </v-card>
   </v-bottom-sheet>

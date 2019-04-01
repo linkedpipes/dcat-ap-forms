@@ -2,13 +2,15 @@
   <v-container
     fluid
     grid-list-lg
-    pa-0>
+    pa-0
+  >
     <v-layout row>
       <v-flex v-if="!isValid">
         <v-alert
           :value="!isValid"
           outline
-          type="error">
+          type="error"
+        >
           {{ $t('summary_error') }}
         </v-alert>
       </v-flex>
@@ -16,7 +18,8 @@
         <v-alert
           :value="isValid"
           outline
-          type="success">
+          type="success"
+        >
           {{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
@@ -24,35 +27,48 @@
     </v-layout>
     <v-layout row>
       <v-flex md10>
-        <h2 class="display-1">{{ dataset.title }}</h2>
+        <h2 class="display-1">
+          {{ dataset.title }}
+        </h2>
       </v-flex>
-      <v-spacer/>
+      <v-spacer />
       <v-btn
         :disabled="!isValid"
         class="hidden-xs-only"
         round
         outline
         color="success"
-        @click="onDownload">
-        <v-icon left>file_download</v-icon>
+        @click="onDownload"
+      >
+        <v-icon left>
+          file_download
+        </v-icon>
         <span>{{ $t('button_download') }}</span>
       </v-btn>
     </v-layout>
-    <p class="subheading multiline">{{ dataset.description }}</p>
+    <p class="subheading multiline">
+      {{ dataset.description }}
+    </p>
     <v-layout
       row
-      wrap>
+      wrap
+    >
       <v-flex
         xs12
-        lg6>
+        lg6
+      >
         <v-list
           two-line
-          subheader>
+          subheader
+        >
           <v-list-tile
             v-if="dataset.dataset_theme.length"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">category</v-icon>
+              <v-icon class="blue white--text">
+                category
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -65,10 +81,12 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.dataset_theme.length"/>
+          <v-divider v-if="dataset.dataset_theme.length" />
           <v-list-tile avatar>
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">snooze</v-icon>
+              <v-icon class="blue white--text">
+                snooze
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -81,35 +99,44 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider/>
+          <v-divider />
           <v-list-tile
             v-if="dataset.keywords.length"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">short_text</v-icon>
+              <v-icon class="blue white--text">
+                short_text
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
                 <span
                   v-for="(keyword, index) in dataset.keywords"
-                  :key="keyword">
+                  :key="keyword"
+                >
                   {{ index > 0 ? "," : "" }}
                   {{ keyword }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $t('keywords') }}
+              <v-list-tile-sub-title>
+                {{ $t('keywords') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.keywords.length"/>
+          <v-divider v-if="dataset.keywords.length" />
           <v-list-tile
             v-if="dataset.contact_point_name"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">person</v-icon>
+              <v-icon class="blue white--text">
+                person
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ dataset.contact_point_name }}
+              <v-list-tile-title>
+                {{ dataset.contact_point_name }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('contact_point_name') }}
@@ -118,13 +145,17 @@
           </v-list-tile>
           <v-divider
             v-if="dataset.contact_point_name"
-            avatar/>
+            avatar
+          />
           <v-list-tile v-if="dataset.contact_point_email">
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">alternate_email</v-icon>
+              <v-icon class="blue white--text">
+                alternate_email
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ dataset.contact_point_email }}
+              <v-list-tile-title>
+                {{ dataset.contact_point_email }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('contact_point_email') }}
@@ -134,20 +165,27 @@
               <v-btn
                 icon
                 ripple
-                @click="openUrl('mailto:' + dataset.contact_point_email)">
-                <v-icon color="blue">alternate_email</v-icon>
+                @click="openUrl('mailto:' + dataset.contact_point_email)"
+              >
+                <v-icon color="blue">
+                  alternate_email
+                </v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider v-if="dataset.contact_point_email"/>
+          <v-divider v-if="dataset.contact_point_email" />
           <v-list-tile
             v-if="dataset.documentation"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">description</v-icon>
+              <v-icon class="blue white--text">
+                description
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ dataset.documentation }}
+              <v-list-tile-title>
+                {{ dataset.documentation }}
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('documentation') }}
@@ -157,17 +195,23 @@
               <v-btn
                 icon
                 ripple
-                @click="openDocumentation">
-                <v-icon color="blue">open_in_new</v-icon>
+                @click="openDocumentation"
+              >
+                <v-icon color="blue">
+                  open_in_new
+                </v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider v-if="dataset.documentation"/>
+          <v-divider v-if="dataset.documentation" />
           <v-list-tile
             v-if="dataset.ruian"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">place</v-icon>
+              <v-icon class="blue white--text">
+                place
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
@@ -181,69 +225,86 @@
               <v-btn
                 icon
                 ripple
-                @click="openRuian">
-                <v-icon color="blue">open_in_new</v-icon>
+                @click="openRuian"
+              >
+                <v-icon color="blue">
+                  open_in_new
+                </v-icon>
               </v-btn>
             </v-list-tile-action>
           </v-list-tile>
-          <v-divider v-if="dataset.ruian"/>
+          <v-divider v-if="dataset.ruian" />
           <v-list-tile
             v-if="dataset.temporal_start || dataset.temporal_end"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">calendar_today</v-icon>
+              <v-icon class="blue white--text">
+                calendar_today
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title>{{ dataset.temporal_start }}
+              <v-list-tile-title>
+                {{ dataset.temporal_start }}
                 <span v-if="dataset.temporal_end">
                   - {{ dataset.temporal_end }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $t('temporal') }}
+              <v-list-tile-sub-title>
+                {{ $t('temporal') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
           <v-divider
-            v-if="dataset.temporal_start || dataset.temporal_end"/>
+            v-if="dataset.temporal_start || dataset.temporal_end"
+          />
           <v-list-tile
             v-if="dataset.themes.length"
-            avatar>
+            avatar
+          >
             <v-list-tile-avatar>
-              <v-icon class="blue white--text">euro_symbol</v-icon>
+              <v-icon class="blue white--text">
+                euro_symbol
+              </v-icon>
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
                 <span
                   v-for="(theme, index) in dataset.themes"
-                  :key="theme">
+                  :key="theme"
+                >
                   {{ index > 0 ? "," : "" }}
                   {{ themeToLabel(theme) }}
                 </span>
               </v-list-tile-title>
-              <v-list-tile-sub-title>{{ $t('themes') }}
+              <v-list-tile-sub-title>
+                {{ $t('themes') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.themes.length"/>
+          <v-divider v-if="dataset.themes.length" />
         </v-list>
       </v-flex>
       <v-flex
         xs12
-        lg6>
+        lg6
+      >
         <v-layout
           row
-          wrap>
+          wrap
+        >
           <app-distribution-card
             v-for="(item, index) in distributions"
             :key="index"
             :distribution="item"
-            :codelist="codelist"/>
+            :codelist="codelist"
+          />
         </v-layout>
       </v-flex>
     </v-layout>
-    <v-divider class="my-2"/>
+    <v-divider class="my-2" />
     <v-layout row>
-      <v-spacer/>
+      <v-spacer />
       <v-tooltip bottom>
         <v-btn
           slot="activator"
@@ -251,8 +312,11 @@
           round
           color="success"
           outline
-          @click="onDownload">
-          <v-icon left>file_download</v-icon>
+          @click="onDownload"
+        >
+          <v-icon left>
+            file_download
+          </v-icon>
           <span>{{ $t('button_download') }}</span>
         </v-btn>
         <span v-if="isValid">{{ $t('summary_download') }}

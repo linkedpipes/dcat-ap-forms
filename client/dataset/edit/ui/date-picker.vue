@@ -1,7 +1,7 @@
 <template>
   <v-menu
-    ref="menu"
     :id="id"
+    ref="menu"
     v-model="menu"
     :return-value="value"
     :nudge-right="40"
@@ -10,7 +10,8 @@
     min-width="15rem"
     lazy 
     offset-y 
-    full-width>
+    full-width
+  >
     <v-text-field
       slot="activator"
       :value="value"
@@ -22,12 +23,14 @@
       readonly
       clearable
       @input="onInput" 
-      @click:append-outer="$h(id)"/>
+      @click:append-outer="$h(id)"
+    />
     <v-date-picker
       ref="picker"
       :locale="$vuetify.lang.current"
       :value="value"
-      @change="save"/>
+      @change="save"
+    />
   </v-menu>
 </template>
 

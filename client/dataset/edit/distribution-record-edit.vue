@@ -2,17 +2,20 @@
   <v-container 
     fluid 
     grid-list-lg 
-    pa-0>
+    pa-0
+  >
     <h2 class="headline">
       {{ $t('headline_distribution_license') }}
       <a 
         href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti" 
         target="_blank" 
-        class="info_link">
+        class="info_link"
+      >
         <v-icon 
           color="blue" 
           size="1.5rem" 
-          class="info_icon">
+          class="info_icon"
+        >
           help_outline
         </v-icon>
       </a>
@@ -20,45 +23,51 @@
     <div>
       <v-layout 
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-select
-            :items="author_license_types"
             v-model="distribution.license_author_type"
+            :items="author_license_types"
             :label="$t('license_author_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_1"
             required
-            @click:append-outer="$h('license_author_type')"/>
+            @click:append-outer="$h('license_author_type')"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-text-field
             id="distribution_license_author_name"
+            v-model="distribution.license_author_name"
             :disabled="!isCcByAuthor"
             :required="isCcByAuthor"
-            v-model="distribution.license_author_name"
             :label="$t('license_author_name')"
             :hint="$t('hint_license_author_name')"
             :error-messages="err_license_author_name"
             append-outer-icon="help_outline"
             prepend-icon="people"
             clearable
-            @click:append-outer="$h('license_author_name')"/>
+            @click:append-outer="$h('license_author_name')"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-text-field
             id="distribution_license_author_custom"
+            v-model="distribution.license_author_custom"
             :disabled="!isCustomAuthor"
             :required="isCustomAuthor"
-            v-model="distribution.license_author_custom"
             :label="$t('license_author_custom')"
             :hint="$t('hint_license_author_custom')"
             :error-messages="err_license_author_custom"
@@ -66,50 +75,57 @@
             prepend-icon="link"
             type="url"
             clearable 
-            @click:append-outer="$h('license_author_custom')"/>
+            @click:append-outer="$h('license_author_custom')"
+          />
         </v-flex>
       </v-layout>
       <v-layout
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-select
-            :items="db_author_license_types"
             v-model="distribution.license_db_type"
+            :items="db_author_license_types"
             :label="$t('license_db_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_2"
             required
-            @click:append-outer="$h('license_db_type')"/>
+            @click:append-outer="$h('license_db_type')"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-text-field
             id="distribution_license_db_name"
+            v-model="distribution.license_db_name"
             :disabled="!isCcByDb"
             :required="isCcByDb"
-            v-model="distribution.license_db_name"
             :label="$t('license_db_name')"
             :hint="$t('hint_license_db_name')"
             :error-messages="err_license_db_name"
             append-outer-icon="help_outline"
             prepend-icon="people"
             clearable
-            @click:append-outer="$h('license_db_name')"/>
+            @click:append-outer="$h('license_db_name')"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-text-field
             id="distribution_license_db_custom"
+            v-model="distribution.license_db_custom"
             :disabled="!isCustomDb"
             :required="isCustomDb"
-            v-model="distribution.license_db_custom"
             :label="$t('license_db_custom')"
             :hint="$t('hint_license_db_custom')"
             :error-messages="err_license_db_custom"
@@ -117,37 +133,43 @@
             prepend-icon="link"
             type="url"
             clearable 
-            @click:append-outer="$h('license_db_custom')"/>
+            @click:append-outer="$h('license_db_custom')"
+          />
         </v-flex>
       </v-layout>
       <v-layout
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-select
-            :items="db_special_license_types"
             v-model="distribution.license_specialdb_type"
+            :items="db_special_license_types"
             :label="$t('license_specialdb_type')"
             :item-text="$vuetify.lang.current" 
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_3"
             required
-            @click:append-outer="$h('license_specialdb_type')"/>
+            @click:append-outer="$h('license_specialdb_type')"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md4/>
+          md4
+        />
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-text-field
             id="distribution_license_specialdb_custom"
+            v-model="distribution.license_specialdb_custom"
             :disabled="!isCustomSpecialDb"
             :required="isCustomSpecialDb"
-            v-model="distribution.license_specialdb_custom"
             :label="$t('license_specialdb_custom')"
             :hint="$t('hint_license_specialdb_custom')"
             :error-messages="err_license_specialdb_custom"
@@ -155,18 +177,21 @@
             prepend-icon="link"
             type="url"
             clearable 
-            @click:append-outer="$h('license_specialdb_custom')"/>
+            @click:append-outer="$h('license_specialdb_custom')"
+          />
         </v-flex>
       </v-layout>
       <v-layout
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          md4>
+          md4
+        >
           <v-select
-            :items="personal_data_links"
             v-model="distribution.license_personal_type"
+            :items="personal_data_links"
             :label="$t('license_personal_type')"
             :item-text="$vuetify.lang.current" 
             :error-messages="err_personal"
@@ -174,11 +199,12 @@
             append-outer-icon="help_outline"
             prepend-icon="filter_4"
             required
-            @click:append-outer="$h('license_personal_type')"/>
+            @click:append-outer="$h('license_personal_type')"
+          />
         </v-flex>
       </v-layout>
     </div>
-    <v-divider/>
+    <v-divider />
     <h2 class="headline mt-2">
       {{ $t('headline_distribution_access') }}
     </h2>
@@ -194,13 +220,16 @@
         required
         type="url" 
         clearable 
-        @click:append-outer="$h('distribution_url')"/>
+        @click:append-outer="$h('distribution_url')"
+      />
       <v-layout 
         row 
-        wrap>
+        wrap
+      >
         <v-flex 
           xs12 
-          md6>
+          md6
+        >
           <app-solr-autocomplete
             id="distribution_format"
             v-model="distribution.format"
@@ -208,11 +237,13 @@
             :no-data-prompt="$t('format_autocomplete_no_data')"
             :error-messages="err_format"
             prepend-icon="description"
-            code-list="file-type"/>
+            code-list="file-type"
+          />
         </v-flex>
         <v-flex 
           xs12 
-          md6>
+          md6
+        >
           <app-solr-autocomplete
             id="distribution_media_type"
             v-model="distribution.media_type"
@@ -220,7 +251,8 @@
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
             :error-messages="err_media_type"
             prepend-icon="description"
-            code-list="media-types"/>
+            code-list="media-types"
+          />
         </v-flex>
       </v-layout>
       <v-text-field
@@ -233,7 +265,8 @@
         append-outer-icon="help_outline"
         type="url"
         clearable 
-        @click:append-outer="$h('distribution_schema_link')"/>
+        @click:append-outer="$h('distribution_schema_link')"
+      />
       <v-text-field
         id="distribution_title"
         v-model="distribution.title"
@@ -242,13 +275,17 @@
         prepend-icon="label"
         append-outer-icon="help_outline"
         clearable
-        @click:append-outer="$h('distribution_title')"/>
+        @click:append-outer="$h('distribution_title')"
+      />
     </div>
     <div v-if="canBeDeleted">
       <v-btn 
         flat 
-        @click="onDelete">
-        <v-icon color="error">delete</v-icon>
+        @click="onDelete"
+      >
+        <v-icon color="error">
+          delete
+        </v-icon>
         {{ $t('delete_distribution') }}
       </v-btn>
     </div>

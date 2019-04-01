@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <app-catalog-withdrawn/>
-    <app-help/>
+    <app-catalog-withdrawn />
+    <app-help />
   </v-app>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <app-dataset-registration/>
-    <app-help/>
+    <app-dataset-registration />
+    <app-help />
   </v-app>
 </template>
 

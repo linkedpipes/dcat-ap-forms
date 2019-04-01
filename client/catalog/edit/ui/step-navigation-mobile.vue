@@ -1,12 +1,14 @@
 <template>
   <v-bottom-nav 
     :active="value" 
-    absolute>
+    absolute
+  >
     <v-btn 
       :value="1" 
       color="blue" 
       flat 
-      @click="onClick(1)">
+      @click="onClick(1)"
+    >
       <span>{{ $t('nav_catalog') }}</span>
       <v-icon>note</v-icon>
     </v-btn>
@@ -14,7 +16,8 @@
       :value="2" 
       color="blue" 
       flat 
-      @click="onClick(2)">
+      @click="onClick(2)"
+    >
       <span>{{ $t('nav_download') }}</span>
       <v-icon>cloud_download</v-icon>
     </v-btn>

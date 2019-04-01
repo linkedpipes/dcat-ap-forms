@@ -2,7 +2,8 @@
   <v-container 
     fluid 
     grid-list-lg 
-    pa-0>
+    pa-0
+  >
     <v-text-field
       id="dataset_title"
       v-model="dataset.title"
@@ -13,7 +14,8 @@
       append-outer-icon="help_outline"
       required
       clearable 
-      @click:append-outer="$h('dataset_title')"/>
+      @click:append-outer="$h('dataset_title')"
+    />
     <v-textarea
       id="dataset_description"
       v-model="dataset.description"
@@ -26,13 +28,16 @@
       required 
       auto-grow 
       clearable 
-      @click:append-outer="$h('dataset_description')"/>
+      @click:append-outer="$h('dataset_description')"
+    />
     <v-layout 
       row 
-      wrap>
+      wrap
+    >
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-autocomplete
           id="dataset_theme"
           v-model="dataset.dataset_theme"
@@ -44,11 +49,13 @@
           item-value="value"
           append-outer-icon="help_outline"
           required
-          @click:append-outer="$h('dataset_theme')"/>
+          @click:append-outer="$h('dataset_theme')"
+        />
       </v-flex>
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-autocomplete
           id="dataset_accrual_periodicity"
           v-model="dataset.accrual_periodicity"
@@ -59,7 +66,8 @@
           item-value="value"
           append-outer-icon="help_outline"
           required
-          @click:append-outer="$h('accrual_periodicity')"/>
+          @click:append-outer="$h('accrual_periodicity')"
+        />
       </v-flex>
     </v-layout>
     <v-combobox
@@ -74,23 +82,28 @@
       required 
       chips 
       multiple 
-      @click:append-outer="$h('keywords')">
+      @click:append-outer="$h('keywords')"
+    >
       <template 
         slot="selection" 
-        slot-scope="data">
+        slot-scope="data"
+      >
         <v-chip 
           close 
-          @input="removeKeyword(data.item)">
+          @input="removeKeyword(data.item)"
+        >
           <strong>{{ data.item }}</strong>
         </v-chip>
       </template>
     </v-combobox>
     <v-layout
       row 
-      wrap>
+      wrap
+    >
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-autocomplete
           id="dataset_ruian_type"
           v-model="dataset.ruian_type"
@@ -102,11 +115,13 @@
           append-outer-icon="help_outline"
           required
           @click:append-outer="$h('ruian_type')"
-          @input="onRuainTypeInput"/>
+          @input="onRuainTypeInput"
+        />
       </v-flex>
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <app-ruian-autocomplete
           id="dataset_ruian"
           ref="ruian"
@@ -117,41 +132,49 @@
           :disabled="dataset.ruian_type === ''"
           code-list="ruian"
           prepend-icon="place"
-          @update:label="dataset.$labels.ruian = $event"/>
+          @update:label="dataset.$labels.ruian = $event"
+        />
       </v-flex>
     </v-layout>
     <v-layout
       row 
-      wrap>
+      wrap
+    >
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <app-date-picker
           id="temporal_start"
           v-model="dataset.temporal_start"
           :label="$t('temporal_start') + $t('optional')"
           :hint="$t('hint_temporal_start')"
           persistent-hint
-          append-outer-icon="help_outline"/>
+          append-outer-icon="help_outline"
+        />
       </v-flex>
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <app-date-picker
           id="temporal_end"
           v-model="dataset.temporal_end"
           :hint="$t('hint_temporal_end')"
           :label="$t('temporal_end') + $t('optional')"
-          persistent-hint/>
+          persistent-hint
+        />
       </v-flex>
-      <v-spacer/>
+      <v-spacer />
     </v-layout>
     <v-layout
       row 
-      wrap>
+      wrap
+    >
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-text-field
           id="contact_point_name"
           v-model="dataset.contact_point_name"
@@ -160,11 +183,13 @@
           prepend-icon="person"
           append-outer-icon="help_outline"
           clearable
-          @click:append-outer="$h('contact_point_name')"/>
+          @click:append-outer="$h('contact_point_name')"
+        />
       </v-flex>
       <v-flex 
         xs12 
-        md6>
+        md6
+      >
         <v-text-field
           id="contact_point_email"
           v-model="dataset.contact_point_email"
@@ -175,7 +200,8 @@
           append-outer-icon="help_outline"
           type="email"
           clearable 
-          @click:append-outer="$h('contact_point_email')"/>
+          @click:append-outer="$h('contact_point_email')"
+        />
       </v-flex>
     </v-layout>
     <v-text-field
@@ -188,14 +214,16 @@
       append-outer-icon="help_outline"
       type="url"
       clearable 
-      @click:append-outer="$h('documentation')"/>
+      @click:append-outer="$h('documentation')"
+    />
     <app-solr-chips-autocomplete
       id="themes"
       v-model="dataset.themes"
       :label="$t('themes') + $t('optional')"
       :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
-      code-list="themes"/>
+      code-list="themes"
+    />
   </v-container>
 </template>
 

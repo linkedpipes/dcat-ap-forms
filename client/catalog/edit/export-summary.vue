@@ -2,13 +2,15 @@
   <v-container 
     fluid 
     grid-list-lg 
-    pa-0>
+    pa-0
+  >
     <v-layout row>
       <v-flex v-if="!isValid">
         <v-alert 
           :value="!isValid" 
           outline 
-          type="error">
+          type="error"
+        >
           {{ $t('catalog_summary_error') }}
         </v-alert>
       </v-flex>
@@ -16,7 +18,8 @@
         <v-alert 
           :value="isValid" 
           outline 
-          type="success">
+          type="success"
+        >
           {{ $t('catalog_summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
@@ -25,25 +28,31 @@
 
     <v-layout row>
       <v-flex md10>
-        <h2 class="display-1">{{ catalog.title }}</h2>
+        <h2 class="display-1">
+          {{ catalog.title }}
+        </h2>
       </v-flex>
-      <v-spacer/>
+      <v-spacer />
       <v-btn 
         :disabled="!isValid"
         class="hidden-xs-only"
         color="success"
         round
         outline 
-        @click="onDownload">
-        <v-icon left>file_download</v-icon>
+        @click="onDownload"
+      >
+        <v-icon left>
+          file_download
+        </v-icon>
         <span>{{ $t('button_download') }}</span>
       </v-btn>
     </v-layout>
     <v-list two-line>
-
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <v-icon class="blue white--text">person</v-icon>
+          <v-icon class="blue white--text">
+            person
+          </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -54,11 +63,13 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider/>
+      <v-divider />
 
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <v-icon class="blue white--text">alternate_email</v-icon>
+          <v-icon class="blue white--text">
+            alternate_email
+          </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -72,16 +83,21 @@
           <v-btn 
             icon 
             ripple 
-            @click="sendEmail">
-            <v-icon color="blue">alternate_email</v-icon>
+            @click="sendEmail"
+          >
+            <v-icon color="blue">
+              alternate_email
+            </v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider/>
+      <v-divider />
 
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <v-icon class="blue white--text">category</v-icon>
+          <v-icon class="blue white--text">
+            category
+          </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -92,11 +108,13 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider/>
+      <v-divider />
 
       <v-list-tile avatar>
         <v-list-tile-avatar>
-          <v-icon class="blue white--text">link</v-icon>
+          <v-icon class="blue white--text">
+            link
+          </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -110,18 +128,24 @@
           <v-btn 
             icon 
             ripple 
-            @click="openCatalog">
-            <v-icon color="blue">open_in_new</v-icon>
+            @click="openCatalog"
+          >
+            <v-icon color="blue">
+              open_in_new
+            </v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
 
-      <v-divider v-if="catalog.homepage"/>
+      <v-divider v-if="catalog.homepage" />
       <v-list-tile
         v-if="catalog.homepage"
-        avatar>
+        avatar
+      >
         <v-list-tile-avatar>
-          <v-icon class="blue white--text">home</v-icon>
+          <v-icon class="blue white--text">
+            home
+          </v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>
@@ -135,18 +159,21 @@
           <v-btn
             icon
             ripple
-            @click="openHomepage">
-            <v-icon color="blue">open_in_new</v-icon>
+            @click="openHomepage"
+          >
+            <v-icon color="blue">
+              open_in_new
+            </v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-
     </v-list>
-    <v-divider class="my-2"/>
+    <v-divider class="my-2" />
     <v-layout 
       row 
-      class="mb-2">
-      <v-spacer/>
+      class="mb-2"
+    >
+      <v-spacer />
       <v-tooltip bottom>
         <v-btn 
           slot="activator"
@@ -154,8 +181,11 @@
           color="success"
           round
           outline 
-          @click="onDownload">
-          <v-icon left>file_download</v-icon>
+          @click="onDownload"
+        >
+          <v-icon left>
+            file_download
+          </v-icon>
           <span>{{ $t('button_download') }}</span>
         </v-btn>
         <span v-if="isValid">

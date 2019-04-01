@@ -1,6 +1,6 @@
 <template>
   <v-content v-if="data.status === 'ready'">
-    <app-summary :dataset="data.dataset"/>
+    <app-summary :dataset="data.dataset" />
   </v-content>
   <v-content v-else-if="data.status === 'missing-dataset'">
     <!-- TODO Add content -->

@@ -66,18 +66,14 @@
         const url = createTitleQueryUrl(
           this.codeList, value, this.$vuetify.lang.current);
         getLocalJson(url).then((response) => {
-          addItems(this.codeList, response.json.response.docs);
-          this.items = [
-            ...this.items, ...response.json.response.docs
-          ];
-        }).catch(() => {
-          // No label found - add default object.
-          this.items = [
-            ...this.items, {
-              "id": value,
-              "cs": value,
-              "en": value
-            }];
+          if (response.json.response.docs.length === 0) {
+            this.items = [...this.items, createNonLabeledItem(value)];
+          } else {
+            addItems(this.codeList, response.json.response.docs);
+            this.items = [
+              ...this.items, ...response.json.response.docs
+            ];
+          }
         });
       })
     },
@@ -129,6 +125,14 @@
     return "/api/v1/codelist/" + codeList +
       "?iri=" + encodeURIComponent(escapedIri) +
       "&lang=" + lang;
+  }
+
+  function createNonLabeledItem(url) {
+    return {
+      "id": url,
+      "cs": url,
+      "en": url
+    }
   }
 
 </script>

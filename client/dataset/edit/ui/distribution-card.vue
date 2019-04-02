@@ -615,7 +615,7 @@
                 downloadUrl(this.distribution.url);
             },
             "downloadSchema": function () {
-                downloadUrl(this.schema.url);
+                downloadUrl(this.distribution.schema);
             },
             "openMediaType": function () {
                 downloadUrl(this.distribution.media_type);

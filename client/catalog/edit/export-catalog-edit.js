@@ -15,10 +15,10 @@ export function exportToJsonLd(catalog) {
         [DCTERMS.title]: asLangString(catalog.title)
     };
     const contactPoint = exportContactPoint(catalog);
-    if (contactPoint !== undefined) {
+    if (isNotEmpty(contactPoint)) {
         output[DCATAP.contactPoint] = contactPoint;
     }
-    if (catalog.homepage !== "") {
+    if (isNotEmpty(catalog.homepage)) {
         output[FOAF.homepage] = {
             "@id": catalog.homepage
         }
@@ -31,6 +31,10 @@ function asLangString(value) {
         "@language": "cs",
         "@value": value
     }
+}
+
+function isNotEmpty(value) {
+  return value !== undefined && value !== null && value !== "";
 }
 
 function exportContactPoint(catalog) {

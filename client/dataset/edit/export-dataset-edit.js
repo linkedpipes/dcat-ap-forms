@@ -21,14 +21,14 @@ export function exportToJsonLd(dataset, distributions) {
             (distribution) => exportDistribution(distribution))
     };
 
-    if (dataset.accrual_periodicity !== "") {
+    if (isNotEmpty(dataset.accrual_periodicity)) {
         const url = dataset.accrual_periodicity;
         output[DCTERMS.accrualPeriodicity] = asIri(url);
     }
-    if (dataset.ruian !== null) {
+    if (isNotEmpty(dataset.ruian)) {
         output[DCTERMS.spatial] = asIri(dataset.ruian);
     }
-    if (dataset.documentation !== "") {
+    if (isNotEmpty(dataset.documentation)) {
         output[FOAF.page] = asIri(dataset.documentation);
     }
 
@@ -43,8 +43,11 @@ export function exportToJsonLd(dataset, distributions) {
     if (contactPoint !== undefined) {
         output[DCATAP.contactPoint] = contactPoint;
     }
-
     return output;
+}
+
+function isNotEmpty(value) {
+    return value !== undefined && value !== null && value !== "";
 }
 
 function asLangString(value) {

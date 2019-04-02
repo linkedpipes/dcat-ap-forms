@@ -131,7 +131,8 @@
     return {
       "id": url,
       "cs": url,
-      "en": url
+      "en": url,
+      "code": url
     }
   }
 

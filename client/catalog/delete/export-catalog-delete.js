@@ -9,6 +9,5 @@ export function exportToJsonLd(catalog) {
         "@id": catalog.iri,
         [ADMS.status]: {"@id": STATUS.Withdrawn}
     };
-    console.log("jsonld:", output);
     return output;
 }

@@ -11,6 +11,5 @@ export function exportToJsonLd(dataset) {
         "@id": dataset.iri,
         [ADMS.status]: {"@id": STATUS.Withdrawn}
     };
-    console.log("jsonld:", output);
     return output;
 }

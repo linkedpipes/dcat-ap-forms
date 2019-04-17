@@ -32,7 +32,7 @@
     "vue-router": "^3.0.2",
     "vue-style-loader": "^4.1.2",
     "vue-template-compiler": "^2.6.10",
-    "vuetify": "^1.5.7",
+    "vuetify": "^1.5.12",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.0",
     "webpack-dev-middleware": "^3.6.1",

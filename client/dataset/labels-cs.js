@@ -59,7 +59,7 @@ export default {
     "nav_download": "Shrnutí",
     "nav_dataset": "Datová sada",
     "nav_distributions": "Distribuce",
-    "summary_download": "Registrační záznam stáhněte a zašlete jako přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
+    "summary_download": "Registrační záznam stáhněte a zašlete jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
     "button_download": "Stáhnout",
     "summary_error": "Formulář ještě není správně vyplněn.",
     "summary_info": "Zde vidíte náhled registrované datové sady.",
@@ -141,6 +141,6 @@ export default {
     "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
     "edit_page_title": "Editace datové sady v NKOD",
     "delete_page_title": "Odstranění datové sady z NKOD",
-    "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor jako přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
+    "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
     "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položka \"Může obsahovat osobní údaje\" slouží pouze pro editaci starých záznamů a je třeba ji specifikovat.",
 }

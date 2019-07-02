@@ -143,4 +143,7 @@ export default {
     "delete_page_title": "Removal of a dataset from NODC",
     "dataset_delete_summary_download": "If you are certain that you want to remove this dataset from the NODC, send the downloaded file as an only attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
     "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
+    "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your dataset, make sure that you don't do some of the ",
+    "common_errors_link_label": "most common errors in open data"
+    
 }

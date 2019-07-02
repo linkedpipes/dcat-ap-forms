@@ -143,4 +143,6 @@ export default {
     "delete_page_title": "Odstranění datové sady z NKOD",
     "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
     "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položka \"Může obsahovat osobní údaje\" slouží pouze pro editaci starých záznamů a je třeba ji specifikovat.",
+    "common_errors_description": "Nedělejte stejné chyby jako řada poskytovatelů před vámi. Před registrací datové sady se ujistětě, že neděláte nějaké z ",
+    "common_errors_link_label": "nejčastějších chyb v otevřených datech"
 }

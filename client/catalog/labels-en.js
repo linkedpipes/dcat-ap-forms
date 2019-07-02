@@ -17,7 +17,7 @@ export default {
     "catalog_contact_point_email_missing": "E-mail of the administrator of the local open data catalog is mandatory.",
     "catalog_contact_point_email_invalid": "E-mail of the administrator of the local open data catalog is invalid.",
     "catalog_type": "API type of the local open data catalog",
-    "help_catalog_type": "<h3>API type of the local open data catalog</h3><p>Currently, 3 types of LKOD APIs are supported. The preferred two are the ones based on <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">DCAT-AP v1.1 - the European standard for metadata</a>. They are the DCAT-AP Documents and the DCAT-AP SPARQL Endpoint. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> is also supported as a legacy format. However, it does not allow you to use all possibilities of NODC.</p>",
+    "help_catalog_type": "<h3>API type of the local open data catalog</h3><p>The API of the local open data catalog must comply with the <a href=\"https://data.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/\" target=\"_blank\">open formal norm for the interface of open data catalogs</a>. Currently, 3 types of LKOD APIs are supported. The preferred two are the ones based on <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">DCAT-AP v1.1 - the European standard for metadata</a>. They are the DCAT-AP Documents and the DCAT-AP SPARQL Endpoint. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> is also supported as a legacy format. However, it does not allow you to use all possibilities of NODC.</p>",
     "catalog_url": "LKOD API URL",
     "hint_catalog_url": "HTTPS URL of the API endpoint. This is the URL of the package_list function for CKAN API, URL of the dcat:Catalog instance for DCAT-AP Documents, and the URL of the DCAT-AP SPARQL Endpoint.",
     "help_catalog_url": "<h3>LKOD API URL</h3><p>For DCAT-AP Documents, this is URL of your catalog, i.e. instance of the <code>dcat:Catalog</code> class, e.g. <code>https://data.gov.cz/lkod/mdcr/katalog</code>. For DCAT-AP SPARQL Endpoint, it is the URL of the endpoint, e.g. <code>https://data.cssz.cz/sparql</code>. For CKAN API, it is the URL of the function <code>package_list</code>, e.g. <code>https://data.cssz.cz/api/3/action/package_list</code>.</p>",
@@ -28,7 +28,7 @@ export default {
     "help_homepage": "<h3>Homepage of the catalog</h3><p>Enter the URL of the homepage of your local open data catalog, if one exists. Your local open data catalog may contain more information and provide a richer context for your data than is available in the National open data catalog. For this reason, you may want your data consumers to be able to navigate to your data catalog.</p>",
     "homepage_invalid": "Homepage of the catalog has to be a valid HTTPS URL.",
     "catalog_delete_page_title": "Removal of local open data catalog from NODC",
-    "missing-catalog": "Link to a dataset is missing.",
+    "missing-catalog": "Link to a catalog is missing.",
     "catalog_delete_summary_download": "If you are certain that you want to remove the local open data catalog registration, send the downloaded file as an attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
     "step_download": "Summary",
     "button_download": "Download",
@@ -37,6 +37,10 @@ export default {
     "summary_error": "The form is not yet filled in correctly.",
     "cant_import_catalog": "Unable to import catalog data.",
     "catalog_homepage": "Catalog homepage",
-    "catalog_type_missing": "API type of the local open data catalog is mandatory."
+    "catalog_type_missing": "API type of the local open data catalog is mandatory.",
+    "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your catalog, make sure that you don't do some of the ",
+    "common_errors_link_label": "most common errors in open data",
+    "ofn": "Also make sure that the catalog interface complies with the ",
+    "ofn_link_label": "open formal norm for the interface of open data catalogs"
 };
 

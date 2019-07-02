@@ -17,7 +17,7 @@ export default {
     "catalog_contact_point_email_missing": "E-mail správce katalogu je povinný.",
     "catalog_contact_point_email_invalid": "Neplatný e-mail správce katalogu.",
     "catalog_type": "Typ API lokálního katalogu",
-    "help_catalog_type": "<h3>Typ API lokálního katalogu</h3><p>V současnosti jsou podporovány 3 typy LKOD API. Preferovanými volbami založenými na <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">evropském standardu DCAT-AP v1.1</a> jsou DCAT-AP Dokumenty a DCAT-AP SPARQL Endpoint. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> je podporováno v režimu zpětné kompatibility, ale neumožňuje využít všech možností harvestace do NKOD.</p>",
+    "help_catalog_type": "<h3>Typ API lokálního katalogu</h3><p>Rozhraní katalogu otevřených dat musí splňovat <a href=\"https://data.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/\" target=\"_blank\">otevřenou formální normu pro rozhraní katalogů otevřených dat</a>. V současnosti jsou podporovány 3 typy LKOD API. Preferovanými volbami založenými na <a href=\"https://joinup.ec.europa.eu/release/dcat-ap-v11\" target=\"_blank\">evropském standardu DCAT-AP v1.1</a> jsou DCAT-AP Dokumenty a DCAT-AP SPARQL Endpoint. <a href=\"https://opendata.gov.cz/nastroj:ckan-api\" target=\"_blank\">CKAN API</a> je podporováno v režimu zpětné kompatibility, ale neumožňuje využít všech možností harvestace do NKOD.</p>",
     "catalog_url": "URL LKOD API",
     "hint_catalog_url": "HTTPS URL funkce package_list pro CKAN API, URL instance dcat:Catalog pro DCAT-AP Dokumenty, URL DCAT-AP SPARQL endpointu.",
     "help_catalog_url": "<h3>URL LKOD API</h3><p>Pro DCAT-AP Dokumenty je toto URL vašeho katalogu, tj. instance třídy <code>dcat:Catalog</code>, například <code>https://data.gov.cz/lkod/mdcr/katalog</code>. Pro DCAT-AP SPARQL Endpoint, toto je URL vašeho endpointu, např. <code>https://data.cssz.cz/sparql</code>. Pro CKAN API je to URL funkce <code>package_list</code>, například <code>https://data.cssz.cz/api/3/action/package_list</code>.</p>",
@@ -37,6 +37,10 @@ export default {
     "summary_error": "Formulář ještě není správně vyplněn.",
     "cant_import_catalog": "Nepodařilo se importovat katalog.",
     "catalog_homepage": "Domácí stránka katalogu",
-    "catalog_type_missing": "Typ lokálního katalogu je povinný."
+    "catalog_type_missing": "Typ lokálního katalogu je povinný.",
+    "common_errors_description": "Nedělejte stejné chyby jako řada poskytovatelů před vámi. Před registrací lokálního katalogu se ujistětě, že neděláte nějaké z ",
+    "common_errors_link_label": "nejčastějších chyb v otevřených datech",
+    "ofn": "Také se ujistěte, že rozhraní vašeho katalogu splňuje ",
+    "ofn_link_label": "Otevřenou formální normu pro rozhraní katalogů otevřených dat"
 };
 

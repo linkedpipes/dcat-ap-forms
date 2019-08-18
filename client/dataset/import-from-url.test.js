@@ -1,5 +1,5 @@
 import * as http from "@/app-service/http";
-import {importFromUrl} from "./import-from-url";
+import {importDataset} from "./import-from-url";
 
 const DEREFERENCE_REMOTE_SOURCE = {
     "https://katalog-mdcr/a86": {
@@ -102,10 +102,7 @@ const DEREFERENCE_REMOTE_SOURCE = {
 const ALL_IN_ONE_REMOTE_SOURCE = {
     "https://katalog-mdcr/a86/all": {
         "@graph": [
-            {
-                ...DEREFERENCE_REMOTE_SOURCE["https://katalog-mdcr/a86"]["@graph"][0],
-                "@id": "https://katalog-mdcr/a86/all"
-            },
+            DEREFERENCE_REMOTE_SOURCE["https://katalog-mdcr/a86"]["@graph"][0],
             ...DEREFERENCE_REMOTE_SOURCE["https://katalog-mdcr/a86/kontaktní-bod"]["@graph"],
             ...DEREFERENCE_REMOTE_SOURCE["https://katalog-mdcr/a86/distribuce/25"]["@graph"],
             ...DEREFERENCE_REMOTE_SOURCE["https://katalog-mdcr/a86/podmínky-užití"]["@graph"]
@@ -162,7 +159,7 @@ const EXPECTED_DISTRIBUTION = {
 
 test("Load by dereference.", () => {
     REMOTE_SOURCE = DEREFERENCE_REMOTE_SOURCE;
-    const promise = importFromUrl("https://katalog-mdcr/a86");
+    const promise = importDataset("https://katalog-mdcr/a86");
     return promise.then((actual) => {
         const distributions = Object.values(actual.distributions);
         expect(actual.dataset).toEqual(EXPECTED_DATASET);
@@ -173,7 +170,7 @@ test("Load by dereference.", () => {
 
 test("Load from single request.", () => {
     REMOTE_SOURCE  = ALL_IN_ONE_REMOTE_SOURCE;
-    const promise = importFromUrl("https://katalog-mdcr/a86/all");
+    const promise = importDataset("https://katalog-mdcr/a86/all");
     return promise.then((actual) => {
         const distributions = Object.values(actual.distributions);
         expect(actual.dataset).toEqual(EXPECTED_DATASET);

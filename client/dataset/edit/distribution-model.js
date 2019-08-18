@@ -122,7 +122,7 @@ function isAuthorValid(licence, value) {
   if (licence !== "CC BY") {
     return true;
   }
-  return value !== "";
+  return provided(value);
 }
 
 function validateCustom(licence_prop, custom_prop, invalid_prop) {
@@ -136,7 +136,7 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
     if (licence !== "CUSTOM") {
       return [];
     }
-    if (value === "") {
+    if (!provided(value)) {
       return [this.$t("custom_license_missing")];
     }
     if (url(value)) {

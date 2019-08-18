@@ -64,27 +64,27 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-dataset-delete";
-    import {downloadAsJsonLd} from "@/app-service/download";
+import {exportToJsonLd} from "./export-dataset-delete";
+import {downloadAsJsonLd} from "@/app-service/download";
 
-    export default {
-        "name": "app-export-summary",
-        "props": {
-            "dataset": {"type": Object, "required": true}
-        },
-        "computed": {
-            "nkodDatabox": function() {
-                return NKOD_ISDS;
-            }
-        },
-        "methods": {
-            "onExport": function () {
-                const jsonld = exportToJsonLd(this.dataset);
-                downloadAsJsonLd(
-                    "nkod-odstranění-datové-sady.jsonld.txt",jsonld)
-            }
-        }
+export default {
+  "name": "app-export-summary",
+  "props": {
+    "dataset": {"type": Object, "required": true}
+  },
+  "computed": {
+    "nkodDatabox": function() {
+      return NKOD_ISDS;
     }
+  },
+  "methods": {
+    "onExport": function () {
+      const jsonld = exportToJsonLd(this.dataset);
+      downloadAsJsonLd(
+        "nkod-odstranění-datové-sady.jsonld.txt",jsonld)
+    }
+  }
+}
 
 </script>
 

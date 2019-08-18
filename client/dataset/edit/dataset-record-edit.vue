@@ -240,46 +240,46 @@
 </template>
 
 <script>
-    import {createDatasetValidators} from "./dataset-model";
-    import DatePicker from "./ui/date-picker";
-    import RuinTypeCodelist from "./codelists/ruian-type"
-    import FrequenciesCodeList from "./codelists/frequencies";
-    import SolrAutocomplete from "./ui/solr-autocomplete";
-    import RuianAutocomplete from "./ui/ruian-autocomplete";
-    import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
-    import DatasetThemes from "./codelists/dataset-theme";
+import {createDatasetValidators} from "./dataset-model";
+import DatePicker from "./ui/date-picker";
+import RuinTypeCodelist from "./codelists/ruian-type"
+import FrequenciesCodeList from "./codelists/frequencies";
+import SolrAutocomplete from "./ui/solr-autocomplete";
+import RuianAutocomplete from "./ui/ruian-autocomplete";
+import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
+import DatasetThemes from "./codelists/dataset-theme";
 
-    export default {
-        "name": "app-dataset-record-edit",
-        "components": {
-            "app-date-picker": DatePicker,
-            "app-ruian-autocomplete": RuianAutocomplete,
-            "app-solr-autocomplete": SolrAutocomplete,
-            "app-solr-chips-autocomplete": SolrChipsAutocomplete
-        },
-        "props": {
-            "dataset": {"type": Object, "required": true}
-        },
-        "data": () => ({
-            "frequencies": FrequenciesCodeList,
-            "ruianTypes": RuinTypeCodelist,
-            "dataset_themes": DatasetThemes
-        }),
-        "computed": {
-            ...createDatasetValidators()
-        },
-        "methods": {
-            "removeKeyword": function (item) {
-                const index = this.dataset.keywords.indexOf(item);
-                this.dataset.keywords.splice(index, 1);
-            },
-            "onRuainTypeInput": function(newValue, oldValue) {
-                if (newValue === oldValue) {
-                    return;
-                }
-                this.dataset.ruian = "";
-                this.$refs.ruian.clearItemCache();
-            }
-        }
-    };
+export default {
+  "name": "app-dataset-record-edit",
+  "components": {
+    "app-date-picker": DatePicker,
+    "app-ruian-autocomplete": RuianAutocomplete,
+    "app-solr-autocomplete": SolrAutocomplete,
+    "app-solr-chips-autocomplete": SolrChipsAutocomplete
+  },
+  "props": {
+    "dataset": {"type": Object, "required": true}
+  },
+  "data": () => ({
+    "frequencies": FrequenciesCodeList,
+    "ruianTypes": RuinTypeCodelist,
+    "dataset_themes": DatasetThemes
+  }),
+  "computed": {
+    ...createDatasetValidators()
+  },
+  "methods": {
+    "removeKeyword": function (item) {
+      const index = this.dataset.keywords.indexOf(item);
+      this.dataset.keywords.splice(index, 1);
+    },
+    "onRuainTypeInput": function(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      }
+      this.dataset.ruian = "";
+      this.$refs.ruian.clearItemCache();
+    }
+  }
+};
 </script>

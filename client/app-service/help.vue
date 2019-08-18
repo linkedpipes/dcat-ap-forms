@@ -14,34 +14,34 @@
 
 <script>
 
-    const data = {
-        "isOpen": false,
-        "name": ""
-    };
+const data = {
+  "isOpen": false,
+  "name": ""
+};
 
-    export const Plugin = {
-        "install": install
-    };
+export const Plugin = {
+  "install": install
+};
 
-    function install(Vue, options) {
-        Object.defineProperty(Vue.prototype, "$h", {
-            "get": () => onShow
-        });
+function install(Vue, options) {
+  Object.defineProperty(Vue.prototype, "$h", {
+    "get": () => onShow
+  });
+}
+
+function onShow(name) {
+  data.name = name;
+  data.isOpen = true;
+}
+
+export default {
+  "name": "app-help",
+  "data": () => data,
+  "watch": {
+    "$route": function (location) {
+      this.isOpen = false;
     }
-
-    function onShow(name) {
-        data.name = name;
-        data.isOpen = true;
-    }
-
-    export default {
-        "name": "app-help",
-        "data": () => data,
-        "watch": {
-            "$route": function (location) {
-                this.isOpen = false;
-            }
-        }
-    }
+  }
+}
 
 </script>

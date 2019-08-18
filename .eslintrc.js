@@ -5,6 +5,7 @@ module.exports = {
     "sourceType": "module"
   },
   "rules": {
-    "quotes": ["error", "double"]
+    "quotes": ["error", "double"],
+    "indent": ["error", 2]
   }
 };

@@ -199,36 +199,36 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-catalog-edit";
-    import {downloadAsJsonLd} from "@/app-service/download";
-    import {getLabel as typeToLabel} from "./codelists/catalog-type";
+import {exportToJsonLd} from "./export-catalog-edit";
+import {downloadAsJsonLd} from "@/app-service/download";
+import {getLabel as typeToLabel} from "./codelists/catalog-type";
 
-    export default {
-        "name": "app-catalog-export-summary",
-        "props": {
-            "catalog": {"type": Object, "required": true},
-            "isValid": {"type": Boolean, "required": true}
-        },
-        "computed": {
-            "nkodDatabox": function () {
-                return NKOD_ISDS;
-            }
-        },
-        "methods": {
-            "onDownload": function () {
-                const jsonld = exportToJsonLd(this.catalog);
-                downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
-            },
-            "openCatalog": function () {
-                window.open(this.catalog.iri);
-            },
-            "openHomepage": function () {
-                window.open(this.catalog.homepage);
-            },
-            "sendEmail": function () {
-                window.open("mailto:" + this.catalog.contact_point_email)
-            },
-            "typeToLabel": typeToLabel
-        }
+export default {
+  "name": "app-catalog-export-summary",
+  "props": {
+    "catalog": {"type": Object, "required": true},
+    "isValid": {"type": Boolean, "required": true}
+  },
+  "computed": {
+    "nkodDatabox": function () {
+      return NKOD_ISDS;
     }
+  },
+  "methods": {
+    "onDownload": function () {
+      const jsonld = exportToJsonLd(this.catalog);
+      downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
+    },
+    "openCatalog": function () {
+      window.open(this.catalog.iri);
+    },
+    "openHomepage": function () {
+      window.open(this.catalog.homepage);
+    },
+    "sendEmail": function () {
+      window.open("mailto:" + this.catalog.contact_point_email)
+    },
+    "typeToLabel": typeToLabel
+  }
+}
 </script>

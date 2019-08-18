@@ -74,159 +74,159 @@
 </template>
 
 <script>
-    import DatasetEdit from "./dataset-record-edit";
-    import DistributionEdit from "./distribution-record-edit";
-    import {
-        createDataset,
-        isDatasetValid,
-        decorateDataset
-    } from "./dataset-model";
-    import {
-        createDistribution,
-        isDistributionValid,
-        decorateDistribution
-    } from "./distribution-model";
-    import DistributionSelector from "./ui/distribution-selector";
-    import StepperNavigationMobile from "./ui/step-navigation-mobile";
-    import StepperNavigationDesktop from "./ui/step-navigation-desktop";
-    import ExportSummary from "./export-summary";
-    import {importDataset, loadLabelsForDistributions} from "../import-from-url";
-    import setPageTitle from "@/app-service/page-title";
-    import {getStore} from "./codelists/local-storage";
+import DatasetEdit from "./dataset-record-edit";
+import DistributionEdit from "./distribution-record-edit";
+import {
+  createDataset,
+  isDatasetValid,
+  decorateDataset
+} from "./dataset-model";
+import {
+  createDistribution,
+  isDistributionValid,
+  decorateDistribution
+} from "./distribution-model";
+import DistributionSelector from "./ui/distribution-selector";
+import StepperNavigationMobile from "./ui/step-navigation-mobile";
+import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+import ExportSummary from "./export-summary";
+import {importDataset, loadLabelsForDistributions} from "../import-from-url";
+import setPageTitle from "@/app-service/page-title";
+import {getStore} from "./codelists/local-storage";
 
-    export default {
-        "name": "app-dataset-edit",
-        "components": {
-            "app-dataset": DatasetEdit,
-            "app-distribution": DistributionEdit,
-            "app-distribution-selector": DistributionSelector,
-            "app-step-navigation-mobile": StepperNavigationMobile,
-            "app-step-navigation-desktop": StepperNavigationDesktop,
-            "app-export-summary": ExportSummary
-        },
-        "data": () => ({
-            "data": {
-                "codelist": getStore(),
-                "status": "loading",
-                "dataset": undefined,
-                "distributions": [],
-                "error": undefined
-            },
-            "ui": {
-                "step": 1,
-                "distribution": 0
-            },
-            "validation": {
-                "dataset": false,
-                "distributions": false
-            }
-        }),
-        "watch": {
-            "$route": function (location) {
-                if (location.query.krok === undefined) {
-                    this.ui.step = 1;
-                } else if (location.query.krok !== this.ui.krok) {
-                    this.ui.step = location.query.krok;
-                }
-            }
-        },
-        "mounted": function () {
-            setPageTitle(this.$t("edit_page_title"));
+export default {
+  "name": "app-dataset-edit",
+  "components": {
+    "app-dataset": DatasetEdit,
+    "app-distribution": DistributionEdit,
+    "app-distribution-selector": DistributionSelector,
+    "app-step-navigation-mobile": StepperNavigationMobile,
+    "app-step-navigation-desktop": StepperNavigationDesktop,
+    "app-export-summary": ExportSummary
+  },
+  "data": () => ({
+    "data": {
+      "codelist": getStore(),
+      "status": "loading",
+      "dataset": undefined,
+      "distributions": [],
+      "error": undefined
+    },
+    "ui": {
+      "step": 1,
+      "distribution": 0
+    },
+    "validation": {
+      "dataset": false,
+      "distributions": false
+    }
+  }),
+  "watch": {
+    "$route": function (location) {
+      if (location.query.krok === undefined) {
+        this.ui.step = 1;
+      } else if (location.query.krok !== this.ui.krok) {
+        this.ui.step = location.query.krok;
+      }
+    }
+  },
+  "mounted": function () {
+    setPageTitle(this.$t("edit_page_title"));
 
-            // Set step from URL.
-            if (this.$route.query.krok !== undefined) {
-                this.ui.step = this.$route.query.krok;
-            }
+    // Set step from URL.
+    if (this.$route.query.krok !== undefined) {
+      this.ui.step = this.$route.query.krok;
+    }
 
-            const url = this.$route.query.url;
-            if (url === undefined) {
-                this.data.dataset = createDataset();
-                this.data.distributions.push(createDistribution());
-                this.data.status = "ready";
-                return;
-            }
+    const url = this.$route.query.url;
+    if (url === undefined) {
+      this.data.dataset = createDataset();
+      this.data.distributions.push(createDistribution());
+      this.data.status = "ready";
+      return;
+    }
 
-            importDataset(url)
-                .then((result) => {
-                    const distributions = Object.values(result.distributions)
-                        .map(item => decorateDistribution(item));
-                    this.data.dataset = decorateDataset(result.dataset);
-                    this.data.distributions = distributions;
-                    this.data.status = "ready";
-                    return loadLabelsForDistributions(
-                        distributions, this.$vuetify.lang.current);
-                })
-                .catch((error) => {
-                    console.error(error);
-                    this.data.status = "error";
-                    this.data.error = error;
-                });
-        },
-        "methods": {
-            "isDatasetValid": function () {
-                if (!this.validation.dataset) {
-                    return true;
-                }
-                return isDatasetValid(this.data.dataset);
-            },
-            "areDistributionsValid": function () {
-                if (!this.validation.distributions) {
-                    return true;
-                }
-                for (let index in this.data.distributions) {
-                    const distribution = this.data.distributions[index];
-                    if (!distribution.$validators.force) {
-                        // Newly added distribution. User does not
-                        // visited last step after adding this one.
-                        continue;
-                    }
-                    if (!isDistributionValid(distribution)) {
-                        return false;
-                    }
-                }
-                return true;
-            },
-            "addDistribution": function () {
-                this.data.distributions = [
-                    ...this.data.distributions,
-                    createDistribution()
-                ];
-                this.ui.distribution = this.data.distributions.length - 1;
-            },
-            "deleteDistribution": function () {
-                const index = this.ui.distribution;
-                this.data.distributions = [
-                    ...this.data.distributions.slice(0, index),
-                    ...this.data.distributions.slice(index + 1)
-                ];
-                this.ui.distribution = Math.min(
-                    this.ui.distribution,
-                    this.data.distributions.length - 1);
-            },
-            "onStepperInput": function (value) {
-                if (!this.validation.dataset && value > 1) {
-                    this.validation.dataset = true;
-                    this.data.dataset.$validators.force = true;
-                }
-                if (value > 2) {
-                    this.validation.distributions = true;
-                    this.data.distributions.forEach((distribution) => {
-                        distribution.$validators.force = true;
-                    });
-                }
-                if (this.$route.query.krok === undefined && value === 1) {
-                    // Prevent redirect after the initial page is shown.
-                    return;
-                }
-                this.$router.push({
-                    "query": {
-                        ...this.$route.query,
-                        "krok": value
-                    }
-                });
-            }
+    importDataset(url)
+      .then((result) => {
+        const distributions = Object.values(result.distributions)
+          .map(item => decorateDistribution(item));
+        this.data.dataset = decorateDataset(result.dataset);
+        this.data.distributions = distributions;
+        this.data.status = "ready";
+        return loadLabelsForDistributions(
+          distributions, this.$vuetify.lang.current);
+      })
+      .catch((error) => {
+        console.error(error);
+        this.data.status = "error";
+        this.data.error = error;
+      });
+  },
+  "methods": {
+    "isDatasetValid": function () {
+      if (!this.validation.dataset) {
+        return true;
+      }
+      return isDatasetValid(this.data.dataset);
+    },
+    "areDistributionsValid": function () {
+      if (!this.validation.distributions) {
+        return true;
+      }
+      for (let index in this.data.distributions) {
+        const distribution = this.data.distributions[index];
+        if (!distribution.$validators.force) {
+          // Newly added distribution. User does not
+          // visited last step after adding this one.
+          continue;
         }
-    };
+        if (!isDistributionValid(distribution)) {
+          return false;
+        }
+      }
+      return true;
+    },
+    "addDistribution": function () {
+      this.data.distributions = [
+        ...this.data.distributions,
+        createDistribution()
+      ];
+      this.ui.distribution = this.data.distributions.length - 1;
+    },
+    "deleteDistribution": function () {
+      const index = this.ui.distribution;
+      this.data.distributions = [
+        ...this.data.distributions.slice(0, index),
+        ...this.data.distributions.slice(index + 1)
+      ];
+      this.ui.distribution = Math.min(
+        this.ui.distribution,
+        this.data.distributions.length - 1);
+    },
+    "onStepperInput": function (value) {
+      if (!this.validation.dataset && value > 1) {
+        this.validation.dataset = true;
+        this.data.dataset.$validators.force = true;
+      }
+      if (value > 2) {
+        this.validation.distributions = true;
+        this.data.distributions.forEach((distribution) => {
+          distribution.$validators.force = true;
+        });
+      }
+      if (this.$route.query.krok === undefined && value === 1) {
+        // Prevent redirect after the initial page is shown.
+        return;
+      }
+      this.$router.push({
+        "query": {
+          ...this.$route.query,
+          "krok": value
+        }
+      });
+    }
+  }
+};
 
 
 </script>

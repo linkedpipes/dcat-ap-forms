@@ -1,4 +1,4 @@
 export default {
-    "noDataText": "No data found.",
-    "optional": " (optional)",
+  "noDataText": "No data found.",
+  "optional": " (optional)",
 }

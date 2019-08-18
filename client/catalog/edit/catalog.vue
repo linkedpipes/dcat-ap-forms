@@ -47,70 +47,70 @@
 </template>
 
 <script>
-    import {createCatalog, isCatalogValid} from "./catalog-model";
-    import CatalogEdit from "./catalog-edit-record";
-    import ExportSummary from "./export-summary";
-    import StepperNavigationMobile from "./ui/step-navigation-mobile";
-    import StepperNavigationDesktop from "./ui/step-navigation-desktop";
-    import setPageTitle from "@/app-service/page-title";
+import {createCatalog, isCatalogValid} from "./catalog-model";
+import CatalogEdit from "./catalog-edit-record";
+import ExportSummary from "./export-summary";
+import StepperNavigationMobile from "./ui/step-navigation-mobile";
+import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+import setPageTitle from "@/app-service/page-title";
 
-    export default {
-        "name": "app-catalog-edit",
-        "components": {
-            "app-step-navigation-mobile": StepperNavigationMobile,
-            "app-step-navigation-desktop": StepperNavigationDesktop,
-            "app-catalog" : CatalogEdit,
-            "app-export": ExportSummary
-        },
-        "data": () => ({
-            "data": {
-                "catalog": createCatalog()
-            },
-            "ui": {
-                "step": 1
-            },
-            "validation": {
-                "catalog": false
-            }
-        }),
-        "watch": {
-            "$route" : function(location) {
-                if (location.query.krok === undefined) {
-                    this.ui.step = 1;
-                } else if (location.query.krok !== this.ui.krok) {
-                    this.ui.step = location.query.krok;
-                }
-            }
-        },
-        "mounted": function() {
-            setPageTitle("Registrace lokálního katalogu do NKOD");
-            // Set step from URL.
-            if (this.$route.query.krok !== undefined) {
-                this.ui.step = this.$route.query.krok;
-            }
-        },
-        "methods": {
-            "isCatalogValid": function () {
-                if (!this.validation.catalog) {
-                    return true;
-                }
-                return isCatalogValid(this.data.catalog);
-            },
-            "onStepperInput": function (value) {
-                if (!this.validation.catalog && value > 1) {
-                    this.validation.catalog = true;
-                    this.data.catalog.$validators.force = true;
-                }
-                if (this.$route.query.krok === undefined && value === 1) {
-                    // Prevent redirect after the initial page is shown.
-                    return;
-                }
-                this.$router.push({
-                    "query": {
-                        "krok": value
-                    }
-                });
-            }
-        }
+export default {
+  "name": "app-catalog-edit",
+  "components": {
+    "app-step-navigation-mobile": StepperNavigationMobile,
+    "app-step-navigation-desktop": StepperNavigationDesktop,
+    "app-catalog" : CatalogEdit,
+    "app-export": ExportSummary
+  },
+  "data": () => ({
+    "data": {
+      "catalog": createCatalog()
+    },
+    "ui": {
+      "step": 1
+    },
+    "validation": {
+      "catalog": false
     }
+  }),
+  "watch": {
+    "$route" : function(location) {
+      if (location.query.krok === undefined) {
+        this.ui.step = 1;
+      } else if (location.query.krok !== this.ui.krok) {
+        this.ui.step = location.query.krok;
+      }
+    }
+  },
+  "mounted": function() {
+    setPageTitle("Registrace lokálního katalogu do NKOD");
+    // Set step from URL.
+    if (this.$route.query.krok !== undefined) {
+      this.ui.step = this.$route.query.krok;
+    }
+  },
+  "methods": {
+    "isCatalogValid": function () {
+      if (!this.validation.catalog) {
+        return true;
+      }
+      return isCatalogValid(this.data.catalog);
+    },
+    "onStepperInput": function (value) {
+      if (!this.validation.catalog && value > 1) {
+        this.validation.catalog = true;
+        this.data.catalog.$validators.force = true;
+      }
+      if (this.$route.query.krok === undefined && value === 1) {
+        // Prevent redirect after the initial page is shown.
+        return;
+      }
+      this.$router.push({
+        "query": {
+          "krok": value
+        }
+      });
+    }
+  }
+}
 </script>

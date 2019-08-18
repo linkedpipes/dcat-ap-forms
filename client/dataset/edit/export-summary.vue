@@ -329,70 +329,70 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-dataset-edit";
-    import {downloadAsJsonLd} from "@/app-service/download";
-    import DistributionCard from "./ui/distribution-card";
-    import {getLabel as datasetThemeToLabel} from "./codelists/dataset-theme";
-    import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";
-    import {getItem} from "./codelists/local-storage";
+import {exportToJsonLd} from "./export-dataset-edit";
+import {downloadAsJsonLd} from "@/app-service/download";
+import DistributionCard from "./ui/distribution-card";
+import {getLabel as datasetThemeToLabel} from "./codelists/dataset-theme";
+import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";
+import {getItem} from "./codelists/local-storage";
 
-    export default {
-        "name": "app-export-summary",
-        "components": {
-            "app-distribution-card": DistributionCard
-        },
-        "props": {
-            "dataset": {"type": Object, "required": true},
-            "distributions": {"type": Array, "required": true},
-            "isValid": {"type": Boolean, "required": true},
-            "codelist": {"type": Object, "required": true}
-        },
-        "computed": {
-            "ruianLabel": function () {
-                const iri = this.dataset.ruian;
-                const value = getItem(
-                    this.codelist, "ruian", iri, this.$vuetify.lang.current);
-                if (value === undefined) {
-                    return iri;
-                } else {
-                    return value;
-                }
-            },
-            "nkodDatabox": function () {
-                return NKOD_ISDS;
-            }
-        },
-        "methods": {
-            "onDownload": function () {
-                const jsonld = exportToJsonLd(this.dataset, this.distributions);
-                downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
-            },
-            "openDocumentation": function () {
-                downloadUrl(this.dataset.documentation);
-            },
-            "openRuian": function () {
-                downloadUrl(this.dataset.ruian);
-            },
-            "datasetThemeToLabel": datasetThemeToLabel,
-            "frequencyToLabel": frequencyToLabel,
-            "themeToLabel": function (iri) {
-                const value = getItem(
-                    this.codelist, "themes", iri, this.$vuetify.lang.current);
-                if (value === undefined) {
-                    return iri;
-                } else {
-                    return value;
-                }
-            },
-            "openUrl": function (url) {
-                downloadUrl(url);
-            }
-        }
+export default {
+  "name": "app-export-summary",
+  "components": {
+    "app-distribution-card": DistributionCard
+  },
+  "props": {
+    "dataset": {"type": Object, "required": true},
+    "distributions": {"type": Array, "required": true},
+    "isValid": {"type": Boolean, "required": true},
+    "codelist": {"type": Object, "required": true}
+  },
+  "computed": {
+    "ruianLabel": function () {
+      const iri = this.dataset.ruian;
+      const value = getItem(
+        this.codelist, "ruian", iri, this.$vuetify.lang.current);
+      if (value === undefined) {
+        return iri;
+      } else {
+        return value;
+      }
+    },
+    "nkodDatabox": function () {
+      return NKOD_ISDS;
     }
+  },
+  "methods": {
+    "onDownload": function () {
+      const jsonld = exportToJsonLd(this.dataset, this.distributions);
+      downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
+    },
+    "openDocumentation": function () {
+      downloadUrl(this.dataset.documentation);
+    },
+    "openRuian": function () {
+      downloadUrl(this.dataset.ruian);
+    },
+    "datasetThemeToLabel": datasetThemeToLabel,
+    "frequencyToLabel": frequencyToLabel,
+    "themeToLabel": function (iri) {
+      const value = getItem(
+        this.codelist, "themes", iri, this.$vuetify.lang.current);
+      if (value === undefined) {
+        return iri;
+      } else {
+        return value;
+      }
+    },
+    "openUrl": function (url) {
+      downloadUrl(url);
+    }
+  }
+}
 
-    function downloadUrl(uri) {
-        window.open(uri);
-    }
+function downloadUrl(uri) {
+  window.open(uri);
+}
 </script>
 
 <style scoped>

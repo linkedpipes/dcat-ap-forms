@@ -1,26 +1,26 @@
 module.exports = (api) => {
 
-    api.cache.using(() => process.env.NODE_ENV);
+  api.cache.using(() => process.env.NODE_ENV);
 
-    const presets = [
-        [
-            "@babel/preset-env",
-            {
-                "targets": {
-                    "ie": 11,
-                    "chrome": 41
-                }
-            }
-        ]
-    ];
+  const presets = [
+    [
+      "@babel/preset-env",
+      {
+        "targets": {
+          "ie": 11,
+          "chrome": 41
+        }
+      }
+    ]
+  ];
 
-    const plugins = [];
+  const plugins = [];
 
-    const ignore = [];
+  const ignore = [];
 
-    return {
-        "presets": presets,
-        "plugins": plugins,
-        "ignore": ignore
-    }
+  return {
+    "presets": presets,
+    "plugins": plugins,
+    "ignore": ignore
+  }
 };

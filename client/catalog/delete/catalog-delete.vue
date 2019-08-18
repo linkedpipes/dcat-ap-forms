@@ -16,38 +16,38 @@
 </template>
 
 <script>
-    import {importCatalog} from "../import-from-url";
-    import CatalogDeleteSummary from "./catalog-delete-summary";
-    import setPageTitle from "@/app-service/page-title";
+import {importCatalog} from "../import-from-url";
+import CatalogDeleteSummary from "./catalog-delete-summary";
+import setPageTitle from "@/app-service/page-title";
 
-    export default {
-        "name": "app-dataset-delete",
-        "components": {
-            "app-summary": CatalogDeleteSummary
-        },
-        "data": () => ({
-            "data": {
-                "status": "loading",
-                "catalog": undefined,
-                "error": undefined
-            }
-        }),
-        "mounted": function () {
-            setPageTitle(this.$t("catalog_delete_page_title"));
-            const url = this.$route.query.url;
-            if (url === undefined) {
-                this.data.status = "missing-catalog";
-                return;
-            }
-            importCatalog(url).then((catalog) => {
-                this.data.catalog = catalog;
-                this.data.status = "ready";
-            }).catch((error) => {
-                console.error(error);
-                this.data.status = "error";
-                this.data.error = error;
-            });
-        }
+export default {
+  "name": "app-dataset-delete",
+  "components": {
+    "app-summary": CatalogDeleteSummary
+  },
+  "data": () => ({
+    "data": {
+      "status": "loading",
+      "catalog": undefined,
+      "error": undefined
     }
+  }),
+  "mounted": function () {
+    setPageTitle(this.$t("catalog_delete_page_title"));
+    const url = this.$route.query.url;
+    if (url === undefined) {
+      this.data.status = "missing-catalog";
+      return;
+    }
+    importCatalog(url).then((catalog) => {
+      this.data.catalog = catalog;
+      this.data.status = "ready";
+    }).catch((error) => {
+      console.error(error);
+      this.data.status = "error";
+      this.data.error = error;
+    });
+  }
+}
 
 </script>

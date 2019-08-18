@@ -1,23 +1,23 @@
 export function prepareLabels() {
-    let result = {};
-    for (let index = 0; index < arguments.length; ++index) {
-        const arg = arguments[index];
-        result = {
-            ...result,
-            ...arg
-        };
-    }
-    return result;
+  let result = {};
+  for (let index = 0; index < arguments.length; ++index) {
+    const arg = arguments[index];
+    result = {
+      ...result,
+      ...arg
+    };
+  }
+  return result;
 }
 
 function install(Vue, options) {
-    Object.defineProperty(Vue.prototype, "$t", {
-        "value": function (name) {
-            return this.$vuetify.t("$vuetify." + name)
-        }
-    });
+  Object.defineProperty(Vue.prototype, "$t", {
+    "value": function (name) {
+      return this.$vuetify.t("$vuetify." + name)
+    }
+  });
 }
 
 export const Plugin = {
-    "install": install
+  "install": install
 };

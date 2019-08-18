@@ -25,32 +25,32 @@
 </template>
 
 <script>
-    export default {
-        "name": "app-catalog-step-navigation-desktop",
-        "props": {
-            "value": {"required": true}
-        },
-        "computed": {
-            "prevLabel": function() {
-                switch (this.value) {
-                    case 2:
-                        return this.$t("nav_catalog");
-                }
-            },
-            "nextLabel": function() {
-                switch (this.value) {
-                    case 1:
-                        return this.$t("nav_download")
-                }
-            }
-        },
-        "methods": {
-            "onPrevious": function () {
-                this.$emit("input", this.value - 1);
-            },
-            "onNext": function () {
-                this.$emit("input", this.value + 1);
-            }
-        }
+export default {
+  "name": "app-catalog-step-navigation-desktop",
+  "props": {
+    "value": {"required": true}
+  },
+  "computed": {
+    "prevLabel": function() {
+      switch (this.value) {
+      case 2:
+        return this.$t("nav_catalog");
+      }
+    },
+    "nextLabel": function() {
+      switch (this.value) {
+      case 1:
+        return this.$t("nav_download")
+      }
     }
+  },
+  "methods": {
+    "onPrevious": function () {
+      this.$emit("input", this.value - 1);
+    },
+    "onNext": function () {
+      this.$emit("input", this.value + 1);
+    }
+  }
+}
 </script>

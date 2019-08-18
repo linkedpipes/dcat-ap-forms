@@ -113,21 +113,21 @@
 </template>
 
 <script>
-    import {createCatalogValidators} from "./catalog-model";
-    import CatalogTypeCodelist from "./codelists/catalog-type";
+import {createCatalogValidators} from "./catalog-model";
+import CatalogTypeCodelist from "./codelists/catalog-type";
 
-    export default {
-        "name": "app-dataset-record-edit",
-        "components": {},
-        "props": {
-            "catalog": {"type": Object, "required": true}
-        },
-        "data": () => ({
-            "catalogTypes": CatalogTypeCodelist
-        }),
-        "computed": {
-            ...createCatalogValidators()
-        }
-    };
+export default {
+  "name": "app-dataset-record-edit",
+  "components": {},
+  "props": {
+    "catalog": {"type": Object, "required": true}
+  },
+  "data": () => ({
+    "catalogTypes": CatalogTypeCodelist
+  }),
+  "computed": {
+    ...createCatalogValidators()
+  }
+};
 
 </script>

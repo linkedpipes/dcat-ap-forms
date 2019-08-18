@@ -16,40 +16,40 @@
 </template>
 
 <script>
-    import {importMinimalDataset} from "../import-from-url";
-    import DatasetDeleteSummary from "./dataset-delete-summary";
-    import setPageTitle from "@/app-service/page-title";
+import {importMinimalDataset} from "../import-from-url";
+import DatasetDeleteSummary from "./dataset-delete-summary";
+import setPageTitle from "@/app-service/page-title";
 
-    export default {
-        "name": "app-dataset-delete",
-        "components": {
-            "app-summary": DatasetDeleteSummary
-        },
-        "data": () => ({
-            "data": {
-                "status": "loading",
-                "dataset": undefined,
-                "error": undefined
-            }
-        }),
-        "mounted": function () {
-            setPageTitle(this.$t("delete_page_title"));
-
-            const url = this.$route.query.url;
-            if (url === undefined) {
-                this.data.status = "missing-dataset";
-                return;
-            }
-
-            importMinimalDataset(url).then((result) => {
-                this.data.dataset = result.dataset;
-                this.data.status = "ready";
-            }).catch((error) => {
-                console.error(error);
-                this.data.status = "error";
-                this.data.error = error;
-            });
-        }
+export default {
+  "name": "app-dataset-delete",
+  "components": {
+    "app-summary": DatasetDeleteSummary
+  },
+  "data": () => ({
+    "data": {
+      "status": "loading",
+      "dataset": undefined,
+      "error": undefined
     }
+  }),
+  "mounted": function () {
+    setPageTitle(this.$t("delete_page_title"));
+
+    const url = this.$route.query.url;
+    if (url === undefined) {
+      this.data.status = "missing-dataset";
+      return;
+    }
+
+    importMinimalDataset(url).then((result) => {
+      this.data.dataset = result.dataset;
+      this.data.status = "ready";
+    }).catch((error) => {
+      console.error(error);
+      this.data.status = "error";
+      this.data.error = error;
+    });
+  }
+}
 
 </script>

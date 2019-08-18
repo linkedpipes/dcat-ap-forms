@@ -35,26 +35,26 @@
 </template>
 
 <script>
-    export default {
-        "name": "app-date-picker",
-        "props": {
-            "id": {"required": true},
-            "value": {"required": true},
-            "label": {"type": String, "required": true},
-            "hint": {"type": String, "required": false},
-            "persistentHint": {"type": Boolean, "required": false}
-        },
-        "data": () => ({
-            "menu": false
-        }),
-        "methods": {
-            "save": function (date) {
-                this.$refs.menu.save(date);
-                this.$emit("input", date);
-            },
-            "onInput": function (value) {
-                this.$emit("input", value);
-            }
-        }
-    };
+export default {
+  "name": "app-date-picker",
+  "props": {
+    "id": {"required": true},
+    "value": {"required": true},
+    "label": {"type": String, "required": true},
+    "hint": {"type": String, "required": false},
+    "persistentHint": {"type": Boolean, "required": false}
+  },
+  "data": () => ({
+    "menu": false
+  }),
+  "methods": {
+    "save": function (date) {
+      this.$refs.menu.save(date);
+      this.$emit("input", date);
+    },
+    "onInput": function (value) {
+      this.$emit("input", value);
+    }
+  }
+};
 </script>

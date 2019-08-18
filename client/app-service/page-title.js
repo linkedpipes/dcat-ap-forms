@@ -1,3 +1,3 @@
 export default function setPageTitle(title) {
-    document.title = title;
+  document.title = title;
 }

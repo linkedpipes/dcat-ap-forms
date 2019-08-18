@@ -25,15 +25,15 @@
 </template>
 
 <script>
-    export default {
-        "name": "app-catalog-step-navigation-mobile",
-        "props": {
-            "value": {"required": true},
-        },
-        "methods": {
-            "onClick": function (value) {
-                this.$emit("input", value);
-            }
-        }
+export default {
+  "name": "app-catalog-step-navigation-mobile",
+  "props": {
+    "value": {"required": true},
+  },
+  "methods": {
+    "onClick": function (value) {
+      this.$emit("input", value);
     }
+  }
+}
 </script>

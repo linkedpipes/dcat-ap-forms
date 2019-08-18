@@ -75,34 +75,34 @@
 </template>
 
 <script>
-    import {exportToJsonLd} from "./export-catalog-delete";
-    import {downloadAsJsonLd} from "@/app-service/download";
+import {exportToJsonLd} from "./export-catalog-delete";
+import {downloadAsJsonLd} from "@/app-service/download";
 
-    export default {
-        "name": "app-export-summary",
-        "props": {
-            "catalog": {"type": Object, "required": true}
-        },
-        "computed": {
-            "nkodDatabox": function() {
-                return NKOD_ISDS;
-            }
-        },
-        "methods": {
-            "onExport": function () {
-                const jsonld = exportToJsonLd(this.catalog);
-                downloadAsJsonLd(
-                    "nkod-odstranění-katalogu.jsonld.txt",jsonld)
-            },
-            "openUrl": function (url) {
-                downloadUrl(url);
-            }           
-        }
+export default {
+  "name": "app-export-summary",
+  "props": {
+    "catalog": {"type": Object, "required": true}
+  },
+  "computed": {
+    "nkodDatabox": function() {
+      return NKOD_ISDS;
     }
+  },
+  "methods": {
+    "onExport": function () {
+      const jsonld = exportToJsonLd(this.catalog);
+      downloadAsJsonLd(
+        "nkod-odstranění-katalogu.jsonld.txt",jsonld)
+    },
+    "openUrl": function (url) {
+      downloadUrl(url);
+    }           
+  }
+}
 
-    function downloadUrl(uri) {
-        window.open(uri);
-    }   
+function downloadUrl(uri) {
+  window.open(uri);
+}   
 
 </script>
 

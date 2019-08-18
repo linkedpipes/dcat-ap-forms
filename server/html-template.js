@@ -1,7 +1,7 @@
 const config = require("./config");
 
 function create(javascript, css, options) {
-    return `
+  return `
 <!DOCTYPE html>
 <html${options["lang"] ? " lang=\"" + options["lang"] + "\"" : ""}>
 <head>
@@ -17,23 +17,23 @@ function create(javascript, css, options) {
 }
 
 function generateHead(css) {
-    return config.html_head.map((item) =>
-        "<" + item["$type"] + " " +
+  return config.html_head.map((item) =>
+    "<" + item["$type"] + " " +
         Object.keys(item)
-            .filter((key) => !key.startsWith("$"))
-            .map((key) => key + "=" + item[key]).join(" ")
+          .filter((key) => !key.startsWith("$"))
+          .map((key) => key + "=" + item[key]).join(" ")
         + " />"
-    ).join("\n  ") + css.map((file) =>
-        `<link href="${file}" rel="stylesheet"/>`
-    ).join("\n  ");
+  ).join("\n  ") + css.map((file) =>
+    `<link href="${file}" rel="stylesheet"/>`
+  ).join("\n  ");
 }
 
 function generateBody(javascript) {
-    return javascript.map((file) =>
-        `<script type="text/javascript" src="${file}"></script>`
-    ).join("\n  ");
+  return javascript.map((file) =>
+    `<script type="text/javascript" src="${file}"></script>`
+  ).join("\n  ");
 }
 
 module.exports = {
-    "create": create
+  "create": create
 };

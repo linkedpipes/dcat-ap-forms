@@ -40,38 +40,38 @@
 </template>
 
 <script>
-    import {isDistributionValid} from "./../distribution-model";
+import {isDistributionValid} from "./../distribution-model";
 
-    export default {
-        "name": "app-item-selector",
-        "props": {
-            "value": {"type": Number, "required": true},
-            "distributions": {"type": Array, "required": true}
-        },
-        "methods": {
-            "onPrevious": function () {
-                this.$emit("input", this.value - 1);
-            },
-            "onNew": function () {
-                this.$emit("add");
-            },
-            "onNext": function () {
-                this.$emit("input", this.value + 1);
-            },
-            "onSelect": function (index) {
-                this.$emit("input", index);
-            },
-            "isValid": function(index) {
-                const distribution = this.distributions[index];
-                if (!distribution.$validators.force) {
-                    // Newly added distribution. User does not
-                    // visited last step after adding this one.
-                    return true;
-                }
-                return isDistributionValid(distribution);
-            }
-        }
-    };
+export default {
+  "name": "app-item-selector",
+  "props": {
+    "value": {"type": Number, "required": true},
+    "distributions": {"type": Array, "required": true}
+  },
+  "methods": {
+    "onPrevious": function () {
+      this.$emit("input", this.value - 1);
+    },
+    "onNew": function () {
+      this.$emit("add");
+    },
+    "onNext": function () {
+      this.$emit("input", this.value + 1);
+    },
+    "onSelect": function (index) {
+      this.$emit("input", index);
+    },
+    "isValid": function(index) {
+      const distribution = this.distributions[index];
+      if (!distribution.$validators.force) {
+        // Newly added distribution. User does not
+        // visited last step after adding this one.
+        return true;
+      }
+      return isDistributionValid(distribution);
+    }
+  }
+};
 </script>
 
 <style scoped>

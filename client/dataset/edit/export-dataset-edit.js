@@ -36,18 +36,22 @@ export function exportToJsonLd(dataset, distributions) {
     output[DCATAP.theme] = themes.map((t) => asIri(t));
 
     const temporal = exportTemporal(dataset);
-    if (temporal !== undefined) {
+    if (isNotEmpty(temporal)) {
         output[DCTERMS.temporal] = temporal;
     }
     const contactPoint = exportContactPoint(dataset);
-    if (contactPoint !== undefined) {
+    if (isNotEmpty(contactPoint)) {
         output[DCATAP.contactPoint] = contactPoint;
     }
     return output;
 }
 
 function isNotEmpty(value) {
-    return value !== undefined && value !== null && value !== "";
+    return !isEmpty(value);
+}
+
+function isEmpty(value) {
+    return value === undefined || value === null || value === "";
 }
 
 function asLangString(value) {
@@ -93,21 +97,21 @@ function exportTemporal(dataset) {
 }
 
 function containsValidDate(value) {
-    return value !== undefined && value !== null && value !== "";
+    return isNotEmpty(value);
 }
 
 function exportContactPoint(dataset) {
     const output = {
         "@type": [VCARD.Organization]
     };
-    if (dataset.contact_point_name === "" &&
-        dataset.contact_point_email === "") {
+    if (isEmpty(dataset.contact_point_name) &&
+      isEmpty(dataset.contact_point_email)) {
         return undefined;
     }
-    if (dataset.contact_point_name !== "") {
+    if (isNotEmpty(dataset.contact_point_name)) {
         output[VCARD.fn] = asLangString(dataset.contact_point_name);
     }
-    if (dataset.contact_point_email !== "") {
+    if (isNotEmpty(dataset.contact_point_email)) {
         output[VCARD.hasEmail] = dataset.contact_point_email;
     }
     return output;
@@ -123,11 +127,11 @@ function exportDistribution(distribution) {
         [PU.specifikace]: license(distribution)
     };
 
-    if (distribution.schema !== "") {
+    if (isNotEmpty(distribution.schema)) {
         output[DCTERMS.conformsTo] = asIri(distribution.schema);
     }
 
-    if (distribution.title !== "") {
+    if (isNotEmpty(distribution.title)) {
         output[DCTERMS.title] = asLangString(distribution.title);
     }
 

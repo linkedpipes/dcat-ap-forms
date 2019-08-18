@@ -34,21 +34,25 @@ function asLangString(value) {
 }
 
 function isNotEmpty(value) {
-  return value !== undefined && value !== null && value !== "";
+  return !isEmpty(value);
+}
+
+function isEmpty(value) {
+    return value === undefined || value === null || value === "";
 }
 
 function exportContactPoint(catalog) {
     const output = {
         "@type": [VCARD.Organization]
     };
-    if (catalog.contact_point_name === "" &&
-        catalog.contact_point_email === "") {
+    if (isEmpty(catalog.contact_point_name) &&
+      isEmpty(catalog.contact_point_email)) {
         return undefined;
     }
-    if (catalog.contact_point_name !== "") {
+    if (isNotEmpty(catalog.contact_point_name)) {
         output[VCARD.fn] = asLangString(catalog.contact_point_name);
     }
-    if (catalog.contact_point_email !== "") {
+    if (isNotEmpty(catalog.contact_point_email)) {
         output[VCARD.hasEmail] = catalog.contact_point_email;
     }
     return output;

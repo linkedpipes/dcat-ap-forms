@@ -5,13 +5,16 @@
     pa-0
   >
     <v-alert
-          outline
-          value="true"
-          type="warning"
-          dismissible="true"
-        >
-          {{ $t('common_errors_description') }}
-          <a target="_blank" href="https://opendata.gov.cz/špatná-praxe:start">{{ $t('common_errors_link_label') }}</a>!
+      outline
+      value="true"
+      type="warning"
+      dismissible="true"
+    >
+      {{ $t('common_errors_description') }}
+      <a
+        target="_blank"
+        href="https://opendata.gov.cz/špatná-praxe:start"
+      >{{ $t('common_errors_link_label') }}</a>!
     </v-alert>
     <v-text-field
       id="dataset_title"

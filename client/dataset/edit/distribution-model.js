@@ -24,6 +24,8 @@ export function createDistribution() {
     "media_type": "",
     "schema": "",
     "title": "",
+    "packageFormat": "",
+    "compressFormat": "",
     //
     "service_endpoint_url": "",
     "service_description": "",
@@ -80,6 +82,7 @@ export function createDistributionValidators() {
       (t) => t.distribution, "schema",
       url,
       "distribution_schema_invalid")
+
   };
 }
 

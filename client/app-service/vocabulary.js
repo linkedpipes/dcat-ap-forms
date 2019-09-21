@@ -29,6 +29,8 @@ export const DCATAP = {
   "servesDataset": "http://www.w3.org/ns/dcat#servesDataset",
   "accessURL": "http://www.w3.org/ns/dcat#accessURL",
   "accessService": "http://www.w3.org/ns/dcat#accessService",
+  "packageFormat": "http://www.w3.org/ns/dcat#packageFormat",
+  "compressFormat": "http://www.w3.org/ns/dcat#compressFormat"
 };
 
 export const FOAF = {

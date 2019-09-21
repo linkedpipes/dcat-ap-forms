@@ -257,6 +257,41 @@
           />
         </v-flex>
       </v-layout>
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+        xs12
+        md6
+        >
+        <app-solr-autocomplete
+          id="distribution_compress_format"
+          v-model="distribution.compressFormat"
+          :label="$t('distribution_compress_format') + $t('optional')"
+          :no-data-prompt="$t('media_type_autocomplete_no_data')"
+          :error-messages="err_media_type"
+          prepend-icon="description"
+          code-list="media-types"
+          clearable
+        />
+        </v-flex>
+        <v-flex
+          xs12
+          md6
+        >
+          <app-solr-autocomplete
+            id="distribution_package_format"
+            v-model="distribution.packageFormat"
+            :label="$t('distribution_package_format') + $t('optional')"
+            :no-data-prompt="$t('media_type_autocomplete_no_data')"
+            :error-messages="err_media_type"
+            prepend-icon="description"
+            code-list="media-types"
+            clearable
+          />
+        </v-flex>
+      </v-layout>
       <v-text-field
         id="distribution_schema"
         v-model="distribution.schema"

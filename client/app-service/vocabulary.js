@@ -23,7 +23,12 @@ export const DCATAP = {
   "downloadURL": "http://www.w3.org/ns/dcat#downloadURL",
   "mediaType": "http://www.w3.org/ns/dcat#mediaType",
   "Distribution": "http://www.w3.org/ns/dcat#Distribution",
-  "endpointURL": "http://www.w3.org/ns/dcat#endpointURL"
+  "endpointURL": "http://www.w3.org/ns/dcat#endpointURL",
+  "DataService": "http://www.w3.org/ns/dcat#DataService",
+  "endpointDescription": "http://www.w3.org/ns/dcat#endpointDescription",
+  "servesDataset": "http://www.w3.org/ns/dcat#servesDataset",
+  "accessURL": "http://www.w3.org/ns/dcat#accessURL",
+  "accessService": "http://www.w3.org/ns/dcat#accessService",
 };
 
 export const FOAF = {

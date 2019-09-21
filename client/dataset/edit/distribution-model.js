@@ -23,7 +23,12 @@ export function createDistribution() {
     "format": "",
     "media_type": "",
     "schema": "",
-    "title": ""
+    "title": "",
+    //
+    "service_endpoint_url": "",
+    "service_description": "",
+
+    "isFileOrService": "FILE", //alternative: "SERVICE"
   });
 }
 

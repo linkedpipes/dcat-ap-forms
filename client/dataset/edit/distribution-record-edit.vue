@@ -1,19 +1,19 @@
 <template>
-  <v-container 
-    fluid 
-    grid-list-lg 
+  <v-container
+    fluid
+    grid-list-lg
     pa-0
   >
     <h2 class="headline">
       {{ $t('headline_distribution_license') }}
-      <a 
-        href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti" 
-        target="_blank" 
+      <a
+        href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti"
+        target="_blank"
         class="info_link"
       >
-        <v-icon 
-          color="blue" 
-          size="1.5rem" 
+        <v-icon
+          color="blue"
+          size="1.5rem"
           class="info_icon"
         >
           help_outline
@@ -21,19 +21,19 @@
       </a>
     </h2>
     <div>
-      <v-layout 
-        row 
+      <v-layout
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-select
             v-model="distribution.license_author_type"
             :items="author_license_types"
             :label="$t('license_author_type')"
-            :item-text="$vuetify.lang.current" 
+            :item-text="$vuetify.lang.current"
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_1"
@@ -41,8 +41,8 @@
             @click:append-outer="$h('license_author_type')"
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-text-field
@@ -59,8 +59,8 @@
             @click:append-outer="$h('license_author_name')"
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-text-field
@@ -74,24 +74,24 @@
             append-outer-icon="help_outline"
             prepend-icon="link"
             type="url"
-            clearable 
+            clearable
             @click:append-outer="$h('license_author_custom')"
           />
         </v-flex>
       </v-layout>
       <v-layout
-        row 
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-select
             v-model="distribution.license_db_type"
             :items="db_author_license_types"
             :label="$t('license_db_type')"
-            :item-text="$vuetify.lang.current" 
+            :item-text="$vuetify.lang.current"
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_2"
@@ -99,8 +99,8 @@
             @click:append-outer="$h('license_db_type')"
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-text-field
@@ -117,8 +117,8 @@
             @click:append-outer="$h('license_db_name')"
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-text-field
@@ -132,24 +132,24 @@
             append-outer-icon="help_outline"
             prepend-icon="link"
             type="url"
-            clearable 
+            clearable
             @click:append-outer="$h('license_db_custom')"
           />
         </v-flex>
       </v-layout>
       <v-layout
-        row 
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-select
             v-model="distribution.license_specialdb_type"
             :items="db_special_license_types"
             :label="$t('license_specialdb_type')"
-            :item-text="$vuetify.lang.current" 
+            :item-text="$vuetify.lang.current"
             item-value="value"
             append-outer-icon="help_outline"
             prepend-icon="filter_3"
@@ -157,12 +157,12 @@
             @click:append-outer="$h('license_specialdb_type')"
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         />
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-text-field
@@ -176,24 +176,24 @@
             append-outer-icon="help_outline"
             prepend-icon="link"
             type="url"
-            clearable 
+            clearable
             @click:append-outer="$h('license_specialdb_custom')"
           />
         </v-flex>
       </v-layout>
       <v-layout
-        row 
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md4
         >
           <v-select
             v-model="distribution.license_personal_type"
             :items="personal_data_links"
             :label="$t('license_personal_type')"
-            :item-text="$vuetify.lang.current" 
+            :item-text="$vuetify.lang.current"
             :error-messages="err_personal"
             item-value="value"
             append-outer-icon="help_outline"
@@ -218,40 +218,42 @@
         prepend-icon="cloud_download"
         append-outer-icon="help_outline"
         required
-        type="url" 
-        clearable 
+        type="url"
+        clearable
         @click:append-outer="$h('distribution_url')"
       />
-      <v-layout 
-        row 
+      <v-layout
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md6
         >
-          <app-solr-autocomplete
+          <v-text-field
             id="distribution_format"
             v-model="distribution.format"
             :label="$t('distribution_format')"
-            :no-data-prompt="$t('format_autocomplete_no_data')"
             :error-messages="err_format"
             prepend-icon="description"
-            code-list="file-type"
+            append-outer-icon="help_outline"
+            @click:append-outer="$h('distribution_format')"
+            clearable
           />
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           md6
         >
-          <app-solr-autocomplete
+          <v-text-field
             id="distribution_media_type"
             v-model="distribution.media_type"
             :label="$t('distribution_media_type')"
-            :no-data-prompt="$t('media_type_autocomplete_no_data')"
             :error-messages="err_media_type"
             prepend-icon="description"
-            code-list="media-types"
+            append-outer-icon="help_outline"
+            @click:append-outer="$h('distribution_format')"
+            clearable
           />
         </v-flex>
       </v-layout>
@@ -264,7 +266,7 @@
         prepend-icon="link"
         append-outer-icon="help_outline"
         type="url"
-        clearable 
+        clearable
         @click:append-outer="$h('distribution_schema_link')"
       />
       <v-text-field
@@ -279,8 +281,8 @@
       />
     </div>
     <div v-if="canBeDeleted">
-      <v-btn 
-        flat 
+      <v-btn
+        flat
         @click="onDelete"
       >
         <v-icon color="error">
@@ -289,6 +291,53 @@
         {{ $t('delete_distribution') }}
       </v-btn>
     </div>
+
+    <v-divider />
+    <h2 class="headline mt-2">
+      {{ $t('headline_service_access') }}
+    </h2>
+
+    <div>
+      <v-text-field
+        id="endpoint_url"
+        v-model="distribution.service_endpoint_url"
+        :label="$t('service_endpoint_url')"
+        :hint="$t('hint_endpoint_url')"
+        :error-messages="err_endpoint"
+        prepend-icon="cloud_download"
+        append-outer-icon="help_outline"
+        required
+        type="url"
+        clearable
+        @click:append-outer="$h('endpoint_url')"
+      />
+      <v-text-field
+        id="endpoint_description"
+        v-model="distribution.service_description"
+        :label="$t('service_endpoint_description')"
+        :hint="$t('hint_endpoint_description')"
+        :error-messages="err_schema"
+        prepend-icon="link"
+        append-outer-icon="help_outline"
+        required
+        type="url"
+        clearable
+        @click:append-outer="$h('endpoint_description')"
+      />
+    </div>
+    <div v-if="canBeDeleted">
+      <v-btn
+        flat
+        @click="onDelete"
+      >
+        <v-icon color="error">
+          delete
+        </v-icon>
+        {{ $t('delete_distribution') }}
+      </v-btn>
+    </div>
+
+
   </v-container>
 </template>
 

@@ -18,7 +18,7 @@ export function exportToJsonLd(dataset, distributions) {
     [DCATAP.keyword]: dataset.keywords.map(
       (keyword) => asLangString(keyword)),
     [DCATAP.distribution]: distributions.map(
-      (distribution) => exportDistribution(distribution))
+      (distribution) => exportDistribution(distribution, dataset.iri))
   };
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
@@ -117,20 +117,39 @@ function exportContactPoint(dataset) {
   return output;
 }
 
-function exportDistribution(distribution) {
+function exportDistribution(distribution, datasetIri) {
+
+  distribution.isFileOrService = isNotEmpty(distribution.service_endpoint_url) ? "SERVICE" : "FILE";
 
   const output = {
-    "@type": [DCATAP.Distribution],
-    [DCATAP.downloadURL]: asIri(distribution.url),
-    [DCATAP.mediaType]: asIri(distribution.media_type),
-    [DCTERMS.format]: asIri(distribution.format),
-    [PU.specifikace]: license(distribution)
-  };
-
-  if (isNotEmpty(distribution.schema)) {
-    output[DCTERMS.conformsTo] = asIri(distribution.schema);
+      "@type": DCATAP.Distribution
   }
 
+  if (distribution.isFileOrService === "FILE") {
+      output[DCATAP.downloadURL] = asIri(distribution.url);
+      output[DCATAP.mediaType] = asIri(distribution.media_type);
+      output[DCTERMS.format] = asIri(distribution.format);
+
+      if (isNotEmpty(distribution.schema)) {
+        output[DCTERMS.conformsTo] = asIri(distribution.schema);
+      }
+  } else if (distribution.isFileOrService === "SERVICE") {
+      output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
+      output[DCATAP.accessService] = {
+          "@type": DCATAP.DataService,
+          DCATAP.endpointURL: asIri(distribution.service_endpoint_url),
+          DCATAP.endpointDescription: asIri(distribution.service_description)
+      }
+      if (isNotEmpty(datasetIri)) {
+          output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
+      }
+  } else {
+      console.log("Oopsie");
+      console.log(distribution.service_endpoint_url);
+      console.log(distribution.isFileOrService);
+  }
+
+  output[PU.specifikace] = license(distribution);
   if (isNotEmpty(distribution.title)) {
     output[DCTERMS.title] = asLangString(distribution.title);
   }

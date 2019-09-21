@@ -51,6 +51,7 @@ export default {
   "delete_distribution": "Smaž distribuci",
   "headline_distribution_license": "Podmínky užití distribuce",
   "headline_distribution_access": "Přístup k distribuci",
+  "headline_service_access": "Přístup ke službě",
   "distribution_download": "Soubor ke stažení",
   "media_type": "Media type",
   "media_type_missing": "Media type je povinný.",

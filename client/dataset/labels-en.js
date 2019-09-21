@@ -52,6 +52,19 @@ export default {
   "headline_distribution_license": "Terms of use of the distribution",
   "headline_distribution_access": "Access to the distribution",
   "distribution_download": "File to be downloaded",
+  "headline_service_access": "Access to the service",
+  "service_endpoint_url": "Endpoint URL",
+  "hint_endpoint_url": "The root location or primary endpoint of the service (an IRI).",
+  "help_endpoint_url": "PLACEHOLDER",
+  "service_endpoint_description": "Link to the endpoint description",
+  "hint_endpoint_description": "A description of the services available via the end-points, including their operations, parameters etc.",
+  "help_endpoint_description": "<h3>Endpoint description</h3><p>An endpoint description may be expressed in a machine-readable form, such as an OpenAPI (Swagger) description. a SPARQL Service Description, etc.</p>",
+  "service_endpoint_license": "License",
+  "hint_endpoint_license": "A legal document under which the service is made available.",
+  "help_endpoint_license": "PLACEHOLDER",
+  "service_endpoint_access_rights": "Access rights",
+  "hint_endpoint_access_rights": "Information regarding access or restrictions based on privacy, security, or other policies.",
+  "help_endpoint_access_rights": "PLACEHOLDER",
   "media_type": "Media type",
   "media_type_missing": "Media type is mandatory.",
   "distribution_schema": "Distribution schema",
@@ -145,5 +158,5 @@ export default {
   "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
   "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your dataset, make sure that you don't do some of the ",
   "common_errors_link_label": "most common errors in open data"
-    
+
 }

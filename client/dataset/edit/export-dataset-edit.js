@@ -135,6 +135,14 @@ function exportDistribution(distribution) {
     output[DCTERMS.title] = asLangString(distribution.title);
   }
 
+  if (isNotEmpty(distribution.packageFormat)) {
+      output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
+  }
+
+  if (isNotEmpty(distribution.compressFormat)) {
+      output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
+  }
+
   return output;
 }
 

@@ -23,7 +23,9 @@ export function createDistribution() {
     "format": "",
     "media_type": "",
     "schema": "",
-    "title": ""
+    "title": "",
+    "packageFormat": "",
+    "compressFormat": "",
   });
 }
 
@@ -75,6 +77,7 @@ export function createDistributionValidators() {
       (t) => t.distribution, "schema",
       url,
       "distribution_schema_invalid")
+
   };
 }
 

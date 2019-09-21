@@ -230,30 +230,28 @@
           xs12
           md6
         >
-          <v-text-field
+          <app-solr-autocomplete
             id="distribution_format"
             v-model="distribution.format"
             :label="$t('distribution_format')"
+            :no-data-prompt="$t('format_autocomplete_no_data')"
             :error-messages="err_format"
             prepend-icon="description"
-            append-outer-icon="help_outline"
-            @click:append-outer="$h('distribution_format')"
-            clearable
+            code-list="file-type"
           />
         </v-flex>
         <v-flex
           xs12
           md6
         >
-          <v-text-field
+          <app-solr-autocomplete
             id="distribution_media_type"
             v-model="distribution.media_type"
             :label="$t('distribution_media_type')"
+            :no-data-prompt="$t('media_type_autocomplete_no_data')"
             :error-messages="err_media_type"
             prepend-icon="description"
-            append-outer-icon="help_outline"
-            @click:append-outer="$h('distribution_format')"
-            clearable
+            code-list="media-types"
           />
         </v-flex>
       </v-layout>

@@ -137,8 +137,8 @@ function exportDistribution(distribution, datasetIri) {
       output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
       output[DCATAP.accessService] = {
           "@type": DCATAP.DataService,
-          DCATAP.endpointURL: asIri(distribution.service_endpoint_url),
-          DCATAP.endpointDescription: asIri(distribution.service_description)
+          [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
+          [DCATAP.endpointDescription]: asIri(distribution.service_description)
       }
       if (isNotEmpty(datasetIri)) {
           output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);

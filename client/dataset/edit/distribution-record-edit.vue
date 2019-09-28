@@ -205,159 +205,151 @@
       </v-layout>
     </div>
     <v-divider />
-    <h2 class="headline mt-2">
-      {{ $t('headline_distribution_access') }}
-    </h2>
-    <div>
-      <v-text-field
-        id="distribution_url"
-        v-model="distribution.url"
-        :label="$t('distribution_url')"
-        :hint="$t('hint_distribution_url')"
-        :error-messages="err_url"
-        prepend-icon="cloud_download"
-        append-outer-icon="help_outline"
-        required
-        type="url"
-        clearable
-        @click:append-outer="$h('distribution_url')"
-      />
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-          xs12
-          md6
-        >
-          <app-solr-autocomplete
-            id="distribution_format"
-            v-model="distribution.format"
-            :label="$t('distribution_format')"
-            :no-data-prompt="$t('format_autocomplete_no_data')"
-            :error-messages="err_format"
-            prepend-icon="description"
-            code-list="file-type"
-          />
-        </v-flex>
-        <v-flex
-          xs12
-          md6
-        >
-          <app-solr-autocomplete
-            id="distribution_media_type"
-            v-model="distribution.media_type"
-            :label="$t('distribution_media_type')"
-            :no-data-prompt="$t('media_type_autocomplete_no_data')"
-            :error-messages="err_media_type"
-            prepend-icon="description"
-            code-list="media-types"
-          />
-        </v-flex>
-      </v-layout>
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-        xs12
-        md6
-        >
-        <app-solr-autocomplete
-          id="distribution_compress_format"
-          v-model="distribution.compressFormat"
-          :label="$t('distribution_compress_format') + $t('optional')"
-          :no-data-prompt="$t('media_type_autocomplete_no_data')"
-          :error-messages="err_media_type"
-          prepend-icon="description"
-          code-list="media-types"
-          clearable
-        />
-        </v-flex>
-        <v-flex
-          xs12
-          md6
-        >
-          <app-solr-autocomplete
-            id="distribution_package_format"
-            v-model="distribution.packageFormat"
-            :label="$t('distribution_package_format') + $t('optional')"
-            :no-data-prompt="$t('media_type_autocomplete_no_data')"
-            :error-messages="err_media_type"
-            prepend-icon="description"
-            code-list="media-types"
+    <v-tabs v-model="access">
+        <v-tab href="#access-tab-distribution">{{ $t('headline_distribution_access') }}</v-tab>
+        <v-tab href="#access-tab-service">{{ $t('headline_service_access') }}</v-tab>
+    </v-tabs>
+    <v-tabs-items v-model="access">
+        <v-tab-item id="access-tab-distribution">
+        <div>
+          <v-text-field
+            id="distribution_url"
+            v-model="distribution.url"
+            :label="$t('distribution_url')"
+            :hint="$t('hint_distribution_url')"
+            :error-messages="err_url"
+            prepend-icon="cloud_download"
+            append-outer-icon="help_outline"
+            required
+            type="url"
             clearable
+            @click:append-outer="$h('distribution_url')"
           />
-        </v-flex>
-      </v-layout>
-      <v-text-field
-        id="distribution_schema"
-        v-model="distribution.schema"
-        :label="$t('distribution_schema_link') + $t('optional')"
-        :hint="$t('hint_distribution_schema')"
-        :error-messages="err_schema"
-        prepend-icon="link"
-        append-outer-icon="help_outline"
-        type="url"
-        clearable
-        @click:append-outer="$h('distribution_schema_link')"
-      />
-      <v-text-field
-        id="distribution_title"
-        v-model="distribution.title"
-        :hint="$t('hint_distribution_title')"
-        :label="$t('distribution_title') + $t('optional')"
-        prepend-icon="label"
-        append-outer-icon="help_outline"
-        clearable
-        @click:append-outer="$h('distribution_title')"
-      />
-    </div>
-    <div v-if="canBeDeleted">
-      <v-btn
-        flat
-        @click="onDelete"
-      >
-        <v-icon color="error">
-          delete
-        </v-icon>
-        {{ $t('delete_distribution') }}
-      </v-btn>
-    </div>
-
-    <v-divider />
-    <h2 class="headline mt-2">
-      {{ $t('headline_service_access') }}
-    </h2>
-
-    <div>
-      <v-text-field
-        id="endpoint_url"
-        v-model="distribution.service_endpoint_url"
-        :label="$t('service_endpoint_url')"
-        :hint="$t('hint_endpoint_url')"
-        :error-messages="err_endpoint"
-        prepend-icon="cloud_download"
-        append-outer-icon="help_outline"
-        required
-        type="url"
-        clearable
-        @click:append-outer="$h('endpoint_url')"
-      />
-      <v-text-field
-        id="endpoint_description"
-        v-model="distribution.service_description"
-        :label="$t('service_endpoint_description')"
-        :hint="$t('hint_endpoint_description')"
-        :error-messages="err_schema"
-        prepend-icon="link"
-        append-outer-icon="help_outline"
-        required
-        type="url"
-        clearable
-        @click:append-outer="$h('endpoint_description')"
-      />
-    </div>
+          <v-layout
+            row
+            wrap
+          >
+            <v-flex
+              xs12
+              md6
+            >
+              <app-solr-autocomplete
+                id="distribution_format"
+                v-model="distribution.format"
+                :label="$t('distribution_format')"
+                :no-data-prompt="$t('format_autocomplete_no_data')"
+                :error-messages="err_format"
+                prepend-icon="description"
+                code-list="file-type"
+              />
+            </v-flex>
+            <v-flex
+              xs12
+              md6
+            >
+              <app-solr-autocomplete
+                id="distribution_media_type"
+                v-model="distribution.media_type"
+                :label="$t('distribution_media_type')"
+                :no-data-prompt="$t('media_type_autocomplete_no_data')"
+                :error-messages="err_media_type"
+                prepend-icon="description"
+                code-list="media-types"
+              />
+            </v-flex>
+          </v-layout>
+          <v-layout
+            row
+            wrap
+          >
+            <v-flex
+            xs12
+            md6
+            >
+            <app-solr-autocomplete
+              id="distribution_compress_format"
+              v-model="distribution.compressFormat"
+              :label="$t('distribution_compress_format') + $t('optional')"
+              :no-data-prompt="$t('media_type_autocomplete_no_data')"
+              :error-messages="err_media_type"
+              prepend-icon="description"
+              code-list="media-types"
+              clearable
+            />
+            </v-flex>
+            <v-flex
+              xs12
+              md6
+            >
+              <app-solr-autocomplete
+                id="distribution_package_format"
+                v-model="distribution.packageFormat"
+                :label="$t('distribution_package_format') + $t('optional')"
+                :no-data-prompt="$t('media_type_autocomplete_no_data')"
+                :error-messages="err_media_type"
+                prepend-icon="description"
+                code-list="media-types"
+                clearable
+              />
+            </v-flex>
+          </v-layout>
+          <v-text-field
+            id="distribution_schema"
+            v-model="distribution.schema"
+            :label="$t('distribution_schema_link') + $t('optional')"
+            :hint="$t('hint_distribution_schema')"
+            :error-messages="err_schema"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            type="url"
+            clearable
+            @click:append-outer="$h('distribution_schema_link')"
+          />
+        </div>
+        <div>
+            <v-text-field
+              id="distribution_title"
+              v-model="distribution.title"
+              :hint="$t('hint_distribution_title')"
+              :label="$t('distribution_title') + $t('optional')"
+              prepend-icon="label"
+              append-outer-icon="help_outline"
+              clearable
+              @click:append-outer="$h('distribution_title')"
+            />
+        </div>
+    </v-tab-item>
+    <v-tab-item id="access-tab-service">
+        <div>
+          <v-text-field
+            id="endpoint_url"
+            v-model="distribution.service_endpoint_url"
+            :label="$t('service_endpoint_url')"
+            :hint="$t('hint_endpoint_url')"
+            :error-messages="err_endpoint"
+            prepend-icon="cloud_download"
+            append-outer-icon="help_outline"
+            required
+            type="url"
+            clearable
+            @click:append-outer="$h('endpoint_url')"
+          />
+          <v-text-field
+            id="endpoint_description"
+            v-model="distribution.service_description"
+            :label="$t('service_endpoint_description')"
+            :hint="$t('hint_endpoint_description')"
+            :error-messages="err_schema"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            required
+            type="url"
+            clearable
+            @click:append-outer="$h('endpoint_description')"
+          />
+        </div>
+        </v-tab-item>
+    </v-tab-items>
     <div v-if="canBeDeleted">
       <v-btn
         flat
@@ -399,7 +391,8 @@ export default {
     "author_license_types": author_license_types,
     "db_author_license_types": db_author_license_types,
     "db_special_license_types": db_special_license_types,
-    "personal_data_links": personal_data_links
+    "personal_data_links": personal_data_links,
+    "access": null
   }),
   "computed": {
     ...createDistributionValidators(),

@@ -58,6 +58,8 @@ export default {
   "service_endpoint_url": "Endpoint URL",
   "hint_endpoint_url": "The root location or primary endpoint of the service (an IRI).",
   "help_endpoint_url": "PLACEHOLDER",
+  "endpoint_url_invalid": "Invalid HTTPS URL.",
+  "endpoint_description_invalid": "Invalid HTTPS URL.",
   "service_endpoint_description": "Link to the endpoint description",
   "hint_endpoint_description": "A description of the services available via the end-points, including their operations, parameters etc.",
   "help_endpoint_description": "<h3>Endpoint description</h3><p>An endpoint description may be expressed in a machine-readable form, such as an OpenAPI (Swagger) description. a SPARQL Service Description, etc.</p>",

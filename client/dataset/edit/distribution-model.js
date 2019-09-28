@@ -72,6 +72,12 @@ export function createDistributionValidators() {
         [provided, "distribution_url_missing"],
         [url, "distribution_url_invalid"]
       ]),
+    "err_endpoint": apply(
+      (t) => t.distribution, "service_endpoint_url",
+      url, "endpoint_url_invalid"),
+    "err_service": apply(
+      (t) => t.distribution, "service_description",
+      url, "endpoint_description_invalid"),
     "err_format": apply(
       (t) => t.distribution, "format",
       provided, "format_missing"),

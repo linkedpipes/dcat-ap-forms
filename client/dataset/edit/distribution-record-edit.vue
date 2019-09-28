@@ -270,8 +270,7 @@
               id="distribution_compress_format"
               v-model="distribution.compressFormat"
               :label="$t('distribution_compress_format') + $t('optional')"
-              :no-data-prompt="$t('media_type_autocomplete_no_data')"
-              :error-messages="err_media_type"
+              :error-messages="err_compress_format"
               prepend-icon="description"
               code-list="media-types"
               clearable
@@ -285,8 +284,7 @@
                 id="distribution_package_format"
                 v-model="distribution.packageFormat"
                 :label="$t('distribution_package_format') + $t('optional')"
-                :no-data-prompt="$t('media_type_autocomplete_no_data')"
-                :error-messages="err_media_type"
+                :error-messages="err_package_format"
                 prepend-icon="description"
                 code-list="media-types"
                 clearable
@@ -339,7 +337,7 @@
             v-model="distribution.service_description"
             :label="$t('service_endpoint_description')"
             :hint="$t('hint_endpoint_description')"
-            :error-messages="err_schema"
+            :error-messages="err_service"
             prepend-icon="link"
             append-outer-icon="help_outline"
             required

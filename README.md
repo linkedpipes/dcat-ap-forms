@@ -1,9 +1,15 @@
 # LinkedPipes DCAT-AP Forms
 DCAT-AP v1.1 compatible web form producing JSON-LD, intended for the [Czech National Open Data](https://data.gov.cz) catalog.
 
+## Requirements
+ * [Node.js] and npm
+ * [Apache Solr] 7
+
 ## Installation
 
 ### Solr
+[Install Solr](https://lucene.apache.org/solr/guide/7_3/installing-solr.html). It is expected that Solr runs on localhost, port 8983.
+
 Create cores:
 ```
 solr.cmd create -c iana-media-types
@@ -98,8 +104,17 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
 
 ### DCAT-AP Forms
 
-Custom configuration, can be provided using Javascript configuration file. 
-The path to the custom file can be set using program argument ie.
+* Install dependencies
+```
+npm install
+```
+
+* Custom configuration, can be provided using Javascript configuration file. Copy and edit the sample:
+```
+cp configuration.js my-configuration.js
+```
+
+* The path to the custom file can be set using program argument ie.
 ```
 npm run build -- -env.configFileLocation=./my-configuration.js
 npm run start -- -env.configFileLocation=./my-configuration.js
@@ -117,3 +132,6 @@ module.exports = {
 ```
 For more information about the configuration properties please refer to 
 ```./configuration.js``` file and a variable ```defaultConfiguration```.
+
+[Node.js]: <https://nodejs.org>
+[Apache Solr]: <http://lucene.apache.org/solr/>

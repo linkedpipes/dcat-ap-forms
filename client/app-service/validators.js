@@ -8,7 +8,7 @@ export function email(value) {
 }
 
 export function url(value) {
-  const urlPattern = /^http(s)?:\/\/.[^ ]+$/;
+  const urlPattern = /^https:\/\/.[^ ]+$/;
   return !provided(value) || urlPattern.test(value);
 }
 

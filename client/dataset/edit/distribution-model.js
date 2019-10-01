@@ -97,11 +97,7 @@ function isValidFormat(value) {
 }
 
 export function isDistributionValid(dist) {
-  return provided(dist.url) &&
-        url(dist.url) &&
-        provided(dist.format) &&
-        isValidFormat(dist.format) &&
-        provided(dist.media_type) &&
+  return isAccessValid(dist) &&
         isAuthorValid(
           dist.license_author_type, dist.license_author_name) &&
         isCustomValid(
@@ -114,6 +110,21 @@ export function isDistributionValid(dist) {
           dist.license_specialdb_type, dist.license_specialdb_custom) &&
         isPersonalValid(
           dist.license_personal_type);
+}
+
+function isAccessValid(dist) {
+    if(dist.isFileOrService === 'FILE') {
+        return provided(dist.url) &&
+              url(dist.url) &&
+              provided(dist.format) &&
+              isValidFormat(dist.format) &&
+              provided(dist.media_type)
+    } else if (dist.isFileOrService === 'SERVICE') {
+        return provided(dist.service_endpoint_url) &&
+            url(dist.service_endpoint_url) &&
+            provided(dist.service_description) &&
+            url(dist.service_description)
+    }
 }
 
 function validateAuthor(licence_prop, name_prop) {

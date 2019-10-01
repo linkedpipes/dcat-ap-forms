@@ -205,12 +205,15 @@
       </v-layout>
     </div>
     <v-divider />
+    <h2 class="headline mt-2">
+     {{ $t('headline_access') }}
+   </h2>
     <v-tabs v-model="access">
-        <v-tab href="#access-tab-distribution">{{ $t('headline_distribution_access') }}</v-tab>
-        <v-tab href="#access-tab-service">{{ $t('headline_service_access') }}</v-tab>
+        <v-tab v-on:change="setFile" href="#access-tab-distribution">{{ $t('headline_distribution_access') }}</v-tab>
+        <v-tab v-on:change="setService" href="#access-tab-service">{{ $t('headline_service_access') }}</v-tab>
     </v-tabs>
     <v-tabs-items v-model="access">
-        <v-tab-item id="access-tab-distribution">
+        <v-tab-item value="access-tab-distribution">
         <div>
           <v-text-field
             id="distribution_url"
@@ -304,20 +307,8 @@
             @click:append-outer="$h('distribution_schema_link')"
           />
         </div>
-        <div>
-            <v-text-field
-              id="distribution_title"
-              v-model="distribution.title"
-              :hint="$t('hint_distribution_title')"
-              :label="$t('distribution_title') + $t('optional')"
-              prepend-icon="label"
-              append-outer-icon="help_outline"
-              clearable
-              @click:append-outer="$h('distribution_title')"
-            />
-        </div>
     </v-tab-item>
-    <v-tab-item id="access-tab-service">
+    <v-tab-item value="access-tab-service">
         <div>
           <v-text-field
             id="endpoint_url"
@@ -348,6 +339,18 @@
         </div>
         </v-tab-item>
     </v-tab-items>
+    <div>
+        <v-text-field
+          id="distribution_title"
+          v-model="distribution.title"
+          :hint="$t('hint_distribution_title')"
+          :label="$t('distribution_title') + $t('optional')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('distribution_title')"
+        />
+    </div>
     <div v-if="canBeDeleted">
       <v-btn
         flat
@@ -413,7 +416,13 @@ export default {
   "methods": {
     "onDelete": function () {
       this.$emit("delete");
-    }
+    },
+    "setFile": function (event) {
+        this.distribution.isFileOrService='FILE';
+    },
+    "setService": function (event) {
+        this.distribution.isFileOrService='SERVICE';
+    },
   }
 };
 </script>

@@ -119,8 +119,6 @@ function exportContactPoint(dataset) {
 
 function exportDistribution(distribution, datasetIri) {
 
-  distribution.isFileOrService = isNotEmpty(distribution.service_endpoint_url) ? "SERVICE" : "FILE";
-
   const output = {
       "@type": DCATAP.Distribution
   }
@@ -132,6 +130,14 @@ function exportDistribution(distribution, datasetIri) {
 
       if (isNotEmpty(distribution.schema)) {
         output[DCTERMS.conformsTo] = asIri(distribution.schema);
+      }
+
+      if (isNotEmpty(distribution.packageFormat)) {
+          output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
+      }
+
+      if (isNotEmpty(distribution.compressFormat)) {
+          output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
       }
   } else if (distribution.isFileOrService === "SERVICE") {
       output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
@@ -154,13 +160,7 @@ function exportDistribution(distribution, datasetIri) {
     output[DCTERMS.title] = asLangString(distribution.title);
   }
 
-  if (isNotEmpty(distribution.packageFormat)) {
-      output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
-  }
 
-  if (isNotEmpty(distribution.compressFormat)) {
-      output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
-  }
 
   return output;
 }

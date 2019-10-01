@@ -599,7 +599,7 @@
                 <v-btn
                   flat
                   icon
-                  @click="downloadDistribution"
+                  @click="openServiceEndpoint"
                 >
                   <v-icon color="blue">
                     open_in_new
@@ -625,7 +625,7 @@
                 <v-btn
                   flat
                   icon
-                  @click="openMediaType"
+                  @click="downloadServiceDescription"
                 >
                   <v-icon color="blue">
                     open_in_new
@@ -686,6 +686,12 @@ export default {
     },
     "openMediaType": function () {
       downloadUrl(this.distribution.media_type);
+    },
+    "downloadServiceDescription": function () {
+        downloadUrl(this.distribution.service_description);
+    },
+    "openServiceEndpoint": function() {
+        downloadUrl(this.distribution.service_endpoint_url);
     },
     "openUrl": function (url) {
       downloadUrl(url);

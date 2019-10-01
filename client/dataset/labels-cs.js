@@ -59,7 +59,7 @@ export default {
   "hint_endpoint_url": "Umístění koncového bodu služby (URL).",
   "help_endpoint_url": "Uveďte HTTPS URL koncového bodu služby.",
   "endpoint_url_invalid": "Nevalidní HTTPS URL.",
-  "endpoint_url_missing"; "URL endpointu je povinné",
+  "endpoint_url_missing": "URL endpointu je povinné",
   "endpoint_description_invalid": "Nevalidní HTTPS URL.",
   "endpoint_description_missing": "Odkaz na popis endpointu je povinný",
   "service_endpoint_description": "Odkaz na popis endpointu.",

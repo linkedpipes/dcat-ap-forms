@@ -69,19 +69,31 @@ export function createDistributionValidators() {
     "err_url": applyArray(
       (t) => t.distribution, "url",
       [
+        [provided, "distribution_url_missing"],
         [url, "distribution_url_invalid"]
       ]),
-    "err_endpoint": apply(
-      (t) => t.distribution, "service_endpoint_url",
-      url, "endpoint_url_invalid"),
-    "err_service": apply(
-      (t) => t.distribution, "service_description",
-      url, "endpoint_description_invalid"),
+    "err_format": apply(
+        (t) => t.distribution, "format",
+        provided, "format_missing"),
+    "err_media_type": apply(
+          (t) => t.distribution, "media_type",
+          provided, "media_type_missing"),
     "err_schema": apply(
       (t) => t.distribution, "schema",
       url,
-      "distribution_schema_invalid")
-
+      "distribution_schema_invalid"),
+    "err_service": applyArray(
+      (t) => t.distribution, "service_description",
+      [
+        [provided, "endpoint_description_missing"],
+        [url, "endpoint_description_invalid"]
+      ]),
+    "err_endpoint": applyArray(
+      (t) => t.distribution, "service_endpoint_url",
+      [
+        [provided, "endpoint_url_missing"],
+        [url, "endpoint_url_invalid"],
+      ]),
   };
 }
 

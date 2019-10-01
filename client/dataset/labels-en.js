@@ -59,7 +59,9 @@ export default {
   "service_endpoint_url": "Endpoint URL",
   "hint_endpoint_url": "The root location or primary endpoint of the service (an IRI).",
   "help_endpoint_url": "PLACEHOLDER",
+  "endpoint_url_missing": "Endpoint URL is mandatory.",
   "endpoint_url_invalid": "Invalid HTTPS URL.",
+  "endpoint_description_missing": "Endpoint description is mandatory",
   "endpoint_description_invalid": "Invalid HTTPS URL.",
   "service_endpoint_description": "Link to the endpoint description",
   "hint_endpoint_description": "A description of the services available via the end-points, including their operations, parameters etc.",
@@ -165,5 +167,4 @@ export default {
   "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
   "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your dataset, make sure that you don't do some of the ",
   "common_errors_link_label": "most common errors in open data"
-
 }

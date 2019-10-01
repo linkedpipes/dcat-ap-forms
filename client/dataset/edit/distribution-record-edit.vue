@@ -208,12 +208,12 @@
     <h2 class="headline mt-2">
      {{ $t('headline_access') }}
    </h2>
-    <v-tabs v-model="access">
-        <v-tab v-on:change="setFile" href="#access-tab-distribution">{{ $t('headline_distribution_access') }}</v-tab>
-        <v-tab v-on:change="setService" href="#access-tab-service">{{ $t('headline_service_access') }}</v-tab>
+    <v-tabs v-model="distribution.isFileOrService">
+        <v-tab v-value="FILE" href="#FILE">{{ $t('headline_distribution_access') }}</v-tab>
+        <v-tab v-value="SERVICE" href="#SERVICE">{{ $t('headline_service_access') }}</v-tab>
     </v-tabs>
-    <v-tabs-items v-model="access">
-        <v-tab-item value="access-tab-distribution">
+    <v-tabs-items v-model="distribution.isFileOrService">
+        <v-tab-item value="FILE">
         <div>
           <v-text-field
             id="distribution_url"
@@ -308,7 +308,7 @@
           />
         </div>
     </v-tab-item>
-    <v-tab-item value="access-tab-service">
+    <v-tab-item value="SERVICE">
         <div>
           <v-text-field
             id="endpoint_url"
@@ -393,7 +393,6 @@ export default {
     "db_author_license_types": db_author_license_types,
     "db_special_license_types": db_special_license_types,
     "personal_data_links": personal_data_links,
-    "access": null
   }),
   "computed": {
     ...createDistributionValidators(),
@@ -416,12 +415,6 @@ export default {
   "methods": {
     "onDelete": function () {
       this.$emit("delete");
-    },
-    "setFile": function (event) {
-        this.distribution.isFileOrService='FILE';
-    },
-    "setService": function (event) {
-        this.distribution.isFileOrService='SERVICE';
     },
   }
 };

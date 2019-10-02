@@ -23,7 +23,14 @@ export function createDistribution() {
     "format": "",
     "media_type": "",
     "schema": "",
-    "title": ""
+    "title": "",
+    "packageFormat": "",
+    "compressFormat": "",
+    //
+    "service_endpoint_url": "",
+    "service_description": "",
+
+    "isFileOrService": "FILE", //alternative: "SERVICE"
   });
 }
 
@@ -66,15 +73,27 @@ export function createDistributionValidators() {
         [url, "distribution_url_invalid"]
       ]),
     "err_format": apply(
-      (t) => t.distribution, "format",
-      provided, "format_missing"),
+        (t) => t.distribution, "format",
+        provided, "format_missing"),
     "err_media_type": apply(
-      (t) => t.distribution, "media_type",
-      provided, "media_type_missing"),
+          (t) => t.distribution, "media_type",
+          provided, "media_type_missing"),
     "err_schema": apply(
       (t) => t.distribution, "schema",
       url,
-      "distribution_schema_invalid")
+      "distribution_schema_invalid"),
+    "err_service": applyArray(
+      (t) => t.distribution, "service_description",
+      [
+        [provided, "endpoint_description_missing"],
+        [url, "endpoint_description_invalid"]
+      ]),
+    "err_endpoint": applyArray(
+      (t) => t.distribution, "service_endpoint_url",
+      [
+        [provided, "endpoint_url_missing"],
+        [url, "endpoint_url_invalid"],
+      ]),
   };
 }
 
@@ -83,11 +102,7 @@ function isValidFormat(value) {
 }
 
 export function isDistributionValid(dist) {
-  return provided(dist.url) &&
-        url(dist.url) &&
-        provided(dist.format) &&
-        isValidFormat(dist.format) &&
-        provided(dist.media_type) &&
+  return isAccessValid(dist) &&
         isAuthorValid(
           dist.license_author_type, dist.license_author_name) &&
         isCustomValid(
@@ -100,6 +115,21 @@ export function isDistributionValid(dist) {
           dist.license_specialdb_type, dist.license_specialdb_custom) &&
         isPersonalValid(
           dist.license_personal_type);
+}
+
+function isAccessValid(dist) {
+    if(dist.isFileOrService === 'FILE') {
+        return provided(dist.url) &&
+              url(dist.url) &&
+              provided(dist.format) &&
+              isValidFormat(dist.format) &&
+              provided(dist.media_type)
+    } else if (dist.isFileOrService === 'SERVICE') {
+        return provided(dist.service_endpoint_url) &&
+            url(dist.service_endpoint_url) &&
+            provided(dist.service_description) &&
+            url(dist.service_description)
+    }
 }
 
 function validateAuthor(licence_prop, name_prop) {

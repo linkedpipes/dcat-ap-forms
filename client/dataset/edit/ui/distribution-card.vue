@@ -6,23 +6,23 @@
           {{ distribution.title }}
         </h3>
       </v-card-title>
-      <v-layout 
-        row 
+      <v-layout
+        row
         wrap
       >
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           sm6
         >
-          <v-list 
-            two-line 
+          <v-list
+            two-line
             subheader
           >
             <v-subheader>
               {{ $t('headline_distribution_license') }}
             </v-subheader>
-            <v-list-tile 
-              v-if="distribution.license_author_type == 'CC BY'" 
+            <v-list-tile
+              v-if="distribution.license_author_type == 'CC BY'"
               avatar
             >
               <v-list-tile-avatar>
@@ -44,24 +44,24 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://creativecommons.org/licenses/by/4.0/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_author_type == 'NO'" 
+            <v-list-tile
+              v-if="distribution.license_author_type == 'NO'"
               avatar
             >
               <v-list-tile-avatar>
-                <v-icon 
-                  slot="activator" 
+                <v-icon
+                  slot="activator"
                   class="green white--text"
                 >
                   check
@@ -81,19 +81,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_author_type == 'MULTI'" 
+            <v-list-tile
+              v-if="distribution.license_author_type == 'MULTI'"
               avatar
             >
               <v-list-tile-avatar>
@@ -115,19 +115,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-více-autorských-děl/')"
                 >
                   <v-icon color="red">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_author_type == 'CUSTOM'" 
+            <v-list-tile
+              v-if="distribution.license_author_type == 'CUSTOM'"
               avatar
             >
               <v-list-tile-avatar>
@@ -149,20 +149,20 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl(distribution.license_author_custom)"
                 >
                   <v-icon color="red">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-                        
-            <v-list-tile 
-              v-if="distribution.license_db_type == 'CC BY'" 
+
+            <v-list-tile
+              v-if="distribution.license_db_type == 'CC BY'"
               avatar
             >
               <v-list-tile-avatar>
@@ -184,19 +184,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://creativecommons.org/licenses/by/4.0/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_db_type == 'NO'" 
+            <v-list-tile
+              v-if="distribution.license_db_type == 'NO'"
               avatar
             >
               <v-list-tile-avatar>
@@ -218,19 +218,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
-            </v-list-tile>              
-            <v-list-tile 
-              v-if="distribution.license_db_type == 'CUSTOM'" 
+            </v-list-tile>
+            <v-list-tile
+              v-if="distribution.license_db_type == 'CUSTOM'"
               avatar
             >
               <v-list-tile-avatar>
@@ -252,20 +252,20 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl(distribution.license_db_custom)"
                 >
                   <v-icon color="red">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-                        
-            <v-list-tile 
-              v-if="distribution.license_specialdb_type == 'CC0'" 
+
+            <v-list-tile
+              v-if="distribution.license_specialdb_type == 'CC0'"
               avatar
             >
               <v-list-tile-avatar>
@@ -287,19 +287,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://creativecommons.org/publicdomain/zero/1.0/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_specialdb_type == 'NO'" 
+            <v-list-tile
+              v-if="distribution.license_specialdb_type == 'NO'"
               avatar
             >
               <v-list-tile-avatar>
@@ -321,19 +321,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_specialdb_type == 'CUSTOM'" 
+            <v-list-tile
+              v-if="distribution.license_specialdb_type == 'CUSTOM'"
               avatar
             >
               <v-list-tile-avatar>
@@ -355,19 +355,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl(distribution.license_specialdb_custom)"
                 >
                   <v-icon color="red">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
             <v-list-tile
-              v-if="distribution.license_personal_type == 'NO'" 
+              v-if="distribution.license_personal_type == 'NO'"
               avatar
             >
               <v-list-tile-avatar>
@@ -389,19 +389,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/')"
                 >
                   <v-icon color="green">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_personal_type == 'YES'" 
+            <v-list-tile
+              v-if="distribution.license_personal_type == 'YES'"
               avatar
             >
               <v-list-tile-avatar>
@@ -423,19 +423,19 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  icon 
-                  ripple 
+                <v-btn
+                  icon
+                  ripple
                   @click="openUrl('https://data.gov.cz/podmínky-užití/obsahuje-osobní-údaje/')"
                 >
                   <v-icon color="red">
                     help_outline
                   </v-icon>
-                </v-btn>                    
+                </v-btn>
               </v-list-tile-action>
             </v-list-tile>
-            <v-list-tile 
-              v-if="distribution.license_personal_type == 'UNKNOWN'" 
+            <v-list-tile
+              v-if="distribution.license_personal_type == 'UNKNOWN'"
               avatar
             >
               <v-list-tile-avatar>
@@ -459,14 +459,15 @@
             </v-list-tile>
           </v-list>
         </v-flex>
-        <v-flex 
-          xs12 
+        <v-flex
+          xs12
           sm6
+          v-if="distribution.isFileOrService==='FILE'"
         >
-          <v-list 
-            two-line 
+          <v-list
+            two-line
             subheader
-          >         
+          >
             <v-subheader>
               {{ $t('headline_distribution_access') }}
             </v-subheader>
@@ -485,9 +486,9 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  flat 
-                  icon 
+                <v-btn
+                  flat
+                  icon
                   @click="downloadDistribution"
                 >
                   <v-icon color="blue">
@@ -511,9 +512,9 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  flat 
-                  icon 
+                <v-btn
+                  flat
+                  icon
                   @click="openMediaType"
                 >
                   <v-icon color="blue">
@@ -537,8 +538,8 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile 
-              v-if="schemaProvided" 
+            <v-list-tile
+              v-if="schemaProvided"
               avatar
             >
               <v-list-tile-avatar>
@@ -555,10 +556,76 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
               <v-list-tile-action>
-                <v-btn 
-                  flat 
-                  icon 
+                <v-btn
+                  flat
+                  icon
                   @click="downloadSchema"
+                >
+                  <v-icon color="blue">
+                    open_in_new
+                  </v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+          </v-list>
+        </v-flex>
+        <v-flex
+          xs12
+          sm6
+          v-if="distribution.isFileOrService==='SERVICE'"
+        >
+          <v-list
+            two-line
+            subheader
+          >
+            <v-subheader>
+              {{ $t('headline_service_access') }}
+            </v-subheader>
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+                <v-icon class="blue white--text">
+                  cloud_download
+                </v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ distribution.service_endpoint_url }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  {{ $t('service_endpoint_url') }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn
+                  flat
+                  icon
+                  @click="openServiceEndpoint"
+                >
+                  <v-icon color="blue">
+                    open_in_new
+                  </v-icon>
+                </v-btn>
+              </v-list-tile-action>
+            </v-list-tile>
+            <v-list-tile avatar>
+              <v-list-tile-avatar>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ distribution.service_description }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  {{ $t('service_endpoint_description') }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+              <v-list-tile-action>
+                <v-btn
+                  flat
+                  icon
+                  @click="downloadServiceDescription"
                 >
                   <v-icon color="blue">
                     open_in_new
@@ -619,6 +686,12 @@ export default {
     },
     "openMediaType": function () {
       downloadUrl(this.distribution.media_type);
+    },
+    "downloadServiceDescription": function () {
+        downloadUrl(this.distribution.service_description);
+    },
+    "openServiceEndpoint": function() {
+        downloadUrl(this.distribution.service_endpoint_url);
     },
     "openUrl": function (url) {
       downloadUrl(url);

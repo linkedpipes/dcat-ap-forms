@@ -538,10 +538,37 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile
-              v-if="schemaProvided"
-              avatar
-            >
+            <v-list-tile v-if="packageProvided" avatar>
+              <v-list-tile-avatar>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ packageLabel }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  {{ $t('distribution_package_format') }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile v-if="compressionProvided" avatar>
+              <v-list-tile-avatar>
+                <v-icon class="blue white--text">
+                  description
+                </v-icon>
+              </v-list-tile-avatar>
+              <v-list-tile-content>
+                <v-list-tile-title>
+                  {{ compressionLabel }}
+                </v-list-tile-title>
+                <v-list-tile-sub-title>
+                  {{ $t('distribution_compress_format') }}
+                </v-list-tile-sub-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile v-if="schemaProvided" avatar>
               <v-list-tile-avatar>
                 <v-icon class="blue white--text">
                   link
@@ -654,6 +681,14 @@ export default {
       return this.distribution.schema !== null &&
                     this.distribution.schema.length > 0;
     },
+    "packageProvided": function () {
+      return this.distribution.packageFormat !== null &&
+                    this.distribution.packageFormat.length > 0;
+    },
+    "compressionProvided": function () {
+      return this.distribution.compressFormat !== null &&
+                    this.distribution.compressFormat.length > 0;
+    },
     "mediaTypeLabel": function () {
       const iri = this.distribution.media_type;
       const value = getItem(
@@ -675,7 +710,29 @@ export default {
       } else {
         return value;
       }
-    }
+    },
+    "packageLabel" : function () {
+      const iri = this.distribution.packageFormat;
+      const value = getItem(
+        this.codelist, "file-type", iri,
+        this.$vuetify.lang.current);
+      if (value === undefined) {
+        return iri;
+      } else {
+        return value;
+      }
+    },
+    "compressionLabel" : function () {
+      const iri = this.distribution.compressFormat;
+      const value = getItem(
+        this.codelist, "file-type", iri,
+        this.$vuetify.lang.current);
+      if (value === undefined) {
+        return iri;
+      } else {
+        return value;
+      }
+    },
   },
   "methods": {
     "downloadDistribution": function () {

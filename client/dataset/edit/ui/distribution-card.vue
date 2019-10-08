@@ -714,7 +714,7 @@ export default {
     "packageLabel" : function () {
       const iri = this.distribution.packageFormat;
       const value = getItem(
-        this.codelist, "file-type", iri,
+        this.codelist, "media-types", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -725,7 +725,7 @@ export default {
     "compressionLabel" : function () {
       const iri = this.distribution.compressFormat;
       const value = getItem(
-        this.codelist, "file-type", iri,
+        this.codelist, "media-types", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;

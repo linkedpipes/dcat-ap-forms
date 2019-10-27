@@ -197,8 +197,8 @@ function parseTemporal(iri, response) {
     return {}
   }
   return {
-    "temporal_start": getValue(entity, SCHEMA.startDate),
-    "temporal_end": getValue(entity, SCHEMA.endDate)
+    "temporal_start": getValue(entity, DCATAP.startDate),
+    "temporal_end": getValue(entity, DCATAP.endDate)
   }
 }
 

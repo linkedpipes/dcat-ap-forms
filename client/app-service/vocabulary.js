@@ -30,7 +30,9 @@ export const DCATAP = {
   "accessURL": "http://www.w3.org/ns/dcat#accessURL",
   "accessService": "http://www.w3.org/ns/dcat#accessService",
   "packageFormat": "http://www.w3.org/ns/dcat#packageFormat",
-  "compressFormat": "http://www.w3.org/ns/dcat#compressFormat"
+  "compressFormat": "http://www.w3.org/ns/dcat#compressFormat",
+  "startDate": "http://www.w3.org/ns/dcat#startDate",
+  "endDate": "http://www.w3.org/ns/dcat#endDate"
 };
 
 export const FOAF = {

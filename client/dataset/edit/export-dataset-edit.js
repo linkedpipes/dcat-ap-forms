@@ -82,13 +82,13 @@ function exportTemporal(dataset) {
     "@type": [DCTERMS.PeriodOfTime]
   };
   if (containsValidDate(dataset.temporal_start)) {
-    output[SCHEMA.startDate] = {
+    output[DCATAP.startDate] = {
       "@type": "http://www.w3.org/2001/XMLSchema#date",
       "@value": dataset.temporal_start
     };
   }
   if (containsValidDate(dataset.temporal_end)) {
-    output[SCHEMA.endDate] = {
+    output[DCATAP.endDate] = {
       "@type": "http://www.w3.org/2001/XMLSchema#date",
       "@value": dataset.temporal_end
     };

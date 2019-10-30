@@ -15,7 +15,7 @@ export function createDataset() {
     "temporal_resolution": "",
     "spatial_resolution_meters": "",
     "documentation": "",
-    "dataset_theme": "",
+    "dataset_themes": [],
     "themes": [],
     "contact_point_name": "",
     "contact_point_email": "",
@@ -67,8 +67,8 @@ export function createDatasetValidators() {
       url,
       "documentation_invalid"),
     "err_dataset_theme": apply(
-      (t) => t.dataset, "dataset_theme",
-      provided,
+      (t) => t.dataset, "dataset_themes",
+      (value) => value.length > 0,
       "dataset_theme_invalid"),
     "err_temporal": apply(
       (t) => t.dataset, "temporal_resolution",
@@ -83,11 +83,11 @@ export function createDatasetValidators() {
 
 
 export function isDatasetValid(dataset) {
-  return provided(dataset.title) &&
-        provided(dataset.description) &&
+  return provided(dataset.title_cs) && provided(dataset.title_en) &&
+        provided(dataset.description_cs) && provided(dataset.description_en) &&
         provided(dataset.ruian) &&
         provided(dataset.keywords) &&
-        provided(dataset.dataset_theme) &&
+        provided(dataset.dataset_themes) &&
         isValidTemporalString(dataset.temporal_resolution) &&
         isValidSpatialString(dataset.spatial_resolution_meters);
 }

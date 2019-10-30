@@ -62,7 +62,7 @@
           subheader
         >
           <v-list-tile
-            v-if="dataset.dataset_theme.length"
+            v-if="dataset.dataset_themes.length"
             avatar
           >
             <v-list-tile-avatar>
@@ -72,16 +72,17 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{ datasetThemeToLabel(
-                  dataset.dataset_theme, $vuetify.lang.current)
-                }}
+                <span v-for="(theme, index) in dataset.dataset_themes" :key="theme">
+                  {{ index > 0 ? "," : "" }}
+                  {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
+                </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('dataset_theme') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.dataset_theme.length" />
+          <v-divider v-if="dataset.dataset_themes.length" />
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <v-icon class="blue white--text">

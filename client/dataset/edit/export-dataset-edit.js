@@ -14,7 +14,7 @@ export function exportToJsonLd(dataset, distributions) {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
     [DCTERMS.title]: [asNamedLangString(dataset.title_cs, 'cs'), asNamedLangString(dataset.title_en, 'en')],
-    [DCTERMS.description]: [asNamedLangString(dataset.description, 'cs'), asNamedLangString(dataset.description, 'en')],
+    [DCTERMS.description]: [asNamedLangString(dataset.description_cs, 'cs'), asNamedLangString(dataset.description_en, 'en')],
     [DCATAP.keyword]: dataset.keywords.map(
       (keyword) => asLangString(keyword)),
     [DCATAP.distribution]: distributions.map(
@@ -32,7 +32,7 @@ export function exportToJsonLd(dataset, distributions) {
     output[FOAF.page] = asIri(dataset.documentation);
   }
 
-  const themes = [dataset.dataset_theme, ...dataset.themes];
+  const themes = [...dataset.dataset_themes, ...dataset.themes];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
   const temporal = exportTemporal(dataset);

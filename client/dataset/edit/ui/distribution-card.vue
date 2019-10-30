@@ -1,9 +1,12 @@
 <template>
   <v-flex xs12>
     <v-card>
-      <v-card-title v-if="distribution.title.length > 0">
-        <h3 class="headline mb-0">
-          {{ distribution.title }}
+      <v-card-title v-if="(distribution.title_cs.length > 0)||(distribution.title_en.length > 0)">
+        <h3 class="headline mb-0" v-if="distribution.title_cs.length > 0">
+          {{ distribution.title_cs }}
+        </h3> |
+        <h3 class="headline mb-0" v-if="distribution.title_en.length > 0">
+          {{ distribution.title_en }}
         </h3>
       </v-card-title>
       <v-layout

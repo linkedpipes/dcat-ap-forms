@@ -89,8 +89,8 @@
         md6
       >
         <v-autocomplete
-          id="dataset_theme"
-          v-model="dataset.dataset_theme"
+          id="dataset_themes"
+          v-model="dataset.dataset_themes"
           :items="dataset_themes"
           :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
@@ -99,6 +99,8 @@
           item-value="value"
           append-outer-icon="help_outline"
           required
+          chips
+          multiple
           @click:append-outer="$h('dataset_theme')"
         />
       </v-flex>

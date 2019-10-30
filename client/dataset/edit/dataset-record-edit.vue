@@ -179,18 +179,34 @@
       </v-flex>
       <v-spacer />
     </v-layout>
-    <v-text-field
-      id="temporalResolution"
-      v-model="dataset.temporal_resolution"
-      :label="$t('temporal_resolution') + $t('optional')"
-      :error-messages="err_temporal"
-      :hint="$t('hint_temporal')"
-      prepend-icon="calendar_today"
-      append-outer-icon="help_outline"
-      type="url"
-      clearable
-      @click:append-outer="$h('temporal')"
-    />
+    <v-layout row wrap>
+        <v-flex xs12 md6>
+            <v-text-field
+              id="temporalResolution"
+              v-model="dataset.temporal_resolution"
+              :label="$t('temporal_resolution') + $t('optional')"
+              :error-messages="err_temporal"
+              :hint="$t('hint_temporal')"
+              prepend-icon="calendar_today"
+              append-outer-icon="help_outline"
+              clearable
+              @click:append-outer="$h('temporal')"
+            />
+        </v-flex>
+        <v-flex xs12 md6>
+            <v-text-field
+              id="spatialResolutionMeters"
+              v-model="dataset.spatial_resolution_meters"
+              :label="$t('spatial_resolution_meters') + $t('optional')"
+              :error-messages="err_spatial"
+              :hint="$t('hint_spatial')"
+              prepend-icon="zoom_out_map"
+              append-outer-icon="help_outline"
+              clearable
+              @click:append-outer="$h('spatial')"
+            />
+        </v-flex>
+    </v-layout>
     <v-layout
       row
       wrap

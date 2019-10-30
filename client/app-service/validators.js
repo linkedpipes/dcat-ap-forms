@@ -6,6 +6,12 @@ export function temporal(value) {
   const temporalPattern = /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/;
   return !provided(value) || temporalPattern.test(value);
 }
+
+export function decimal(value) {
+  const decimalPattern = /^[-+]?[0-9]+(\.[0-9]+)?$/;
+  return !provided(value) || decimalPattern.test(value);
+}
+
 export function email(value) {
   const emailPattern = /^[^ ]+@[^ ]+$/;
   return !provided(value) || emailPattern.test(value);

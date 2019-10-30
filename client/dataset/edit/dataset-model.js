@@ -1,4 +1,4 @@
-import {apply, email, provided, url, temporal} from "@/app-service/validators";
+import {apply, email, provided, url, temporal, decimal} from "@/app-service/validators";
 
 export function createDataset() {
   return decorateDataset({
@@ -11,6 +11,7 @@ export function createDataset() {
     "temporal_start": "",
     "temporal_end": "",
     "temporal_resolution": "",
+    "spatial_resolution_meters": "",
     "documentation": "",
     "dataset_theme": "",
     "themes": [],
@@ -63,6 +64,10 @@ export function createDatasetValidators() {
       (t) => t.dataset, "temporal_resolution",
       temporal,
       "temporal_invalid"),
+    "err_spatial": apply(
+      (t) => t.dataset, "spatial_resolution_meters",
+      decimal,
+      "spatial_invalid"),
   };
 }
 
@@ -73,9 +78,14 @@ export function isDatasetValid(dataset) {
         provided(dataset.ruian) &&
         provided(dataset.keywords) &&
         provided(dataset.dataset_theme) &&
-        isValidTemporalString(dataset.temporal_resolution);
+        isValidTemporalString(dataset.temporal_resolution) &&
+        isValidSpatialString(dataset.spatial_resolution_meters);
 }
 
 function isValidTemporalString(value) {
-  return /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/.test(value)
+  return !provided(value) || /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/.test(value)
+}
+
+function  isValidSpatialString(value) {
+  return !provided(value) || /^[-+]?[0-9]+\.[0-9]+$/.test(value);
 }

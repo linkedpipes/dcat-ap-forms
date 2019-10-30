@@ -16,32 +16,70 @@
         href="https://opendata.gov.cz/špatná-praxe:start"
       >{{ $t('common_errors_link_label') }}</a>!
     </v-alert>
-    <v-text-field
-      id="dataset_title"
-      v-model="dataset.title"
-      :label="$t('dataset_title')"
-      :error-messages="err_title"
-      :hint="$t('hint_dataset_title')"
-      prepend-icon="label"
-      append-outer-icon="help_outline"
-      required
-      clearable
-      @click:append-outer="$h('dataset_title')"
-    />
-    <v-textarea
-      id="dataset_description"
-      v-model="dataset.description"
-      :label="$t('dataset_description')"
-      :error-messages="err_description"
-      :hint="$t('hint_dataset_description')"
-      prepend-icon="description"
-      append-outer-icon="help_outline"
-      rows="3"
-      required
-      auto-grow
-      clearable
-      @click:append-outer="$h('dataset_description')"
-    />
+    <v-layout row wrap>
+      <v-flex xs12 md6>
+        <v-text-field
+          id="dataset_title_cs"
+          v-model="dataset.title_cs"
+          :label="$t('dataset_title_cs')"
+          :error-messages="err_title_cs"
+          :hint="$t('hint_dataset_title')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          required
+          clearable
+          @click:append-outer="$h('dataset_title')"
+        />
+      </v-flex>
+      <v-flex xs12 md6>
+        <v-text-field
+            id="dataset_title_en"
+            v-model="dataset.title_en"
+            :label="$t('dataset_title_en')"
+            :error-messages="err_title_en"
+            :hint="$t('hint_dataset_title')"
+            prepend-icon="label"
+            append-outer-icon="help_outline"
+            required
+            clearable
+            @click:append-outer="$h('dataset_title')"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout row wrap>
+      <v-flex xs12 md6>
+        <v-textarea
+          id="dataset_description_cs"
+          v-model="dataset.description_cs"
+          :label="$t('dataset_description_cs')"
+          :error-messages="err_description"
+          :hint="$t('hint_dataset_description')"
+          prepend-icon="description"
+          append-outer-icon="help_outline"
+          rows="3"
+          required
+          auto-grow
+          clearable
+          @click:append-outer="$h('dataset_description')"
+        />
+      </v-flex>
+      <v-flex xs12 md6>
+        <v-textarea
+            id="dataset_description_en"
+            v-model="dataset.description_en"
+            :label="$t('dataset_description_en')"
+            :error-messages="err_description"
+            :hint="$t('hint_dataset_description')"
+            prepend-icon="description"
+            append-outer-icon="help_outline"
+            rows="3"
+            required
+            auto-grow
+            clearable
+            @click:append-outer="$h('dataset_description')"
+        />
+      </v-flex>
+    </v-layout>
     <v-layout
       row
       wrap

@@ -3,8 +3,10 @@ import {apply, email, provided, url, temporal, decimal} from "@/app-service/vali
 export function createDataset() {
   return decorateDataset({
     "iri": undefined,
-    "title": "",
-    "description": "",
+    "title_cs": "",
+    "title_en": "",
+    "description_cs": "",
+    "description_en": "",
     "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
     "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
     "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
@@ -32,12 +34,20 @@ export function decorateDataset(dataset) {
 
 export function createDatasetValidators() {
   return {
-    "err_title": apply(
-      (t) => t.dataset, "title",
+    "err_title_cs": apply(
+      (t) => t.dataset, "title_cs",
       provided,
       "dataset_title_invalid"),
-    "err_description": apply(
-      (t) => t.dataset, "description",
+    "err_title_en": apply(
+      (t) => t.dataset, "title_en",
+      provided,
+      "dataset_title_invalid"),
+    "err_description_cs": apply(
+      (t) => t.dataset, "description_cs",
+      provided,
+      "dataset_description_invalid"),
+    "err_description_en": apply(
+      (t) => t.dataset, "description_en",
       provided,
       "dataset_description_invalid"),
     "err_ruian": apply(

@@ -342,16 +342,32 @@
         </v-tab-item>
     </v-tab-items>
     <div>
-        <v-text-field
-          id="distribution_title"
-          v-model="distribution.title"
-          :hint="$t('hint_distribution_title')"
-          :label="$t('distribution_title') + $t('optional')"
-          prepend-icon="label"
-          append-outer-icon="help_outline"
-          clearable
-          @click:append-outer="$h('distribution_title')"
-        />
+      <v-layout row wrap>
+        <v-flex xs12 md6>
+          <v-text-field
+            id="distribution_title_cs"
+            v-model="distribution.title_cs"
+            :hint="$t('hint_distribution_title')"
+            :label="$t('distribution_title_cs') + $t('optional')"
+            prepend-icon="label"
+            append-outer-icon="help_outline"
+            clearable
+            @click:append-outer="$h('distribution_title')"
+          />
+        </v-flex>
+        <v-flex xs12 md6>
+          <v-text-field
+            id="distribution_title_en"
+            v-model="distribution.title_en"
+            :hint="$t('hint_distribution_title')"
+            :label="$t('distribution_title_en') + $t('optional')"
+            prepend-icon="label"
+            append-outer-icon="help_outline"
+            clearable
+            @click:append-outer="$h('distribution_title')"
+          />
+        </v-flex>
+      </v-layout>
     </div>
     <div v-if="canBeDeleted">
       <v-btn

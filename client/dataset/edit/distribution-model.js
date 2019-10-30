@@ -23,7 +23,8 @@ export function createDistribution() {
     "format": "",
     "media_type": "",
     "schema": "",
-    "title": "",
+    "title_cs": "",
+    "title_en": "",
     "packageFormat": "",
     "compressFormat": "",
     //

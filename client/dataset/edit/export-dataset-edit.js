@@ -13,8 +13,8 @@ export function exportToJsonLd(dataset, distributions) {
   const output = {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
-    [DCTERMS.title]: asLangString(dataset.title),
-    [DCTERMS.description]: asLangString(dataset.description),
+    [DCTERMS.title]: [asNamedLangString(dataset.title_cs, 'cs'), asNamedLangString(dataset.title_en, 'en')],
+    [DCTERMS.description]: [asNamedLangString(dataset.description, 'cs'), asNamedLangString(dataset.description, 'en')],
     [DCATAP.keyword]: dataset.keywords.map(
       (keyword) => asLangString(keyword)),
     [DCATAP.distribution]: distributions.map(
@@ -66,6 +66,13 @@ function isEmpty(value) {
 function asLangString(value) {
   return {
     "@language": "cs",
+    "@value": value
+  }
+}
+
+function asNamedLangString(value, lang) {
+  return {
+    "@language": lang,
     "@value": value
   }
 }
@@ -165,9 +172,15 @@ function exportDistribution(distribution, datasetIri) {
   }
 
   output[PU.specifikace] = license(distribution);
-  if (isNotEmpty(distribution.title)) {
-    output[DCTERMS.title] = asLangString(distribution.title);
+  var titles = []
+  if (isNotEmpty(distribution.title_cs)) {
+     titles.push(asNamedLangString(distribution.title_cs, 'cs'));
   }
+  if (isNotEmpty(distribution.title_en)) {
+    titles.push(asNamedLangString(distribution.title_en, 'en'));
+  }
+  if (titles.length > 0)
+    output[DCTERMS.title] = titles;
 
 
 

@@ -16,6 +16,7 @@ export function createDataset() {
     "spatial_resolution_meters": "",
     "documentation": "",
     "dataset_themes": [],
+    "dataset_custom_theme": "",
     "themes": [],
     "contact_point_name": "",
     "contact_point_email": "",
@@ -70,6 +71,9 @@ export function createDatasetValidators() {
       (t) => t.dataset, "dataset_themes",
       (value) => value.length > 0,
       "dataset_theme_invalid"),
+    "err_dataset_theme_custom": apply(
+      (t) => t.dataset, "dataset_custom_theme",
+      url, "dataset_theme_invalid_url"),
     "err_temporal": apply(
       (t) => t.dataset, "temporal_resolution",
       temporal,

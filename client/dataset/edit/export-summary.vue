@@ -62,7 +62,7 @@
           subheader
         >
           <v-list-tile
-            v-if="dataset.dataset_themes.length"
+            v-if="dataset.dataset_themes.length || dataset.dataset_custom_theme.length"
             avatar
           >
             <v-list-tile-avatar>
@@ -72,6 +72,7 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
+                <span v-if="dataset.dataset_custom_theme.length">{{dataset.dataset_custom_theme}} {{dataset.dataset_themes.length ? ",": ""}}</span>
                 <span v-for="(theme, index) in dataset.dataset_themes" :key="theme">
                   {{ index > 0 ? "," : "" }}
                   {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}

@@ -103,6 +103,18 @@
           multiple
           @click:append-outer="$h('dataset_theme')"
         />
+
+        <v-text-field
+          id="dataset_custom_theme"
+          v-model="dataset.dataset_custom_theme"
+          :label="$t('dataset_theme') + $t('optional')"
+          :error-messages="err_dataset_theme_custom"
+          :hint="$t('hint_dataset_theme')"
+          prepend-icon="value"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('dataset_theme')"
+          />
       </v-flex>
       <v-flex
         xs12

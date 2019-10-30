@@ -2,6 +2,10 @@ export function provided(value) {
   return value !== null && value !== undefined && value.length > 0;
 }
 
+export function temporal(value) {
+  const temporalPattern = /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/;
+  return !provided(value) || temporalPattern.test(value);
+}
 export function email(value) {
   const emailPattern = /^[^ ]+@[^ ]+$/;
   return !provided(value) || emailPattern.test(value);

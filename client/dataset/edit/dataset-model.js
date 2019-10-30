@@ -1,4 +1,4 @@
-import {apply, email, provided, url} from "@/app-service/validators";
+import {apply, email, provided, url, temporal} from "@/app-service/validators";
 
 export function createDataset() {
   return decorateDataset({
@@ -10,6 +10,7 @@ export function createDataset() {
     "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
     "temporal_start": "",
     "temporal_end": "",
+    "temporal_resolution": "",
     "documentation": "",
     "dataset_theme": "",
     "themes": [],
@@ -58,6 +59,10 @@ export function createDatasetValidators() {
       (t) => t.dataset, "dataset_theme",
       provided,
       "dataset_theme_invalid"),
+    "err_temporal": apply(
+      (t) => t.dataset, "temporal_resolution",
+      temporal,
+      "temporal_invalid"),
   };
 }
 
@@ -67,5 +72,10 @@ export function isDatasetValid(dataset) {
         provided(dataset.description) &&
         provided(dataset.ruian) &&
         provided(dataset.keywords) &&
-        provided(dataset.dataset_theme);
+        provided(dataset.dataset_theme) &&
+        isValidTemporalString(dataset.temporal_resolution);
+}
+
+function isValidTemporalString(value) {
+  return /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/.test(value)
 }

@@ -1,7 +1,7 @@
 <template>
-  <v-container 
-    fluid 
-    grid-list-lg 
+  <v-container
+    fluid
+    grid-list-lg
     pa-0
   >
     <v-alert
@@ -25,7 +25,7 @@
       prepend-icon="label"
       append-outer-icon="help_outline"
       required
-      clearable 
+      clearable
       @click:append-outer="$h('dataset_title')"
     />
     <v-textarea
@@ -37,17 +37,17 @@
       prepend-icon="description"
       append-outer-icon="help_outline"
       rows="3"
-      required 
-      auto-grow 
-      clearable 
+      required
+      auto-grow
+      clearable
       @click:append-outer="$h('dataset_description')"
     />
-    <v-layout 
-      row 
+    <v-layout
+      row
       wrap
     >
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-autocomplete
@@ -57,15 +57,15 @@
           :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
           :item-text="$vuetify.lang.current"
-          prepend-icon="category" 
+          prepend-icon="category"
           item-value="value"
           append-outer-icon="help_outline"
           required
           @click:append-outer="$h('dataset_theme')"
         />
       </v-flex>
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-autocomplete
@@ -74,7 +74,7 @@
           :items="frequencies"
           :label="$t('accrual_periodicity')"
           :item-text="$vuetify.lang.current"
-          prepend-icon="snooze" 
+          prepend-icon="snooze"
           item-value="value"
           append-outer-icon="help_outline"
           required
@@ -91,17 +91,17 @@
       prepend-icon="short_text"
       append-outer-icon="help_outline"
       append-icon=""
-      required 
-      chips 
-      multiple 
+      required
+      chips
+      multiple
       @click:append-outer="$h('keywords')"
     >
-      <template 
-        slot="selection" 
+      <template
+        slot="selection"
         slot-scope="data"
       >
-        <v-chip 
-          close 
+        <v-chip
+          close
           @input="removeKeyword(data.item)"
         >
           <strong>{{ data.item }}</strong>
@@ -109,11 +109,11 @@
       </template>
     </v-combobox>
     <v-layout
-      row 
+      row
       wrap
     >
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-autocomplete
@@ -122,7 +122,7 @@
           :items="ruianTypes"
           :label="$t('ruian_type')"
           :item-text="$vuetify.lang.current"
-          prepend-icon="place" 
+          prepend-icon="place"
           item-value="value"
           append-outer-icon="help_outline"
           required
@@ -130,8 +130,8 @@
           @input="onRuainTypeInput"
         />
       </v-flex>
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <app-ruian-autocomplete
@@ -149,11 +149,11 @@
       </v-flex>
     </v-layout>
     <v-layout
-      row 
+      row
       wrap
     >
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <app-date-picker
@@ -165,8 +165,8 @@
           append-outer-icon="help_outline"
         />
       </v-flex>
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <app-date-picker
@@ -179,12 +179,24 @@
       </v-flex>
       <v-spacer />
     </v-layout>
+    <v-text-field
+      id="temporalResolution"
+      v-model="dataset.temporal_resolution"
+      :label="$t('temporal_resolution') + $t('optional')"
+      :error-messages="err_temporal"
+      :hint="$t('hint_temporal')"
+      prepend-icon="calendar_today"
+      append-outer-icon="help_outline"
+      type="url"
+      clearable
+      @click:append-outer="$h('temporal')"
+    />
     <v-layout
-      row 
+      row
       wrap
     >
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-text-field
@@ -198,8 +210,8 @@
           @click:append-outer="$h('contact_point_name')"
         />
       </v-flex>
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-text-field
@@ -211,7 +223,7 @@
           prepend-icon="alternate_email"
           append-outer-icon="help_outline"
           type="email"
-          clearable 
+          clearable
           @click:append-outer="$h('contact_point_email')"
         />
       </v-flex>
@@ -225,7 +237,7 @@
       prepend-icon="link"
       append-outer-icon="help_outline"
       type="url"
-      clearable 
+      clearable
       @click:append-outer="$h('documentation')"
     />
     <app-solr-chips-autocomplete

@@ -39,6 +39,11 @@ export function exportToJsonLd(dataset, distributions) {
   if (isNotEmpty(temporal)) {
     output[DCTERMS.temporal] = temporal;
   }
+  const temporalResolution = exportTemporalResolution(dataset);
+  if (isNotEmpty(temporalResolution)) {
+    output[DCATAP.temporalResolution] = temporalResolution;
+  }
+  
   const contactPoint = exportContactPoint(dataset);
   if (isNotEmpty(contactPoint)) {
     output[DCATAP.contactPoint] = contactPoint;
@@ -94,6 +99,11 @@ function exportTemporal(dataset) {
     };
   }
   return output;
+}
+
+function exportTemporalResolution(dataset) {
+  if (isEmpty(dataset.temporal_resolution)) return undefined;
+
 }
 
 function containsValidDate(value) {

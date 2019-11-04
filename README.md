@@ -1,5 +1,5 @@
 # LinkedPipes DCAT-AP Forms
-DCAT-AP v1.1 compatible web form producing JSON-LD, intended for the [Czech National Open Data](https://data.gov.cz) catalog.
+[DCAT-AP v2.0](https://joinup.ec.europa.eu/solution/dcat-application-profile-data-portals-europe/release/200) compatible web form producing JSON-LD, primarily intended for the [Czech National Open Data](https://data.gov.cz) catalog.
 
 ## Requirements
  * [Node.js] and npm

@@ -111,6 +111,7 @@ export default {
   "help_spatial": "<h3>Spatial resolution</h3><p>The minimum spatial separation resolvable in a dataset distribution, measured in meters.</p><p>If the dataset is an image or grid this should correspond to the spacing of items. For other kinds of spatial datasets, this property will usually indicate the smallest distance between items in the dataset.</p>",
   "help_documentation": "<h3>Link to the dataset documentation</h3><p>URL of a web page containing detailed documentation of the published dataset. We emphasize that it should be a <strong>web page</strong> URL. Any documents prepared for printing (<code>*.doc</code><code>*.docx</code> or even <code>*.pdf</code>) are highly discouraged in the environment of the Web.</p>",
   "help_dataset_theme": "<h3>Dataset theme</h3><p>Dataset theme from the <a href=\"https://publications.europa.eu/en/web/eu-vocabularies/at-concept-scheme/-/resource/authority/data-theme/?target=Browse\" target=\"_blank\">European dataset themes codelist</a>. It is used to cateogrize each dataset in one of the basic themes which can be used across Europe.</p>",
+  "help_dataset_custom_theme": "<h3>Additional dataset themes</h3><p>Optionally, additional themes can be added, eg. open formal norms. Enter HTTPS URL of requested themes.</p>",
   "hint_themes": "Start typing the theme name.",
   "hint_contact_point_name": "Person or unit who will receive feedback related to the dataset.",
   "hint_documentation": "Enter an HTTPS URL of the web page containing detailed dataset documentation.",

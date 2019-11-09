@@ -37,6 +37,22 @@ export function apply(selector, property, rule, message) {
   }
 }
 
+export function applyEach(selector, property, rule, message) {
+  return function () {
+    const value = selector(this)[property];
+    const validators = selector(this)["$validators"];
+    if (!shouldValidate(value, validators, property)) {
+      return [];
+    }
+    var bundle = {"isValid": true};
+    value.forEach(function (item) { this.isValid = this.isValid & rule(item) }, bundle);
+    if (bundle.isValid) {
+      return [];
+    }
+    return [this.$t(message)];
+  }
+}
+
 export function shouldValidate(value, validators, property) {
   if (validators.force) {
     return true;

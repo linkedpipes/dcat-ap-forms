@@ -32,8 +32,7 @@ export function exportToJsonLd(dataset, distributions) {
     output[FOAF.page] = asIri(dataset.documentation);
   }
 
-  const themes = [...dataset.dataset_themes, ...dataset.themes];
-  if (isNotEmpty(dataset.dataset_custom_theme)) themes.push(dataset.dataset_custom_theme);
+  const themes = [...dataset.dataset_themes, ...dataset.themes, ...dataset.dataset_custom_themes];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
   const temporal = exportTemporal(dataset);

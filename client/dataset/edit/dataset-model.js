@@ -1,4 +1,5 @@
-import {apply, email, provided, url, temporal, decimal} from "@/app-service/validators";
+import {apply, applyEach, email, provided, url, temporal, decimal} from "@/app-service/validators";
+import dataset from "./dataset";
 
 export function createDataset() {
   return decorateDataset({
@@ -16,7 +17,7 @@ export function createDataset() {
     "spatial_resolution_meters": "",
     "documentation": "",
     "dataset_themes": [],
-    "dataset_custom_theme": "",
+    "dataset_custom_themes": [],
     "themes": [],
     "contact_point_name": "",
     "contact_point_email": "",
@@ -71,8 +72,8 @@ export function createDatasetValidators() {
       (t) => t.dataset, "dataset_themes",
       (value) => value.length > 0,
       "dataset_theme_invalid"),
-    "err_dataset_theme_custom": apply(
-      (t) => t.dataset, "dataset_custom_theme",
+    "err_dataset_theme_custom": applyEach(
+      (t) => t.dataset, "dataset_custom_themes",
       url, "dataset_theme_invalid_url"),
     "err_temporal": apply(
       (t) => t.dataset, "temporal_resolution",
@@ -92,6 +93,7 @@ export function isDatasetValid(dataset) {
         provided(dataset.ruian) &&
         provided(dataset.keywords) &&
         provided(dataset.dataset_themes) &&
+        allCustomThemesValid() &&
         isValidTemporalString(dataset.temporal_resolution) &&
         isValidSpatialString(dataset.spatial_resolution_meters);
 }
@@ -102,4 +104,11 @@ function isValidTemporalString(value) {
 
 function  isValidSpatialString(value) {
   return !provided(value) || /^[-+]?[0-9]+\.[0-9]+$/.test(value);
+}
+
+function allCustomThemesValid() {
+  if (!provided(dataset.dataset_custom_themes)) return true;
+  var bundle = {"isValid": true};
+  value.forEach(function (item) { this.isValid = this.isValid & rule(item) }, bundle);
+  return bundle.isValid;
 }

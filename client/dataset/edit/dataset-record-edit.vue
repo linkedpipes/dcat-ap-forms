@@ -103,18 +103,6 @@
           multiple
           @click:append-outer="$h('dataset_theme')"
         />
-
-        <v-text-field
-          id="dataset_custom_theme"
-          v-model="dataset.dataset_custom_theme"
-          :label="$t('dataset_theme') + $t('optional')"
-          :error-messages="err_dataset_theme_custom"
-          :hint="$t('hint_dataset_theme')"
-          prepend-icon="value"
-          append-outer-icon="help_outline"
-          clearable
-          @click:append-outer="$h('dataset_theme')"
-          />
       </v-flex>
       <v-flex
         xs12
@@ -134,6 +122,32 @@
         />
       </v-flex>
     </v-layout>
+    <v-combobox
+            v-model="dataset.dataset_custom_themes"
+            id="dataset_custom_theme"
+            :label="$t('dataset_theme') + $t('optional')"
+            :error-messages="err_dataset_theme_custom"
+            :hint="$t('hint_dataset_theme')"
+            item-value="value"
+            prepend-icon="short_text"
+            append-outer-icon="help_outline"
+            append-icon=""
+            chips
+            multiple
+            @click:append-outer="$h('dataset_custom_theme')"
+    >
+      <template
+              slot="selection"
+              slot-scope="data"
+      >
+        <v-chip
+                close
+                @input="removeTheme(data.item)"
+        >
+          <strong>{{ data.item }}</strong>
+        </v-chip>
+      </template>
+    </v-combobox>
     <v-combobox
       id="keywords"
       v-model="dataset.keywords"
@@ -352,6 +366,10 @@ export default {
     "removeKeyword": function (item) {
       const index = this.dataset.keywords.indexOf(item);
       this.dataset.keywords.splice(index, 1);
+    },
+    "removeTheme": function (item) {
+      const index = this.dataset.dataset_custom_themes.indexOf(item);
+      this.dataset.dataset_custom_themes.splice(index, 1);
     },
     "onRuainTypeInput": function(newValue, oldValue) {
       if (newValue === oldValue) {

@@ -13,10 +13,10 @@ export function exportToJsonLd(dataset, distributions) {
   const output = {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
-    [DCTERMS.title]: [asNamedLangString(dataset.title_cs, 'cs'), asNamedLangString(dataset.title_en, 'en')],
-    [DCTERMS.description]: [asNamedLangString(dataset.description_cs, 'cs'), asNamedLangString(dataset.description_en, 'en')],
+    [DCTERMS.title]: [asNamedLangString(dataset.title_cs, "cs"), asNamedLangString(dataset.title_en, "en")],
+    [DCTERMS.description]: [asNamedLangString(dataset.description_cs, "cs"), asNamedLangString(dataset.description_en, "en")],
     [DCATAP.keyword]: dataset.keywords.map(
-      (keyword) => asLangString(keyword)),
+      (keyword) => [asNamedLangString(keyword.cs, "cs"), asNamedLangString(keyword.en, "en")]),
     [DCATAP.distribution]: distributions.map(
       (distribution) => exportDistribution(distribution, dataset.iri))
   };
@@ -136,48 +136,48 @@ function exportContactPoint(dataset) {
 function exportDistribution(distribution, datasetIri) {
 
   const output = {
-      "@type": DCATAP.Distribution
+    "@type": DCATAP.Distribution
   }
 
   if (distribution.isFileOrService === "FILE") {
-      output[DCATAP.downloadURL] = asIri(distribution.url);
-      output[DCATAP.mediaType] = asIri(distribution.media_type);
-      output[DCTERMS.format] = asIri(distribution.format);
+    output[DCATAP.downloadURL] = asIri(distribution.url);
+    output[DCATAP.mediaType] = asIri(distribution.media_type);
+    output[DCTERMS.format] = asIri(distribution.format);
 
-      if (isNotEmpty(distribution.schema)) {
-        output[DCTERMS.conformsTo] = asIri(distribution.schema);
-      }
+    if (isNotEmpty(distribution.schema)) {
+      output[DCTERMS.conformsTo] = asIri(distribution.schema);
+    }
 
-      if (isNotEmpty(distribution.packageFormat)) {
-          output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
-      }
+    if (isNotEmpty(distribution.packageFormat)) {
+      output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
+    }
 
-      if (isNotEmpty(distribution.compressFormat)) {
-          output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
-      }
+    if (isNotEmpty(distribution.compressFormat)) {
+      output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
+    }
   } else if (distribution.isFileOrService === "SERVICE") {
-      output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
-      output[DCATAP.accessService] = {
-          "@type": DCATAP.DataService,
-          [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
-          [DCATAP.endpointDescription]: asIri(distribution.service_description)
-      }
-      if (isNotEmpty(datasetIri)) {
-          output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
-      }
+    output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
+    output[DCATAP.accessService] = {
+      "@type": DCATAP.DataService,
+      [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
+      [DCATAP.endpointDescription]: asIri(distribution.service_description)
+    }
+    if (isNotEmpty(datasetIri)) {
+      output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
+    }
   } else {
-      console.log("Oopsie");
-      console.log(distribution.service_endpoint_url);
-      console.log(distribution.isFileOrService);
+    console.log("Oopsie");
+    console.log(distribution.service_endpoint_url);
+    console.log(distribution.isFileOrService);
   }
 
   output[PU.specifikace] = license(distribution);
   var titles = []
   if (isNotEmpty(distribution.title_cs)) {
-     titles.push(asNamedLangString(distribution.title_cs, 'cs'));
+    titles.push(asNamedLangString(distribution.title_cs, "cs"));
   }
   if (isNotEmpty(distribution.title_en)) {
-    titles.push(asNamedLangString(distribution.title_en, 'en'));
+    titles.push(asNamedLangString(distribution.title_en, "en"));
   }
   if (titles.length > 0)
     output[DCTERMS.title] = titles;

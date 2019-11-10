@@ -72,11 +72,17 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <span v-for="(theme, index) in dataset.dataset_themes" :key="theme">
+                <span
+                  v-for="(theme, index) in dataset.dataset_themes"
+                  :key="theme"
+                >
                   {{ index > 0 ? "," : "" }}
                   {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
                 </span>
-                <span v-for="(theme, index) in dataset.dataset_custom_themes" :key="theme">
+                <span
+                  v-for="(theme, index) in dataset.dataset_custom_themes"
+                  :key="theme"
+                >
                   {{ index > 0 ? "," : "" }}
                   {{ theme }}
                 </span>

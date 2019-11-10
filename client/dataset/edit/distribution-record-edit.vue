@@ -206,14 +206,24 @@
     </div>
     <v-divider />
     <h2 class="headline mt-2">
-     {{ $t('headline_access') }}
-   </h2>
+      {{ $t('headline_access') }}
+    </h2>
     <v-tabs v-model="distribution.isFileOrService">
-        <v-tab v-value="FILE" href="#FILE">{{ $t('headline_distribution_access') }}</v-tab>
-        <v-tab v-value="SERVICE" href="#SERVICE">{{ $t('headline_service_access') }}</v-tab>
+      <v-tab
+        v-value="FILE"
+        href="#FILE"
+      >
+        {{ $t('headline_distribution_access') }}
+      </v-tab>
+      <v-tab
+        v-value="SERVICE"
+        href="#SERVICE"
+      >
+        {{ $t('headline_service_access') }}
+      </v-tab>
     </v-tabs>
     <v-tabs-items v-model="distribution.isFileOrService">
-        <v-tab-item value="FILE">
+      <v-tab-item value="FILE">
         <div>
           <v-text-field
             id="distribution_url"
@@ -266,19 +276,19 @@
             wrap
           >
             <v-flex
-            xs12
-            md6
+              xs12
+              md6
             >
-            <app-solr-autocomplete
-              id="distribution_compress_format"
-              v-model="distribution.compressFormat"
-              :label="$t('distribution_compress_format') + $t('optional')"
-              :no-data-prompt="$t('media_type_autocomplete_no_data')"
-              :error-messages="err_compress_format"
-              prepend-icon="description"
-              code-list="media-types"
-              clearable
-            />
+              <app-solr-autocomplete
+                id="distribution_compress_format"
+                v-model="distribution.compressFormat"
+                :label="$t('distribution_compress_format') + $t('optional')"
+                :no-data-prompt="$t('media_type_autocomplete_no_data')"
+                :error-messages="err_compress_format"
+                prepend-icon="description"
+                code-list="media-types"
+                clearable
+              />
             </v-flex>
             <v-flex
               xs12
@@ -309,8 +319,8 @@
             @click:append-outer="$h('distribution_schema_link')"
           />
         </div>
-    </v-tab-item>
-    <v-tab-item value="SERVICE">
+      </v-tab-item>
+      <v-tab-item value="SERVICE">
         <div>
           <v-text-field
             id="endpoint_url"
@@ -339,11 +349,17 @@
             @click:append-outer="$h('endpoint_description')"
           />
         </div>
-        </v-tab-item>
-    </v-tab-items>
+      </v-tab-item>
+    </v-tabs-items>
     <div>
-      <v-layout row wrap>
-        <v-flex xs12 md6>
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          md6
+        >
           <v-text-field
             id="distribution_title_cs"
             v-model="distribution.title_cs"
@@ -355,7 +371,10 @@
             @click:append-outer="$h('distribution_title')"
           />
         </v-flex>
-        <v-flex xs12 md6>
+        <v-flex
+          xs12
+          md6
+        >
           <v-text-field
             id="distribution_title_en"
             v-model="distribution.title_en"
@@ -380,8 +399,6 @@
         {{ $t('delete_distribution') }}
       </v-btn>
     </div>
-
-
   </v-container>
 </template>
 

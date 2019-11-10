@@ -16,8 +16,14 @@
         href="https://opendata.gov.cz/špatná-praxe:start"
       >{{ $t('common_errors_link_label') }}</a>!
     </v-alert>
-    <v-layout row wrap>
-      <v-flex xs12 md6>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
         <v-text-field
           id="dataset_title_cs"
           v-model="dataset.title_cs"
@@ -31,23 +37,32 @@
           @click:append-outer="$h('dataset_title')"
         />
       </v-flex>
-      <v-flex xs12 md6>
+      <v-flex
+        xs12
+        md6
+      >
         <v-text-field
-            id="dataset_title_en"
-            v-model="dataset.title_en"
-            :label="$t('dataset_title_en')"
-            :error-messages="err_title_en"
-            :hint="$t('hint_dataset_title')"
-            prepend-icon="label"
-            append-outer-icon="help_outline"
-            required
-            clearable
-            @click:append-outer="$h('dataset_title')"
+          id="dataset_title_en"
+          v-model="dataset.title_en"
+          :label="$t('dataset_title_en')"
+          :error-messages="err_title_en"
+          :hint="$t('hint_dataset_title')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          required
+          clearable
+          @click:append-outer="$h('dataset_title')"
         />
       </v-flex>
     </v-layout>
-    <v-layout row wrap>
-      <v-flex xs12 md6>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
         <v-textarea
           id="dataset_description_cs"
           v-model="dataset.description_cs"
@@ -63,20 +78,23 @@
           @click:append-outer="$h('dataset_description')"
         />
       </v-flex>
-      <v-flex xs12 md6>
+      <v-flex
+        xs12
+        md6
+      >
         <v-textarea
-            id="dataset_description_en"
-            v-model="dataset.description_en"
-            :label="$t('dataset_description_en')"
-            :error-messages="err_description_en"
-            :hint="$t('hint_dataset_description')"
-            prepend-icon="description"
-            append-outer-icon="help_outline"
-            rows="3"
-            required
-            auto-grow
-            clearable
-            @click:append-outer="$h('dataset_description')"
+          id="dataset_description_en"
+          v-model="dataset.description_en"
+          :label="$t('dataset_description_en')"
+          :error-messages="err_description_en"
+          :hint="$t('hint_dataset_description')"
+          prepend-icon="description"
+          append-outer-icon="help_outline"
+          rows="3"
+          required
+          auto-grow
+          clearable
+          @click:append-outer="$h('dataset_description')"
         />
       </v-flex>
     </v-layout>
@@ -123,26 +141,26 @@
       </v-flex>
     </v-layout>
     <v-combobox
-            v-model="dataset.dataset_custom_themes"
-            id="dataset_custom_theme"
-            :label="$t('dataset_theme') + $t('optional')"
-            :error-messages="err_dataset_theme_custom"
-            :hint="$t('hint_dataset_theme')"
-            item-value="value"
-            prepend-icon="short_text"
-            append-outer-icon="help_outline"
-            append-icon=""
-            chips
-            multiple
-            @click:append-outer="$h('dataset_custom_theme')"
+      id="dataset_custom_theme"
+      v-model="dataset.dataset_custom_themes"
+      :label="$t('dataset_theme') + $t('optional')"
+      :error-messages="err_dataset_theme_custom"
+      :hint="$t('hint_dataset_theme')"
+      item-value="value"
+      prepend-icon="short_text"
+      append-outer-icon="help_outline"
+      append-icon=""
+      chips
+      multiple
+      @click:append-outer="$h('dataset_custom_theme')"
     >
       <template
-              slot="selection"
-              slot-scope="data"
+        slot="selection"
+        slot-scope="data"
       >
         <v-chip
-                close
-                @input="removeTheme(data.item)"
+          close
+          @input="removeTheme(data.item)"
         >
           <strong>{{ data.item }}</strong>
         </v-chip>
@@ -160,6 +178,7 @@
       required
       chips
       multiple
+      readonly
       @click:append-outer="$h('keywords')"
     >
       <template
@@ -170,10 +189,59 @@
           close
           @input="removeKeyword(data.item)"
         >
-          <strong>{{ data.item }}</strong>
+          <strong>{{ data.item.cs + " | " + data.item.en }}</strong>
         </v-chip>
       </template>
     </v-combobox>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="new_keyword_cs"
+          v-model="dataset.tmp_keyword_cs"
+          :label="$t('dataset_keyword_cs')"
+          :error-messages="err_keyword_cs"
+          :hint="$t('hint_dataset_keyword')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('dataset_keyword')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="new_keyword_en"
+          v-model="dataset.tmp_keyword_en"
+          :label="$t('dataset_keyword_en')"
+          :error-messages="err_keyword_en"
+          :hint="$t('hint_dataset_keyword')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('dataset_keyword')"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout
+      row
+      wrap
+    >
+      <div>
+        <button
+            v-on:click="addKeyword"
+          >
+          Add keyword
+        </button>
+      </div>
+    </v-layout>
     <v-layout
       row
       wrap
@@ -245,33 +313,42 @@
       </v-flex>
       <v-spacer />
     </v-layout>
-    <v-layout row wrap>
-        <v-flex xs12 md6>
-            <v-text-field
-              id="temporalResolution"
-              v-model="dataset.temporal_resolution"
-              :label="$t('temporal_resolution') + $t('optional')"
-              :error-messages="err_temporal"
-              :hint="$t('hint_temporal')"
-              prepend-icon="calendar_today"
-              append-outer-icon="help_outline"
-              clearable
-              @click:append-outer="$h('temporal')"
-            />
-        </v-flex>
-        <v-flex xs12 md6>
-            <v-text-field
-              id="spatialResolutionMeters"
-              v-model="dataset.spatial_resolution_meters"
-              :label="$t('spatial_resolution_meters') + $t('optional')"
-              :error-messages="err_spatial"
-              :hint="$t('hint_spatial')"
-              prepend-icon="zoom_out_map"
-              append-outer-icon="help_outline"
-              clearable
-              @click:append-outer="$h('spatial')"
-            />
-        </v-flex>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="temporalResolution"
+          v-model="dataset.temporal_resolution"
+          :label="$t('temporal_resolution') + $t('optional')"
+          :error-messages="err_temporal"
+          :hint="$t('hint_temporal')"
+          prepend-icon="calendar_today"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('temporal')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="spatialResolutionMeters"
+          v-model="dataset.spatial_resolution_meters"
+          :label="$t('spatial_resolution_meters') + $t('optional')"
+          :error-messages="err_spatial"
+          :hint="$t('hint_spatial')"
+          prepend-icon="zoom_out_map"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('spatial')"
+        />
+      </v-flex>
     </v-layout>
     <v-layout
       row
@@ -334,7 +411,7 @@
 </template>
 
 <script>
-import {createDatasetValidators} from "./dataset-model";
+import {createDatasetValidators, do_addKeyword} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -343,13 +420,14 @@ import RuianAutocomplete from "./ui/ruian-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 
+
 export default {
   "name": "app-dataset-record-edit",
   "components": {
     "app-date-picker": DatePicker,
     "app-ruian-autocomplete": RuianAutocomplete,
     "app-solr-autocomplete": SolrAutocomplete,
-    "app-solr-chips-autocomplete": SolrChipsAutocomplete
+    "app-solr-chips-autocomplete": SolrChipsAutocomplete,
   },
   "props": {
     "dataset": {"type": Object, "required": true}
@@ -357,12 +435,15 @@ export default {
   "data": () => ({
     "frequencies": FrequenciesCodeList,
     "ruianTypes": RuinTypeCodelist,
-    "dataset_themes": DatasetThemes
+    "dataset_themes": DatasetThemes,
   }),
   "computed": {
     ...createDatasetValidators()
   },
   "methods": {
+    "addKeyword": function() {
+      do_addKeyword(this.dataset);
+    },
     "removeKeyword": function (item) {
       const index = this.dataset.keywords.indexOf(item);
       this.dataset.keywords.splice(index, 1);
@@ -377,7 +458,7 @@ export default {
       }
       this.dataset.ruian = "";
       this.$refs.ruian.clearItemCache();
-    }
+    },
   }
 };
 </script>

@@ -21,7 +21,10 @@ export function createDataset() {
     "themes": [],
     "contact_point_name": "",
     "contact_point_email": "",
-    "keywords": []
+    "keywords": [],
+
+    "tmp_keyword_cs": "",
+    "tmp_keyword_en": ""
   })
 }
 
@@ -111,4 +114,15 @@ function allCustomThemesValid() {
   var bundle = {"isValid": true};
   value.forEach(function (item) { this.isValid = this.isValid & rule(item) }, bundle);
   return bundle.isValid;
+}
+
+export function do_addKeyword(dataset) {
+  console.log("Do add keyword");
+  const key_cs = dataset.tmp_keyword_cs;
+  const key_en = dataset.tmp_keyword_en;
+  const multilang = {
+    "cs": key_cs,
+    "en": key_en
+  }
+  dataset.keywords.push(multilang);
 }

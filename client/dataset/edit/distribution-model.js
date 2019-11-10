@@ -74,11 +74,11 @@ export function createDistributionValidators() {
         [url, "distribution_url_invalid"]
       ]),
     "err_format": apply(
-        (t) => t.distribution, "format",
-        provided, "format_missing"),
+      (t) => t.distribution, "format",
+      provided, "format_missing"),
     "err_media_type": apply(
-          (t) => t.distribution, "media_type",
-          provided, "media_type_missing"),
+      (t) => t.distribution, "media_type",
+      provided, "media_type_missing"),
     "err_schema": apply(
       (t) => t.distribution, "schema",
       url,
@@ -119,18 +119,18 @@ export function isDistributionValid(dist) {
 }
 
 function isAccessValid(dist) {
-    if(dist.isFileOrService === 'FILE') {
-        return provided(dist.url) &&
+  if(dist.isFileOrService === "FILE") {
+    return provided(dist.url) &&
               url(dist.url) &&
               provided(dist.format) &&
               isValidFormat(dist.format) &&
               provided(dist.media_type)
-    } else if (dist.isFileOrService === 'SERVICE') {
-        return provided(dist.service_endpoint_url) &&
+  } else if (dist.isFileOrService === "SERVICE") {
+    return provided(dist.service_endpoint_url) &&
             url(dist.service_endpoint_url) &&
             provided(dist.service_description) &&
             url(dist.service_description)
-    }
+  }
 }
 
 function validateAuthor(licence_prop, name_prop) {

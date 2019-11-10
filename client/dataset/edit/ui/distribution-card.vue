@@ -2,10 +2,16 @@
   <v-flex xs12>
     <v-card>
       <v-card-title v-if="(distribution.title_cs.length > 0)||(distribution.title_en.length > 0)">
-        <h3 class="headline mb-0" v-if="distribution.title_cs.length > 0">
+        <h3
+          v-if="distribution.title_cs.length > 0"
+          class="headline mb-0"
+        >
           {{ distribution.title_cs }}
         </h3> |
-        <h3 class="headline mb-0" v-if="distribution.title_en.length > 0">
+        <h3
+          v-if="distribution.title_en.length > 0"
+          class="headline mb-0"
+        >
           {{ distribution.title_en }}
         </h3>
       </v-card-title>
@@ -463,9 +469,9 @@
           </v-list>
         </v-flex>
         <v-flex
+          v-if="distribution.isFileOrService==='FILE'"
           xs12
           sm6
-          v-if="distribution.isFileOrService==='FILE'"
         >
           <v-list
             two-line
@@ -541,7 +547,10 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-if="packageProvided" avatar>
+            <v-list-tile
+              v-if="packageProvided"
+              avatar
+            >
               <v-list-tile-avatar>
                 <v-icon class="blue white--text">
                   description
@@ -556,7 +565,10 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-if="compressionProvided" avatar>
+            <v-list-tile
+              v-if="compressionProvided"
+              avatar
+            >
               <v-list-tile-avatar>
                 <v-icon class="blue white--text">
                   description
@@ -571,7 +583,10 @@
                 </v-list-tile-sub-title>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile v-if="schemaProvided" avatar>
+            <v-list-tile
+              v-if="schemaProvided"
+              avatar
+            >
               <v-list-tile-avatar>
                 <v-icon class="blue white--text">
                   link
@@ -600,9 +615,9 @@
           </v-list>
         </v-flex>
         <v-flex
+          v-if="distribution.isFileOrService==='SERVICE'"
           xs12
           sm6
-          v-if="distribution.isFileOrService==='SERVICE'"
         >
           <v-list
             two-line
@@ -748,10 +763,10 @@ export default {
       downloadUrl(this.distribution.media_type);
     },
     "downloadServiceDescription": function () {
-        downloadUrl(this.distribution.service_description);
+      downloadUrl(this.distribution.service_description);
     },
     "openServiceEndpoint": function() {
-        downloadUrl(this.distribution.service_endpoint_url);
+      downloadUrl(this.distribution.service_endpoint_url);
     },
     "openUrl": function (url) {
       downloadUrl(url);

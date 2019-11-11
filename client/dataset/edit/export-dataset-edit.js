@@ -189,7 +189,7 @@ function exportDistribution(distribution, datasetIri) {
   return output;
 }
 
-function expoortSpatial(spatial) {
+function exportSpatial(spatial) {
   console.log(spatial);
 
   if (spatial.type === "RUIAN") {

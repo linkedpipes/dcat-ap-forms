@@ -54,9 +54,9 @@ export function createDatasetValidators() {
       (t) => t.dataset, "description_en",
       provided,
       "dataset_description_invalid"),
-    "err_ruian": apply(
-      (t) => t.dataset, "ruian",
-      provided,
+    "err_dataset_spatial": apply(
+      (t) => t.dataset, "spatial",
+      (value) => value.length > 0,
       "ruian_invalid"),
     "err_keywords": apply(
       (t) => t.dataset, "keywords",
@@ -92,7 +92,7 @@ export function createDatasetValidators() {
 export function isDatasetValid(dataset) {
   return provided(dataset.title_cs) && provided(dataset.title_en) &&
         provided(dataset.description_cs) && provided(dataset.description_en) &&
-        provided(dataset.ruian) &&
+        provided(dataset.spatial) &&
         provided(dataset.keywords) &&
         provided(dataset.dataset_themes) &&
         allCustomThemesValid() &&

@@ -349,7 +349,6 @@
                                 ref="ruian"
                                 v-model="ruian"
                                 :label="$t('ruian')"
-                                :error-messages="err_ruian"
                                 :type="ruian_type"
                                 :disabled="ruian_type === ''"
                                 code-list="ruian"

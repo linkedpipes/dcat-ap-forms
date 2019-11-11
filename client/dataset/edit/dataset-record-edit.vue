@@ -563,7 +563,7 @@ export default {
     },
     "addSpatial": function() {
       this.dialog = false;
-      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current, this.$refs.ruian.items);
+      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current);
       this.ruian_type = "";
       this.ruian = "";
     },

@@ -9,8 +9,7 @@ export function createDataset() {
     "description_cs": "",
     "description_en": "",
     "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
-    "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
-    "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
+    "spatial": [],
     "temporal_start": "",
     "temporal_end": "",
     "temporal_resolution": "",
@@ -24,7 +23,7 @@ export function createDataset() {
     "keywords": [],
 
     "tmp_keyword_cs": "",
-    "tmp_keyword_en": ""
+    "tmp_keyword_en": "",
   })
 }
 

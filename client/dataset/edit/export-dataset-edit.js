@@ -25,8 +25,10 @@ export function exportToJsonLd(dataset, distributions) {
     const url = dataset.accrual_periodicity;
     output[DCTERMS.accrualPeriodicity] = asIri(url);
   }
-  if (isNotEmpty(dataset.ruian)) {
-    output[DCTERMS.spatial] = asIri(dataset.ruian);
+  if (isNotEmpty(dataset.spatial)) {
+    output[DCTERMS.spatial] = dataset.spatial.map(
+      (spatial) => exportSpatial(spatial)
+    )
   }
   if (isNotEmpty(dataset.documentation)) {
     output[FOAF.page] = asIri(dataset.documentation);
@@ -185,6 +187,16 @@ function exportDistribution(distribution, datasetIri) {
 
 
   return output;
+}
+
+function expoortSpatial(spatial) {
+  console.log(spatial);
+
+  if (spatial.type === "RUIAN") {
+    return asIri(spatial.ruian)
+  } else if (spatial.type === "URL") {
+    return asIri(spatial.url)
+  }
 }
 
 function license(distribution) {

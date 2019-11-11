@@ -562,11 +562,10 @@ export default {
       this.dataset.tmp_keyword_cs = "";
     },
     "addSpatial": function() {
-      this.dialog = false;
       const label = this.ruianLabel(this.ruian);
-      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, label);
-      this.ruian_type = "";
-      this.ruian = "";
+      if (do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, label)) {
+        this.dialog = false;
+      }
     },
     "removeKeyword": function (item) {
       const index = this.dataset.keywords.indexOf(item);

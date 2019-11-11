@@ -117,9 +117,9 @@ function allCustomThemesValid() {
 }
 
 export function do_addKeyword(dataset) {
-  console.log("Do add keyword");
   const key_cs = dataset.tmp_keyword_cs;
   const key_en = dataset.tmp_keyword_en;
+  if (!key_cs || !key_en) return;
   const multilang = {
     "cs": key_cs,
     "en": key_en
@@ -128,9 +128,7 @@ export function do_addKeyword(dataset) {
 }
 
 export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, label) {
-  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian);
   if (active_tab === 0) {
-    console.log("Label: " + label);
     dataset.spatial.push({
       "type": "RUIAN",
       "ruian_type": ruian_type,
@@ -138,9 +136,11 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_ta
       "label": label
     })
   } else if (active_tab === 1) {
+    if (!spatial_url) return false;
     dataset.spatial.push({
       "type": "URL",
       "url": spatial_url
     })
   }
+  return true;
 }

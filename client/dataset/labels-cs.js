@@ -27,7 +27,7 @@ export default {
   "keyword_en": "Nové klíčové slovo anglicky",
   "keyword_add": "Přidat klíčové slovo",
   "hint_keywords": "Klíčová slova vkládejte po vyplnění českého a anglického ekvivalentu tlačítkem Přidat klíčové slovo níže.",
-  "help_dataset_keywords": "<h3>Klíčová slova</h3><p>Klíčová slova charakterizující publikovanou datovou sadu. Slouží k vyhledávání datových sad napříč poskytovateli. Nemělo by se tedy jednat o interní identifikátory poskytovatele, nýbrž o slova, která by k popisu datové sady použilo co nejvíce uživatelů. Pro inspiraci doporučujeme se podívat na podobné datové sady, které jsou již v NKOD zaregistrovány.</p>",
+  "help_dataset_keyword": "<h3>Klíčová slova</h3><p>Klíčová slova charakterizující publikovanou datovou sadu. Slouží k vyhledávání datových sad napříč poskytovateli. Nemělo by se tedy jednat o interní identifikátory poskytovatele, nýbrž o slova, která by k popisu datové sady použilo co nejvíce uživatelů. Pro inspiraci doporučujeme se podívat na podobné datové sady, které jsou již v NKOD zaregistrovány.</p>",
   "hint_dataset_keyword_cs":"Český ekvivalent nového klíčového slova",
   "hint_dataset_keyword_en":"Anglický ekvivalent nového klíčového slova",
   "keywords_error": "Klíčová slova jsou povinná.",

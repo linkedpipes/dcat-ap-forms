@@ -369,7 +369,7 @@
                             v-model="spatial_url"
                             :label="$t('dataset_spatial_url')"
                             :error-messages="err_spatial_url"
-                            :hint="$t('hint_spatial_url')"
+                            :hint="$t('hint_dataset_spatial_url')"
                             prepend-icon="label"
                             append-outer-icon="help_outline"
                             clearable

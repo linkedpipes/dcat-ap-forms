@@ -27,7 +27,7 @@ export default {
   "keyword_en": "New keyword in English",
   "keyword_add": "Add new keyword",
   "hint_keywords": "To add a new keyword, fill in the Czech and English equivalents below and click Add new keyword button.",
-  "help_dataset_keywords": "<h3>Keywords</h3><p>Keywords characterize the published dataset. The enable data consumers to search for related datasets in the whole National Open Data Catalog. They should therefore not be internal identifiers used only by the publisher. On the contrary, they should be words which would be selected by the most data consumers to describe the dataset. For inspiration, see other registered datasets in the National Open Data Catalog.</p>",
+  "help_dataset_keyword": "<h3>Keywords</h3><p>Keywords characterize the published dataset. The enable data consumers to search for related datasets in the whole National Open Data Catalog. They should therefore not be internal identifiers used only by the publisher. On the contrary, they should be words which would be selected by the most data consumers to describe the dataset. For inspiration, see other registered datasets in the National Open Data Catalog.</p>",
   "hint_dataset_keyword_cs":"Czech equivalent of the new keyword",
   "hint_dataset_keyword_en":"English equivalent of the new keyword",
   "keywords_error": "Keywords are mandatory.",

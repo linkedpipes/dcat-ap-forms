@@ -58,7 +58,7 @@ export function createDatasetValidators() {
     "err_dataset_spatial": apply(
       (t) => t.dataset, "spatial",
       (value) => value.length > 0,
-      "ruian_invalid"),
+      "dataset_spatial_invalid"),
     "err_keywords": apply(
       (t) => t.dataset, "keywords",
       (value) => value.length > 0,
@@ -127,7 +127,7 @@ export function do_addKeyword(dataset) {
   dataset.keywords.push(multilang);
 }
 
-export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, label) {
+export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, active_tab, label) {
   if (active_tab === 0) {
     dataset.spatial.push({
       "type": "RUIAN",
@@ -136,6 +136,13 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_ta
       "label": label
     })
   } else if (active_tab === 1) {
+    if (!continent) return false;
+    dataset.spatial.push({
+      "type": "CONTINENT",
+      "url": continent,
+      "label": label
+    })
+  } else if (active_tab === 2) {
     if (!spatial_url) return false;
     dataset.spatial.push({
       "type": "URL",

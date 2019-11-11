@@ -1,5 +1,6 @@
 import {apply, applyEach, email, provided, url, temporal, decimal} from "@/app-service/validators";
 import dataset from "./dataset";
+import {getItem} from "./codelists/local-storage";
 
 export function createDataset() {
   return decorateDataset({
@@ -124,4 +125,23 @@ export function do_addKeyword(dataset) {
     "en": key_en
   }
   dataset.keywords.push(multilang);
+}
+
+export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, lang) {
+  console.log("Do add spatial.");
+  if (active_tab === 0) {
+    const label = getItem("ruian", spatial_url, lang);
+    console.log("Label: " + label);
+    dataset.spatial.push({
+      "type": "RUIAN",
+      "ruian_type": ruian_type,
+      "ruian": ruian,
+      "label": label
+    })
+  } else if (active_tab === 1) {
+    dataset.spatial.push({
+      "type": "URL",
+      "url": spatial_url
+    })
+  }
 }

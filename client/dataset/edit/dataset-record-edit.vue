@@ -521,7 +521,7 @@
 </template>
 
 <script>
-import {createDatasetValidators, do_addKeyword} from "./dataset-model";
+import {createDatasetValidators, do_addKeyword, do_addSpatial} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -558,22 +558,14 @@ export default {
   "methods": {
     "addKeyword": function() {
       do_addKeyword(this.dataset);
+      dataset.tmp_keyword_en = "";
+      dataset.tmp_keyword_cs = "";
     },
     "addSpatial": function() {
       this.dialog = false;
-
-      if (this.tmp_spatial_active_tab === 0) {
-        this.dataset.spatial.push({
-          "type": "RUIAN",
-          "ruian_type": this.ruian_type,
-          "ruian": this.ruian
-        })
-      } else if (this.tmp_spatial_active_tab === 1) {
-        this.dataset.spatial.push({
-          "type": "URL",
-          "url": this.spatial_url
-        })
-      }
+      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current);
+      ruian_type = "";
+      ruian = "";
     },
     "removeKeyword": function (item) {
       const index = this.dataset.keywords.indexOf(item);
@@ -591,7 +583,7 @@ export default {
       if (newValue === oldValue) {
         return;
       }
-      this.dataset.ruian = "";
+      this.ruian = "";
       this.$refs.ruian.clearItemCache();
     },
 

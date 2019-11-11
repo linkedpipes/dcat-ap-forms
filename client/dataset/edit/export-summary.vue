@@ -238,20 +238,9 @@
                 </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $t('ruian_iri') }}
+                {{ $t('dataset_spatial') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
-            <v-list-tile-action>
-              <v-btn
-                icon
-                ripple
-                @click="openRuian"
-              >
-                <v-icon color="blue">
-                  open_in_new
-                </v-icon>
-              </v-btn>
-            </v-list-tile-action>
           </v-list-tile>
           <v-divider v-if="dataset.ruian" />
           <v-list-tile

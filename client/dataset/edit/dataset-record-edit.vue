@@ -270,7 +270,7 @@
                   @input="removeSpatial(data.item)"
           >
             <strong v-if="data.item.type === 'URL'">{{data.item.url }}</strong>
-            <strong v-else-if="data.item.type === 'RUIAN'">{{data.item.ruian}}</strong>
+            <strong v-else-if="data.item.type === 'RUIAN'">{{ruianLabel(data.item.ruian)}}</strong>
             <strong v-else>{{data.item}}</strong>
           </v-chip>
         </template>
@@ -529,6 +529,7 @@ import SolrAutocomplete from "./ui/solr-autocomplete";
 import RuianAutocomplete from "./ui/ruian-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
+import {getItem} from "./codelists/local-storage";
 
 
 export default {
@@ -540,7 +541,8 @@ export default {
     "app-solr-chips-autocomplete": SolrChipsAutocomplete,
   },
   "props": {
-    "dataset": {"type": Object, "required": true}
+    "dataset": {"type": Object, "required": true},
+    "codelist": {"type": Object, "required": true}
   },
   "data": () => ({
     "frequencies": FrequenciesCodeList,
@@ -591,6 +593,15 @@ export default {
       }
       this.dataset.ruian = "";
       this.$refs.ruian.clearItemCache();
+    },
+
+    "ruianLabel": function (iri) {
+      const value = getItem(this.codelist, "ruian", iri, this.$vuetify.lang.current);
+      if (value === undefined) {
+        return iri;
+      } else {
+        return value;
+      }
     },
   }
 };

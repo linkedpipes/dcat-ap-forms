@@ -206,7 +206,7 @@
           v-model="dataset.tmp_keyword_cs"
           :label="$t('keyword_cs')"
           :error-messages="err_keyword_cs"
-          :hint="$t('hint_dataset_keyword')"
+          :hint="$t('hint_dataset_keyword_cs')"
           prepend-icon="label"
           append-outer-icon="help_outline"
           clearable
@@ -222,7 +222,7 @@
           v-model="dataset.tmp_keyword_en"
           :label="$t('keyword_en')"
           :error-messages="err_keyword_en"
-          :hint="$t('hint_dataset_keyword')"
+          :hint="$t('hint_dataset_keyword_en')"
           prepend-icon="label"
           append-outer-icon="help_outline"
           clearable

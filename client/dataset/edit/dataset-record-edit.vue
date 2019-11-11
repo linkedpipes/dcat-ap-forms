@@ -244,12 +244,8 @@
         </v-btn>
       </div>
     </v-layout>
-
-    <v-layout
-            row
-            wrap
-    >
-      <v-combobox
+    
+    <v-combobox
               id="dataset_spatial"
               v-model="dataset.spatial"
               :label="$t('dataset_spatial')"
@@ -279,7 +275,6 @@
           </v-chip>
         </template>
       </v-combobox>
-    </v-layout>
     <v-layout
             row
             wrap

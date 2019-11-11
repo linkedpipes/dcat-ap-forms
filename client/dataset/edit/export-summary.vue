@@ -79,6 +79,7 @@
                   {{ index > 0 ? ", " : "" }}
                   {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
                 </span>
+                <span v-if="dataset.dataset_themes.length && dataset.dataset_custom_themes.length">, </span>
                 <span
                   v-for="(theme, index) in dataset.dataset_custom_themes"
                   :key="theme"
@@ -122,13 +123,12 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <span
-                  v-for="(keyword, index) in dataset.keywords"
+                <v-chip
+                  v-for="keyword in dataset.keywords"
                   :key="keyword"
                 >
-                  {{ index > 0 ? "," : "" }}
-                  {{ keyword }}
-                </span>
+                  <strong>{{ keyword.cs }} | {{ keyword.en }}</strong>
+                </v-chip>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('keywords') }}

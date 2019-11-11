@@ -244,7 +244,7 @@
         </v-btn>
       </div>
     </v-layout>
-    
+
     <v-combobox
               id="dataset_spatial"
               v-model="dataset.spatial"

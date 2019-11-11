@@ -123,12 +123,13 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                <v-chip
-                  v-for="keyword in dataset.keywords"
-                  :key="keyword"
-                >
-                  <strong>{{ keyword.cs }} | {{ keyword.en }}</strong>
-                </v-chip>
+               <span
+                    v-for="(keyword, index) in dataset.keywords"
+                    :key="keyword"
+                  >
+                  {{ index > 0 ? ", " : "" }}
+                  {{ keyword.cs }} | {{ keyword.en }}
+                </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('keywords') }}
@@ -216,7 +217,7 @@
           </v-list-tile>
           <v-divider v-if="dataset.documentation" />
           <v-list-tile
-            v-if="dataset.ruian"
+            v-if="dataset.spatial"
             avatar
           >
             <v-list-tile-avatar>
@@ -226,7 +227,15 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title>
-                {{ ruianLabel }}
+                <span v-for="(item, index) in dataset.spatial" :key="item">
+                  {{ index > 0 ? ", " : "" }}
+                  <span v-if="item.type === 'RUIAN'">
+                    {{ ruianLabel(item.ruian) }}
+                  </span>
+                  <span v-else-if="item.type==='URL'">
+                    {{ item.url }}
+                  </span>
+                </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
                 {{ $t('ruian_iri') }}
@@ -359,8 +368,12 @@ export default {
     "codelist": {"type": Object, "required": true}
   },
   "computed": {
-    "ruianLabel": function () {
-      const iri = this.dataset.ruian;
+    "nkodDatabox": function () {
+      return NKOD_ISDS;
+    }
+  },
+  "methods": {
+    "ruianLabel": function (iri) {
       const value = getItem(
         this.codelist, "ruian", iri, this.$vuetify.lang.current);
       if (value === undefined) {
@@ -369,11 +382,6 @@ export default {
         return value;
       }
     },
-    "nkodDatabox": function () {
-      return NKOD_ISDS;
-    }
-  },
-  "methods": {
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.dataset, this.distributions);
       downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)

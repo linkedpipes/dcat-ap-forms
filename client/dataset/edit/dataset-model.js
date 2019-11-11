@@ -127,8 +127,8 @@ export function do_addKeyword(dataset) {
   dataset.keywords.push(multilang);
 }
 
-export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, lang, label) {
-  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian + ", lang = " + lang);
+export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, label) {
+  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian);
   if (active_tab === 0) {
     console.log("Label: " + label);
     dataset.spatial.push({

@@ -558,12 +558,13 @@ export default {
   "methods": {
     "addKeyword": function() {
       do_addKeyword(this.dataset);
-      dataset.tmp_keyword_en = "";
-      dataset.tmp_keyword_cs = "";
+      this.dataset.tmp_keyword_en = "";
+      this.dataset.tmp_keyword_cs = "";
     },
     "addSpatial": function() {
       this.dialog = false;
-      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current);
+      const x = this.dataset.$labels.ruian[this.ruian];
+      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current, x);
       this.ruian_type = "";
       this.ruian = "";
     },

@@ -564,8 +564,8 @@ export default {
     "addSpatial": function() {
       this.dialog = false;
       do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current);
-      ruian_type = "";
-      ruian = "";
+      this.ruian_type = "";
+      this.ruian = "";
     },
     "removeKeyword": function (item) {
       const index = this.dataset.keywords.indexOf(item);

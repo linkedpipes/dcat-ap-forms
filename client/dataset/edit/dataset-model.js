@@ -128,9 +128,9 @@ export function do_addKeyword(dataset) {
 }
 
 export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, lang) {
-  console.log("Do add spatial.");
+  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian + ", lang = " + lang);
   if (active_tab === 0) {
-    const label = getItem("ruian", spatial_url, lang);
+    const label = getItem("ruian", ruian, lang);
     console.log("Label: " + label);
     dataset.spatial.push({
       "type": "RUIAN",

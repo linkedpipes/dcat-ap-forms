@@ -204,7 +204,7 @@
         <v-text-field
           id="new_keyword_cs"
           v-model="dataset.tmp_keyword_cs"
-          :label="$t('dataset_keyword_cs')"
+          :label="$t('keyword_cs')"
           :error-messages="err_keyword_cs"
           :hint="$t('hint_dataset_keyword')"
           prepend-icon="label"
@@ -220,7 +220,7 @@
         <v-text-field
           id="new_keyword_en"
           v-model="dataset.tmp_keyword_en"
-          :label="$t('dataset_keyword_en')"
+          :label="$t('keyword_en')"
           :error-messages="err_keyword_en"
           :hint="$t('hint_dataset_keyword')"
           prepend-icon="label"
@@ -240,7 +240,7 @@
                 dark
                 v-on:click="addKeyword"
         >
-          Add keyword
+          {{ $t('keyword_add') }}
         </v-btn>
       </div>
     </v-layout>
@@ -295,7 +295,7 @@
                     dark
                     v-on="on"
             >
-              Add new
+              {{$t('dataset_spatial_add')}}
             </v-btn>
           </template>
 
@@ -304,7 +304,7 @@
                     class="headline grey lighten-2"
                     primary-title
             >
-              Spatial coverage
+              {{$t('dataset_spatial')}}
             </v-card-title>
 
             <v-tabs vertical v-model="tmp_spatial_active_tab">
@@ -312,7 +312,7 @@
                 RÚIAN
               </v-tab>
               <v-tab>
-                arbitrary URL
+                {{$t('dataset_spatial_arbitrary')}}
               </v-tab>
 
               <v-tab-item>
@@ -389,7 +389,7 @@
                       text
                       @click="addSpatial()"
               >
-                Add
+                {{$t('dataset_spatial_add_confirm')}}
               </v-btn>
             </v-card-actions>
           </v-card>

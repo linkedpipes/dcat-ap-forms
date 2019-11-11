@@ -232,7 +232,7 @@
                   <span v-if="item.type === 'RUIAN'">
                     {{ ruianLabel(item.ruian) }}
                   </span>
-                  <span v-else-if="item.type==='URL'">
+                  <span v-else-if="item.type==='URL' || item.type==='COUNTRY' || item.type==='CONTINENT'">
                     {{ item.url }}
                   </span>
                 </span>

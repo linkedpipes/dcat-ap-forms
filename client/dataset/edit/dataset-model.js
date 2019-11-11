@@ -127,11 +127,12 @@ export function do_addKeyword(dataset) {
   dataset.keywords.push(multilang);
 }
 
-export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, lang) {
-  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian + ", lang = " + lang);
+export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, active_tab, lang, items) {
+  console.log("Do add spatial: ruian_type = " + ruian_type + ", ruian = " + ruian + ", lang = " + lang + ", items: " + items);
   if (active_tab === 0) {
     const label = getItem("ruian", ruian, lang);
     console.log("Label: " + label);
+    console.log(items[ruian]);
     dataset.spatial.push({
       "type": "RUIAN",
       "ruian_type": ruian_type,

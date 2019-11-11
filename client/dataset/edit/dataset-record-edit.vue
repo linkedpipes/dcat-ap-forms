@@ -270,7 +270,7 @@
                   @input="removeSpatial(data.item)"
           >
             <strong v-if="data.item.type === 'URL'">{{data.item.url }}</strong>
-            <strong v-else-if="data.item.type === 'RUIAN'">{{ruianLabel(data.item.ruian)}}</strong>
+            <strong v-else-if="data.item.type === 'RUIAN'">{{data.item.label}}</strong>
             <strong v-else>{{data.item}}</strong>
           </v-chip>
         </template>
@@ -563,7 +563,7 @@ export default {
     },
     "addSpatial": function() {
       this.dialog = false;
-      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current);
+      do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.tmp_spatial_active_tab, this.$vuetify.lang.current, this.$refs.ruian.items);
       this.ruian_type = "";
       this.ruian = "";
     },
@@ -585,15 +585,6 @@ export default {
       }
       this.ruian = "";
       this.$refs.ruian.clearItemCache();
-    },
-
-    "ruianLabel": function (iri) {
-      const value = getItem(this.codelist, "ruian", iri, this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
     },
   }
 };

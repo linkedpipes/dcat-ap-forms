@@ -270,7 +270,7 @@
                   @input="removeSpatial(data.item)"
           >
             <strong v-if="data.item.type === 'URL'">{{data.item.url }}</strong>
-            <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY'">{{data.item.label}}</strong>
+            <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY' || data.item.type === 'PLACE'">{{data.item.label}}</strong>
             <strong v-else>{{data.item}}</strong>
           </v-chip>
         </template>
@@ -304,8 +304,9 @@
 
             <v-tabs vertical v-model="tmp_spatial_active_tab">
               <v-tab>RÚIAN</v-tab>
-              <v-tab>EU Voc Continent</v-tab>
-              <v-tab>EU Voc Country</v-tab>
+              <v-tab>{{$t('dataset_spatial_continent')}}</v-tab>
+              <v-tab>{{$t('dataset_spatial_country')}}</v-tab>
+              <v-tab>{{$t('dataset_spatial_place')}}</v-tab>
               <v-tab>{{$t('dataset_spatial_arbitrary')}}</v-tab>
 
               <v-tab-item>
@@ -375,6 +376,21 @@
                             v-model="country"
                             :label="Country"
                             :items="countries"
+                            :item-text="$vuetify.lang.current"
+                            item-value="value"
+                    >
+
+                    </v-autocomplete>
+                  </v-card-text>
+                </v-card>
+              </v-tab-item>
+              <v-tab-item>
+                <v-card flat>
+                  <v-card-text>
+                    <v-autocomplete
+                            v-model="place"
+                            :label="Place"
+                            :items="places"
                             :item-text="$vuetify.lang.current"
                             item-value="value"
                     >
@@ -554,8 +570,10 @@ import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
 import {getLabel as continentsToLabel} from "./codelists/continents";
 import {getLabel as countriesToLabel} from "./codelists/countries";
+import {getLabel as placesToLabel} from "./codelists/places";
 import ContinentsCodeList from "./codelists/continents";
 import CountryCodeList from "./codelists/countries";
+import PlaceCodeList from "./codelists/places";
 import SolrAutocomplete from "./ui/solr-autocomplete";
 import RuianAutocomplete from "./ui/ruian-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
@@ -581,6 +599,7 @@ export default {
     "dataset_themes": DatasetThemes,
     "continents": ContinentsCodeList,
     "countries": CountryCodeList,
+    "places": PlaceCodeList,
     "dialog": false,
     "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
     "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
@@ -602,9 +621,11 @@ export default {
         label = continentsToLabel(this.continent, this.$vuetify.lang.current);
       } else if (this.tmp_spatial_active_tab === 2) {
         label = countriesToLabel(this.country, this.$vuetify.lang.current);
+      } else if (this.tmp_spatial_active_tab === 3) {
+        label = placesToLabel(this.place, this.$vuetify.lang.current);
       }
 
-      if (do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.continent, this.country, this.tmp_spatial_active_tab, label)) {
+      if (do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.continent, this.country, this.place, this.tmp_spatial_active_tab, label)) {
         this.dialog = false;
       }
     },

@@ -127,7 +127,7 @@ export function do_addKeyword(dataset) {
   dataset.keywords.push(multilang);
 }
 
-export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, country, active_tab, label) {
+export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, country, place, active_tab, label) {
   if (active_tab === 0) {
     dataset.spatial.push({
       "type": "RUIAN",
@@ -150,6 +150,13 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
       "label": label
     })
   } else if (active_tab === 3) {
+    if (!place) return false;
+    dataset.spatial.push({
+      "type": "PLACE",
+      "url": place,
+      "label": label
+    })
+  } else if (active_tab === 4) {
     if (!spatial_url) return false;
     dataset.spatial.push({
       "type": "URL",

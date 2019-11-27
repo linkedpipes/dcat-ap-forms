@@ -70,16 +70,8 @@ export function createDatasetValidators() {
       (t) => t.dataset, "title_cs",
       provided,
       "dataset_title_invalid"),
-    "err_title_en": apply(
-      (t) => t.dataset, "title_en",
-      provided,
-      "dataset_title_invalid"),
     "err_description_cs": apply(
       (t) => t.dataset, "description_cs",
-      provided,
-      "dataset_description_invalid"),
-    "err_description_en": apply(
-      (t) => t.dataset, "description_en",
       provided,
       "dataset_description_invalid"),
     "err_dataset_spatial": apply(
@@ -118,8 +110,8 @@ export function createDatasetValidators() {
 
 
 export function isDatasetValid(dataset) {
-  return provided(dataset.title_cs) && provided(dataset.title_en) &&
-        provided(dataset.description_cs) && provided(dataset.description_en) &&
+  return provided(dataset.title_cs)  &&
+        provided(dataset.description_cs)  &&
         provided(dataset.spatial) &&
         provided(dataset.keywords) &&
         provided(dataset.dataset_themes) &&
@@ -146,7 +138,7 @@ function allCustomThemesValid() {
 export function do_addKeyword(dataset) {
   const key_cs = dataset.tmp_keyword_cs;
   const key_en = dataset.tmp_keyword_en;
-  if (!key_cs || !key_en) return;
+  if (!key_cs) return;
   const multilang = {
     "cs": key_cs,
     "en": key_en
@@ -245,6 +237,7 @@ export function parse_dump(graphData, dataset, distributions) {
       const v = version["@value"];
       key[l] = v;
     });
+    if (!("en" in key)) key["en"] = "";
     dataset.keywords.push(key);
   });
 
@@ -313,7 +306,7 @@ export function parse_dump(graphData, dataset, distributions) {
     d["service_endpoint_url"] = endpointUrl;
     d["url"] = tryGet(DCATAP.downloadURL, distribution);
     d["title_cs"] = title["cs"];
-    d["title_en"] = title["en"];
+    if ("en" in title) d["title_en"] = title["en"];
 
     //
     const spec = distribution[PU.specifikace]["@id"];

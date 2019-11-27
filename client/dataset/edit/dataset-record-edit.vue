@@ -44,12 +44,11 @@
         <v-text-field
           id="dataset_title_en"
           v-model="dataset.title_en"
-          :label="$t('dataset_title_en')"
+          :label="$t('dataset_title_en') + $t('optional')"
           :error-messages="err_title_en"
           :hint="$t('hint_dataset_title')"
           prepend-icon="label"
           append-outer-icon="help_outline"
-          required
           clearable
           @click:append-outer="$h('dataset_title')"
         />
@@ -85,13 +84,12 @@
         <v-textarea
           id="dataset_description_en"
           v-model="dataset.description_en"
-          :label="$t('dataset_description_en')"
+          :label="$t('dataset_description_en') + $t('optional')"
           :error-messages="err_description_en"
           :hint="$t('hint_dataset_description')"
           prepend-icon="description"
           append-outer-icon="help_outline"
           rows="3"
-          required
           auto-grow
           clearable
           @click:append-outer="$h('dataset_description')"
@@ -220,7 +218,7 @@
         <v-text-field
           id="new_keyword_en"
           v-model="dataset.tmp_keyword_en"
-          :label="$t('keyword_en')"
+          :label="$t('keyword_en') + $t('optional')"
           :error-messages="err_keyword_en"
           :hint="$t('hint_dataset_keyword_en')"
           prepend-icon="label"

@@ -10,13 +10,22 @@ import {
 } from "@/app-service/vocabulary";
 
 export function exportToJsonLd(dataset, distributions) {
+  var titles = [asNamedLangString(dataset.title_cs, "cs")];
+  if (isNotEmpty(dataset.title_en)) titles.push(asNamedLangString(dataset.title_en, "en"));
+
+  var descriptions = [asNamedLangString(dataset.description_cs, "cs")];
+  if (isNotEmpty(dataset.description_en)) descriptions.push(asNamedLangString(dataset.description_en, "en"));
+
   const output = {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
-    [DCTERMS.title]: [asNamedLangString(dataset.title_cs, "cs"), asNamedLangString(dataset.title_en, "en")],
-    [DCTERMS.description]: [asNamedLangString(dataset.description_cs, "cs"), asNamedLangString(dataset.description_en, "en")],
-    [DCATAP.keyword]: dataset.keywords.map(
-      (keyword) => [asNamedLangString(keyword.cs, "cs"), asNamedLangString(keyword.en, "en")]),
+    [DCTERMS.title]: titles,
+    [DCTERMS.description]: descriptions,
+    [DCATAP.keyword]: dataset.keywords.map(function(keyword){
+      var keywords = [asNamedLangString(keyword.cs, "cs")];
+      if (isNotEmpty(keyword.en)) keywords.push(asNamedLangString(keyword.en, "en"));
+      return keywords
+    }),
     [DCATAP.distribution]: distributions.map(
       (distribution) => exportDistribution(distribution, dataset.iri))
   };

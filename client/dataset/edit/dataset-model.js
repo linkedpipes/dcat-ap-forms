@@ -294,7 +294,7 @@ export function parse_dump(graphData, dataset, distributions) {
     }
   });
 
-  distributions.splice(0, distributions.length);
+  distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
   graphData[DCATAP.distribution].forEach(function(distribution) {
     if (DCTERMS.title in distribution) {
       const titles = distribution[DCTERMS.title];
@@ -324,7 +324,6 @@ export function parse_dump(graphData, dataset, distributions) {
     var d = createDistribution()
     d["compressFormat"] = tryGet(distribution, DCTERMS.compressFormat);
     d["format"] = tryGet(distribution, DCTERMS.format);
-    d["isFileOrService"] = fileOrService;
     d["media_type"] = tryGet(distribution, DCATAP.mediaType);
     d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
     d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
@@ -333,6 +332,7 @@ export function parse_dump(graphData, dataset, distributions) {
     d["url"] = tryGet(DCATAP.downloadURL, distribution);
     d["title_cs"] = title["cs"];
     if ("en" in title) d["title_en"] = title["en"];
+    d["isFileOrService"] = fileOrService;
 
     //
     /*const spec = distribution[PU.specifikace]["@id"];
@@ -344,10 +344,10 @@ export function parse_dump(graphData, dataset, distributions) {
     const osobni = spec[PU.osobniUdaje]["@id"];*/
     //
 
-    distributions.push(d);
+    distributions.splice(0, 0, d); //add
   });
 
-  if (distributions.length === 0) {
-    distributions.push(createDistribution());
-  }
+  if (distributions.length > 0) {
+    distributions.pop();
+  } //remove the dummy
 }

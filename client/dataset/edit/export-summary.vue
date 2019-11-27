@@ -296,6 +296,48 @@
             v-if="dataset.temporal_start || dataset.temporal_end"
           />
           <v-list-tile
+                  v-if="dataset.temporal_resolution"
+                  avatar
+          >
+            <v-list-tile-avatar>
+              <v-icon class="blue white--text">
+                calendar_today
+              </v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ dataset.temporal_resolution }}
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                {{ $t('temporal_resolution') }}
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider
+                  v-if="dataset.temporal_resolution"
+          />
+          <v-list-tile
+                  v-if="dataset.spatial_resolution_meters"
+                  avatar
+          >
+            <v-list-tile-avatar>
+              <v-icon class="blue white--text">
+                zoom_out_map
+              </v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                {{ dataset.spatial_resolution_meters }}
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                {{ $t('spatial_resolution_meters') }}
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-divider
+                  v-if="dataset.spatial_resolution_meters"
+          />
+          <v-list-tile
             v-if="dataset.themes.length"
             avatar
           >

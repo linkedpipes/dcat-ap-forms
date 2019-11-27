@@ -46,6 +46,8 @@ export function exportToJsonLd(dataset, distributions) {
   const themes = [...dataset.dataset_themes, ...dataset.themes, ...dataset.dataset_custom_themes];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
+  if (isNotEmpty(dataset.ofn)) output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
+
   const temporal = exportTemporal(dataset);
   if (isNotEmpty(temporal)) {
     output[DCTERMS.temporal] = temporal;

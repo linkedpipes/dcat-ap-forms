@@ -138,32 +138,73 @@
         />
       </v-flex>
     </v-layout>
-    <v-combobox
-      id="dataset_custom_theme"
-      v-model="dataset.dataset_custom_themes"
-      :label="$t('dataset_theme') + $t('optional')"
-      :error-messages="err_dataset_theme_custom"
-      :hint="$t('hint_dataset_theme')"
-      item-value="value"
-      prepend-icon="short_text"
-      append-outer-icon="help_outline"
-      append-icon=""
-      chips
-      multiple
-      @click:append-outer="$h('dataset_custom_theme')"
+    <v-layout
+            row
+            wrap
     >
-      <template
-        slot="selection"
-        slot-scope="data"
+      <v-flex
+              xs12
+              md6
       >
-        <v-chip
-          close
-          @input="removeTheme(data.item)"
+        <v-combobox
+          id="dataset_custom_theme"
+          v-model="dataset.dataset_custom_themes"
+          :label="$t('dataset_theme') + $t('optional')"
+          :error-messages="err_dataset_theme_custom"
+          :hint="$t('hint_dataset_theme')"
+          item-value="value"
+          prepend-icon="short_text"
+          append-outer-icon="help_outline"
+          append-icon=""
+          chips
+          multiple
+          @click:append-outer="$h('dataset_custom_theme')"
         >
-          <strong>{{ data.item }}</strong>
-        </v-chip>
-      </template>
-    </v-combobox>
+          <template
+            slot="selection"
+            slot-scope="data"
+          >
+            <v-chip
+              close
+              @input="removeTheme(data.item)"
+            >
+              <strong>{{ data.item }}</strong>
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-flex>
+      <v-flex
+              xs12
+              md6
+      >
+        <v-combobox
+                id="dataset_ofn"
+                v-model="dataset.ofn"
+                :label="$t('dataset_ofn') + $t('optional')"
+                :error-messages="err_dataset_ofn"
+                :hint="$t('hint_dataset_ofn')"
+                item-value="value"
+                prepend-icon="short_text"
+                append-outer-icon="help_outline"
+                append-icon=""
+                chips
+                multiple
+                @click:append-outer="$h('dataset_ofn')"
+        >
+          <template
+                  slot="selection"
+                  slot-scope="data"
+          >
+            <v-chip
+                    close
+                    @input="removeOfn(data.item)"
+            >
+              <strong>{{ data.item }}</strong>
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-flex>
+    </v-layout>
     <v-combobox
       id="keywords"
       v-model="dataset.keywords"
@@ -644,6 +685,10 @@ export default {
     "removeTheme": function (item) {
       const index = this.dataset.dataset_custom_themes.indexOf(item);
       this.dataset.dataset_custom_themes.splice(index, 1);
+    },
+    "removeOfn": function (item) {
+      const index = this.dataset.ofn.indexOf(item);
+      this.dataset.ofn.splice(index, 1);
     },
     "removeSpatial": function (item) {
       const index = this.dataset.spatial.indexOf(item);

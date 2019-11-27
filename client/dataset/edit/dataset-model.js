@@ -43,6 +43,7 @@ export function createDataset() {
     "dataset_themes": [],
     "dataset_custom_themes": [],
     "themes": [],
+    "ofn": [],
     "contact_point_name": "",
     "contact_point_email": "",
     "keywords": [],
@@ -97,6 +98,10 @@ export function createDatasetValidators() {
     "err_dataset_theme_custom": applyEach(
       (t) => t.dataset, "dataset_custom_themes",
       url, "dataset_theme_invalid_url"),
+    "err_dataset_ofn": applyEach(
+      (t) => t.dataset, "ofn",
+      url, "dataset_theme_invalid_url"
+    ),
     "err_temporal": apply(
       (t) => t.dataset, "temporal_resolution",
       temporal,
@@ -115,7 +120,8 @@ export function isDatasetValid(dataset) {
         provided(dataset.spatial) &&
         provided(dataset.keywords) &&
         provided(dataset.dataset_themes) &&
-        allCustomThemesValid() &&
+        allCustomThemesValid(dataset.dataset_custom_theme) &&
+        allCustomThemesValid(dataset.ofn) &&
         isValidTemporalString(dataset.temporal_resolution) &&
         isValidSpatialString(dataset.spatial_resolution_meters);
 }
@@ -128,10 +134,10 @@ function  isValidSpatialString(value) {
   return !provided(value) || /^[-+]?[0-9]+(\.[0-9]+)?$/.test(value);
 }
 
-function allCustomThemesValid() {
-  if (!provided(dataset.dataset_custom_themes)) return true;
+function allCustomThemesValid(value) {
+  if (!provided(value)) return true;
   var bundle = {"isValid": true};
-  value.forEach(function (item) { this.isValid = this.isValid & rule(item) }, bundle);
+  value.forEach(function (item) { this.isValid = this.isValid & url(item) }, bundle);
   return bundle.isValid;
 }
 
@@ -259,7 +265,7 @@ export function parse_dump(graphData, dataset, distributions) {
   const themes = graphData[DCATAP.theme];
 
   themes.forEach(function(theme, _) {
-    var t = theme["@id"];
+    const t = theme["@id"];
     if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
       dataset.dataset_themes.push(t)
     } else if (t.startsWith("http://eurovoc.europa.eu/")){
@@ -268,6 +274,14 @@ export function parse_dump(graphData, dataset, distributions) {
       dataset.dataset_custom_themes.push(t)
     }
   });
+
+  dataset.ofn = [];
+  if (DCTERMS.conformsTo in graphData) {
+    const conforms = graphData[DCTERMS.conformsTo];
+    conforms.forEach(function(ofn, _) {
+      dataset.ofn.push(ofn["@id"]);
+    });
+  }
 
   dataset.spatial = [];
   const spatial = graphData[DCTERMS.spatial];
@@ -285,7 +299,7 @@ export function parse_dump(graphData, dataset, distributions) {
     if (DCTERMS.title in distribution) {
       const titles = distribution[DCTERMS.title];
 
-      for (lang in ["cs", "en"]) if (!(lang in titles)) titles[lang] = "";
+      ["cs", "en"].forEach(function(lang){ if (!(lang in titles)) titles[lang] = ""; });
 
     } else {
       const titles = {"cs": "", "en": ""}
@@ -332,4 +346,8 @@ export function parse_dump(graphData, dataset, distributions) {
 
     distributions.push(d);
   });
+
+  if (distributions.length === 0) {
+    distributions.push(createDistribution());
+  }
 }

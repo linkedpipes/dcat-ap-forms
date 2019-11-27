@@ -62,8 +62,41 @@
           subheader
         >
           <v-list-tile
-            v-if="dataset.dataset_themes.length || dataset.dataset_custom_themes.length"
-            avatar
+                v-if="dataset.dataset_themes.length || dataset.dataset_custom_themes.length"
+                avatar
+        >
+          <v-list-tile-avatar>
+            <v-icon class="blue white--text">
+              category
+            </v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>
+                <span
+                        v-for="(theme, index) in dataset.dataset_themes"
+                        :key="theme"
+                >
+                  {{ index > 0 ? ", " : "" }}
+                  {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
+                </span>
+              <span v-if="dataset.dataset_themes.length && dataset.dataset_custom_themes.length">, </span>
+              <span
+                      v-for="(theme, index) in dataset.dataset_custom_themes"
+                      :key="theme"
+              >
+                  {{ index > 0 ? ", " : "" }}
+                  {{ theme }}
+                </span>
+            </v-list-tile-title>
+            <v-list-tile-sub-title>
+              {{ $t('dataset_theme') }}
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+          <v-divider v-if="dataset.dataset_themes.length" />
+          <v-list-tile
+                  v-if="dataset.ofn.length"
+                  avatar
           >
             <v-list-tile-avatar>
               <v-icon class="blue white--text">
@@ -73,27 +106,19 @@
             <v-list-tile-content>
               <v-list-tile-title>
                 <span
-                  v-for="(theme, index) in dataset.dataset_themes"
-                  :key="theme"
-                >
-                  {{ index > 0 ? ", " : "" }}
-                  {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
-                </span>
-                <span v-if="dataset.dataset_themes.length && dataset.dataset_custom_themes.length">, </span>
-                <span
-                  v-for="(theme, index) in dataset.dataset_custom_themes"
-                  :key="theme"
+                        v-for="(theme, index) in dataset.ofn"
+                        :key="theme"
                 >
                   {{ index > 0 ? ", " : "" }}
                   {{ theme }}
                 </span>
               </v-list-tile-title>
               <v-list-tile-sub-title>
-                {{ $t('dataset_theme') }}
+                {{ $t('dataset_ofn') }}
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.dataset_themes.length" />
+          <v-divider v-if="dataset.ofn.length" />
           <v-list-tile avatar>
             <v-list-tile-avatar>
               <v-icon class="blue white--text">

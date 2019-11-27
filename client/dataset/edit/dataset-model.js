@@ -185,9 +185,9 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
   return true;
 }
 
-export function tryGet(key, d) {
+export function tryGet(key, d, x="@id") {
   try {
-    return d[key]["@id"];
+    return d[key][x];
   } catch (KeyError) {
     return null;
   }
@@ -206,9 +206,9 @@ import {createDistribution} from "./distribution-model";
 export function parse_dump(graphData, dataset, distributions) {
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
-  dataset.temporal_resolution = graphData[DCATAP.temporalResolution]["@value"];
-  dataset.spatial_resolution_meters = graphData[DCATAP.spatialResolutionInMeters]["@value"];
-  dataset.documentation = graphData[FOAF.page]["@id"];
+  dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
+  dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graphData, "@value");
+  dataset.documentation = tryGet(FOAF.page, graphData);
 
   const titles = graphData[DCTERMS.title];
   titles.forEach(function(title, _) {
@@ -241,13 +241,17 @@ export function parse_dump(graphData, dataset, distributions) {
     dataset.keywords.push(key);
   });
 
-  const temporal = graphData[DCTERMS.temporal];
-  dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
-  dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+  if (DCTERMS.temporal in graphData) {
+    const temporal = graphData[DCTERMS.temporal];
+    dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
+    dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+  }
 
-  const contact = graphData[DCATAP.contactPoint];
-  dataset.contact_point_name = contact[VCARD.fn]["@value"];
-  dataset.contact_point_email = contact[VCARD.hasEmail];
+  if (DCATAP.contactPoint in graphData) {
+    const contact = graphData[DCATAP.contactPoint];
+    dataset.contact_point_name = contact[VCARD.fn]["@value"];
+    dataset.contact_point_email = contact[VCARD.hasEmail];
+  }
 
   dataset.themes = [];
   dataset.dataset_themes = [];
@@ -278,9 +282,17 @@ export function parse_dump(graphData, dataset, distributions) {
 
   distributions.splice(0, distributions.length);
   graphData[DCATAP.distribution].forEach(function(distribution) {
-    const titles = distribution[DCTERMS.title];
+    if (DCTERMS.title in distribution) {
+      const titles = distribution[DCTERMS.title];
+
+      for (lang in ["cs", "en"]) if (!(lang in titles)) titles[lang] = "";
+
+    } else {
+      const titles = {"cs": "", "en": ""}
+    }
+
     var title = {};
-    titles.forEach(function(t, _) {
+    titles.forEach(function (t, _) {
       const l = t["@language"];
       const v = t["@value"]
       title[l] = v;
@@ -309,13 +321,13 @@ export function parse_dump(graphData, dataset, distributions) {
     if ("en" in title) d["title_en"] = title["en"];
 
     //
-    const spec = distribution[PU.specifikace]["@id"];
+    /*const spec = distribution[PU.specifikace]["@id"];
     const autor = spec[PU.autor]["@value"];
     const autorskeDilo = spec[PU.autorskeDilo]["@id"];
     const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
     const autor_db = spec[PU.autorDatabaze]["@value"];
     const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
-    const osobni = spec[PU.osobniUdaje]["@id"];
+    const osobni = spec[PU.osobniUdaje]["@id"];*/
     //
 
     distributions.push(d);

@@ -285,15 +285,6 @@ export function parse_dump(graphData, dataset, distributions) {
 
   distributions.splice(0, distributions.length);
   graphData[DCATAP.distribution].forEach(function(distribution) {
-    //TODO
-    /*const spec = distribution[PU.specifikace]["@id"];
-    const autor = spec[PU.autor]["@value"];
-    const autorskeDilo = spec[PU.autorskeDilo]["@id"];
-    const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
-    const autor_db = spec[PU.autorDatabaze]["@value"];
-    const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
-    const osobni = spec[PU.osobniUdaje]["@id"];*/
-
     const titles = distribution[DCTERMS.title];
     var title = {};
     titles.forEach(function(t, _) {
@@ -318,11 +309,22 @@ export function parse_dump(graphData, dataset, distributions) {
     d["media_type"] = tryGet(distribution, DCATAP.mediaType);
     d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
     d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
-    d["service_description"] = tryGet(accessService, DCATAP.endpointDescription);
+    d["service_description"] = tryGet(DCATAP.endpointDescription, accessService);
     d["service_endpoint_url"] = endpointUrl;
-    d["url"] = tryGet(distribution, DCATAP.downloadURL);
+    d["url"] = tryGet(DCATAP.downloadURL, distribution);
     d["title_cs"] = title["cs"];
     d["title_en"] = title["en"];
+
+    //
+    const spec = distribution[PU.specifikace]["@id"];
+    const autor = spec[PU.autor]["@value"];
+    const autorskeDilo = spec[PU.autorskeDilo]["@id"];
+    const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
+    const autor_db = spec[PU.autorDatabaze]["@value"];
+    const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
+    const osobni = spec[PU.osobniUdaje]["@id"];
+    //
+
     distributions.push(d);
   });
 }

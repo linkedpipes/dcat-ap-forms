@@ -43,7 +43,10 @@ export function exportToJsonLd(dataset, distributions) {
   }
 
   if (isNotEmpty(dataset.temporal_resolution)) {
-    output[DCATAP.temporalResolution] = asValue(dataset.temporal_resolution);
+    output[DCATAP.temporalResolution] = {
+      "@literal": dataset.temporal_resolution ,
+      "@datatype": "xsd:duration"
+    };
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
@@ -157,7 +160,8 @@ function exportDistribution(distribution, datasetIri) {
     if (isNotEmpty(distribution.compressFormat)) {
       output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
     }
-  } else if (distribution.isFileOrService === "SERVICE") {
+  }
+  else if (distribution.isFileOrService === "SERVICE") {
     output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
     output[DCATAP.accessService] = {
       "@type": DCATAP.DataService,
@@ -190,11 +194,9 @@ function exportDistribution(distribution, datasetIri) {
 }
 
 function exportSpatial(spatial) {
-  console.log(spatial);
-
   if (spatial.type === "RUIAN") {
     return asIri(spatial.ruian)
-  } else if (spatial.type === "URL") {
+  } else {
     return asIri(spatial.url)
   }
 }

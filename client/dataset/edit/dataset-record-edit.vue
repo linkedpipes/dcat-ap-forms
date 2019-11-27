@@ -236,9 +236,9 @@
     >
       <div>
         <v-btn
-                color="red lighten-2"
-                dark
-                v-on:click="addKeyword"
+          color="red lighten-2"
+          dark
+          @click="addKeyword"
         >
           {{ $t('keyword_add') }}
         </v-btn>
@@ -276,8 +276,8 @@
         </template>
       </v-combobox>
     <v-layout
-            row
-            wrap
+      row
+      wrap
     >
       <div class="text-center">
         <v-dialog
@@ -560,11 +560,18 @@
       prepend-icon="euro_symbol"
       code-list="themes"
     />
+    <v-layout
+            row
+            wrap
+    >
+      <upload-btn @file-update="onFileChanged" :title="$t('load')"></upload-btn>
+    </v-layout>
   </v-container>
+
 </template>
 
 <script>
-import {createDatasetValidators, do_addKeyword, do_addSpatial} from "./dataset-model";
+import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile, load_from_file} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -579,6 +586,7 @@ import RuianAutocomplete from "./ui/ruian-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 import {getItem} from "./codelists/local-storage";
+import UploadButton from "vuetify-upload-button";
 
 
 export default {
@@ -588,6 +596,7 @@ export default {
     "app-ruian-autocomplete": RuianAutocomplete,
     "app-solr-autocomplete": SolrAutocomplete,
     "app-solr-chips-autocomplete": SolrChipsAutocomplete,
+    "upload-btn": UploadButton,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
@@ -656,6 +665,9 @@ export default {
         return value;
       }
     },
+    "onFileChanged": function (file) {
+      do_loadFile(file, this.dataset, this.distributions);
+    }
   }
 };
 </script>

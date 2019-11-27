@@ -2,6 +2,7 @@ export default {
   "step_dataset": "Datová sada",
   "step_distribution": "Distribuce",
   "step_download": "Shrnutí",
+  "load": "NAČÍST ZE SOUBORU",
   "dataset_title_cs": "Název datové sady česky",
   "dataset_title_en": "Název datové sady anglicky",
   "dataset_title_invalid": "Název datové sady je povinný.",

@@ -2,6 +2,30 @@ import {apply, applyEach, email, provided, url, temporal, decimal} from "@/app-s
 import dataset from "./dataset";
 import {getItem} from "./codelists/local-storage";
 
+import {
+  normalize,
+  getDefaultGraphData,
+  getByType,
+  getValue,
+  getValues,
+  getByIri,
+  getId
+} from "@/app-service/jsonld";
+
+import {
+  parseDataset, parseThemes, parseContactPoint, parseTemporal, parseDistributions
+} from "@/dataset/import-from-url";
+
+import {
+  DCTERMS,
+  DCATAP,
+  FOAF,
+  VCARD,
+  SCHEMA,
+  PU,
+  SKOS
+} from "@/app-service/vocabulary";
+
 export function createDataset() {
   return decorateDataset({
     "iri": undefined,
@@ -25,6 +49,9 @@ export function createDataset() {
 
     "tmp_keyword_cs": "",
     "tmp_keyword_en": "",
+
+    "tmp_file": null,
+    "tmp": null,
   })
 }
 
@@ -106,7 +133,7 @@ function isValidTemporalString(value) {
 }
 
 function  isValidSpatialString(value) {
-  return !provided(value) || /^[-+]?[0-9]+\.[0-9]+$/.test(value);
+  return !provided(value) || /^[-+]?[0-9]+(\.[0-9]+)?$/.test(value);
 }
 
 function allCustomThemesValid() {
@@ -164,4 +191,128 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
     })
   }
   return true;
+}
+
+export function do_loadFile(file, dataset, distributions) {
+  var reader = new FileReader();
+  reader.onload = function() {
+    dataset.tmp_file = getDefaultGraphData(normalize(JSON.parse(reader.result)));
+    parse_dump(dataset.tmp_file, dataset, distributions);
+  };
+  reader.readAsText(file);
+}
+
+export function parse_dump(graphData, dataset, distributions) {
+  const contactPoint = graphData[DCATAP.contactPoint];
+  dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
+  dataset.temporal_resolution = graphData[DCATAP.temporalResolution]["@value"];
+  dataset.spatial_resolution_meters = graphData[DCATAP.spatialResolutionInMeters]["@value"];
+  dataset.documentation = graphData[FOAF.page]["@id"];
+
+  const titles = graphData[DCTERMS.title];
+  titles.forEach(function(title, _) {
+    if (title["@language"] === "cs") {
+      dataset.title_cs = title["@value"];
+    } else if (title["@language"] === "en") {
+      dataset.title_en = title["@value"];
+    }
+  });
+
+  const descriptions = graphData[DCTERMS.description];
+  descriptions.forEach(function(title, _) {
+    if (title["@language"] === "cs") {
+      dataset.description_cs = title["@value"];
+    } else if (title["@language"] === "en") {
+      dataset.description_en = title["@value"];
+    }
+  });
+
+  const keywords = graphData[DCATAP.keyword];
+  dataset.keywords = [];
+  keywords.forEach(function(keyword, _) {
+    var key = {};
+    keyword.forEach(function(version, _) {
+      const l = version["@language"];
+      const v = version["@value"];
+      key[l] = v;
+    });
+    dataset.keywords.push(key);
+  });
+
+  const temporal = graphData[DCTERMS.temporal];
+  dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
+  dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+
+  const contact = graphData[DCATAP.contactPoint];
+  dataset.contact_point_name = contact[VCARD.fn]["@value"];
+  dataset.contact_point_email = contact[VCARD.hasEmail];
+
+  dataset.themes = [];
+  dataset.dataset_themes = [];
+  dataset.dataset_custom_themes = [];
+  const themes = graphData[DCATAP.theme];
+
+  themes.forEach(function(theme, _) {
+    var t = theme["@id"];
+    if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
+      dataset.dataset_themes.push(t)
+    } else if (t.startsWith("http://eurovoc.europa.eu/")){
+      dataset.themes.push(t);
+    } else {
+      dataset.dataset_custom_themes.push(t)
+    }
+  });
+
+  dataset.spatial = [];
+  const spatial = graphData[DCTERMS.spatial];
+  spatial.forEach(function(s, _) {
+    if (s !== null) {
+      dataset.spatial.push({
+        "type": "URL",
+        "url": s["@id"]
+      })
+    }
+  });
+
+  graphData[DCATAP.distribution].forEach(function(distribution) {
+    //const accessService = distribution[DCATAP.accessService];
+
+    //TODO
+    /*const spec = distribution[PU.specifikace]["@id"];
+    const autor = spec[PU.autor]["@value"];
+    const autorskeDilo = spec[PU.autorskeDilo]["@id"];
+    const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
+    const autor_db = spec[PU.autorDatabaze]["@value"];
+    const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
+    const osobni = spec[PU.osobniUdaje]["@id"];*/
+
+    const titles = distribution[DCTERMS.title];
+    var title = {};
+    titles.forEach(function(t, _) {
+      const l = t["@language"];
+      const v = t["@value"]
+      title[l] = v;
+    })
+
+    /*var fileOrService;
+    const endpointUrl = accessService[DCATAP.endpointURL]["@id"];
+    if (endpointUrl.length > 0) {
+      fileOrService = "SERVICE";
+    } else {
+      fileOrService = "FILE";
+    }*/
+    distributions.push({
+      //"compressFormat": distribution[DCTERMS.compressFormat]["@id"],
+      //"format": distribution[DCTERMS.format]["@id"],
+      //"isFileOrService": fileOrService,
+      //"media_type": distribution[DCATAP.mediaType]["@id"],
+      //"packageFormat": distribution[DCTERMS.packageFormat]["@id"],
+      //"schema": distribution[DCTERMS.conformsTo]["@id"],
+      "//service_description": accessService[DCATAP.endpointDescription]["@id"],
+      //"service_endpoint_url": endpointUrl,
+      "url": distribution[DCATAP.downloadURL]["@id"],
+      "title_cs": title["cs"],
+      "title_en": title["en"]
+    });
+  });
 }

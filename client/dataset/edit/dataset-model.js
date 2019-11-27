@@ -193,6 +193,14 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
   return true;
 }
 
+export function tryGet(key, d) {
+  try {
+    return d[key]["@id"];
+  } catch (KeyError) {
+    return null;
+  }
+}
+
 export function do_loadFile(file, dataset, distributions) {
   var reader = new FileReader();
   reader.onload = function() {
@@ -202,6 +210,7 @@ export function do_loadFile(file, dataset, distributions) {
   reader.readAsText(file);
 }
 
+import {createDistribution} from "./distribution-model";
 export function parse_dump(graphData, dataset, distributions) {
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
@@ -274,9 +283,8 @@ export function parse_dump(graphData, dataset, distributions) {
     }
   });
 
+  distributions.splice(0, distributions.length);
   graphData[DCATAP.distribution].forEach(function(distribution) {
-    //const accessService = distribution[DCATAP.accessService];
-
     //TODO
     /*const spec = distribution[PU.specifikace]["@id"];
     const autor = spec[PU.autor]["@value"];
@@ -294,25 +302,27 @@ export function parse_dump(graphData, dataset, distributions) {
       title[l] = v;
     })
 
-    /*var fileOrService;
+    var fileOrService;
+    const accessService = distribution[DCATAP.accessService];
     const endpointUrl = accessService[DCATAP.endpointURL]["@id"];
     if (endpointUrl.length > 0) {
       fileOrService = "SERVICE";
     } else {
       fileOrService = "FILE";
-    }*/
-    distributions.push({
-      //"compressFormat": distribution[DCTERMS.compressFormat]["@id"],
-      //"format": distribution[DCTERMS.format]["@id"],
-      //"isFileOrService": fileOrService,
-      //"media_type": distribution[DCATAP.mediaType]["@id"],
-      //"packageFormat": distribution[DCTERMS.packageFormat]["@id"],
-      //"schema": distribution[DCTERMS.conformsTo]["@id"],
-      "//service_description": accessService[DCATAP.endpointDescription]["@id"],
-      //"service_endpoint_url": endpointUrl,
-      "url": distribution[DCATAP.downloadURL]["@id"],
-      "title_cs": title["cs"],
-      "title_en": title["en"]
-    });
+    }
+
+    var d = createDistribution()
+    d["compressFormat"] = tryGet(distribution, DCTERMS.compressFormat);
+    d["format"] = tryGet(distribution, DCTERMS.format);
+    d["isFileOrService"] = fileOrService;
+    d["media_type"] = tryGet(distribution, DCATAP.mediaType);
+    d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
+    d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
+    d["service_description"] = tryGet(accessService, DCATAP.endpointDescription);
+    d["service_endpoint_url"] = endpointUrl;
+    d["url"] = tryGet(distribution, DCATAP.downloadURL);
+    d["title_cs"] = title["cs"];
+    d["title_en"] = title["en"];
+    distributions.push(d);
   });
 }

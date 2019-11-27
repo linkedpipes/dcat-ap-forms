@@ -600,7 +600,8 @@ export default {
   },
   "props": {
     "dataset": {"type": Object, "required": true},
-    "codelist": {"type": Object, "required": true}
+    "codelist": {"type": Object, "required": true},
+    "distributions": {"type": Array, "required": true},
   },
   "data": () => ({
     "frequencies": FrequenciesCodeList,

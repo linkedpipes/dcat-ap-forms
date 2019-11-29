@@ -1,4 +1,4 @@
-const prefix = "http://publications.europa.eu/resource/authority/country/";
+export const prefix = "http://publications.europa.eu/resource/authority/country/";
 
 const codelist = [
   {

@@ -191,6 +191,7 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
   return true;
 }
 
+// === Loading from file
 export function tryGet(key, d, x="@id") {
   try {
     return d[key][x];
@@ -199,17 +200,31 @@ export function tryGet(key, d, x="@id") {
   }
 }
 
-export function do_loadFile(file, dataset, distributions) {
+export function do_loadFile(file, dataset, distributions, lang, codelist) {
   var reader = new FileReader();
   reader.onload = function() {
     dataset.tmp_file = getDefaultGraphData(normalize(JSON.parse(reader.result)));
-    parse_dump(dataset.tmp_file, dataset, distributions);
+    parse_dump(dataset.tmp_file, dataset, distributions, lang, codelist);
   };
   reader.readAsText(file);
 }
 
 import {createDistribution} from "./distribution-model";
-export function parse_dump(graphData, dataset, distributions) {
+import {prefix as continentPrefix} from "./codelists/continents";
+import {prefix as countryPrefix} from "./codelists/countries";
+import {prefix as placePrefix} from "./codelists/places";
+import {getLabel as continentsToLabel} from "./codelists/continents";
+import {getLabel as countriesToLabel} from "./codelists/countries";
+import {getLabel as placesToLabel} from "./codelists/places";
+function ruianLabel(iri, codelist, lang) {
+  const value = getItem(codelist, "ruian", iri, lang);
+  if (value === undefined) {
+    return iri;
+  } else {
+    return value;
+  }
+}
+export function parse_dump(graphData, dataset, distributions, lang, codelist) {
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
   dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
@@ -287,10 +302,26 @@ export function parse_dump(graphData, dataset, distributions) {
   const spatial = graphData[DCTERMS.spatial];
   spatial.forEach(function(s, _) {
     if (s !== null) {
-      dataset.spatial.push({
-        "type": "URL",
+      var x = {
         "url": s["@id"]
-      })
+      }
+      if (x["url"].startsWith("https://linked.cuzk.cz/resource/ruian/")) {
+        x["type"] = "RUIAN";
+        x["label"] = ruianLabel(x["url"], codelist, lang);
+        x["ruian"] = s["@id"];
+      } else if (x["url"].startsWith(continentPrefix)) {
+        x["type"] = "CONTINENT";
+        x["label"] = continentsToLabel(x["url"], lang)
+      } else if (x["url"].startsWith(countryPrefix)) {
+        x["type"] = "COUNTRY";
+        x["label"] = countriesToLabel(x["url"], lang)
+      } else if (x["url"].startsWith(placePrefix)) {
+        x["type"] = "PLACE";
+        x["label"] = placesToLabel(x["url"], lang)
+      } else {
+        x["type"] = "URL"
+      }
+      dataset.spatial.push(x)
     }
   });
 

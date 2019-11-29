@@ -270,7 +270,7 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider v-if="dataset.ruian" />
+          <v-divider v-if="dataset.spatial" />
           <v-list-tile
             v-if="dataset.temporal_start || dataset.temporal_end"
             avatar

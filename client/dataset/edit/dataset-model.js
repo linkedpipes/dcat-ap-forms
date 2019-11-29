@@ -212,7 +212,7 @@ import {createDistribution} from "./distribution-model";
 export function parse_dump(graphData, dataset, distributions) {
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
-  dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
+  dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@literal");
   dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graphData, "@value");
   dataset.documentation = tryGet(FOAF.page, graphData);
 

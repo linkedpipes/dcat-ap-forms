@@ -16,6 +16,7 @@ export function exportToJsonLd(dataset, distributions) {
   var descriptions = [asNamedLangString(dataset.description_cs, "cs")];
   if (isNotEmpty(dataset.description_en)) descriptions.push(asNamedLangString(dataset.description_en, "en"));
 
+  if (isEmpty(dataset.iri)) dataset.iri = "_:ds";
   const output = {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
@@ -155,6 +156,15 @@ function exportDistribution(distribution, datasetIri) {
     "@type": DCATAP.Distribution
   }
 
+  var titles = []
+  if (isNotEmpty(distribution.title_cs)) {
+    titles.push(asNamedLangString(distribution.title_cs, "cs"));
+  }
+  if (isNotEmpty(distribution.title_en)) {
+    titles.push(asNamedLangString(distribution.title_en, "en"));
+  }
+  if (titles.length > 0) output[DCTERMS.title] = titles;
+
   if (distribution.isFileOrService === "FILE") {
     output[DCATAP.downloadURL] = asIri(distribution.url);
     output[DCATAP.mediaType] = asIri(distribution.media_type);
@@ -179,6 +189,7 @@ function exportDistribution(distribution, datasetIri) {
       [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
       [DCATAP.endpointDescription]: asIri(distribution.service_description)
     }
+    if (titles.length > 0) output[DCATAP.accessService][DCTERMS.title] = titles;
     if (isNotEmpty(datasetIri)) {
       output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
     }
@@ -189,15 +200,7 @@ function exportDistribution(distribution, datasetIri) {
   }
 
   output[PU.specifikace] = license(distribution);
-  var titles = []
-  if (isNotEmpty(distribution.title_cs)) {
-    titles.push(asNamedLangString(distribution.title_cs, "cs"));
-  }
-  if (isNotEmpty(distribution.title_en)) {
-    titles.push(asNamedLangString(distribution.title_en, "en"));
-  }
-  if (titles.length > 0)
-    output[DCTERMS.title] = titles;
+
 
 
 

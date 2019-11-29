@@ -55,8 +55,8 @@ export function exportToJsonLd(dataset, distributions) {
 
   if (isNotEmpty(dataset.temporal_resolution)) {
     output[DCATAP.temporalResolution] = {
-      "@literal": dataset.temporal_resolution ,
-      "@datatype": "http://www.w3.org/2001/XMLSchema#duration"
+      "@value": dataset.temporal_resolution ,
+      "@type": "http://www.w3.org/2001/XMLSchema#duration"
     };
   }
 

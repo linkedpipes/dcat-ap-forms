@@ -209,6 +209,74 @@
             row
             wrap
     >
+      <v-flex xs1 md1>
+        <div class="text-center">
+          <v-dialog
+                  v-model="dialog_keyword"
+                  width="500"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                      color="primary"
+                      fab
+                      dark
+                      v-on="on"
+              >
+                <v-icon>add</v-icon>
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title
+                      class="headline grey lighten-2"
+                      primary-title
+              >
+                {{$t('keyword_add')}}
+              </v-card-title>
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-text-field
+                          id="new_keyword_cs"
+                          v-model="dataset.tmp_keyword_cs"
+                          :label="$t('keyword_cs')"
+                          :error-messages="err_keyword_cs"
+                          :hint="$t('hint_dataset_keyword_cs')"
+                          prepend-icon="label"
+                          append-outer-icon="help_outline"
+                          clearable
+                          @click:append-outer="$h('dataset_keyword')"
+                  />
+                </v-layout>
+                <v-layout row wrap>
+                  <v-text-field
+                          id="new_keyword_en"
+                          v-model="dataset.tmp_keyword_en"
+                          :label="$t('keyword_en') + $t('optional')"
+                          :error-messages="err_keyword_en"
+                          :hint="$t('hint_dataset_keyword_en')"
+                          prepend-icon="label"
+                          append-outer-icon="help_outline"
+                          clearable
+                          @click:append-outer="$h('dataset_keyword')"
+                  />
+                </v-layout>
+              </v-card-text>
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                        color="primary"
+                        text
+                        @click="addKeyword()"
+                >
+                  {{$t('keyword_add')}}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+      </v-flex>
       <v-flex xs11 md11>
         <v-combobox
           id="keywords"
@@ -238,18 +306,27 @@
         </template>
       </v-combobox>
       </v-flex>
+
+
+    </v-layout>
+
+    <v-layout
+            row
+            wrap
+    >
       <v-flex xs1 md1>
         <div class="text-center">
           <v-dialog
-                  v-model="dialog_keyword"
+                  v-model="dialog"
                   width="500"
           >
             <template v-slot:activator="{ on }">
               <v-btn
                       color="primary"
-                      fab
                       dark
+                      fab
                       v-on="on"
+
               >
                 <v-icon>add</v-icon>
               </v-btn>
@@ -260,36 +337,125 @@
                       class="headline grey lighten-2"
                       primary-title
               >
-                {{$t('keyword_add')}}
+                {{$t('dataset_spatial')}}
               </v-card-title>
-              <v-card-text>
-                <v-layout row wrap>
-                  <v-text-field
-                    id="new_keyword_cs"
-                    v-model="dataset.tmp_keyword_cs"
-                    :label="$t('keyword_cs')"
-                    :error-messages="err_keyword_cs"
-                    :hint="$t('hint_dataset_keyword_cs')"
-                    prepend-icon="label"
-                    append-outer-icon="help_outline"
-                    clearable
-                    @click:append-outer="$h('dataset_keyword')"
-                  />
-                </v-layout>
-                <v-layout row wrap>
-                  <v-text-field
-                      id="new_keyword_en"
-                      v-model="dataset.tmp_keyword_en"
-                      :label="$t('keyword_en') + $t('optional')"
-                      :error-messages="err_keyword_en"
-                      :hint="$t('hint_dataset_keyword_en')"
-                      prepend-icon="label"
-                      append-outer-icon="help_outline"
-                      clearable
-                      @click:append-outer="$h('dataset_keyword')"
-                    />
-                </v-layout>
-              </v-card-text>
+
+              <v-tabs vertical v-model="tmp_spatial_active_tab">
+                <v-tab>RÚIAN</v-tab>
+                <v-tab>{{$t('dataset_spatial_continent')}}</v-tab>
+                <v-tab>{{$t('dataset_spatial_country')}}</v-tab>
+                <v-tab>{{$t('dataset_spatial_place')}}</v-tab>
+                <v-tab>{{$t('dataset_spatial_arbitrary')}}</v-tab>
+
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <v-layout
+                              row
+                              wrap
+                      >
+                        <v-flex
+                                xs12
+                                md6
+                        >
+                          <v-autocomplete
+                                  id="dataset_ruian_type"
+                                  v-model="ruian_type"
+                                  :items="ruianTypes"
+                                  :label="$t('ruian_type')"
+                                  :item-text="$vuetify.lang.current"
+                                  prepend-icon="place"
+                                  item-value="value"
+                                  append-outer-icon="help_outline"
+                                  required
+                                  @click:append-outer="$h('ruian_type')"
+                                  @input="onRuainTypeInput"
+                          />
+                        </v-flex>
+                        <v-flex
+                                xs12
+                                md6
+                        >
+                          <app-ruian-autocomplete
+                                  id="dataset_ruian"
+                                  ref="ruian"
+                                  v-model="ruian"
+                                  :label="$t('ruian')"
+                                  :type="ruian_type"
+                                  :disabled="ruian_type === ''"
+                                  code-list="ruian"
+                                  prepend-icon="place"
+                                  @update:label="dataset.$labels.ruian = $event"
+                          />
+                        </v-flex>
+                      </v-layout>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <v-autocomplete
+                              v-model="continent"
+                              :label="Continent"
+                              :items="continents"
+                              :item-text="$vuetify.lang.current"
+                              item-value="value"
+                      >
+
+                      </v-autocomplete>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <v-autocomplete
+                              v-model="country"
+                              :label="Country"
+                              :items="countries"
+                              :item-text="$vuetify.lang.current"
+                              item-value="value"
+                      >
+
+                      </v-autocomplete>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <v-autocomplete
+                              v-model="place"
+                              :label="Place"
+                              :items="places"
+                              :item-text="$vuetify.lang.current"
+                              item-value="value"
+                      >
+
+                      </v-autocomplete>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <v-text-field
+                              id="spatial_custom_url"
+                              v-model="spatial_url"
+                              :label="$t('dataset_spatial_url')"
+                              :error-messages="err_spatial_url"
+                              :hint="$t('hint_dataset_spatial_url')"
+                              prepend-icon="label"
+                              append-outer-icon="help_outline"
+                              clearable
+                              @click:append-outer="$h('dataset_spatial_url')"
+                      />
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs>
+
               <v-divider></v-divider>
 
               <v-card-actions>
@@ -297,21 +463,16 @@
                 <v-btn
                         color="primary"
                         text
-                        @click="addKeyword()"
+                        @click="addSpatial()"
                 >
-                  {{$t('keyword_add')}}
+                  {{$t('dataset_spatial_add_confirm')}}
                 </v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
         </div>
       </v-flex>
-    </v-layout>
 
-    <v-layout
-            row
-            wrap
-    >
       <v-flex xs11 md11>
         <v-combobox
                   id="dataset_spatial"
@@ -343,164 +504,6 @@
               </v-chip>
             </template>
           </v-combobox>
-      </v-flex>
-      <v-flex xs1 md1>
-        <div class="text-center">
-        <v-dialog
-                v-model="dialog"
-                width="500"
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-                    color="primary"
-                    dark
-                    fab
-                    v-on="on"
-
-            >
-              <v-icon>add</v-icon>
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-card-title
-                    class="headline grey lighten-2"
-                    primary-title
-            >
-              {{$t('dataset_spatial')}}
-            </v-card-title>
-
-            <v-tabs vertical v-model="tmp_spatial_active_tab">
-              <v-tab>RÚIAN</v-tab>
-              <v-tab>{{$t('dataset_spatial_continent')}}</v-tab>
-              <v-tab>{{$t('dataset_spatial_country')}}</v-tab>
-              <v-tab>{{$t('dataset_spatial_place')}}</v-tab>
-              <v-tab>{{$t('dataset_spatial_arbitrary')}}</v-tab>
-
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <v-layout
-                            row
-                            wrap
-                    >
-                      <v-flex
-                              xs12
-                              md6
-                      >
-                        <v-autocomplete
-                                id="dataset_ruian_type"
-                                v-model="ruian_type"
-                                :items="ruianTypes"
-                                :label="$t('ruian_type')"
-                                :item-text="$vuetify.lang.current"
-                                prepend-icon="place"
-                                item-value="value"
-                                append-outer-icon="help_outline"
-                                required
-                                @click:append-outer="$h('ruian_type')"
-                                @input="onRuainTypeInput"
-                        />
-                      </v-flex>
-                      <v-flex
-                              xs12
-                              md6
-                      >
-                        <app-ruian-autocomplete
-                                id="dataset_ruian"
-                                ref="ruian"
-                                v-model="ruian"
-                                :label="$t('ruian')"
-                                :type="ruian_type"
-                                :disabled="ruian_type === ''"
-                                code-list="ruian"
-                                prepend-icon="place"
-                                @update:label="dataset.$labels.ruian = $event"
-                        />
-                      </v-flex>
-                    </v-layout>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <v-autocomplete
-                      v-model="continent"
-                      :label="Continent"
-                      :items="continents"
-                      :item-text="$vuetify.lang.current"
-                      item-value="value"
-                    >
-
-                    </v-autocomplete>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <v-autocomplete
-                            v-model="country"
-                            :label="Country"
-                            :items="countries"
-                            :item-text="$vuetify.lang.current"
-                            item-value="value"
-                    >
-
-                    </v-autocomplete>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <v-autocomplete
-                            v-model="place"
-                            :label="Place"
-                            :items="places"
-                            :item-text="$vuetify.lang.current"
-                            item-value="value"
-                    >
-
-                    </v-autocomplete>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <v-text-field
-                            id="spatial_custom_url"
-                            v-model="spatial_url"
-                            :label="$t('dataset_spatial_url')"
-                            :error-messages="err_spatial_url"
-                            :hint="$t('hint_dataset_spatial_url')"
-                            prepend-icon="label"
-                            append-outer-icon="help_outline"
-                            clearable
-                            @click:append-outer="$h('dataset_spatial_url')"
-                    />
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs>
-
-            <v-divider></v-divider>
-
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-                      color="primary"
-                      text
-                      @click="addSpatial()"
-              >
-                {{$t('dataset_spatial_add_confirm')}}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
-      </div>
       </v-flex>
     </v-layout>
 

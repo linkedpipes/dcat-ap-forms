@@ -680,6 +680,7 @@ export default {
     "countries": CountryCodeList,
     "places": PlaceCodeList,
     "dialog": false,
+    "dialog_keyword": false,
     "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
     "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
   }),
@@ -691,6 +692,7 @@ export default {
       do_addKeyword(this.dataset);
       this.dataset.tmp_keyword_en = "";
       this.dataset.tmp_keyword_cs = "";
+      this.dialog_keyword = false;
     },
     "addSpatial": function() {
       var label = null;

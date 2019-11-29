@@ -205,131 +205,160 @@
         </v-combobox>
       </v-flex>
     </v-layout>
-    <v-combobox
-      id="keywords"
-      v-model="dataset.keywords"
-      :label="$t('keywords')"
-      :error-messages="err_keywords"
-      :hint="$t('hint_keywords')"
-      prepend-icon="short_text"
-      append-outer-icon="help_outline"
-      append-icon=""
-      required
-      chips
-      multiple
-      readonly
-      @click:append-outer="$h('dataset_keywords')"
-    >
-      <template
-        slot="selection"
-        slot-scope="data"
-      >
-        <v-chip
-          close
-          @input="removeKeyword(data.item)"
-        >
-          <strong>{{ data.item.cs + " | " + data.item.en }}</strong>
-        </v-chip>
-      </template>
-    </v-combobox>
     <v-layout
-      row
-      wrap
+            row
+            wrap
     >
-      <v-flex
-        xs12
-        md6
-      >
-        <v-text-field
-          id="new_keyword_cs"
-          v-model="dataset.tmp_keyword_cs"
-          :label="$t('keyword_cs')"
-          :error-messages="err_keyword_cs"
-          :hint="$t('hint_dataset_keyword_cs')"
-          prepend-icon="label"
+      <v-flex xs11 md11>
+        <v-combobox
+          id="keywords"
+          v-model="dataset.keywords"
+          :label="$t('keywords')"
+          :error-messages="err_keywords"
+          :hint="$t('hint_keywords')"
+          prepend-icon="short_text"
           append-outer-icon="help_outline"
-          clearable
+          append-icon=""
+          required
+          chips
+          multiple
+          readonly
           @click:append-outer="$h('dataset_keyword')"
-        />
-      </v-flex>
-      <v-flex
-        xs12
-        md6
-      >
-        <v-text-field
-          id="new_keyword_en"
-          v-model="dataset.tmp_keyword_en"
-          :label="$t('keyword_en') + $t('optional')"
-          :error-messages="err_keyword_en"
-          :hint="$t('hint_dataset_keyword_en')"
-          prepend-icon="label"
-          append-outer-icon="help_outline"
-          clearable
-          @click:append-outer="$h('dataset_keyword')"
-        />
-      </v-flex>
-    </v-layout>
-    <v-layout
-      row
-      wrap
-    >
-      <div>
-        <v-btn
-          color="red lighten-2"
-          dark
-          @click="addKeyword"
         >
-          {{ $t('keyword_add') }}
-        </v-btn>
-      </div>
-    </v-layout>
-
-    <v-combobox
-              id="dataset_spatial"
-              v-model="dataset.spatial"
-              :label="$t('dataset_spatial')"
-              :error-messages="err_dataset_spatial"
-              :hint="$t('hint_dataset_spatial')"
-              item-value="value"
-              prepend-icon="place"
-              append-outer-icon="help_outline"
-              append-icon=""
-              required
-              chips
-              multiple
-              readonly
-              @click:append-outer="$h('dataset_spatial')"
-      >
         <template
-                slot="selection"
-                slot-scope="data"
+          slot="selection"
+          slot-scope="data"
         >
           <v-chip
-                  close
-                  @input="removeSpatial(data.item)"
+            close
+            @input="removeKeyword(data.item)"
           >
-            <strong v-if="data.item.type === 'URL'">{{data.item.url }}</strong>
-            <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY' || data.item.type === 'PLACE'">{{data.item.label}}</strong>
-            <strong v-else>{{data.item}}</strong>
+            <strong>{{ data.item.cs + " | " + data.item.en }}</strong>
           </v-chip>
         </template>
       </v-combobox>
+      </v-flex>
+      <v-flex xs1 md1>
+        <div class="text-center">
+          <v-dialog
+                  v-model="dialog_keyword"
+                  width="500"
+          >
+            <template v-slot:activator="{ on }">
+              <v-btn
+                      color="primary"
+                      fab
+                      dark
+                      v-on="on"
+              >
+                <v-icon>add</v-icon>
+              </v-btn>
+            </template>
+
+            <v-card>
+              <v-card-title
+                      class="headline grey lighten-2"
+                      primary-title
+              >
+                {{$t('keyword_add')}}
+              </v-card-title>
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-text-field
+                    id="new_keyword_cs"
+                    v-model="dataset.tmp_keyword_cs"
+                    :label="$t('keyword_cs')"
+                    :error-messages="err_keyword_cs"
+                    :hint="$t('hint_dataset_keyword_cs')"
+                    prepend-icon="label"
+                    append-outer-icon="help_outline"
+                    clearable
+                    @click:append-outer="$h('dataset_keyword')"
+                  />
+                </v-layout>
+                <v-layout row wrap>
+                  <v-text-field
+                      id="new_keyword_en"
+                      v-model="dataset.tmp_keyword_en"
+                      :label="$t('keyword_en') + $t('optional')"
+                      :error-messages="err_keyword_en"
+                      :hint="$t('hint_dataset_keyword_en')"
+                      prepend-icon="label"
+                      append-outer-icon="help_outline"
+                      clearable
+                      @click:append-outer="$h('dataset_keyword')"
+                    />
+                </v-layout>
+              </v-card-text>
+              <v-divider></v-divider>
+
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                        color="primary"
+                        text
+                        @click="addKeyword()"
+                >
+                  {{$t('keyword_add')}}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+        </div>
+      </v-flex>
+    </v-layout>
+
     <v-layout
-      row
-      wrap
+            row
+            wrap
     >
-      <div class="text-center">
+      <v-flex xs11 md11>
+        <v-combobox
+                  id="dataset_spatial"
+                  v-model="dataset.spatial"
+                  :label="$t('dataset_spatial')"
+                  :error-messages="err_dataset_spatial"
+                  :hint="$t('hint_dataset_spatial')"
+                  item-value="value"
+                  prepend-icon="place"
+                  append-outer-icon="help_outline"
+                  append-icon=""
+                  required
+                  chips
+                  multiple
+                  readonly
+                  @click:append-outer="$h('dataset_spatial')"
+          >
+            <template
+                    slot="selection"
+                    slot-scope="data"
+            >
+              <v-chip
+                      close
+                      @input="removeSpatial(data.item)"
+              >
+                <strong v-if="data.item.type === 'URL'">{{data.item.url }}</strong>
+                <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY' || data.item.type === 'PLACE'">{{data.item.label}}</strong>
+                <strong v-else>{{data.item}}</strong>
+              </v-chip>
+            </template>
+          </v-combobox>
+      </v-flex>
+      <v-flex xs1 md1>
+        <div class="text-center">
         <v-dialog
                 v-model="dialog"
                 width="500"
         >
           <template v-slot:activator="{ on }">
             <v-btn
-                    color="red lighten-2"
+                    color="primary"
                     dark
+                    fab
                     v-on="on"
+
             >
-              {{$t('dataset_spatial_add')}}
+              <v-icon>add</v-icon>
             </v-btn>
           </template>
 
@@ -472,6 +501,7 @@
           </v-card>
         </v-dialog>
       </div>
+      </v-flex>
     </v-layout>
 
     <v-layout

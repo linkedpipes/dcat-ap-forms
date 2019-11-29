@@ -218,7 +218,7 @@
       chips
       multiple
       readonly
-      @click:append-outer="$h('keywords')"
+      @click:append-outer="$h('dataset_keywords')"
     >
       <template
         slot="selection"

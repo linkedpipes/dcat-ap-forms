@@ -225,6 +225,7 @@ function ruianLabel(iri, codelist, lang) {
   }
 }
 export function parse_dump(graphData, dataset, distributions, lang, codelist) {
+  if ("@id" in graphData) if (url(graphData["@id"])) dataset.iri = graphData["@id"];
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
   dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");

@@ -112,9 +112,19 @@ export default {
       this.$emit("input", newValue);
     },
     "reload":  function (vals) {
-      this.$emit("input", vals);
+      const url = createQueryAllUrl(
+              this.codeList, this.$vuetify.lang.current);
+      getLocalJson(url).then((response) => {
+        addItems(this.codeList, response.json.response.docs);
+        this.items = response.json.response.docs;
+        this.loading = false;
     },
   }
+}
+
+function createQueryAllUrl(codeList, lang) {
+  return "/api/v1/codelist/" + codeList +
+          "?search=*&lang=" + lang;
 }
 
 function createQueryUrl(codeList, query, lang) {

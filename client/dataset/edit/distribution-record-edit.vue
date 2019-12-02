@@ -208,22 +208,14 @@
     <h2 class="headline mt-2">
       {{ $t('headline_access') }}
     </h2>
-    <v-tabs ref="tabs" v-model="distribution.isFileOrService">
-      <v-tab
-        ref="fileT"
-        v-value="FILE"
-        href="#FILE"
-      >
-        {{ $t('headline_distribution_access') }}
-      </v-tab>
-      <v-tab
-        ref="serviceT"
-        v-value="SERVICE"
-        href="#SERVICE"
-      >
-        {{ $t('headline_service_access') }}
-      </v-tab>
-    </v-tabs>
+    <div>
+      <v-select
+              v-model="distribution.isFileOrService"
+              :items="distribution_types"
+              item-value="value"
+              :item-text="$vuetify.lang.current"
+      />
+    </div>
     <v-tabs-items v-model="distribution.isFileOrService">
       <v-tab-item ref="fileTab" value="FILE">
         <div>
@@ -468,7 +460,10 @@ export default {
     "db_author_license_types": db_author_license_types,
     "db_special_license_types": db_special_license_types,
     "personal_data_links": personal_data_links,
-    "allowedWatch": true,
+    "distribution_types": [
+      {"value": "FILE", "cs": "Soubor ke stažení", "en": "Downloadable file"},
+      {"value": "SERVICE", "cs": "Webová služba", "en":"Service"}
+    ]
   }),
   "computed": {
     ...createDistributionValidators(),

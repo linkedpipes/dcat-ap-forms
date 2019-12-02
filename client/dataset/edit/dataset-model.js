@@ -403,7 +403,9 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
     })
 
     var fileOrService;
-    if (DCATAP.accessService in distribution) {
+    const accessService = distribution[DCATAP.accessService];
+    const endpointUrl = accessService[DCATAP.endpointURL]["@id"];
+    if (endpointUrl.length > 0) {
       fileOrService = "SERVICE";
     } else {
       fileOrService = "FILE";
@@ -415,9 +417,8 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
     d["media_type"] = tryGet(distribution, DCATAP.mediaType);
     d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
     d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
-    const accessService = distribution[DCATAP.accessService];
     d["service_description"] = tryGet(DCATAP.endpointDescription, accessService);
-    d["service_endpoint_url"] = tryGet(DCATAP.endpointUrl, accessService);;
+    d["service_endpoint_url"] = endpointUrl;
     d["url"] = tryGet(DCATAP.downloadURL, distribution);
     d["title_cs"] = title["cs"];
     if ("en" in title) d["title_en"] = title["en"];
@@ -431,7 +432,5 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
   if (distributions.length > 0) {
     distributions.pop();
   } //remove the dummy
-
-  src.$emit("loaded-from-file", distributions[0].isFileOrService);
   src.$refs.themes.reload(dataset.themes);
 }

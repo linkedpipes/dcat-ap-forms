@@ -492,19 +492,6 @@ export default {
     "onDelete": function () {
       this.$emit("delete");
     },
-    "onLoadFromFile": function(fos) {
-      this.$refs.tabs.$emit("change", fos);
-      switch (fos) {
-      case "FILE":
-        this.$refs.fileT.$emit("click");
-        this.$refs.fileTab.$emit("change");
-        break;
-      case "SERVICE":
-        this.$refs.serviceT.$emit("click");
-        this.$refs.serviceTab.$emit("change");
-        break;
-      }
-    }
   },
 };
 </script>

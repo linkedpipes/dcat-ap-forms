@@ -110,7 +110,22 @@ export default {
         ... this.value.slice(index + 1)
       ];
       this.$emit("input", newValue);
-    }
+    },
+    "reload":  function () {
+      this.value.forEach((value) => {
+        const url = createTitleQueryUrl(this.codeList, value, this.$vuetify.lang.current);
+        getLocalJson(url).then((response) => {
+          if (response.json.response.docs.length === 0) {
+            this.items = [...this.items, createNonLabeledItem(value)];
+          } else {
+            addItems(this.codeList, response.json.response.docs);
+            this.items = [
+              ...this.items, ...response.json.response.docs
+            ];
+          }
+        });
+      })
+    },
   }
 }
 

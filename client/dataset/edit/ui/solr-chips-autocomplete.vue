@@ -112,12 +112,12 @@ export default {
       this.$emit("input", newValue);
     },
     "reload":  function (vals) {
-      const url = createQueryAllUrl(
-              this.codeList, this.$vuetify.lang.current);
+      const url = createQueryAllUrl(this.codeList, this.$vuetify.lang.current);
       getLocalJson(url).then((response) => {
         addItems(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
+      });
     },
   }
 }

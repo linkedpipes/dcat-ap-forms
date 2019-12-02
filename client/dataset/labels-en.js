@@ -60,6 +60,7 @@ export default {
   "distribution_compress_format": "Media type of the compression",
   "distribution_package_format": "Media type of the package",
   "format_missing": "File type is mandatory.",
+  "title_missing": "Web service must have a title.",
   "distribution_title_cs": "Distribution title in Czech",
   "distribution_title_en": "Distribution title in English",
   "distribution_schema_link": "Link to the schema of the distribution",

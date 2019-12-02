@@ -61,6 +61,7 @@ export default {
   "distribution_package_format": "Media type balíčku",
   "distribution_format": "Formát souboru ke stažení",
   "format_missing": "Formát je povinný.",
+  "title_missing": "Webová služba musí mít název",
   "distribution_title_cs": "Název distribuce česky",
   "distribution_title_en": "Název distribuce anglicky",
   "distribution_schema_link": "Odkaz na schéma distribuce",

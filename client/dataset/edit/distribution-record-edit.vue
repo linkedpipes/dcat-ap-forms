@@ -318,6 +318,41 @@
             clearable
             @click:append-outer="$h('distribution_schema_link')"
           />
+          <v-layout
+                  row
+                  wrap
+          >
+            <v-flex
+                    xs12
+                    md6
+            >
+              <v-text-field
+                      id="distribution_title_cs"
+                      v-model="distribution.title_cs"
+                      :hint="$t('hint_distribution_title')"
+                      :label="$t('distribution_title_cs') + $t('optional')"
+                      prepend-icon="label"
+                      append-outer-icon="help_outline"
+                      clearable
+                      @click:append-outer="$h('distribution_title')"
+              />
+            </v-flex>
+            <v-flex
+                    xs12
+                    md6
+            >
+              <v-text-field
+                      id="distribution_title_en"
+                      v-model="distribution.title_en"
+                      :hint="$t('hint_distribution_title')"
+                      :label="$t('distribution_title_en') + $t('optional')"
+                      prepend-icon="label"
+                      append-outer-icon="help_outline"
+                      clearable
+                      @click:append-outer="$h('distribution_title')"
+              />
+            </v-flex>
+          </v-layout>
         </div>
       </v-tab-item>
       <v-tab-item value="SERVICE">
@@ -348,45 +383,48 @@
             clearable
             @click:append-outer="$h('endpoint_description')"
           />
+          <v-layout
+                  row
+                  wrap
+          >
+            <v-flex
+                    xs12
+                    md6
+            >
+              <v-text-field
+                      id="distribution_title_cs"
+                      v-model="distribution.title_cs"
+                      :hint="$t('hint_distribution_title')"
+                      :label="$t('distribution_title_cs')"
+                      :error-messages="err_title"
+                      prepend-icon="label"
+                      append-outer-icon="help_outline"
+                      clearable
+                      required
+                      @click:append-outer="$h('distribution_title')"
+              />
+            </v-flex>
+            <v-flex
+                    xs12
+                    md6
+            >
+              <v-text-field
+                      id="distribution_title_en"
+                      v-model="distribution.title_en"
+                      :hint="$t('hint_distribution_title')"
+                      :label="$t('distribution_title_en') + $t('optional')"
+                      prepend-icon="label"
+                      append-outer-icon="help_outline"
+                      clearable
+                      @click:append-outer="$h('distribution_title')"
+              />
+            </v-flex>
+          </v-layout>
         </div>
       </v-tab-item>
     </v-tabs-items>
     <div>
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-          xs12
-          md6
-        >
-          <v-text-field
-            id="distribution_title_cs"
-            v-model="distribution.title_cs"
-            :hint="$t('hint_distribution_title')"
-            :label="$t('distribution_title_cs') + $t('optional')"
-            prepend-icon="label"
-            append-outer-icon="help_outline"
-            clearable
-            @click:append-outer="$h('distribution_title')"
-          />
-        </v-flex>
-        <v-flex
-          xs12
-          md6
-        >
-          <v-text-field
-            id="distribution_title_en"
-            v-model="distribution.title_en"
-            :hint="$t('hint_distribution_title')"
-            :label="$t('distribution_title_en') + $t('optional')"
-            prepend-icon="label"
-            append-outer-icon="help_outline"
-            clearable
-            @click:append-outer="$h('distribution_title')"
-          />
-        </v-flex>
-      </v-layout>
+
     </div>
     <div v-if="canBeDeleted">
       <v-btn

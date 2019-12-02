@@ -111,8 +111,8 @@ export default {
       ];
       this.$emit("input", newValue);
     },
-    "reload":  function () {
-      this.value.forEach((value) => {
+    "reload":  function (vals) {
+      vals.forEach((value) => {
         const url = createTitleQueryUrl(this.codeList, value, this.$vuetify.lang.current);
         getLocalJson(url).then((response) => {
           if (response.json.response.docs.length === 0) {
@@ -124,8 +124,8 @@ export default {
             ];
           }
         });
-        this.$emit("input", value);
       })
+      this.$emit("input", this.value);
     },
   }
 }

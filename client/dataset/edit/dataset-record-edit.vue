@@ -746,8 +746,7 @@ export default {
       }
     },
     "onFileChanged": function (file) {
-      do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist);
-      this.$refs.themes.reload(this.dataset.themes);
+      do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
     }
   }
 };

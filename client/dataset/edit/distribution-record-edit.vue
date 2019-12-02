@@ -208,14 +208,16 @@
     <h2 class="headline mt-2">
       {{ $t('headline_access') }}
     </h2>
-    <v-tabs v-model="distribution.isFileOrService">
+    <v-tabs ref="tabs" v-model="distribution.isFileOrService">
       <v-tab
+        ref="fileT"
         v-value="FILE"
         href="#FILE"
       >
         {{ $t('headline_distribution_access') }}
       </v-tab>
       <v-tab
+        ref="serviceT"
         v-value="SERVICE"
         href="#SERVICE"
       >
@@ -223,7 +225,7 @@
       </v-tab>
     </v-tabs>
     <v-tabs-items v-model="distribution.isFileOrService">
-      <v-tab-item value="FILE">
+      <v-tab-item ref="fileTab" value="FILE">
         <div>
           <v-text-field
             id="distribution_url"
@@ -355,7 +357,7 @@
           </v-layout>
         </div>
       </v-tab-item>
-      <v-tab-item value="SERVICE">
+      <v-tab-item ref="serviceTab" value="SERVICE">
         <div>
           <v-text-field
             id="endpoint_url"
@@ -466,6 +468,7 @@ export default {
     "db_author_license_types": db_author_license_types,
     "db_special_license_types": db_special_license_types,
     "personal_data_links": personal_data_links,
+    "allowedWatch": true,
   }),
   "computed": {
     ...createDistributionValidators(),
@@ -489,7 +492,20 @@ export default {
     "onDelete": function () {
       this.$emit("delete");
     },
-  }
+    "onLoadFromFile": function(fos) {
+      //this.$refs.tabs.$emit("change", fos);
+      switch (fos) {
+      case "FILE":
+        this.$refs.fileT.$emit("click");
+        //this.$refs.fileTab.$emit("change");
+        break;
+      case "SERVICE":
+        this.$refs.serviceT.$emit("click");
+        //this.$refs.serviceTab.$emit("change");
+        break;
+      }
+    }
+  },
 };
 </script>
 

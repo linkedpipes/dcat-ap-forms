@@ -201,11 +201,11 @@ export function tryGet(key, d, x="@id") {
   }
 }
 
-export function do_loadFile(file, dataset, distributions, lang, codelist) {
+export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
   var reader = new FileReader();
   reader.onload = function() {
     dataset.tmp_file = getDefaultGraphData(normalize(JSON.parse(reader.result)));
-    parse_dump(dataset.tmp_file, dataset, distributions, lang, codelist);
+    parse_dump(dataset.tmp_file, dataset, distributions, lang, codelist, src);
   };
   reader.readAsText(file);
 }
@@ -282,7 +282,7 @@ function parse_license(distribution, spec) {
   }
 }
 
-export function parse_dump(graphData, dataset, distributions, lang, codelist) {
+function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
   if ("@id" in graphData) if (url(graphData["@id"])) dataset.iri = graphData["@id"];
   const contactPoint = graphData[DCATAP.contactPoint];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
@@ -403,9 +403,7 @@ export function parse_dump(graphData, dataset, distributions, lang, codelist) {
     })
 
     var fileOrService;
-    const accessService = distribution[DCATAP.accessService];
-    const endpointUrl = accessService[DCATAP.endpointURL]["@id"];
-    if (endpointUrl.length > 0) {
+    if (DCATAP.accessService in distribution) {
       fileOrService = "SERVICE";
     } else {
       fileOrService = "FILE";
@@ -417,8 +415,9 @@ export function parse_dump(graphData, dataset, distributions, lang, codelist) {
     d["media_type"] = tryGet(distribution, DCATAP.mediaType);
     d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
     d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
+    const accessService = distribution[DCATAP.accessService];
     d["service_description"] = tryGet(DCATAP.endpointDescription, accessService);
-    d["service_endpoint_url"] = endpointUrl;
+    d["service_endpoint_url"] = tryGet(DCATAP.endpointUrl, accessService);;
     d["url"] = tryGet(DCATAP.downloadURL, distribution);
     d["title_cs"] = title["cs"];
     if ("en" in title) d["title_en"] = title["en"];
@@ -432,4 +431,7 @@ export function parse_dump(graphData, dataset, distributions, lang, codelist) {
   if (distributions.length > 0) {
     distributions.pop();
   } //remove the dummy
+
+  src.$emit("loaded-from-file", distributions[0].isFileOrService);
+  src.$refs.themes.reload(dataset.themes);
 }

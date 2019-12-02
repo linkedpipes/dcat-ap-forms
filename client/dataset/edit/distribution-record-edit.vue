@@ -218,6 +218,7 @@
               append-outer-icon="help_outline"
               @click:append-outer="$h('file_or_service')"
               :hint="$t('hint_file_or_service')"
+              :label="$t('distribution_type')"
       />
     </div>
 

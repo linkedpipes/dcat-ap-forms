@@ -198,4 +198,5 @@ export default {
   "common_errors_link_label": "nejčastějších chyb v otevřených datech",
   "help_file_or_service": "<h3>Typ distribuce</h3><p>Distribuce může mít podobu souboru ke stažení nebo webové služby poskytující data.</p>",
   "hint_file_or_service": "Vyberte zda se jedná o stažitelný soubor nebo webovou službu",
+  "distribution_type": "Typ distribuce",
 }

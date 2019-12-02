@@ -627,7 +627,6 @@
     <app-solr-chips-autocomplete
       id="themes"
       v-model="dataset.themes"
-      v-bind:values="dataset.themes"
       ref="themes"
       :label="$t('themes') + $t('optional')"
       :no-data-prompt="$t('themes_autocomplete_no_data')"

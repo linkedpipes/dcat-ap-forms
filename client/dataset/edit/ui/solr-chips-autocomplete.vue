@@ -112,19 +112,21 @@ export default {
       this.$emit("input", newValue);
     },
     "reload":  function (vals) {
-      const url = createQueryAllUrl(this.codeList, this.$vuetify.lang.current);
-      getLocalJson(url).then((response) => {
-        addItems(this.codeList, response.json.response.docs);
-        this.items = response.json.response.docs;
-        this.loading = false;
-      });
+      vals.forEach((value) => {
+        const url = createTitleQueryUrl(this.codeList, value, this.$vuetify.lang.current);
+        getLocalJson(url).then((response) => {
+          if (response.json.response.docs.length === 0) {
+            this.items = [...this.items, createNonLabeledItem(value)];
+          } else {
+            addItems(this.codeList, response.json.response.docs);
+            this.items = [
+              ...this.items, ...response.json.response.docs
+            ];
+          }
+        });
+      })
     },
   }
-}
-
-function createQueryAllUrl(codeList, lang) {
-  return "/api/v1/codelist/" + codeList +
-          "?search=*&lang=" + lang;
 }
 
 function createQueryUrl(codeList, query, lang) {

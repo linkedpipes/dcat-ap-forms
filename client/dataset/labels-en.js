@@ -81,9 +81,7 @@ export default {
   "no_distribution": "The dataset now contains no distributions.",
   "delete_distribution": "Remove distribution",
   "headline_distribution_license": "Terms of use of the distribution",
-  "headline_distribution_access": "Downloadable file",
   "distribution_download": "File to be downloaded",
-  "headline_service_access": "Service",
   "headline_access": "Access to the distribution",
   "service_endpoint_url": "Endpoint URL",
   "hint_endpoint_url": "The root location or primary endpoint of the service (an IRI).",
@@ -196,5 +194,7 @@ export default {
   "dataset_delete_summary_download": "If you are certain that you want to remove this dataset from the NODC, send the downloaded file as an only attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
   "personal_invalid": "For registration of a distribution in NODC it is neccessary to clearly specify whether or not the distribution contains personal data. The value \"May contain personal data\" is only for indication of a legacy record which needs to be further specified.",
   "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your dataset, make sure that you don't do some of the ",
-  "common_errors_link_label": "most common errors in open data"
+  "common_errors_link_label": "most common errors in open data",
+  "help_file_or_service": "<h3>Distribution type</h3><p>Distribution can be a downloadable file or a web service providing the data.</p>",
+  "hint_file_or_service": "Choose if it's a downloadable file or a web service",
 }

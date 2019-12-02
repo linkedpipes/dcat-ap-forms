@@ -208,7 +208,18 @@
     <h2 class="headline mt-2">
       {{ $t('headline_access') }}
     </h2>
-    <div><v-select v-model="distribution.isFileOrService" :items="distribution_types" item-value="value" :item-text="$vuetify.lang.current" /></div>
+    <div>
+      <v-select
+              v-model="distribution.isFileOrService"
+              :items="distribution_types"
+              item-value="value"
+              :item-text="$vuetify.lang.current"
+              prepend-icon="sync_alt"
+              append-outer-icon="help_outline"
+              @click:append-outer="$h('file_or_service')"
+              :hint="$t('hint_file_or_service')"
+      />
+    </div>
 
     <div v-if="distribution.isFileOrService==='FILE'">
           <v-text-field
@@ -406,7 +417,7 @@
             </v-flex>
           </v-layout>
         </div>
-    
+
     <div v-if="canBeDeleted">
       <v-btn
         flat

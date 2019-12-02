@@ -82,8 +82,6 @@ export default {
   "no_distribution": "Datová sada teď neobsahuje žádné distribuce.",
   "delete_distribution": "Smaž distribuci",
   "headline_distribution_license": "Podmínky užití distribuce",
-  "headline_distribution_access": "Soubor ke stažení",
-  "headline_service_access": "Webová služba",
   "headline_access": "Přístup k distribuci",
   "service_endpoint_url": "URL endpointu",
   "hint_endpoint_url": "Umístění koncového bodu služby (URL).",
@@ -197,5 +195,7 @@ export default {
   "dataset_delete_summary_download": "Pokud opravdu chcete datovou sadu odstranit z NKOD, zašlete stažený soubor jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
   "personal_invalid": "Pro registraci do NKOD je nutné jasně specifikovat, zda distribuce obsahuje osobní údaje či nikoliv. Položka \"Může obsahovat osobní údaje\" slouží pouze pro editaci starých záznamů a je třeba ji specifikovat.",
   "common_errors_description": "Nedělejte stejné chyby jako řada poskytovatelů před vámi. Před registrací datové sady se ujistětě, že neděláte nějaké z ",
-  "common_errors_link_label": "nejčastějších chyb v otevřených datech"
+  "common_errors_link_label": "nejčastějších chyb v otevřených datech",
+  "help_file_or_service": "<h3>Typ distribuce</h3><p>Distribuce může mít podobu souboru ke stažení nebo webové služby poskytující data.</p>",
+  "hint_file_or_service": "Vyberte zda se jedná o stažitelný soubor nebo webovou službu",
 }

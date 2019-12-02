@@ -631,6 +631,7 @@
       :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
       code-list="themes"
+      v-on:input-from-dump="$emit('input', $event.target.value)"
     />
     <v-layout
             row
@@ -746,6 +747,7 @@ export default {
     },
     "onFileChanged": function (file) {
       do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist);
+      this.dataset.themes.forEach((theme) => this.$emit("input-from-dump", theme));
     }
   }
 };

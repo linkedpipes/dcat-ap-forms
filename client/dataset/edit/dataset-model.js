@@ -23,7 +23,8 @@ import {
   VCARD,
   SCHEMA,
   PU,
-  SKOS
+  SKOS,
+  CREATIVE_COMMONS,
 } from "@/app-service/vocabulary";
 
 export function createDataset() {
@@ -224,6 +225,63 @@ function ruianLabel(iri, codelist, lang) {
     return value;
   }
 }
+
+function parse_license(distribution, spec) {
+  const autorskeDilo = spec[PU.autorskeDilo]["@id"];
+  switch (autorskeDilo) {
+  case PU.obsahujeViceAutorskychDel:
+    distribution.license_author_type = "MULTI";
+    break;
+  case CREATIVE_COMMONS.BY_40:
+    distribution.license_author_type = "CC BY";
+    distribution.license_author_name = spec[PU.autor]["@value"];
+    break;
+  case PU.neobsahujeAutorskaDila:
+    distribution.license_author_type = "NO";
+    break;
+  default:
+    distribution.license_author_type = "CUSTOM";
+    distribution.license_author_custom = autorskeDilo;
+  }
+
+  const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
+  switch (db) {
+  case CREATIVE_COMMONS.BY_40:
+    distribution.license_db_type = "CC BY";
+    distribution.license_db_name = spec[PU.autorDatabaze]["@value"];
+    break;
+  case PU.neniAutorskopravneChranenouDatabazi:
+    distribution.license_db_type = "NO";
+    break;
+  default:
+    distribution.license_db_type = "CUSTOM";
+    distribution.license_db_custom = db;
+  }
+
+  const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
+  switch(zvlastni) {
+  case CREATIVE_COMMONS.PUBLIC_ZERO_10:
+    distribution.license_specialdb_type = "CC0";
+    break;
+  case PU.neniChranenazvlastnimPravemPorizovateleDatabaze:
+    distribution.license_specialdb_type = "NO";
+    break;
+  default:
+    distribution.license_specialdb_type = "CUSTOM";
+    distribution.license_specialdb_custom = zvlastni;
+  }
+
+  const osobni = spec[PU.osobniUdaje]["@id"];
+  switch (osobni) {
+  case PU.obsahujeOsobniUdaje:
+    distribution.license_personal_type = "YES";
+    break;
+  case PU.neobsahujeOsobniUdaje:
+    distribution.license_personal_type = "NO";
+    break;
+  }
+}
+
 export function parse_dump(graphData, dataset, distributions, lang, codelist) {
   if ("@id" in graphData) if (url(graphData["@id"])) dataset.iri = graphData["@id"];
   const contactPoint = graphData[DCATAP.contactPoint];
@@ -366,15 +424,7 @@ export function parse_dump(graphData, dataset, distributions, lang, codelist) {
     if ("en" in title) d["title_en"] = title["en"];
     d["isFileOrService"] = fileOrService;
 
-    //
-    /*const spec = distribution[PU.specifikace]["@id"];
-    const autor = spec[PU.autor]["@value"];
-    const autorskeDilo = spec[PU.autorskeDilo]["@id"];
-    const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
-    const autor_db = spec[PU.autorDatabaze]["@value"];
-    const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
-    const osobni = spec[PU.osobniUdaje]["@id"];*/
-    //
+    parse_license(d, distribution[PU.specifikace]);
 
     distributions.splice(0, 0, d); //add
   });

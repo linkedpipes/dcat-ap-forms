@@ -142,6 +142,27 @@ function allCustomThemesValid(value) {
   return bundle.isValid;
 }
 
+function isEmpty(value) {
+  return value === undefined || value === null || value === "";
+}
+
+function not_present_multi(lst, multi) {
+  return lst.some(function (item) {
+    var bundle = { "value": false};
+    Object.keys(multi).forEach(function(key) { //loop over 2 lang tags
+      if (key in item) {
+        if ((!isEmpty(item[key]) || !isEmpty(multi[key])) && (item[key] === multi[key])) {
+          // will report true if we match any respective language equivalent regardless of the other
+          // so a match in the Czech version of the keyword or a match in the English version of the keyword
+          // will yield a duplicity
+          this.value = true;
+        }
+      }
+    }, bundle);
+    return bundle.value;
+  });
+}
+
 export function do_addKeyword(dataset) {
   const key_cs = dataset.tmp_keyword_cs;
   const key_en = dataset.tmp_keyword_en;
@@ -150,41 +171,52 @@ export function do_addKeyword(dataset) {
     "cs": key_cs,
     "en": key_en
   }
-  dataset.keywords.push(multilang);
+  if (!not_present_multi(dataset.keywords, multilang)) dataset.keywords.push(multilang);
+}
+
+function create_spatial(type, url, label) {
+  return {
+    "type": type,
+    "url": url,
+    "label": label
+  }
+}
+
+function not_present_single(lst, type, url) {
+  return lst.some(function(item) {
+    if ((item["type"] === type) && (item["url"] === url)) {return true}
+    else return false;
+  });
 }
 
 export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, country, place, active_tab, label) {
+
   if (active_tab === 0) {
-    dataset.spatial.push({
-      "type": "RUIAN",
-      "ruian_type": ruian_type,
-      "ruian": ruian,
-      "label": label
-    })
+    var bundle = {"present": false};
+    dataset.spatial.forEach(function(item) {
+      if ((item.type === "RUIAN") && (item.ruian === ruian)) {this.present = true}
+    }, bundle);
+
+    if (!bundle.present) {
+      dataset.spatial.push({
+        "type": "RUIAN",
+        "ruian_type": ruian_type,
+        "ruian": ruian,
+        "label": label
+      })
+    }
   } else if (active_tab === 1) {
     if (!continent) return false;
-    dataset.spatial.push({
-      "type": "CONTINENT",
-      "url": continent,
-      "label": label
-    })
+    if (!not_present_single(dataset.spatial, "CONTINENT", continent)) dataset.spatial.push(create_spatial("CONTINENT", continent, label));
   } else if (active_tab === 2) {
     if (!country) return false;
-    dataset.spatial.push({
-      "type": "COUNTRY",
-      "url": country,
-      "label": label
-    })
+    if (!not_present_single(dataset.spatial, "COUNTRY", country)) dataset.spatial.push(create_spatial("COUNTRY", country, label));
   } else if (active_tab === 3) {
     if (!place) return false;
-    dataset.spatial.push({
-      "type": "PLACE",
-      "url": place,
-      "label": label
-    })
+    if (!not_present_single(dataset.spatial, "PLACE", place)) dataset.spatial.push(create_spatial("PLACE", place, label));
   } else if (active_tab === 4) {
     if (!spatial_url) return false;
-    dataset.spatial.push({
+    if (!not_present_single(dataset.spatial, "URL", spatial_url)) dataset.spatial.push({
       "type": "URL",
       "url": spatial_url
     })

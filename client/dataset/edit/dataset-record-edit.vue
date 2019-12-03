@@ -227,12 +227,13 @@
             </template>
 
             <v-card>
-              <v-card-title
-                      class="headline grey lighten-2"
-                      primary-title
-              >
-                {{$t('keyword_add')}}
-              </v-card-title>
+              <v-toolbar dark color="primary">
+                <v-toolbar-title>{{$t('keyword_add')}}</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon color="primary" @click="dialog_keyword = false">
+                  <v-icon>close</v-icon>
+                </v-btn>
+              </v-toolbar>
               <v-card-text>
                 <v-layout row wrap>
                   <v-text-field
@@ -333,12 +334,13 @@
             </template>
 
             <v-card>
-              <v-card-title
-                      class="headline grey lighten-2"
-                      primary-title
-              >
-                {{$t('dataset_spatial')}}
-              </v-card-title>
+              <v-toolbar dark color="primary">
+                <v-toolbar-title>{{$t('dataset_spatial')}}</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon color="primary" @click="dialog = false">
+                  <v-icon>close</v-icon>
+                </v-btn>
+              </v-toolbar>
 
               <v-tabs vertical v-model="tmp_spatial_active_tab">
                 <v-tab>RÚIAN</v-tab>

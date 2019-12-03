@@ -21,21 +21,26 @@ export function exportToJsonLd(dataset, distributions) {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
     [DCTERMS.title]: titles,
-    [DCTERMS.description]: descriptions,
-    [DCATAP.keyword]: dataset.keywords.map(function(keyword){
+    [DCTERMS.description]: descriptions
+  };
+
+  if (distributions.length > 0) {
+    output[DCATAP.distribution] = distributions.map((distribution) => exportDistribution(distribution, dataset.iri))
+  }
+
+  if (dataset.keywords.length > 0) {
+    output[DCATAP.keyword] = dataset.keywords.map(function(keyword){
       var keywords = [asNamedLangString(keyword.cs, "cs")];
       if (isNotEmpty(keyword.en)) keywords.push(asNamedLangString(keyword.en, "en"));
       return keywords
-    }),
-    [DCATAP.distribution]: distributions.map(
-      (distribution) => exportDistribution(distribution, dataset.iri))
-  };
+    })
+  }
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
     const url = dataset.accrual_periodicity;
     output[DCTERMS.accrualPeriodicity] = asIri(url);
   }
-  if (isNotEmpty(dataset.spatial)) {
+  if (dataset.spatial.length > 0) {
     output[DCTERMS.spatial] = dataset.spatial.map(
       (spatial) => exportSpatial(spatial)
     )
@@ -47,7 +52,7 @@ export function exportToJsonLd(dataset, distributions) {
   const themes = [...dataset.dataset_themes, ...dataset.themes, ...dataset.dataset_custom_themes];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
-  if (isNotEmpty(dataset.ofn)) output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
+  if (dataset.ofn.length > 0) output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
 
   const temporal = exportTemporal(dataset);
   if (isNotEmpty(temporal)) {

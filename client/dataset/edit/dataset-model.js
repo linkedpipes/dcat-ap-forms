@@ -387,19 +387,19 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
   graphData[DCATAP.distribution].forEach(function(distribution) {
     if (DCTERMS.title in distribution) {
-      const titles = distribution[DCTERMS.title];
+      var distr_titles = distribution[DCTERMS.title];
 
       ["cs", "en"].forEach(function(lang){ if (!(lang in titles)) titles[lang] = ""; });
 
     } else {
-      const titles = {"cs": "", "en": ""}
+      const distr_titles = {"cs": "", "en": ""}
     }
 
-    var title = {};
-    titles.forEach(function (t, _) {
+    var distr_title = {};
+    distr_titles.forEach(function (t, _) {
       const l = t["@language"];
       const v = t["@value"]
-      title[l] = v;
+      distr_title[l] = v;
     })
 
     var fileOrService;
@@ -420,8 +420,8 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
     d["service_description"] = tryGet(DCATAP.endpointDescription, accessService);
     d["service_endpoint_url"] = endpointUrl;
     d["url"] = tryGet(DCATAP.downloadURL, distribution);
-    d["title_cs"] = title["cs"];
-    if ("en" in title) d["title_en"] = title["en"];
+    d["title_cs"] = distr_title["cs"];
+    if ("en" in distr_title) d["title_en"] = distr_title["en"];
     d["isFileOrService"] = fileOrService;
 
     parse_license(d, distribution[PU.specifikace]);

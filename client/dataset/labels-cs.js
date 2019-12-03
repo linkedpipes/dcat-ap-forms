@@ -83,6 +83,8 @@ export default {
   "delete_distribution": "Smaž distribuci",
   "headline_distribution_license": "Podmínky užití distribuce",
   "headline_access": "Přístup k distribuci",
+  "headline_distribution_access": "Soubor ke stažení",
+  "headline_service_access": "Datová služba",
   "service_endpoint_url": "URL endpointu",
   "hint_endpoint_url": "Umístění koncového bodu služby (URL).",
   "help_endpoint_url": "Uveďte HTTPS URL koncového bodu služby.",

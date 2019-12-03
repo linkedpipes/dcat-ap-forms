@@ -198,4 +198,6 @@ export default {
   "help_file_or_service": "<h3>Distribution type</h3><p>Distribution can be a downloadable file or a web service providing the data.</p>",
   "hint_file_or_service": "Choose if it's a downloadable file or a web service",
   "distribution_type": "Distribution type",
+  "headline_distribution_access": "Downloadable file",
+  "headline_service_access": "Data Service",
 }

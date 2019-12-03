@@ -461,7 +461,7 @@ export default {
     "personal_data_links": personal_data_links,
     "distribution_types": [
       {"value": "FILE", "cs": "Soubor ke stažení", "en": "Downloadable file"},
-      {"value": "SERVICE", "cs": "Webová služba", "en":"Service"}
+      {"value": "SERVICE", "cs": "Datová služba", "en":"Data Service"}
     ]
   }),
   "computed": {

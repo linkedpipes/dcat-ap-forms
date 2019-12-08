@@ -471,11 +471,11 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
     }
 
     var d = createDistribution()
-    d["compressFormat"] = tryGet(distribution, DCTERMS.compressFormat);
-    d["format"] = tryGet(distribution, DCTERMS.format);
-    d["media_type"] = tryGet(distribution, DCATAP.mediaType);
-    d["packageFormat"] = tryGet(distribution, DCTERMS.packageFormat);
-    d["schema"] = tryGet(distribution, DCTERMS.conformsTo);
+    d["compressFormat"] = tryGet(DCTERMS.compressFormat, distribution);
+    d["format"] = tryGet(DCTERMS.format, distribution);
+    d["media_type"] = tryGet(DCATAP.mediaType, distribution);
+    d["packageFormat"] = tryGet(DCTERMS.packageFormat, distribution);
+    d["schema"] = tryGet(DCTERMS.conformsTo, distribution);
     d["service_description"] = tryGet(DCATAP.endpointDescription, accessService);
     d["service_endpoint_url"] = endpointUrl;
     d["url"] = tryGet(DCATAP.downloadURL, distribution);

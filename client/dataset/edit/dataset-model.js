@@ -323,36 +323,49 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
   dataset.documentation = tryGet(FOAF.page, graphData);
 
   const titles = graphData[DCTERMS.title];
-  titles.forEach(function(title, _) {
-    if (title["@language"] === "cs") {
-      dataset.title_cs = title["@value"];
-    } else if (title["@language"] === "en") {
-      dataset.title_en = title["@value"];
-    }
-  });
+  if (Array.isArray(titles)) {
+    titles.forEach(function (title, _) {
+      if (title["@language"] === "cs") {
+        dataset.title_cs = title["@value"];
+      } else if (title["@language"] === "en") {
+        dataset.title_en = title["@value"];
+      }
+    });
+  } else {  // legacy
+    dataset.title_cs = titles["@value"];
+  }
 
   const descriptions = graphData[DCTERMS.description];
-  descriptions.forEach(function(title, _) {
-    if (title["@language"] === "cs") {
-      dataset.description_cs = title["@value"];
-    } else if (title["@language"] === "en") {
-      dataset.description_en = title["@value"];
-    }
-  });
+  if (Array.isArray(descriptions)) {
+    descriptions.forEach(function (title, _) {
+      if (title["@language"] === "cs") {
+        dataset.description_cs = title["@value"];
+      } else if (title["@language"] === "en") {
+        dataset.description_en = title["@value"];
+      }
+    });
+  } else {  // legacy
+    dataset.description_cs = descriptions["@value"];
+  }
 
   const keywords = graphData[DCATAP.keyword];
   dataset.keywords = [];
-  keywords.forEach(function(keyword, _) {
+  keywords.forEach(function (keyword, _) {
     var key = {};
-    keyword.forEach(function(version, _) {
-      const l = version["@language"];
-      const v = version["@value"];
+    if (Array.isArray(keyword)) {
+      keyword.forEach(function (version, _) {
+        const l = version["@language"];
+        const v = version["@value"];
+        key[l] = v;
+      });
+    } else { // legacy
+      const l = keyword["@language"];
+      const v = keyword["@value"];
       key[l] = v;
-    });
+    }
     if (!("en" in key)) key["en"] = "";
     dataset.keywords.push(key);
   });
-
   if (DCTERMS.temporal in graphData) {
     const temporal = graphData[DCTERMS.temporal];
     dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
@@ -391,54 +404,68 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
 
   dataset.spatial = [];
   const spatial = graphData[DCTERMS.spatial];
-  spatial.forEach(function(s, _) {
-    if (s !== null) {
-      var x = {
-        "url": s["@id"]
+  if (Array.isArray(spatial)) {
+    spatial.forEach(function (s, _) {
+      if (s !== null) {
+        var x = {
+          "url": s["@id"]
+        }
+        if (x["url"].startsWith("https://linked.cuzk.cz/resource/ruian/")) {
+          x["type"] = "RUIAN";
+          x["label"] = ruianLabel(x["url"], codelist, lang);
+          x["ruian"] = s["@id"];
+        } else if (x["url"].startsWith(continentPrefix)) {
+          x["type"] = "CONTINENT";
+          x["label"] = continentsToLabel(x["url"], lang)
+        } else if (x["url"].startsWith(countryPrefix)) {
+          x["type"] = "COUNTRY";
+          x["label"] = countriesToLabel(x["url"], lang)
+        } else if (x["url"].startsWith(placePrefix)) {
+          x["type"] = "PLACE";
+          x["label"] = placesToLabel(x["url"], lang)
+        } else {
+          x["type"] = "URL"
+        }
+        dataset.spatial.push(x)
       }
-      if (x["url"].startsWith("https://linked.cuzk.cz/resource/ruian/")) {
-        x["type"] = "RUIAN";
-        x["label"] = ruianLabel(x["url"], codelist, lang);
-        x["ruian"] = s["@id"];
-      } else if (x["url"].startsWith(continentPrefix)) {
-        x["type"] = "CONTINENT";
-        x["label"] = continentsToLabel(x["url"], lang)
-      } else if (x["url"].startsWith(countryPrefix)) {
-        x["type"] = "COUNTRY";
-        x["label"] = countriesToLabel(x["url"], lang)
-      } else if (x["url"].startsWith(placePrefix)) {
-        x["type"] = "PLACE";
-        x["label"] = placesToLabel(x["url"], lang)
-      } else {
-        x["type"] = "URL"
-      }
-      dataset.spatial.push(x)
-    }
-  });
+    });
+  } else {
+    dataset.spatial.push({
+      "type": "RUIAN",
+      "label": ruianLabel(spatial["@id"], codelist, lang),
+      "url": spatial["@id"],
+      "ruian": spatial["@id"],
+    });
+  }
 
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
   graphData[DCATAP.distribution].forEach(function(distribution) {
+    var distr_title = {"cs": "", "en": ""};
     if (DCTERMS.title in distribution) {
-      var distr_titles = distribution[DCTERMS.title];
+      if (Array.isArray(distribution[DCTERMS.title])) {
+        var distr_titles = distribution[DCTERMS.title]; // [{"@language": "", "@value": ""}]
 
-      ["cs", "en"].forEach(function(lang){ if (!(lang in titles)) titles[lang] = ""; });
+        distr_titles.forEach(function (t, _) {
+          const l = t["@language"];
+          const v = t["@value"]
+          distr_title[l] = v;
+        });
 
-    } else {
-      const distr_titles = {"cs": "", "en": ""}
+      } else {
+        distr_titles["cs"] = distribution[DCTERMS.title];
+      }
     }
-
-    var distr_title = {};
-    distr_titles.forEach(function (t, _) {
-      const l = t["@language"];
-      const v = t["@value"]
-      distr_title[l] = v;
-    })
 
     var fileOrService;
     const accessService = distribution[DCATAP.accessService];
-    const endpointUrl = accessService[DCATAP.endpointURL]["@id"];
-    if (endpointUrl.length > 0) {
-      fileOrService = "SERVICE";
+    var endpointUrl = "";
+    if (undefined !== accessService) {
+      endpointUrl = accessService[DCATAP.endpointURL]["@id"];
+      if (endpointUrl.length > 0) {
+        fileOrService = "SERVICE";
+      } else {
+        fileOrService = "FILE";
+      }
     } else {
       fileOrService = "FILE";
     }

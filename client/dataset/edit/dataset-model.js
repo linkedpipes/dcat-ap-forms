@@ -186,14 +186,6 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
   return true;
 }
 
-export function tryGet(key, d, x="@id") {
-  try {
-    return d[key][x];
-  } catch (KeyError) {
-    return null;
-  }
-}
-
 export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
   let reader = new FileReader();
   reader.onload = function() {

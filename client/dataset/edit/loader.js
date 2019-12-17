@@ -2,8 +2,15 @@ import {getLabel as continentsToLabel, prefix as continentPrefix} from "./codeli
 import {getLabel as countriesToLabel, prefix as countryPrefix} from "./codelists/countries";
 import {getLabel as placesToLabel, prefix as placePrefix} from "./codelists/places";
 import {createDistribution} from "./distribution-model";
-import {tryGet} from "./dataset-model";
 import {getItem} from "./codelists/local-storage";
+
+function tryGet(key, object, nestedKey="@id") {
+  try {
+    return object[key][nestedKey];
+  } catch (KeyError) {
+    return null;
+  }
+}
 
 function ruianLabel(iri, codelist, lang) {
   const value = getItem(codelist, "ruian", iri, lang);

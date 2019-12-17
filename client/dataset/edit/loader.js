@@ -118,7 +118,13 @@ function loadDescriptions(dataset, graphData) {
 
 function loadKeywords(dataset, graphData) {
   const keywords = graphData[DCATAP.keyword];
+
   dataset.keywords = [];
+
+  if (!Array.isArray(keywords)) {
+    return;
+  }
+
   keywords.forEach((keyword) => {
     let key = {};
     if (Array.isArray(keyword)) {

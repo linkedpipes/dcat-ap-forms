@@ -4,6 +4,14 @@ import {getLabel as countriesToLabel, prefix as countryPrefix} from "./codelists
 import {getLabel as placesToLabel, prefix as placePrefix} from "./codelists/places";
 import {createDistribution} from "./distribution-model";
 import {getItem} from "./codelists/local-storage";
+import {
+  DCTERMS,
+  DCATAP,
+  FOAF,
+  VCARD,
+  PU,
+  CREATIVE_COMMONS
+} from "@/app-service/vocabulary";
 
 function tryGet(key, object, nestedKey="@id") {
   try {

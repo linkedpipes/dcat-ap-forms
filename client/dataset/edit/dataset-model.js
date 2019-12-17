@@ -178,10 +178,12 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
     }
   } else if (active_tab === 4) {
     if (!spatial_url) return false;
-    if (!spatialNotPresent(dataset.spatial, "URL", spatial_url)) dataset.spatial.push({
-      "type": "URL",
-      "url": spatial_url
-    })
+    if (!spatialNotPresent(dataset.spatial, "URL", spatial_url)) {
+      dataset.spatial.push({
+        "type": "URL",
+        "url": spatial_url
+      })
+    }
   }
   return true;
 }

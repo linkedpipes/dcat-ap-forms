@@ -259,8 +259,12 @@ function loadThemes(dataset, graphData) {
 function loadTemporal(dataset, graphData) {
   if (DCTERMS.temporal in graphData) {
     const temporal = graphData[DCTERMS.temporal];
-    dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
-    dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+    if (DCATAP.startDate in temporal) {
+      dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
+    }
+    if (DCATAP.endDate in temporal) {
+      dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+    }
   }
 }
 

@@ -271,8 +271,13 @@ function loadTemporal(dataset, graphData) {
 function loadContactPoint(dataset, graphData) {
   if (DCATAP.contactPoint in graphData) {
     const contact = graphData[DCATAP.contactPoint];
-    dataset.contact_point_name = contact[VCARD.fn]["@value"];
-    dataset.contact_point_email = contact[VCARD.hasEmail];
+    if (VCARD.fn in contact) {
+      dataset.contact_point_name = contact[VCARD.fn]["@value"];
+    }
+
+    if (VCARD.hasEmail in contact) {
+      dataset.contact_point_email = contact[VCARD.hasEmail];
+    }
   }
 }
 

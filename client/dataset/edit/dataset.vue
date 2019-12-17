@@ -33,6 +33,7 @@
       <v-stepper-items>
         <v-stepper-content :step="1">
           <app-dataset
+            ref="datasetComponent"
             :dataset="data.dataset"
             :codelist="data.codelist"
             :distributions="data.distributions"
@@ -151,7 +152,7 @@ export default {
       return;
     }
 
-    importDataset(url)
+    importDataset(url, this.$vuetify.lang.current, this.data.codelist, this.$refs.datasetComponent)
       .then((result) => {
         const distributions = Object.values(result.distributions)
           .map(item => decorateDistribution(item));

@@ -19,6 +19,7 @@ import {
 } from "@/app-service/vocabulary";
 import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
 import {typeFromUrl} from "./edit/codelists/ruian-type";
+import {parseDump} from "./edit/loader";
 
 function update_url(url) {
   if (DEREFERENCE_PROXY === "") {
@@ -28,7 +29,7 @@ function update_url(url) {
   }
 }
 
-export function importDataset(url) {
+export function importDataset(url, lang, codelist, datasetRecordEdit) {
   return getRemoteJsonLd(url).then((response) => {
     const graphData = getDefaultGraphData(normalize(response.json));
     const dataset = getByType(graphData, DCATAP.Dataset)[0];
@@ -36,41 +37,15 @@ export function importDataset(url) {
       throw {"error": "FETCH"};
     }
 
-    const temporalIri = getValue(dataset, DCTERMS.temporal);
-    const contactPointIri = getValue(dataset, DCATAP.contactPoint);
-    const distributionsIri = getValues(dataset, DCATAP.distribution);
-    const themesIri = getValues(dataset, DCATAP.theme);
+    let datasetModel = {};
+    let distributionsModel = [];
 
-    const references = [
-      temporalIri,
-      contactPointIri,
-      ...distributionsIri,
-    ].filter((value) => value !== undefined);
+    parseDump(dataset, datasetModel, distributionsModel, lang, codelist, datasetRecordEdit);
 
-    return obtainsResources(graphData, references).then((responses) => {
-      const datasetModel = {
-        ...parseDataset(dataset),
-        //
-        "temporal_start": "",
-        "temporal_end": "",
-        "contact_point_name": "",
-        "contact_point_email": "",
-        "dataset_theme": "",
-        "themes": [],
-        //
-        ...parseThemes(themesIri),
-        ...parseContactPoint(contactPointIri, responses[contactPointIri]),
-        ...parseTemporal(temporalIri, responses[temporalIri])
-      };
-
-      return parseDistributions(graphData, distributionsIri, responses)
-        .then((distributionsModel) => {
-          return {
-            "dataset": datasetModel,
-            "distributions": distributionsModel
-          }
-        });
-    });
+    return {
+      "dataset": datasetModel,
+      "distributions": distributionsModel
+    }
   });
 }
 

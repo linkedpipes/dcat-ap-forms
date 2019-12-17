@@ -244,6 +244,10 @@ function loadThemes(dataset, graphData) {
   dataset.dataset_custom_themes = [];
   const themes = graphData[DCATAP.theme];
 
+  if (!Array.isArray(themes)) {
+    return;
+  }
+
   themes.forEach((theme) => {
     const t = theme["@id"];
     if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {

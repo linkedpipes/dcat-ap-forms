@@ -229,9 +229,12 @@ function loadDistribution(distribution) {
 
 function loadDistributions(distributions, graphData) {
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
-  graphData[DCATAP.distribution].forEach((distribution) =>
-    distributions.splice(0, 0, loadDistribution(distribution))
-  );
+
+  if (Array.isArray(graphData[DCATAP.distribution])) {
+    graphData[DCATAP.distribution].forEach((distribution) =>
+      distributions.splice(0, 0, loadDistribution(distribution))
+    );
+  }
 
   if (distributions.length > 0) {
     distributions.pop();

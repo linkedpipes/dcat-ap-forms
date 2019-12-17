@@ -32,6 +32,7 @@ function update_url(url) {
 export function importDataset(url, lang, codelist, datasetRecordEdit) {
   return getRemoteJsonLd(url).then((response) => {
     const graphData = getDefaultGraphData(normalize(response.json));
+    console.log(graphData);
     const dataset = getByType(graphData, DCATAP.Dataset)[0];
     if (dataset === undefined) {
       throw {"error": "FETCH"};

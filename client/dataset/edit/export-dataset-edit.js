@@ -41,7 +41,7 @@ export function exportToJsonLd(dataset, distributions) {
   }
   if (dataset.spatial.length > 0) {
     output[DCTERMS.spatial] = dataset.spatial.map(
-      (spatial) => exportSpatialIri(spatial)
+      (spatial) => getSpatialIri(spatial)
     )
   }
   if (isNotEmpty(dataset.documentation)) {
@@ -208,7 +208,7 @@ function exportDistribution(distribution, datasetIri) {
   return output;
 }
 
-function exportSpatialIri(spatial) {
+function getSpatialIri(spatial) {
   if (spatial.type === "RUIAN") {
     return asIri(spatial.ruian)
   } else {

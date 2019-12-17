@@ -1,31 +1,13 @@
-import {apply, applyEach, email, provided, url, temporal, decimal} from "@/app-service/validators";
-import dataset from "./dataset";
+import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "@/app-service/validators";
 import {getItem} from "./codelists/local-storage";
+import {createDistribution} from "./distribution-model";
+import {getLabel as continentsToLabel, prefix as continentPrefix} from "./codelists/continents";
+import {getLabel as countriesToLabel, prefix as countryPrefix} from "./codelists/countries";
+import {getLabel as placesToLabel, prefix as placePrefix} from "./codelists/places";
 
-import {
-  normalize,
-  getDefaultGraphData,
-  getByType,
-  getValue,
-  getValues,
-  getByIri,
-  getId
-} from "@/app-service/jsonld";
+import {getDefaultGraphData, normalize,} from "@/app-service/jsonld";
 
-import {
-  parseDataset, parseThemes, parseContactPoint, parseTemporal, parseDistributions
-} from "@/dataset/import-from-url";
-
-import {
-  DCTERMS,
-  DCATAP,
-  FOAF,
-  VCARD,
-  SCHEMA,
-  PU,
-  SKOS,
-  CREATIVE_COMMONS,
-} from "@/app-service/vocabulary";
+import {CREATIVE_COMMONS, DCATAP, DCTERMS, FOAF, PU, VCARD,} from "@/app-service/vocabulary";
 
 export function createDataset() {
   return decorateDataset({
@@ -48,12 +30,6 @@ export function createDataset() {
     "contact_point_name": "",
     "contact_point_email": "",
     "keywords": [],
-
-    "tmp_keyword_cs": "",
-    "tmp_keyword_en": "",
-
-    "tmp_file": null,
-    "tmp": null,
   })
 }
 
@@ -123,21 +99,14 @@ export function isDatasetValid(dataset) {
         provided(dataset.dataset_themes) &&
         allCustomThemesValid(dataset.dataset_custom_theme) &&
         allCustomThemesValid(dataset.ofn) &&
-        isValidTemporalString(dataset.temporal_resolution) &&
-        isValidSpatialString(dataset.spatial_resolution_meters);
+        temporal(dataset.temporal_resolution) &&
+        spatial(dataset.spatial_resolution_meters);
 }
 
-function isValidTemporalString(value) {
-  return !provided(value) || /^(-?)P(?=.)((\d+)Y)?((\d+)M)?((\d+)D)?(T(?=.)((\d+)H)?((\d+)M)?(\d*(\.\d+)?S)?)?$/.test(value)
-}
-
-function  isValidSpatialString(value) {
-  return !provided(value) || /^[-+]?[0-9]+(\.[0-9]+)?$/.test(value);
-}
 
 function allCustomThemesValid(value) {
   if (!provided(value)) return true;
-  var bundle = {"isValid": true};
+  let bundle = {"isValid": true};
   value.forEach(function (item) { this.isValid = this.isValid & url(item) }, bundle);
   return bundle.isValid;
 }
@@ -146,12 +115,12 @@ function isEmpty(value) {
   return value === undefined || value === null || value === "";
 }
 
-function not_present_multi(lst, multi) {
-  return lst.some(function (item) {
-    var bundle = { "value": false};
-    Object.keys(multi).forEach(function(key) { //loop over 2 lang tags
-      if (key in item) {
-        if ((!isEmpty(item[key]) || !isEmpty(multi[key])) && (item[key] === multi[key])) {
+function keywordNotPresent(keywords, multilang) {
+  return keywords.some(function (keyword) {
+    let bundle = { "value": false};
+    Object.keys(multilang).forEach(function(langTag) { //loop over 2 lang tags
+      if (langTag in keyword) {
+        if ((!isEmpty(keyword[langTag]) || !isEmpty(multilang[langTag])) && (keyword[langTag] === multilang[langTag])) {
           // will report true if we match any respective language equivalent regardless of the other
           // so a match in the Czech version of the keyword or a match in the English version of the keyword
           // will yield a duplicity
@@ -163,18 +132,16 @@ function not_present_multi(lst, multi) {
   });
 }
 
-export function do_addKeyword(dataset) {
-  const key_cs = dataset.tmp_keyword_cs;
-  const key_en = dataset.tmp_keyword_en;
+export function do_addKeyword(dataset, key_cs, key_en) {
   if (!key_cs) return;
   const multilang = {
     "cs": key_cs,
     "en": key_en
-  }
-  if (!not_present_multi(dataset.keywords, multilang)) dataset.keywords.push(multilang);
+  };
+  if (!keywordNotPresent(dataset.keywords, multilang)) dataset.keywords.push(multilang);
 }
 
-function create_spatial(type, url, label) {
+function createSpatial(type, url, label) {
   return {
     "type": type,
     "url": url,
@@ -182,19 +149,18 @@ function create_spatial(type, url, label) {
   }
 }
 
-function not_present_single(lst, type, url) {
-  return lst.some(function(item) {
-    if ((item["type"] === type) && (item["url"] === url)) {return true}
-    else return false;
+function spatialNotPresent(spatial, type, url) {
+  return spatial.some(function(item) {
+    return (item["type"] === type) && (item["url"] === url);
   });
 }
 
 export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, country, place, active_tab, label) {
 
   if (active_tab === 0) {
-    var bundle = {"present": false};
+    let bundle = {"present": false};
     dataset.spatial.forEach(function(item) {
-      if ((item.type === "RUIAN") && (item.ruian === ruian)) {this.present = true}
+      if ((item.type === "RUIAN") && (item.ruian === ruian)) { this.present = true }
     }, bundle);
 
     if (!bundle.present) {
@@ -207,16 +173,22 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
     }
   } else if (active_tab === 1) {
     if (!continent) return false;
-    if (!not_present_single(dataset.spatial, "CONTINENT", continent)) dataset.spatial.push(create_spatial("CONTINENT", continent, label));
+    if (!spatialNotPresent(dataset.spatial, "CONTINENT", continent)) {
+      dataset.spatial.push(createSpatial("CONTINENT", continent, label));
+    }
   } else if (active_tab === 2) {
     if (!country) return false;
-    if (!not_present_single(dataset.spatial, "COUNTRY", country)) dataset.spatial.push(create_spatial("COUNTRY", country, label));
+    if (!spatialNotPresent(dataset.spatial, "COUNTRY", country)) {
+      dataset.spatial.push(createSpatial("COUNTRY", country, label));
+    }
   } else if (active_tab === 3) {
     if (!place) return false;
-    if (!not_present_single(dataset.spatial, "PLACE", place)) dataset.spatial.push(create_spatial("PLACE", place, label));
+    if (!spatialNotPresent(dataset.spatial, "PLACE", place)) {
+      dataset.spatial.push(createSpatial("PLACE", place, label));
+    }
   } else if (active_tab === 4) {
     if (!spatial_url) return false;
-    if (!not_present_single(dataset.spatial, "URL", spatial_url)) dataset.spatial.push({
+    if (!spatialNotPresent(dataset.spatial, "URL", spatial_url)) dataset.spatial.push({
       "type": "URL",
       "url": spatial_url
     })
@@ -224,7 +196,6 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
   return true;
 }
 
-// === Loading from file
 export function tryGet(key, d, x="@id") {
   try {
     return d[key][x];
@@ -234,21 +205,14 @@ export function tryGet(key, d, x="@id") {
 }
 
 export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
-  var reader = new FileReader();
+  let reader = new FileReader();
   reader.onload = function() {
-    dataset.tmp_file = getDefaultGraphData(normalize(JSON.parse(reader.result)));
-    parse_dump(dataset.tmp_file, dataset, distributions, lang, codelist, src);
+    const file_data = getDefaultGraphData(normalize(JSON.parse(reader.result)));
+    parseDump(file_data, dataset, distributions, lang, codelist, src);
   };
   reader.readAsText(file);
 }
 
-import {createDistribution} from "./distribution-model";
-import {prefix as continentPrefix} from "./codelists/continents";
-import {prefix as countryPrefix} from "./codelists/countries";
-import {prefix as placePrefix} from "./codelists/places";
-import {getLabel as continentsToLabel} from "./codelists/continents";
-import {getLabel as countriesToLabel} from "./codelists/countries";
-import {getLabel as placesToLabel} from "./codelists/places";
 function ruianLabel(iri, codelist, lang) {
   const value = getItem(codelist, "ruian", iri, lang);
   if (value === undefined) {
@@ -258,7 +222,7 @@ function ruianLabel(iri, codelist, lang) {
   }
 }
 
-function parse_license(distribution, spec) {
+function parseLicense(distribution, spec) {
   const autorskeDilo = spec[PU.autorskeDilo]["@id"];
   switch (autorskeDilo) {
   case PU.obsahujeViceAutorskychDel:
@@ -314,9 +278,8 @@ function parse_license(distribution, spec) {
   }
 }
 
-function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
-  if ("@id" in graphData) if (url(graphData["@id"])) dataset.iri = graphData["@id"];
-  const contactPoint = graphData[DCATAP.contactPoint];
+function parseDump(graphData, dataset, distributions, lang, codelist, src) {
+  if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graphData["@id"];
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
   dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
   dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graphData, "@value");
@@ -331,7 +294,7 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
         dataset.title_en = title["@value"];
       }
     });
-  } else {  // legacy
+  } else {  // for old files without multilang titles
     dataset.title_cs = titles["@value"];
   }
 
@@ -344,24 +307,22 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
         dataset.description_en = title["@value"];
       }
     });
-  } else {  // legacy
+  } else {  // for old files without multilang descriptions
     dataset.description_cs = descriptions["@value"];
   }
 
   const keywords = graphData[DCATAP.keyword];
   dataset.keywords = [];
   keywords.forEach(function (keyword, _) {
-    var key = {};
+    let key = {};
     if (Array.isArray(keyword)) {
       keyword.forEach(function (version, _) {
         const l = version["@language"];
-        const v = version["@value"];
-        key[l] = v;
+        key[l] = version["@value"];
       });
     } else { // legacy
       const l = keyword["@language"];
-      const v = keyword["@value"];
-      key[l] = v;
+      key[l] = keyword["@value"];
     }
     if (!("en" in key)) key["en"] = "";
     dataset.keywords.push(key);
@@ -407,9 +368,9 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
   if (Array.isArray(spatial)) {
     spatial.forEach(function (s, _) {
       if (s !== null) {
-        var x = {
+        let x = {
           "url": s["@id"]
-        }
+        };
         if (x["url"].startsWith("https://linked.cuzk.cz/resource/ruian/")) {
           x["type"] = "RUIAN";
           x["label"] = ruianLabel(x["url"], codelist, lang);
@@ -440,25 +401,24 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
 
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
   graphData[DCATAP.distribution].forEach(function(distribution) {
-    var distr_title = {"cs": "", "en": ""};
+    let distr_title = {"cs": "", "en": ""};
     if (DCTERMS.title in distribution) {
       if (Array.isArray(distribution[DCTERMS.title])) {
-        var distr_titles = distribution[DCTERMS.title]; // [{"@language": "", "@value": ""}]
+        let distr_titles = distribution[DCTERMS.title]; // looks like this: [{"@language": "", "@value": ""}]
 
         distr_titles.forEach(function (t, _) {
           const l = t["@language"];
-          const v = t["@value"]
-          distr_title[l] = v;
+          distr_title[l] = t["@value"];
         });
 
       } else {
-        distr_titles["cs"] = distribution[DCTERMS.title];
+        distr_title["cs"] = distribution[DCTERMS.title];
       }
     }
 
-    var fileOrService;
+    let fileOrService;
     const accessService = distribution[DCATAP.accessService];
-    var endpointUrl = "";
+    let endpointUrl = "";
     if (undefined !== accessService) {
       endpointUrl = accessService[DCATAP.endpointURL]["@id"];
       if (endpointUrl.length > 0) {
@@ -470,7 +430,7 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
       fileOrService = "FILE";
     }
 
-    var d = createDistribution()
+    let d = createDistribution();
     d["compressFormat"] = tryGet(DCTERMS.compressFormat, distribution);
     d["format"] = tryGet(DCTERMS.format, distribution);
     d["media_type"] = tryGet(DCATAP.mediaType, distribution);
@@ -483,7 +443,7 @@ function parse_dump(graphData, dataset, distributions, lang, codelist, src) {
     if ("en" in distr_title) d["title_en"] = distr_title["en"];
     d["isFileOrService"] = fileOrService;
 
-    parse_license(d, distribution[PU.specifikace]);
+    parseLicense(d, distribution[PU.specifikace]);
 
     distributions.splice(0, 0, d); //add
   });

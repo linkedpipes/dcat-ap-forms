@@ -7,6 +7,10 @@ export function temporal(value) {
   return !provided(value) || temporalPattern.test(value);
 }
 
+export function spatial(value) {
+  return !provided(value) || /^[-+]?[0-9]+(\.[0-9]+)?$/.test(value);
+}
+
 export function decimal(value) {
   const decimalPattern = /^[-+]?[0-9]+(\.[0-9]+)?$/;
   return !provided(value) || decimalPattern.test(value);

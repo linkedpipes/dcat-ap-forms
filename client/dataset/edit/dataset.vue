@@ -32,7 +32,11 @@
       </v-stepper-header>
       <v-stepper-items>
         <v-stepper-content :step="1">
-          <app-dataset :dataset="data.dataset" :codelist="data.codelist" :distributions="data.distributions"/>
+          <app-dataset
+            :dataset="data.dataset"
+            :codelist="data.codelist"
+            :distributions="data.distributions"
+          />
         </v-stepper-content>
         <v-stepper-content :step="2">
           <app-distribution-selector
@@ -41,10 +45,10 @@
             @add="addDistribution"
           />
           <app-distribution
+            ref="distributionComponent"
             :distribution="data.distributions[ui.distribution]"
             :can-be-deleted="data.distributions.length > 1"
             @delete="deleteDistribution"
-            ref="distributionComponent"
           />
         </v-stepper-content>
         <v-stepper-content :step="3">

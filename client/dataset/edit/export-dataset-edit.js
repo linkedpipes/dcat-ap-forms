@@ -3,17 +3,16 @@ import {
   DCATAP,
   FOAF,
   VCARD,
-  SCHEMA,
   PU,
   CREATIVE_COMMONS,
   NKOD
 } from "@/app-service/vocabulary";
 
 export function exportToJsonLd(dataset, distributions) {
-  var titles = [asNamedLangString(dataset.title_cs, "cs")];
+  let titles = [asNamedLangString(dataset.title_cs, "cs")];
   if (isNotEmpty(dataset.title_en)) titles.push(asNamedLangString(dataset.title_en, "en"));
 
-  var descriptions = [asNamedLangString(dataset.description_cs, "cs")];
+  let descriptions = [asNamedLangString(dataset.description_cs, "cs")];
   if (isNotEmpty(dataset.description_en)) descriptions.push(asNamedLangString(dataset.description_en, "en"));
 
   if (isEmpty(dataset.iri)) dataset.iri = "_:ds";
@@ -30,7 +29,7 @@ export function exportToJsonLd(dataset, distributions) {
 
   if (dataset.keywords.length > 0) {
     output[DCATAP.keyword] = dataset.keywords.map(function(keyword){
-      var keywords = [asNamedLangString(keyword.cs, "cs")];
+      let keywords = [asNamedLangString(keyword.cs, "cs")];
       if (isNotEmpty(keyword.en)) keywords.push(asNamedLangString(keyword.en, "en"));
       return keywords
     })
@@ -42,7 +41,7 @@ export function exportToJsonLd(dataset, distributions) {
   }
   if (dataset.spatial.length > 0) {
     output[DCTERMS.spatial] = dataset.spatial.map(
-      (spatial) => exportSpatial(spatial)
+      (spatial) => exportSpatialIri(spatial)
     )
   }
   if (isNotEmpty(dataset.documentation)) {
@@ -159,9 +158,9 @@ function exportDistribution(distribution, datasetIri) {
 
   const output = {
     "@type": DCATAP.Distribution
-  }
+  };
 
-  var titles = []
+  let titles = [];
   if (isNotEmpty(distribution.title_cs)) {
     titles.push(asNamedLangString(distribution.title_cs, "cs"));
   }
@@ -193,7 +192,7 @@ function exportDistribution(distribution, datasetIri) {
       "@type": DCATAP.DataService,
       [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
       [DCATAP.endpointDescription]: asIri(distribution.service_description)
-    }
+    };
     if (titles.length > 0) output[DCATAP.accessService][DCTERMS.title] = titles;
     if (isNotEmpty(datasetIri)) {
       output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
@@ -212,7 +211,7 @@ function exportDistribution(distribution, datasetIri) {
   return output;
 }
 
-function exportSpatial(spatial) {
+function exportSpatialIri(spatial) {
   if (spatial.type === "RUIAN") {
     return asIri(spatial.ruian)
   } else {

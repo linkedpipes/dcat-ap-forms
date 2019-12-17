@@ -1,6 +1,5 @@
 import {
   apply,
-  email,
   provided,
   url,
   applyArray,
@@ -31,7 +30,7 @@ export function createDistribution() {
     "service_endpoint_url": "",
     "service_description": "",
 
-    "isFileOrService": "FILE", //alternative: "SERVICE"
+    "isFileOrService": "FILE",  //alternative: "SERVICE"
   });
 }
 

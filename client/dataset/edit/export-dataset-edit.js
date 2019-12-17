@@ -205,9 +205,6 @@ function exportDistribution(distribution, datasetIri) {
 
   output[PU.specifikace] = license(distribution);
 
-
-
-
   return output;
 }
 

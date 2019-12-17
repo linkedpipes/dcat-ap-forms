@@ -141,7 +141,7 @@ function loadKeywords(dataset, graphData) {
   });
 }
 
-function loadSpatial(dataset, graphData) {
+function loadSpatial(dataset, graphData, codelist, lang) {
   dataset.spatial = [];
   const spatial = graphData[DCTERMS.spatial];
   if (Array.isArray(spatial)) {
@@ -227,7 +227,7 @@ function loadDistribution(distribution) {
   return d;
 }
 
-function loadDistributions(dataset, graphData) {
+function loadDistributions(distributions, graphData) {
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
   graphData[DCATAP.distribution].forEach((distribution) =>
     distributions.splice(0, 0, loadDistribution(distribution))
@@ -310,8 +310,8 @@ export function parseDump(graphData, dataset, distributions, lang, codelist, src
   loadContactPoint(dataset, graphData);
   loadThemes(dataset, graphData);
   loadOfn(dataset, graphData);
-  loadSpatial(dataset, graphData);
-  loadDistributions(dataset, graphData);
+  loadSpatial(dataset, graphData, codelist, lang);
+  loadDistributions(distributions, graphData);
 
   src.$refs.themes.reload(dataset.themes);
 }

@@ -29,7 +29,7 @@ function update_url(url) {
   }
 }
 
-export function importDataset(url, lang, codelist, datasetRecordEdit) {
+export function importDataset(url, lang, codelist) {
   return getRemoteJsonLd(url).then((response) => {
     const graphData = getDefaultGraphData(normalize(response.json));
     console.log(graphData);
@@ -41,7 +41,7 @@ export function importDataset(url, lang, codelist, datasetRecordEdit) {
     let datasetModel = {};
     let distributionsModel = [];
 
-    parseDump(dataset, datasetModel, distributionsModel, lang, codelist, datasetRecordEdit);
+    parseDump(dataset, datasetModel, distributionsModel, lang, codelist, null);
 
     return {
       "dataset": datasetModel,

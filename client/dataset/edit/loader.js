@@ -316,5 +316,7 @@ export function parseDump(graphData, dataset, distributions, lang, codelist, src
   loadSpatial(dataset, graphData, codelist, lang);
   loadDistributions(distributions, graphData);
 
-  src.$refs.themes.reload(dataset.themes);
+  if (src) {
+    src.$refs.themes.reload(dataset.themes);
+  }
 }

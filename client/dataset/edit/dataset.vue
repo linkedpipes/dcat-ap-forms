@@ -152,7 +152,7 @@ export default {
       return;
     }
 
-    importDataset(url, this.$vuetify.lang.current, this.data.codelist, this.$refs.datasetComponent)
+    importDataset(url, this.$vuetify.lang.current, this.data.codelist)
       .then((result) => {
         const distributions = Object.values(result.distributions)
           .map(item => decorateDistribution(item));

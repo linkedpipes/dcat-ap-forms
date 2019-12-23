@@ -3,7 +3,7 @@ const merge = require("webpack-merge");
 const common = Object.assign({}, require("./webpack.common"));
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
-const CleanWebpackPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
 
@@ -45,7 +45,9 @@ module.exports = merge(common, {
     ]
   },
   "plugins": [
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanAfterEveryBuildPatterns: ["dist"]
+    }),
     new MiniCssExtractPlugin({
       "filename": "[name].[chunkhash].css"
     }),

@@ -2,6 +2,9 @@ module.exports = {
   "extends": [
     "plugin:vue/recommended"
   ],
+  "plugins": [
+    'vuetify'
+  ],
   "rules": {
     "quotes": ["error", "double"],
     "object-shorthand": ["error", "never"],

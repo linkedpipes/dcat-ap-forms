@@ -15,18 +15,24 @@ require("vuetify/dist/vuetify.css");
 
 Vue.config.productionTip = false;
 
-Vue.use(Vuetify, {
-  "lang": {
-    "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
-    "current": "cs"
-  }
-});
+Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
 /* eslint-disable no-new */
+
+const opts = {
+  "lang": {
+    "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
+    "current": "cs"
+  }
+};
+
+const vuetify = new Vuetify(opts);
+
 new Vue({
+  "vuetify": vuetify,
   "el": "#app",
   "router": new VueRouter({"mode": "history"}),
   "render": (h) => h(App)

@@ -10,12 +10,13 @@ import App from "./home.vue";
 require("vuetify/dist/vuetify.css");
 
 Vue.config.productionTip = false;
-
 Vue.use(Vuetify);
 Vue.use(UploadButton);
 
 /* eslint-disable no-new */
+vuetify = new Vuetify();
 new Vue({
+  "vuetify": vuetify,
   "el": "#app",
   "render": (h) => h(App)
 });

@@ -166,7 +166,7 @@
           >
             <v-chip
               close
-              @input="removeTheme(data.item)"
+              @click:close="removeTheme(data.item)"
             >
               <strong>{{ data.item }}</strong>
             </v-chip>
@@ -197,7 +197,7 @@
           >
             <v-chip
               close
-              @input="removeOfn(data.item)"
+              @click:close="removeOfn(data.item)"
             >
               <strong>{{ data.item }}</strong>
             </v-chip>
@@ -319,7 +319,7 @@
           >
             <v-chip
               close
-              @input="removeKeyword(data.item)"
+              @click:close="removeKeyword(data.item)"
             >
               <strong>{{ data.item.cs + " | " + data.item.en }}</strong>
             </v-chip>
@@ -524,7 +524,7 @@
           >
             <v-chip
               close
-              @input="removeSpatial(data.item)"
+              @click:close="removeSpatial(data.item)"
             >
               <strong v-if="data.item.type === 'URL'">{{ data.item.url }}</strong>
               <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY' || data.item.type === 'PLACE'">{{ data.item.label }}</strong>

@@ -2,7 +2,7 @@
   <v-content v-if="data.status === 'ready'">
     <v-stepper
       :value="ui.step"
-      @input="onStepperInput"
+      @change="onStepperInput"
     >
       <v-stepper-header>
         <v-stepper-step
@@ -11,7 +11,7 @@
           :step="1"
           editable
         >
-          {{ $t("step_dataset") }}
+          {{ this.$vuetify.lang.t("step_dataset") }}
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
@@ -20,14 +20,14 @@
           :step="2"
           editable
         >
-          {{ $t("step_distribution") }}
+          {{ this.$vuetify.lang.t("step_distribution") }}
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
           :step="3"
           editable
         >
-          {{ $t("step_download") }}
+          {{ this.$vuetify.lang.t("step_download") }}
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
@@ -71,7 +71,7 @@
   </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
-      {{ $t("cant_import_dataset") }}
+      {{ this.$vuetify.lang.t("cant_import_dataset") }}
     </p>
   </v-content>
   <v-content v-else>
@@ -137,7 +137,7 @@ export default {
     }
   },
   "mounted": function () {
-    setPageTitle(this.$t("edit_page_title"));
+    setPageTitle(this.$vuetify.lang.t("edit_page_title"));
 
     // Set step from URL.
     if (this.$route.query.krok !== undefined) {

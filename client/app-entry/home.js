@@ -14,7 +14,7 @@ Vue.use(Vuetify);
 Vue.use(UploadButton);
 
 /* eslint-disable no-new */
-vuetify = new Vuetify();
+const vuetify = new Vuetify();
 new Vue({
   "vuetify": vuetify,
   "el": "#app",

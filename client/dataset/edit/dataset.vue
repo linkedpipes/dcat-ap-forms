@@ -11,7 +11,7 @@
           :step="1"
           editable
         >
-          {{ this.$vuetify.lang.t("step_dataset") }}
+          {{ $t("step_dataset") }}
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
@@ -20,14 +20,14 @@
           :step="2"
           editable
         >
-          {{ this.$vuetify.lang.t("step_distribution") }}
+          {{ $t("step_distribution") }}
         </v-stepper-step>
         <v-divider />
         <v-stepper-step
           :step="3"
           editable
         >
-          {{ this.$vuetify.lang.t("step_download") }}
+          {{ $t("step_download") }}
         </v-stepper-step>
       </v-stepper-header>
       <v-stepper-items>
@@ -137,7 +137,7 @@ export default {
     }
   },
   "mounted": function () {
-    setPageTitle(this.$vuetify.lang.t("edit_page_title"));
+    setPageTitle(this.$t("edit_page_title"));
 
     // Set step from URL.
     if (this.$route.query.krok !== undefined) {

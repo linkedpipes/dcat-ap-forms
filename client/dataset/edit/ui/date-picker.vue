@@ -12,8 +12,9 @@
     offset-y 
     full-width
   >
+    <template v-slot:activator="{ on }">
     <v-text-field
-      slot="activator"
+      v-on="on"
       :value="value"
       :label="label"
       :hint="hint"
@@ -22,15 +23,17 @@
       append-outer-icon="help_outline"
       readonly
       clearable
-      @input="onInput" 
+      @input="onInput"
       @click:append-outer="$h(id)"
     />
+    </template>
     <v-date-picker
       ref="picker"
       :locale="$vuetify.lang.current"
       :value="value"
       @change="save"
     />
+
   </v-menu>
 </template>
 
@@ -42,7 +45,7 @@ export default {
     "value": {"required": true},
     "label": {"type": String, "required": true},
     "hint": {"type": String, "required": false},
-    "persistentHint": {"type": Boolean, "required": false}
+    "persistentHint": {"type": Boolean, "required": false},
   },
   "data": () => ({
     "menu": false

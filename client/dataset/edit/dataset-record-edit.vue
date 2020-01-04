@@ -5,10 +5,10 @@
     pa-0
   >
     <v-alert
-      outline
-      value="true"
+      outlined
+      value
       type="warning"
-      dismissible="true"
+      dismissible
     >
       {{ $t('common_errors_description') }}
       <a

@@ -2,7 +2,7 @@
   <div class="centred">
     <v-btn 
       :disabled="value < 1"
-      flat
+      text
       icon 
       @click="onPrevious"
     >
@@ -11,7 +11,7 @@
     <v-btn
       v-for="(item, index) in distributions"
       :key="index"
-      flat
+      text
       icon
       @click="onSelect(index)"
     >
@@ -20,7 +20,7 @@
       </v-icon>
     </v-btn>
     <v-btn 
-      flat 
+      text
       icon 
       @click="onNew"
     >
@@ -30,7 +30,7 @@
     </v-btn>
     <v-btn 
       :disabled="value + 1 >= distributions.length"
-      flat
+      text
       icon 
       @click="onNext"
     >

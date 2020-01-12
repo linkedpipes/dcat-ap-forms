@@ -200,4 +200,10 @@ export default {
   "distribution_type": "Distribution type",
   "headline_distribution_access": "Downloadable file",
   "headline_service_access": "Data Service",
+  "load_url": "Load from URL",
+  "url_title": "Form data URL",
+  "hint_url_title": "Enter HTTPS URL of the source data to load into form.",
+  "help_url_title": "<h3>Form data URLe</h3><p>Besides loading from file, it's possible to directly enter URL of the source data to load into form. It's expected for the URL to contain a file downloaded from this app or compatible.</p>",
+  "load_invalid_url": "Invalid HTTPS URL.",
+
 }

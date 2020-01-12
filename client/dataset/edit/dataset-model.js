@@ -1,6 +1,7 @@
 import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "@/app-service/validators";
 import {getDefaultGraphData, normalize,} from "@/app-service/jsonld";
 import {parseDump} from "./loader";
+import {getRemoteJson} from "@/app-service/http";
 
 export function createDataset() {
   return decorateDataset({
@@ -23,6 +24,7 @@ export function createDataset() {
     "contact_point_name": "",
     "contact_point_email": "",
     "keywords": [],
+    "url_to_load_from": "",
   })
 }
 
@@ -80,6 +82,10 @@ export function createDatasetValidators() {
       (t) => t.dataset, "spatial_resolution_meters",
       decimal,
       "spatial_invalid"),
+    "err_url_load": apply(
+      (t) => t.dataset, "url_to_load_from",
+      url, "load_invalid_url"
+    )
   };
 }
 
@@ -195,4 +201,13 @@ export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
     parseDump(file_data, dataset, distributions, lang, codelist, src);
   };
   reader.readAsText(file);
+}
+
+export function do_loadUrl(dataSrc, dataset, distributions, lang, codelist, src) {
+  if (url(dataSrc)) {
+    return getRemoteJson(dataSrc).then((response) => {
+      const graphData = getDefaultGraphData(normalize(response.json));
+      parseDump(graphData, dataset, distributions, lang, codelist, src);
+    });
+  }
 }

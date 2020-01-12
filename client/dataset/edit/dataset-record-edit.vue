@@ -669,12 +669,75 @@
         :title="$t('load')"
         @file-update="onFileChanged"
       />
+
+      <div class="text-center">
+        <v-dialog
+                v-model="dialog_url"
+                width="500"
+        >
+          <template v-slot:activator="{ on }">
+            <v-btn
+                    color="primary"
+                    text
+                    v-on="on"
+            >
+              {{ $t('load_url') }}
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-toolbar
+                    dark
+                    color="primary"
+            >
+              <v-toolbar-title>{{ $t('load_url') }}</v-toolbar-title>
+              <v-spacer />
+              <v-btn
+                      icon
+                      color="primary"
+                      @click="dialog_url = false"
+              >
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <v-layout
+                      row
+                      wrap
+              >
+                <v-text-field
+                        id="url_load_from"
+                        v-model="url_to_load_from"
+                        :label="$t('url_title')"
+                        :error-messages="err_url_load"
+                        :hint="$t('hint_url_title')"
+                        prepend-icon="label"
+                        append-outer-icon="help_outline"
+                        clearable
+                        @click:append-outer="$h('url_title')"
+                />
+              </v-layout>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer />
+              <v-btn
+                      color="primary"
+                      text
+                      @click="loadUrl"
+              >
+                {{ $t('load_url') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
+
     </v-layout>
   </v-container>
 </template>
 
 <script>
-import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile, load_from_file} from "./dataset-model";
+import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile, do_loadUrl} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -715,10 +778,11 @@ export default {
     "places": PlaceCodeList,
     "dialog": false,
     "dialog_keyword": false,
+    "dialog_url": false,
     "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
     "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
     "keyword_cs": "",
-    "keyword_en": ""
+    "keyword_en": "",
   }),
   "computed": {
     ...createDatasetValidators()
@@ -779,6 +843,11 @@ export default {
     },
     "onFileChanged": function (file) {
       do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
+    },
+    "loadUrl": function() {
+      this.dialog_url = false;
+      do_loadUrl(this.url_to_load_from, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
+      this.url_to_load_from = "";
     }
   }
 };

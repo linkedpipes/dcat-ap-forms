@@ -299,6 +299,8 @@ function loadOfn(dataset, graphData) {
 }
 
 export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
+  console.log("parseDump");
+  console.log(graphData);
   if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graphData["@id"];
 
   dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];

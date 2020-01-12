@@ -672,14 +672,14 @@
 
       <div class="text-center">
         <v-dialog
-                v-model="dialog_url"
-                width="500"
+          v-model="dialog_url"
+          width="500"
         >
           <template v-slot:activator="{ on }">
             <v-btn
-                    color="primary"
-                    text
-                    v-on="on"
+              color="primary"
+              text
+              v-on="on"
             >
               {{ $t('load_url') }}
             </v-btn>
@@ -687,43 +687,43 @@
 
           <v-card>
             <v-toolbar
-                    dark
-                    color="primary"
+              dark
+              color="primary"
             >
               <v-toolbar-title>{{ $t('load_url') }}</v-toolbar-title>
               <v-spacer />
               <v-btn
-                      icon
-                      color="primary"
-                      @click="dialog_url = false"
+                icon
+                color="primary"
+                @click="dialog_url = false"
               >
                 <v-icon>close</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
               <v-layout
-                      row
-                      wrap
+                row
+                wrap
               >
                 <v-text-field
-                        id="url_load_from"
-                        v-model="url_to_load_from"
-                        :label="$t('url_title')"
-                        :error-messages="err_url_load"
-                        :hint="$t('hint_url_title')"
-                        prepend-icon="label"
-                        append-outer-icon="help_outline"
-                        clearable
-                        @click:append-outer="$h('url_title')"
+                  id="url_load_from"
+                  v-model="url_to_load_from"
+                  :label="$t('url_title')"
+                  :error-messages="err_url_load"
+                  :hint="$t('hint_url_title')"
+                  prepend-icon="label"
+                  append-outer-icon="help_outline"
+                  clearable
+                  @click:append-outer="$h('url_title')"
                 />
               </v-layout>
             </v-card-text>
             <v-card-actions>
               <v-spacer />
               <v-btn
-                      color="primary"
-                      text
-                      @click="loadUrl"
+                color="primary"
+                text
+                @click="loadUrl"
               >
                 {{ $t('load_url') }}
               </v-btn>
@@ -731,7 +731,6 @@
           </v-card>
         </v-dialog>
       </div>
-
     </v-layout>
   </v-container>
 </template>

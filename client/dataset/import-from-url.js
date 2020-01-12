@@ -29,24 +29,90 @@ function update_url(url) {
   }
 }
 
+function expandObj(obj, idObjMap) {
+  if (Object.keys(obj).indexOf("@id") != -1) {
+    if (obj["@id"] in idObjMap) {
+      console.log("Inject");
+      console.log(idObjMap[obj["@id"]]);
+      console.log("into");
+      console.log(obj);
+
+      //inject idObjMap[obj["@id"]] into obj
+      return JSON.parse(JSON.stringify(idObjMap[obj["@id"]]));
+    } else {
+      return obj;
+    }
+  } else {
+    return obj;
+  }
+}
+
+function expand(flat) {
+  const idObjMap = {}
+  let root = null;
+  flat.forEach((obj) => {
+    if ("@id" in obj) {
+      const objId = obj["@id"];
+      delete obj["@id"];
+
+      if (!(objId in idObjMap)) {
+        idObjMap[objId] = [];
+      }
+
+      idObjMap[objId].push(obj);
+    }
+
+    if ("@type" in obj) {
+      console.log(obj["@type"]);
+      if (obj["@type"].indexOf(DCATAP.Dataset) != -1) {
+        console.log("root");
+        console.log(obj);
+        root = obj;
+      }
+    }
+  });
+
+  if (root != null) {
+    console.log("Root");
+    console.log(root);
+
+    const newRoot = {}
+    Object.keys(root).forEach(key => {
+      newRoot[key] = [];
+
+      root[key].forEach(obj => {
+        newRoot[key].push(expandObj(obj, idObjMap));
+      });
+    });
+
+    return newRoot;
+  } else {
+    console.log("Root null");
+  }
+
+  return null;
+}
+
 export function importDataset(url, lang, codelist) {
+  console.log("Import dataset");
+  const jsonld = require("jsonld");
   return getRemoteJsonLd(url).then((response) => {
-    const graphData = getDefaultGraphData(normalize(response.json));
-    console.log(graphData);
-    const dataset = getByType(graphData, DCATAP.Dataset)[0];
-    if (dataset === undefined) {
-      throw {"error": "FETCH"};
-    }
+    jsonld.flatten(response.json).then((flat) => {
+      console.log(flat);
 
-    let datasetModel = {};
-    let distributionsModel = [];
+      const expanded = expand(flat);
+      console.log(expanded);
 
-    parseDump(dataset, datasetModel, distributionsModel, lang, codelist, null);
+      let datasetModel = {};
+      let distributionsModel = [];
 
-    return {
-      "dataset": datasetModel,
-      "distributions": distributionsModel
-    }
+      parseDump(expanded, datasetModel, distributionsModel, lang, codelist, null);
+
+      return {
+        "dataset": datasetModel,
+        "distributions": distributionsModel
+      }
+    });
   });
 }
 

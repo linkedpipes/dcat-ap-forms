@@ -10,12 +10,17 @@ import {
   FOAF,
   VCARD,
   PU,
-  CREATIVE_COMMONS
+  CREATIVE_COMMONS,
+  SCHEMA
 } from "@/app-service/vocabulary";
 
-function tryGet(key, object, nestedKey="@id") {
+function tryGet(key, object, nestedKey="@id", single=true) {
   try {
-    return object[key][nestedKey];
+    if (single) {
+      return getSingle(object[key])[nestedKey];
+    } else {
+      return object[key][nestedKey];
+    }
   } catch (KeyError) {
     return null;
   }
@@ -31,7 +36,12 @@ function ruianLabel(iri, codelist, lang) {
 }
 
 function parseLicense(distribution, spec) {
-  const autorskeDilo = spec[PU.autorskeDilo]["@id"];
+  console.log("Parse license");
+  console.log(spec);
+  const autorskeDilo = tryGet(PU.autorskeDilo, spec);
+  console.log(PU.autorskeDilo);
+  console.log(spec[PU.autorskeDilo]);
+  console.log(autorskeDilo);
   switch (autorskeDilo) {
   case PU.obsahujeViceAutorskychDel:
     distribution.license_author_type = "MULTI";
@@ -48,7 +58,7 @@ function parseLicense(distribution, spec) {
     distribution.license_author_custom = autorskeDilo;
   }
 
-  const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
+  const db = tryGet(PU.databazeJakoAutorskeDilo, spec);
   switch (db) {
   case CREATIVE_COMMONS.BY_40:
     distribution.license_db_type = "CC BY";
@@ -62,7 +72,7 @@ function parseLicense(distribution, spec) {
     distribution.license_db_custom = db;
   }
 
-  const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
+  const zvlastni = tryGet(PU.databazeChranenaZvlastnimiPravy, spec);
   switch(zvlastni) {
   case CREATIVE_COMMONS.PUBLIC_ZERO_10:
     distribution.license_specialdb_type = "CC0";
@@ -75,7 +85,7 @@ function parseLicense(distribution, spec) {
     distribution.license_specialdb_custom = zvlastni;
   }
 
-  const osobni = spec[PU.osobniUdaje]["@id"];
+  const osobni = tryGet(PU.osobniUdaje, spec);
   switch (osobni) {
   case PU.obsahujeOsobniUdaje:
     distribution.license_personal_type = "YES";
@@ -90,10 +100,14 @@ function loadTitles(dataset, graphData) {
   const titles = graphData[DCTERMS.title];
   if (Array.isArray(titles)) {
     titles.forEach((title) => {
-      if (title["@language"] === "cs") {
+      if ("@language" in title) {
+        if (title["@language"] === "cs") {
+          dataset.title_cs = title["@value"];
+        } else if (title["@language"] === "en") {
+          dataset.title_en = title["@value"];
+        }
+      } else {
         dataset.title_cs = title["@value"];
-      } else if (title["@language"] === "en") {
-        dataset.title_en = title["@value"];
       }
     });
   } else {  // for old files without multilang titles
@@ -105,10 +119,14 @@ function loadDescriptions(dataset, graphData) {
   const descriptions = graphData[DCTERMS.description];
   if (Array.isArray(descriptions)) {
     descriptions.forEach((title) => {
-      if (title["@language"] === "cs") {
+      if ("@language" in title) {
+        if (title["@language"] === "cs") {
+          dataset.description_cs = title["@value"];
+        } else if (title["@language"] === "en") {
+          dataset.description_en = title["@value"];
+        }
+      } else {
         dataset.description_cs = title["@value"];
-      } else if (title["@language"] === "en") {
-        dataset.description_en = title["@value"];
       }
     });
   } else {  // for old files without multilang descriptions
@@ -129,8 +147,12 @@ function loadKeywords(dataset, graphData) {
     let key = {};
     if (Array.isArray(keyword)) {
       keyword.forEach(function (version, _) {
-        const l = version["@language"];
-        key[l] = version["@value"];
+        if ("@language" in version) {
+          const l = version["@language"];
+          key[l] = version["@value"];
+        } else {
+          key["cs"] = version["@value"];
+        }
       });
     } else { // for old files without multilang keywords
       const l = keyword["@language"];
@@ -180,6 +202,8 @@ function loadSpatial(dataset, graphData, codelist, lang) {
 }
 
 function loadDistribution(distribution) {
+  console.log("Load distribution");
+  console.log(distribution);
   let distr_title = {"cs": "", "en": ""};
   if (DCTERMS.title in distribution) {
     if (Array.isArray(distribution[DCTERMS.title])) {
@@ -222,18 +246,29 @@ function loadDistribution(distribution) {
   if ("en" in distr_title) d["title_en"] = distr_title["en"];
   d["isFileOrService"] = fileOrService;
 
-  parseLicense(d, distribution[PU.specifikace]);
+  if (PU.specifikace in distribution) {
+    parseLicense(d, getSingle(distribution[PU.specifikace]));
+  }
 
   return d;
 }
 
 function loadDistributions(distributions, graphData) {
+  console.log("Load distributions");
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
 
-  if (Array.isArray(graphData[DCATAP.distribution])) {
-    graphData[DCATAP.distribution].forEach((distribution) =>
+  if (Array.isArray(getSingle(graphData[DCATAP.distribution]))) {
+    console.log(getSingle(graphData[DCATAP.distribution]));
+    getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
+      console.log(distribution);
       distributions.splice(0, 0, loadDistribution(distribution))
-    );
+    });
+  } else if (Array.isArray(graphData[DCATAP.distribution])) {
+    console.log(getSingle(graphData[DCATAP.distribution]));
+    graphData[DCATAP.distribution].forEach((distribution) => {
+      console.log(distribution);
+      distributions.splice(0, 0, loadDistribution(distribution))
+    });
   }
 
   if (distributions.length > 0) {
@@ -265,25 +300,31 @@ function loadThemes(dataset, graphData) {
 
 function loadTemporal(dataset, graphData) {
   if (DCTERMS.temporal in graphData) {
-    const temporal = graphData[DCTERMS.temporal];
+    const temporal = getSingle(getSingle(graphData[DCTERMS.temporal]));
     if (DCATAP.startDate in temporal) {
-      dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
+      dataset.temporal_start = getSingle(temporal[DCATAP.startDate])["@value"];
+    } else if (SCHEMA.startDate in temporal) {
+      dataset.temporal_start = getSingle(temporal[SCHEMA.startDate])["@value"];
     }
     if (DCATAP.endDate in temporal) {
-      dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+      dataset.temporal_end = getSingle(temporal[DCATAP.endDate])["@value"];
+    } else if (SCHEMA.endDate in temporal) {
+      dataset.temporal_end = getSingle(temporal[SCHEMA.endDate])["@value"];
     }
   }
 }
 
 function loadContactPoint(dataset, graphData) {
+  console.log("Load contact point");
   if (DCATAP.contactPoint in graphData) {
-    const contact = graphData[DCATAP.contactPoint];
+    const contact = getSingle(getSingle(graphData[DCATAP.contactPoint]));
+    console.log(contact);
     if (VCARD.fn in contact) {
-      dataset.contact_point_name = contact[VCARD.fn]["@value"];
+      dataset.contact_point_name = getSingle(contact[VCARD.fn])["@value"];
     }
 
     if (VCARD.hasEmail in contact) {
-      dataset.contact_point_email = contact[VCARD.hasEmail];
+      dataset.contact_point_email = getSingle(contact[VCARD.hasEmail])["@value"];
     }
   }
 }
@@ -298,27 +339,122 @@ function loadOfn(dataset, graphData) {
   }
 }
 
+function expandObj(obj, idObjMap) {
+  console.log("Expand " + JSON.stringify(obj) + " with " + JSON.stringify(idObjMap) );
+
+  const newObj = {}
+  Object.keys(obj).forEach(key => {
+    if (typeof obj === "object" && obj !== null) {
+      newObj[key] = expandObj(obj[key], idObjMap);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+
+  if (Object.keys(newObj).indexOf("@id") != -1) {
+    if (newObj["@id"] in idObjMap) {
+      console.log("Inject");
+      console.log(idObjMap[newObj["@id"]]);
+      console.log("into");
+      console.log(newObj);
+
+      //inject idObjMap[obj["@id"]] into obj
+      return JSON.parse(JSON.stringify(idObjMap[newObj["@id"]]));
+    } else {
+      return obj;
+    }
+  } else {
+    return obj;
+  }
+}
+
+function expand(flat) {
+  console.log("Expand");
+  console.log(flat);
+
+  const idObjMap = {}
+  let root = null;
+  flat.forEach((obj) => {
+    if ("@id" in obj) {
+      const objId = obj["@id"];
+      delete obj["@id"];
+
+      if (!(objId in idObjMap)) {
+        idObjMap[objId] = [];
+      }
+
+      idObjMap[objId].push(obj);
+      console.log(objId + ": " + JSON.stringify(idObjMap[objId]));
+    }
+
+    if ("@type" in obj) {
+      console.log(obj["@type"]);
+      if (obj["@type"].indexOf(DCATAP.Dataset) != -1) {
+        console.log("root");
+        console.log(obj);
+        root = obj;
+      }
+    }
+  });
+
+  if (root != null) {
+    console.log("Root");
+    console.log(root);
+
+    const newRoot = {}
+    Object.keys(root).forEach(key => {
+      newRoot[key] = [];
+
+      root[key].forEach(obj => {
+        newRoot[key].push(expandObj(obj, idObjMap));
+      });
+    });
+
+    return newRoot;
+  } else {
+    console.log("Root null");
+  }
+
+  return null;
+}
+
+function getSingle(obj) {
+  if (Array.isArray(obj)) {
+    return obj[0];
+  } else {
+    return obj;
+  }
+}
+
 export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
   console.log("parseDump");
   console.log(graphData);
-  if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graphData["@id"];
+  const jsonld = require("jsonld");
+  jsonld.expand(graphData).then((expanded) => {
+    //jsonld.flatten(expanded).then((flat) => {
+    let graph = expand(expanded);
+    console.log(graph);
 
-  dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
-  dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
-  dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graphData, "@value");
-  dataset.documentation = tryGet(FOAF.page, graphData);
+    if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
 
-  loadTitles(dataset, graphData);
-  loadDescriptions(dataset, graphData);
-  loadKeywords(dataset, graphData);
-  loadTemporal(dataset, graphData);
-  loadContactPoint(dataset, graphData);
-  loadThemes(dataset, graphData);
-  loadOfn(dataset, graphData);
-  loadSpatial(dataset, graphData, codelist, lang);
-  loadDistributions(distributions, graphData);
+    dataset.accrual_periodicity = getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
+    dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graph, "@value", true);
+    dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
+    dataset.documentation = tryGet(FOAF.page, graph, "@id", true);
 
-  if (src) {
-    src.$refs.themes.reload(dataset.themes);
-  }
+    loadTitles(dataset, graph);
+    loadDescriptions(dataset, graph);
+    loadKeywords(dataset, graph);
+    loadTemporal(dataset, graph);
+    loadContactPoint(dataset, graph);
+    loadThemes(dataset, graph);
+    loadOfn(dataset, graph);
+    loadSpatial(dataset, graph, codelist, lang);
+    loadDistributions(distributions, graph);
+
+    if (src) {
+      src.$refs.themes.reload(dataset.themes);
+    }
+    //});
+  });
 }

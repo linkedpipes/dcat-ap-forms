@@ -134,7 +134,7 @@ function loadDescriptions(dataset, graphData) {
   }
 }
 
-function loadKeywords(dataset, graphData) {
+function loadKeywords(dataset, graphData, lang) {
   const keywords = graphData[DCATAP.keyword];
 
   dataset.keywords = [];
@@ -155,10 +155,10 @@ function loadKeywords(dataset, graphData) {
         }
       });
     } else { // for old files without multilang keywords
-      const l = keyword["@language"];
-      key[l] = keyword["@value"];
+      key[lang] = keyword["@value"];
     }
     if (!("en" in key)) key["en"] = "";
+    if (!("cs" in key)) key["cs"] = "";
     dataset.keywords.push(key);
   });
 }
@@ -444,7 +444,7 @@ export function parseDump(graphData, dataset, distributions, lang, codelist, src
 
     loadTitles(dataset, graph);
     loadDescriptions(dataset, graph);
-    loadKeywords(dataset, graph);
+    loadKeywords(dataset, graph, lang);
     loadTemporal(dataset, graph);
     loadContactPoint(dataset, graph);
     loadThemes(dataset, graph);

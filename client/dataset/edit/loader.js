@@ -13,6 +13,7 @@ import {
   CREATIVE_COMMONS,
   SCHEMA
 } from "@/app-service/vocabulary";
+import {FRAME} from "@/app-service/jsonld/frame";
 
 function tryGet(key, object, nestedKey="@id", single=true) {
   try {
@@ -111,7 +112,11 @@ function loadTitles(dataset, graphData) {
       }
     });
   } else {  // for old files without multilang titles
-    dataset.title_cs = titles["@value"];
+    if ((typeof titles) === "string") {
+      dataset.title_cs = titles;
+    } else {
+      dataset.title_cs = titles["@value"];
+    }
   }
 }
 
@@ -130,8 +135,31 @@ function loadDescriptions(dataset, graphData) {
       }
     });
   } else {  // for old files without multilang descriptions
-    dataset.description_cs = descriptions["@value"];
+    if ((typeof descriptions) === "string") {
+      dataset.description_cs = descriptions;
+    } else {
+      dataset.description_cs = descriptions["@value"];
+    }
   }
+}
+
+function loadKeyword(dataset, keyword, lang) {
+  let key = {};
+  if (Array.isArray(keyword)) {
+    keyword.forEach(function (version, _) {
+      if ("@language" in version) {
+        const l = version["@language"];
+        key[l] = version["@value"];
+      } else {
+        key["cs"] = version["@value"];
+      }
+    });
+  } else { // for old files without multilang keywords
+    key[lang] = keyword["@value"];
+  }
+  if (!("en" in key)) key["en"] = "";
+  if (!("cs" in key)) key["cs"] = "";
+  dataset.keywords.push(key);
 }
 
 function loadKeywords(dataset, graphData, lang) {
@@ -140,26 +168,25 @@ function loadKeywords(dataset, graphData, lang) {
   dataset.keywords = [];
 
   if (!Array.isArray(keywords)) {
+    let key = {"cs": "", "en": ""}
+    if ((typeof keywords) === "string") {
+      key[lang] = keywords;
+      dataset.keywords.push(key);
+    } else {
+      loadKeyword(dataset, keywords, lang);
+    }
     return;
   }
 
-  keywords.forEach((keyword) => {
-    let key = {};
-    if (Array.isArray(keyword)) {
-      keyword.forEach(function (version, _) {
-        if ("@language" in version) {
-          const l = version["@language"];
-          key[l] = version["@value"];
-        } else {
-          key["cs"] = version["@value"];
-        }
-      });
-    } else { // for old files without multilang keywords
-      key[lang] = keyword["@value"];
+  if (keywords.length === 2) {
+    if (keywords[0]["@language"] !== keywords[1]["@language"]) {
+      loadKeyword(dataset, keywords, lang);
+      return;
     }
-    if (!("en" in key)) key["en"] = "";
-    if (!("cs" in key)) key["cs"] = "";
-    dataset.keywords.push(key);
+  }
+
+  keywords.forEach((keyword) => {
+    loadKeyword(dataset, keyword, lang);
   });
 }
 
@@ -214,8 +241,11 @@ function loadDistribution(distribution) {
         distr_title[l] = t["@value"];
       });
 
-    } else {
+    } else if ((typeof  distribution[DCTERMS.title] === "string")) {
       distr_title["cs"] = distribution[DCTERMS.title];
+    } else {
+      const l = distribution[DCTERMS.title]["@language"];
+      distr_title[l] = distribution[DCTERMS.title]["@value"];
     }
   }
 
@@ -269,11 +299,24 @@ function loadDistributions(distributions, graphData) {
       console.log(distribution);
       distributions.splice(0, 0, loadDistribution(distribution))
     });
+  } else {
+    distributions.splice(0, 0, loadDistribution(graphData[DCATAP.distribution]));
   }
 
   if (distributions.length > 0) {
     distributions.pop();
   } //remove the dummy
+}
+
+function loadTheme(dataset, theme) {
+  const t = theme["@id"];
+  if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
+    dataset.dataset_themes.push(t)
+  } else if (t.startsWith("http://eurovoc.europa.eu/")){
+    dataset.themes.push(t);
+  } else {
+    dataset.dataset_custom_themes.push(t)
+  }
 }
 
 function loadThemes(dataset, graphData) {
@@ -283,18 +326,14 @@ function loadThemes(dataset, graphData) {
   const themes = graphData[DCATAP.theme];
 
   if (!Array.isArray(themes)) {
+    if ("@id" in themes) {
+      loadTheme(dataset, themes);
+    }
     return;
   }
 
   themes.forEach((theme) => {
-    const t = theme["@id"];
-    if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
-      dataset.dataset_themes.push(t)
-    } else if (t.startsWith("http://eurovoc.europa.eu/")){
-      dataset.themes.push(t);
-    } else {
-      dataset.dataset_custom_themes.push(t)
-    }
+    loadTheme(dataset, theme);
   });
 }
 
@@ -317,14 +356,18 @@ function loadTemporal(dataset, graphData) {
 function loadContactPoint(dataset, graphData) {
   console.log("Load contact point");
   if (DCATAP.contactPoint in graphData) {
-    const contact = getSingle(getSingle(graphData[DCATAP.contactPoint]));
+    const contact = getSingle(graphData[DCATAP.contactPoint]);
     console.log(contact);
     if (VCARD.fn in contact) {
-      dataset.contact_point_name = getSingle(contact[VCARD.fn])["@value"];
+      if ((typeof contact[VCARD.fn]) === "string") {
+        dataset.contact_point_name = contact[VCARD.fn];
+      } else {
+        dataset.contact_point_name = contact[VCARD.fn]["@value"];
+      }
     }
 
     if (VCARD.hasEmail in contact) {
-      dataset.contact_point_email = getSingle(contact[VCARD.hasEmail])["@value"];
+      dataset.contact_point_email = contact[VCARD.hasEmail];
     }
   }
 }
@@ -339,85 +382,6 @@ function loadOfn(dataset, graphData) {
   }
 }
 
-function expandObj(obj, idObjMap) {
-  console.log("Expand " + JSON.stringify(obj) + " with " + JSON.stringify(idObjMap) );
-
-  const newObj = {}
-  Object.keys(obj).forEach(key => {
-    if (typeof obj === "object" && obj !== null) {
-      newObj[key] = expandObj(obj[key], idObjMap);
-    } else {
-      newObj[key] = obj[key];
-    }
-  });
-
-  if (Object.keys(newObj).indexOf("@id") != -1) {
-    if (newObj["@id"] in idObjMap) {
-      console.log("Inject");
-      console.log(idObjMap[newObj["@id"]]);
-      console.log("into");
-      console.log(newObj);
-
-      //inject idObjMap[obj["@id"]] into obj
-      return JSON.parse(JSON.stringify(idObjMap[newObj["@id"]]));
-    } else {
-      return obj;
-    }
-  } else {
-    return obj;
-  }
-}
-
-function expand(flat) {
-  console.log("Expand");
-  console.log(flat);
-
-  const idObjMap = {}
-  let root = null;
-  flat.forEach((obj) => {
-    if ("@id" in obj) {
-      const objId = obj["@id"];
-      delete obj["@id"];
-
-      if (!(objId in idObjMap)) {
-        idObjMap[objId] = [];
-      }
-
-      idObjMap[objId].push(obj);
-      console.log(objId + ": " + JSON.stringify(idObjMap[objId]));
-    }
-
-    if ("@type" in obj) {
-      console.log(obj["@type"]);
-      if (obj["@type"].indexOf(DCATAP.Dataset) != -1) {
-        console.log("root");
-        console.log(obj);
-        root = obj;
-      }
-    }
-  });
-
-  if (root != null) {
-    console.log("Root");
-    console.log(root);
-
-    const newRoot = {}
-    Object.keys(root).forEach(key => {
-      newRoot[key] = [];
-
-      root[key].forEach(obj => {
-        newRoot[key].push(expandObj(obj, idObjMap));
-      });
-    });
-
-    return newRoot;
-  } else {
-    console.log("Root null");
-  }
-
-  return null;
-}
-
 function getSingle(obj) {
   if (Array.isArray(obj)) {
     return obj[0];
@@ -430,10 +394,16 @@ export function parseDump(graphData, dataset, distributions, lang, codelist, src
   console.log("parseDump");
   console.log(graphData);
   const jsonld = require("jsonld");
-  jsonld.expand(graphData).then((expanded) => {
+  console.log("Frame");
+  console.log(FRAME);
+  jsonld.frame(graphData, FRAME).then((framed) => {
+    console.log("Framed");
+    console.log(framed);
     //jsonld.flatten(expanded).then((flat) => {
-    let graph = expand(expanded);
-    console.log(graph);
+    //let graph = expand(expanded);
+    //console.log(graph);
+
+    let graph = framed["@graph"][0];
 
     if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
 

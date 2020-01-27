@@ -29,20 +29,17 @@ function update_url(url) {
   }
 }
 
-export function importDataset(url, lang, codelist) {
+export function importDataset(url, lang, codelist, datasetModel, distributionsModel) {
   console.log("Import dataset");
   //keep this as much consistent with dataset-model! any parsing logic must go into parseDump
-  return getRemoteJsonLd(url).then((response) => {
-    const graphData = getDefaultGraphData(normalize(response.json));
-    let datasetModel = {};
-    let distributionsModel = [];
+  return new Promise((resolve, reject) => {
+    getRemoteJsonLd(url).then((response) => {
+      const graphData = getDefaultGraphData(normalize(response.json));
+      parseDump(graphData, datasetModel, distributionsModel, lang, codelist, null);
 
-    parseDump(expanded2, datasetModel, distributionsModel, lang, codelist, null);
-
-    return {
-      "dataset": datasetModel,
-      "distributions": distributionsModel
-    }
+      console.log("Importing done");
+      resolve(true);
+    });
   });
 }
 

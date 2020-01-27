@@ -152,21 +152,19 @@ export default {
       return;
     }
 
-    importDataset(url, this.$vuetify.lang.current, this.data.codelist)
-      .then((result) => {
-        const distributions = Object.values(result.distributions)
-          .map(item => decorateDistribution(item));
-        this.data.dataset = decorateDataset(result.dataset);
-        this.data.distributions = distributions;
+    if (url !== undefined) {
+      this.data.dataset = createDataset();
+      this.data.distributions.push(createDistribution());
+      importDataset(url, this.$vuetify.lang.current, this.data.codelist, this.data.dataset, this.data.distributions).then((result) => {
         this.data.status = "ready";
-        return loadLabelsForDistributions(
-          distributions, this.$vuetify.lang.current);
-      })
-      .catch((error) => {
-        console.error(error);
-        this.data.status = "error";
-        this.data.error = error;
-      });
+        //return loadLabelsForDistributions(distributions, this.$vuetify.lang.current);
+      });/*
+        .catch((error) => {
+          console.error(error);
+          this.data.status = "error";
+          this.data.error = error;
+        });*/
+    }
   },
   "methods": {
     "isDatasetValid": function () {

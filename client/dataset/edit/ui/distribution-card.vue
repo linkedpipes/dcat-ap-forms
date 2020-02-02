@@ -67,10 +67,7 @@
               v-if="distribution.license_author_type == 'NO'"
             >
               <v-list-item-avatar>
-                <v-icon
-                  slot="activator"
-                  class="green white--text"
-                >
+                <v-icon class="green white--text">
                   check
                 </v-icon>
               </v-list-item-avatar>

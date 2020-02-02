@@ -389,19 +389,19 @@
       <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
-        <v-btn
-          v-on="on"
-          :disabled="!isValid"
-          rounded
-          color="success"
-          outlined
-          @click="onDownload"
-        >
-          <v-icon left>
-            file_download
-          </v-icon>
-          <span>{{ $t('button_download') }}</span>
-        </v-btn>
+          <v-btn
+            :disabled="!isValid"
+            rounded
+            color="success"
+            outlined
+            v-on="on"
+            @click="onDownload"
+          >
+            <v-icon left>
+              file_download
+            </v-icon>
+            <span>{{ $t('button_download') }}</span>
+          </v-btn>
         </template>
         <span v-if="isValid">{{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.

@@ -13,19 +13,19 @@
     full-width
   >
     <template v-slot:activator="{ on }">
-    <v-text-field
-      v-on="on"
-      :value="value"
-      :label="label"
-      :hint="hint"
-      :persistent-hint="persistentHint"
-      prepend-icon="event"
-      append-outer-icon="help_outline"
-      readonly
-      clearable
-      @input="onInput"
-      @click:append-outer="$h(id)"
-    />
+      <v-text-field
+        :value="value"
+        :label="label"
+        :hint="hint"
+        :persistent-hint="persistentHint"
+        prepend-icon="event"
+        append-outer-icon="help_outline"
+        readonly
+        clearable
+        v-on="on"
+        @input="onInput"
+        @click:append-outer="$h(id)"
+      />
     </template>
     <v-date-picker
       ref="picker"
@@ -33,7 +33,6 @@
       :value="value"
       @change="save"
     />
-
   </v-menu>
 </template>
 

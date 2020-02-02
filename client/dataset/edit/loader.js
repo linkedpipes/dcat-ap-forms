@@ -10,12 +10,18 @@ import {
   FOAF,
   VCARD,
   PU,
-  CREATIVE_COMMONS
+  CREATIVE_COMMONS,
+  SCHEMA
 } from "@/app-service/vocabulary";
+import {FRAME} from "@/app-service/jsonld/frame";
 
-function tryGet(key, object, nestedKey="@id") {
+function tryGet(key, object, nestedKey="@id", single=true) {
   try {
-    return object[key][nestedKey];
+    if (single) {
+      return getSingle(object[key])[nestedKey];
+    } else {
+      return object[key][nestedKey];
+    }
   } catch (KeyError) {
     return null;
   }
@@ -31,7 +37,12 @@ function ruianLabel(iri, codelist, lang) {
 }
 
 function parseLicense(distribution, spec) {
-  const autorskeDilo = spec[PU.autorskeDilo]["@id"];
+  console.log("Parse license");
+  console.log(spec);
+  const autorskeDilo = tryGet(PU.autorskeDilo, spec);
+  console.log(PU.autorskeDilo);
+  console.log(spec[PU.autorskeDilo]);
+  console.log(autorskeDilo);
   switch (autorskeDilo) {
   case PU.obsahujeViceAutorskychDel:
     distribution.license_author_type = "MULTI";
@@ -48,7 +59,7 @@ function parseLicense(distribution, spec) {
     distribution.license_author_custom = autorskeDilo;
   }
 
-  const db = spec[PU.databazeJakoAutorskeDilo]["@id"];
+  const db = tryGet(PU.databazeJakoAutorskeDilo, spec);
   switch (db) {
   case CREATIVE_COMMONS.BY_40:
     distribution.license_db_type = "CC BY";
@@ -62,7 +73,7 @@ function parseLicense(distribution, spec) {
     distribution.license_db_custom = db;
   }
 
-  const zvlastni = spec[PU.databazeChranenaZvlastnimiPravy]["@id"];
+  const zvlastni = tryGet(PU.databazeChranenaZvlastnimiPravy, spec);
   switch(zvlastni) {
   case CREATIVE_COMMONS.PUBLIC_ZERO_10:
     distribution.license_specialdb_type = "CC0";
@@ -75,7 +86,7 @@ function parseLicense(distribution, spec) {
     distribution.license_specialdb_custom = zvlastni;
   }
 
-  const osobni = spec[PU.osobniUdaje]["@id"];
+  const osobni = tryGet(PU.osobniUdaje, spec);
   switch (osobni) {
   case PU.obsahujeOsobniUdaje:
     distribution.license_personal_type = "YES";
@@ -90,14 +101,22 @@ function loadTitles(dataset, graphData) {
   const titles = graphData[DCTERMS.title];
   if (Array.isArray(titles)) {
     titles.forEach((title) => {
-      if (title["@language"] === "cs") {
+      if ("@language" in title) {
+        if (title["@language"] === "cs") {
+          dataset.title_cs = title["@value"];
+        } else if (title["@language"] === "en") {
+          dataset.title_en = title["@value"];
+        }
+      } else {
         dataset.title_cs = title["@value"];
-      } else if (title["@language"] === "en") {
-        dataset.title_en = title["@value"];
       }
     });
   } else {  // for old files without multilang titles
-    dataset.title_cs = titles["@value"];
+    if ((typeof titles) === "string") {
+      dataset.title_cs = titles;
+    } else {
+      dataset.title_cs = titles["@value"];
+    }
   }
 }
 
@@ -105,39 +124,69 @@ function loadDescriptions(dataset, graphData) {
   const descriptions = graphData[DCTERMS.description];
   if (Array.isArray(descriptions)) {
     descriptions.forEach((title) => {
-      if (title["@language"] === "cs") {
+      if ("@language" in title) {
+        if (title["@language"] === "cs") {
+          dataset.description_cs = title["@value"];
+        } else if (title["@language"] === "en") {
+          dataset.description_en = title["@value"];
+        }
+      } else {
         dataset.description_cs = title["@value"];
-      } else if (title["@language"] === "en") {
-        dataset.description_en = title["@value"];
       }
     });
   } else {  // for old files without multilang descriptions
-    dataset.description_cs = descriptions["@value"];
+    if ((typeof descriptions) === "string") {
+      dataset.description_cs = descriptions;
+    } else {
+      dataset.description_cs = descriptions["@value"];
+    }
   }
 }
 
-function loadKeywords(dataset, graphData) {
+function loadKeyword(dataset, keyword, lang) {
+  let key = {};
+  if (Array.isArray(keyword)) {
+    keyword.forEach(function (version, _) {
+      if ("@language" in version) {
+        const l = version["@language"];
+        key[l] = version["@value"];
+      } else {
+        key["cs"] = version["@value"];
+      }
+    });
+  } else { // for old files without multilang keywords
+    key[lang] = keyword["@value"];
+  }
+  if (!("en" in key)) key["en"] = "";
+  if (!("cs" in key)) key["cs"] = "";
+  dataset.keywords.push(key);
+}
+
+function loadKeywords(dataset, graphData, lang) {
   const keywords = graphData[DCATAP.keyword];
 
   dataset.keywords = [];
 
   if (!Array.isArray(keywords)) {
+    let key = {"cs": "", "en": ""}
+    if ((typeof keywords) === "string") {
+      key[lang] = keywords;
+      dataset.keywords.push(key);
+    } else {
+      loadKeyword(dataset, keywords, lang);
+    }
     return;
   }
 
-  keywords.forEach((keyword) => {
-    let key = {};
-    if (Array.isArray(keyword)) {
-      keyword.forEach(function (version, _) {
-        const l = version["@language"];
-        key[l] = version["@value"];
-      });
-    } else { // for old files without multilang keywords
-      const l = keyword["@language"];
-      key[l] = keyword["@value"];
+  if (keywords.length === 2) {
+    if (keywords[0]["@language"] !== keywords[1]["@language"]) {
+      loadKeyword(dataset, keywords, lang);
+      return;
     }
-    if (!("en" in key)) key["en"] = "";
-    dataset.keywords.push(key);
+  }
+
+  keywords.forEach((keyword) => {
+    loadKeyword(dataset, keyword, lang);
   });
 }
 
@@ -180,6 +229,8 @@ function loadSpatial(dataset, graphData, codelist, lang) {
 }
 
 function loadDistribution(distribution) {
+  console.log("Load distribution");
+  console.log(distribution);
   let distr_title = {"cs": "", "en": ""};
   if (DCTERMS.title in distribution) {
     if (Array.isArray(distribution[DCTERMS.title])) {
@@ -190,8 +241,11 @@ function loadDistribution(distribution) {
         distr_title[l] = t["@value"];
       });
 
-    } else {
+    } else if ((typeof  distribution[DCTERMS.title] === "string")) {
       distr_title["cs"] = distribution[DCTERMS.title];
+    } else {
+      const l = distribution[DCTERMS.title]["@language"];
+      distr_title[l] = distribution[DCTERMS.title]["@value"];
     }
   }
 
@@ -222,23 +276,47 @@ function loadDistribution(distribution) {
   if ("en" in distr_title) d["title_en"] = distr_title["en"];
   d["isFileOrService"] = fileOrService;
 
-  parseLicense(d, distribution[PU.specifikace]);
+  if (PU.specifikace in distribution) {
+    parseLicense(d, getSingle(distribution[PU.specifikace]));
+  }
 
   return d;
 }
 
 function loadDistributions(distributions, graphData) {
+  console.log("Load distributions");
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
 
-  if (Array.isArray(graphData[DCATAP.distribution])) {
-    graphData[DCATAP.distribution].forEach((distribution) =>
+  if (Array.isArray(getSingle(graphData[DCATAP.distribution]))) {
+    console.log(getSingle(graphData[DCATAP.distribution]));
+    getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
+      console.log(distribution);
       distributions.splice(0, 0, loadDistribution(distribution))
-    );
+    });
+  } else if (Array.isArray(graphData[DCATAP.distribution])) {
+    console.log(getSingle(graphData[DCATAP.distribution]));
+    graphData[DCATAP.distribution].forEach((distribution) => {
+      console.log(distribution);
+      distributions.splice(0, 0, loadDistribution(distribution))
+    });
+  } else {
+    distributions.splice(0, 0, loadDistribution(graphData[DCATAP.distribution]));
   }
 
   if (distributions.length > 0) {
     distributions.pop();
   } //remove the dummy
+}
+
+function loadTheme(dataset, theme) {
+  const t = theme["@id"];
+  if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
+    dataset.dataset_themes.push(t)
+  } else if (t.startsWith("http://eurovoc.europa.eu/")){
+    dataset.themes.push(t);
+  } else {
+    dataset.dataset_custom_themes.push(t)
+  }
 }
 
 function loadThemes(dataset, graphData) {
@@ -248,38 +326,44 @@ function loadThemes(dataset, graphData) {
   const themes = graphData[DCATAP.theme];
 
   if (!Array.isArray(themes)) {
+    if ("@id" in themes) {
+      loadTheme(dataset, themes);
+    }
     return;
   }
 
   themes.forEach((theme) => {
-    const t = theme["@id"];
-    if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
-      dataset.dataset_themes.push(t)
-    } else if (t.startsWith("http://eurovoc.europa.eu/")){
-      dataset.themes.push(t);
-    } else {
-      dataset.dataset_custom_themes.push(t)
-    }
+    loadTheme(dataset, theme);
   });
 }
 
 function loadTemporal(dataset, graphData) {
   if (DCTERMS.temporal in graphData) {
-    const temporal = graphData[DCTERMS.temporal];
+    const temporal = getSingle(getSingle(graphData[DCTERMS.temporal]));
     if (DCATAP.startDate in temporal) {
-      dataset.temporal_start = temporal[DCATAP.startDate]["@value"];
+      dataset.temporal_start = getSingle(temporal[DCATAP.startDate])["@value"];
+    } else if (SCHEMA.startDate in temporal) {
+      dataset.temporal_start = getSingle(temporal[SCHEMA.startDate])["@value"];
     }
     if (DCATAP.endDate in temporal) {
-      dataset.temporal_end = temporal[DCATAP.endDate]["@value"];
+      dataset.temporal_end = getSingle(temporal[DCATAP.endDate])["@value"];
+    } else if (SCHEMA.endDate in temporal) {
+      dataset.temporal_end = getSingle(temporal[SCHEMA.endDate])["@value"];
     }
   }
 }
 
 function loadContactPoint(dataset, graphData) {
+  console.log("Load contact point");
   if (DCATAP.contactPoint in graphData) {
-    const contact = graphData[DCATAP.contactPoint];
+    const contact = getSingle(graphData[DCATAP.contactPoint]);
+    console.log(contact);
     if (VCARD.fn in contact) {
-      dataset.contact_point_name = contact[VCARD.fn]["@value"];
+      if ((typeof contact[VCARD.fn]) === "string") {
+        dataset.contact_point_name = contact[VCARD.fn];
+      } else {
+        dataset.contact_point_name = contact[VCARD.fn]["@value"];
+      }
     }
 
     if (VCARD.hasEmail in contact) {
@@ -298,25 +382,49 @@ function loadOfn(dataset, graphData) {
   }
 }
 
-export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
-  if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graphData["@id"];
-
-  dataset.accrual_periodicity = graphData[DCTERMS.accrualPeriodicity]["@id"];
-  dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graphData, "@value");
-  dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graphData, "@value");
-  dataset.documentation = tryGet(FOAF.page, graphData);
-
-  loadTitles(dataset, graphData);
-  loadDescriptions(dataset, graphData);
-  loadKeywords(dataset, graphData);
-  loadTemporal(dataset, graphData);
-  loadContactPoint(dataset, graphData);
-  loadThemes(dataset, graphData);
-  loadOfn(dataset, graphData);
-  loadSpatial(dataset, graphData, codelist, lang);
-  loadDistributions(distributions, graphData);
-
-  if (src) {
-    src.$refs.themes.reload(dataset.themes);
+function getSingle(obj) {
+  if (Array.isArray(obj)) {
+    return obj[0];
+  } else {
+    return obj;
   }
+}
+
+export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
+  console.log("parseDump");
+  console.log(graphData);
+  const jsonld = require("jsonld");
+  console.log("Frame");
+  console.log(FRAME);
+  jsonld.frame(graphData, FRAME).then((framed) => {
+    console.log("Framed");
+    console.log(framed);
+    //jsonld.flatten(expanded).then((flat) => {
+    //let graph = expand(expanded);
+    //console.log(graph);
+
+    let graph = framed["@graph"][0];
+
+    if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
+
+    dataset.accrual_periodicity = getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
+    dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graph, "@value", true);
+    dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
+    dataset.documentation = tryGet(FOAF.page, graph, "@id", true);
+
+    loadTitles(dataset, graph);
+    loadDescriptions(dataset, graph);
+    loadKeywords(dataset, graph, lang);
+    loadTemporal(dataset, graph);
+    loadContactPoint(dataset, graph);
+    loadThemes(dataset, graph);
+    loadOfn(dataset, graph);
+    loadSpatial(dataset, graph, codelist, lang);
+    loadDistributions(distributions, graph);
+
+    if (src) {
+      src.$refs.themes.reload(dataset.themes);
+    }
+    //});
+  });
 }

@@ -29,24 +29,17 @@ function update_url(url) {
   }
 }
 
-export function importDataset(url, lang, codelist) {
-  return getRemoteJsonLd(url).then((response) => {
-    const graphData = getDefaultGraphData(normalize(response.json));
-    console.log(graphData);
-    const dataset = getByType(graphData, DCATAP.Dataset)[0];
-    if (dataset === undefined) {
-      throw {"error": "FETCH"};
-    }
+export function importDataset(url, lang, codelist, datasetModel, distributionsModel) {
+  console.log("Import dataset");
+  //keep this as much consistent with dataset-model! any parsing logic must go into parseDump
+  return new Promise((resolve, reject) => {
+    getRemoteJsonLd(url).then((response) => {
+      const graphData = getDefaultGraphData(normalize(response.json));
+      parseDump(graphData, datasetModel, distributionsModel, lang, codelist, null);
 
-    let datasetModel = {};
-    let distributionsModel = [];
-
-    parseDump(dataset, datasetModel, distributionsModel, lang, codelist, null);
-
-    return {
-      "dataset": datasetModel,
-      "distributions": distributionsModel
-    }
+      console.log("Importing done");
+      resolve(true);
+    });
   });
 }
 

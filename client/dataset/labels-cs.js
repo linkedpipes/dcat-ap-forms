@@ -201,4 +201,9 @@ export default {
   "help_file_or_service": "<h3>Typ distribuce</h3><p>Distribuce může mít podobu souboru ke stažení nebo webové služby poskytující data.</p>",
   "hint_file_or_service": "Vyberte zda se jedná o stažitelný soubor nebo webovou službu",
   "distribution_type": "Typ distribuce",
+  "load_url": "Načíst z URL",
+  "url_title": "URL dat do formuláře",
+  "hint_url_title": "Zadejte HTTPS URL zdroje dat do formuláře k načtení",
+  "help_url_title": "<h3>URL dat do formuláře</h3><p>Mimo načtení ze souboru lze napřímo určit URL zdroje dat do formuláře. Očekává se, že na daném URL bude soubor stažený z této aplikace nebo soubor s ním kompatibilní.</p>",
+  "load_invalid_url": "Nevalidní HTTPS URL.",
 }

@@ -46,15 +46,20 @@
     "webpack-merge": "^4.2.2"
   },
   "devDependencies": {
+    "babel-core": "^6.26.3",
     "babel-jest": "^25.1.0",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-loader": "^3.0.3",
     "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.3",
+    "eslint-plugin-react-hooks": "^1.7.0",
     "eslint-plugin-vue": "^6.1.2",
     "eslint-plugin-vuetify": "^1.0.0-beta.5",
     "jest": "^25.1.0",
     "jest-serializer-vue": "^2.0.2",
+    "release-it": "^12.4.3",
     "stylelint": "^13.0.0",
     "vue-jest": "^3.0.5"
   }

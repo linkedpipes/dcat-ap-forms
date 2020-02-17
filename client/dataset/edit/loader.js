@@ -325,16 +325,18 @@ function loadThemes(dataset, graphData) {
   dataset.dataset_custom_themes = [];
   const themes = graphData[DCATAP.theme];
 
-  if (!Array.isArray(themes)) {
-    if ("@id" in themes) {
-      loadTheme(dataset, themes);
+  if (themes) {
+    if (!Array.isArray(themes)) {
+      if ("@id" in themes) {
+        loadTheme(dataset, themes);
+      }
+      return;
     }
-    return;
-  }
 
-  themes.forEach((theme) => {
-    loadTheme(dataset, theme);
-  });
+    themes.forEach((theme) => {
+      loadTheme(dataset, theme);
+    });
+  }
 }
 
 function loadTemporal(dataset, graphData) {

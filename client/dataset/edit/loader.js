@@ -291,16 +291,17 @@ function loadDistributions(distributions, graphData) {
     console.log(getSingle(graphData[DCATAP.distribution]));
     getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
       console.log(distribution);
-      distributions.splice(0, 0, loadDistribution(distribution))
+      if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
     });
   } else if (Array.isArray(graphData[DCATAP.distribution])) {
     console.log(getSingle(graphData[DCATAP.distribution]));
     graphData[DCATAP.distribution].forEach((distribution) => {
       console.log(distribution);
-      distributions.splice(0, 0, loadDistribution(distribution))
+      if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
     });
   } else {
-    distributions.splice(0, 0, loadDistribution(graphData[DCATAP.distribution]));
+    const distribution = graphData[DCATAP.distribution];
+    if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution));
   }
 
   if (distributions.length > 0) {

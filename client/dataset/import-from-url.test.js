@@ -182,7 +182,30 @@ test("Load from single request.", () => {
     expect(distributions[0]).toEqual(EXPECTED_DISTRIBUTION);
   });
 });*/
+//====
+// import, then export
+let loaderTest = (iri) => {
+  return new Promise((resolve, reject) => {
+    let dataset = createDataset();
+    let distributions = [createDistribution()];
+    importDataset(iri, "cs", {}, dataset, distributions).then((result) => {
+      console.log("*** Imported ***");
+      console.log(result.dataset);
+      console.log(result.distributions);
+      console.log("*** Exporting ***");
+      const exported = exportToJsonLd(result.dataset, result.distributions);
+      console.log(JSON.stringify(exported));
+      resolve(JSON.parse(JSON.stringify(exported, null, 2))); //to emulate download
+    });
+  });
+}
 
+let testRunner = (srcIri, expected, done) => {
+  loaderTest(srcIri).then((output) => {
+    expect(output).toEqual(expected);
+    done();
+  });
+}
 const BYLANY = { "@graph": [
   { "@id": "https://data.gov.cz/zdroj/katalog/NKOD",
     "http://www.w3.org/ns/dcat#record": { "@id": "https://data.gov.cz/zdroj/datov\u00E9-sady/Bylany/243671670/z\u00E1znam"},
@@ -239,30 +262,6 @@ const BYLANY = { "@graph": [
 
 const BYLANY_DS = {
   "https://data.eghuro.cz/dump/bylany.json" : BYLANY
-}
-
-// import, then export
-let loaderTest = (iri) => {
-  return new Promise((resolve, reject) => {
-    let dataset = createDataset();
-    let distributions = [createDistribution()];
-    importDataset(iri, "cs", {}, dataset, distributions).then((result) => {
-      console.log("*** Imported ***");
-      console.log(result.dataset);
-      console.log(result.distributions);
-      console.log("*** Exporting ***");
-      const exported = exportToJsonLd(result.dataset, result.distributions);
-      console.log(JSON.stringify(exported));
-      resolve(JSON.parse(JSON.stringify(exported, null, 2))); //to emulate download
-    });
-  });
-}
-
-let testRunner = (srcIri, expected, done) => {
-  loaderTest(srcIri).then((output) => {
-    expect(output).toEqual(expected);
-    done();
-  });
 }
 
 test("Bylany", done => {
@@ -738,4 +737,66 @@ test("ISS95", done=> {
 
   const srcIri = "https://data.eghuro.cz/dump/nkod-registrace.jsonld_aktuality.txt";
   testRunner(srcIri, ISS95_EXPECTED, done);
-})
+});
+
+const ISS97a = {
+  "@id": "https://data.gov.cz/zdroj/datov\u00E9-sady/MDopravy/154129471",
+  "@type" : [ "https://data.gov.cz/slovn\u00EDk/nkod/typ-datov\u00E9-sady-dle-zdroje/Formul\u00E1\u0159" , "http://www.w3.org/ns/dcat#Dataset" ],
+  "http://purl.org/dc/terms/modified" : [ { "@value" : "2017-01-24T00:00:00" , "@type" : "http://www.w3.org/2001/XMLSchema#dateTime" } ] ,
+  "http://purl.org/dc/terms/title" : [ { "@value" : "Faktury CENDIS 2016" , "@language" : "cs" } ] ,
+  "http://purl.org/dc/terms/description" : [ { "@value" : "Uhrazen\u00E9 faktury CENDIS (resort dopravy) v roce 2016" , "@language" : "cs" } ] ,
+  "http://purl.org/dc/terms/identifier" : [ { "@value" : "https://data.gov.cz/zdroj/datov\u00E9-sady/n75aau3/154129471" , "@type" : "http://www.w3.org/2001/XMLSchema#anyURI" } ,
+    "154129471" ] ,
+  "http://purl.org/dc/terms/publisher" : [ { "@id" : "https://data.gov.cz/zdroj/ovm/66003008" } ] ,
+  "http://purl.org/dc/terms/issued" : [ { "@value" : "2017-01-24T00:00:00" , "@type" : "http://www.w3.org/2001/XMLSchema#dateTime" } ] ,
+  "http://purl.org/dc/terms/spatial" : [ { "@id" : "https://linked.cuzk.cz/resource/ruian/stat/1" } ] ,
+  "http://purl.org/dc/terms/accrualPeriodicity" : [ { "@id" : "http://publications.europa.eu/resource/authority/frequency/MONTHLY" } ] ,
+  "http://www.w3.org/ns/dcat#distribution" : [ { "@id" : "https://data.gov.cz/zdroj/datov\u00E9-sady/MDopravy/154129471/distribuce/6d24ab88c1e4a0432a2a6e1cd383c0c7" } ] ,
+  "http://www.w3.org/ns/dcat#keyword" : "faktura"
+};
+
+const ISS97a_EXPECTED = {
+  "@id": "https://data.gov.cz/zdroj/datov\u00E9-sady/MDopravy/154129471",
+  "@type": [
+    "http://www.w3.org/ns/dcat#Dataset",
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+  ],
+  "http://purl.org/dc/terms/title": [
+    {
+      "@language": "cs",
+      "@value": "Faktury CENDIS 2016"
+    }
+  ],
+  "http://purl.org/dc/terms/description": [
+    {
+      "@language": "cs",
+      "@value": "Uhrazené faktury CENDIS (resort dopravy) v roce 2016"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#keyword": [
+    [
+      {
+        "@language": "cs",
+        "@value": "faktura"
+      }
+    ]
+  ],
+  "http://purl.org/dc/terms/accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "http://purl.org/dc/terms/spatial": [
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#theme": []
+};
+
+test("ISS97a", done=> {
+  REMOTE_SOURCE = {
+    "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471": ISS97a
+  }
+
+  const srcIri = "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471";
+  testRunner(srcIri, ISS97a_EXPECTED, done);
+});

@@ -736,7 +736,7 @@
 </template>
 
 <script>
-import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile, do_loadUrl} from "./dataset-model";
+import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -752,6 +752,7 @@ import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 import {getItem} from "./codelists/local-storage";
 import UploadButton from "vuetify-upload-button";
+import {importDataset} from "../import-from-url";
 
 
 export default {
@@ -845,7 +846,11 @@ export default {
     },
     "loadUrl": function() {
       this.dialog_url = false;
-      do_loadUrl(this.url_to_load_from, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
+      //do_loadUrl(this.url_to_load_from, this, this.$vuetify.lang.current, this.codelist, this);
+      importDataset(this.url_to_load_from, this.$vuetify.lang.current, this.codelist).then((result) => {
+        this.dataset = result.dataset;
+        this.distributions = result.distributions;
+      });
       this.url_to_load_from = "";
     }
   }

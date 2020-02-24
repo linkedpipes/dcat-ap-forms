@@ -1,7 +1,6 @@
 import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "@/app-service/validators";
 import {getDefaultGraphData, normalize,} from "@/app-service/jsonld";
 import {parseDump} from "./loader";
-import {getRemoteJson} from "@/app-service/http";
 
 export function createDataset() {
   return decorateDataset({
@@ -201,14 +200,4 @@ export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
     parseDump(file_data, dataset, distributions, lang, codelist, src);
   };
   reader.readAsText(file);
-}
-
-export function do_loadUrl(dataSrc, dataset, distributions, lang, codelist, src) {
-  if (url(dataSrc)) {
-    return getRemoteJson(dataSrc).then((response) => {
-      console.log("Parse");
-      const graphData = getDefaultGraphData(normalize(response.json));
-      parseDump(graphData, dataset, distributions, lang, codelist, src);
-    });
-  }
 }

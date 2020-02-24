@@ -206,6 +206,7 @@ export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
 export function do_loadUrl(dataSrc, dataset, distributions, lang, codelist, src) {
   if (url(dataSrc)) {
     return getRemoteJson(dataSrc).then((response) => {
+      console.log("Parse");
       const graphData = getDefaultGraphData(normalize(response.json));
       parseDump(graphData, dataset, distributions, lang, codelist, src);
     });

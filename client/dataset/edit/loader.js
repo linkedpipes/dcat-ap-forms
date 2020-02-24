@@ -393,40 +393,47 @@ function getSingle(obj) {
 }
 
 export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
-  console.log("parseDump");
-  console.log(graphData);
-  const jsonld = require("jsonld");
-  console.log("Frame");
-  console.log(FRAME);
-  jsonld.frame(graphData, FRAME).then((framed) => {
-    console.log("Framed");
-    console.log(framed);
-    //jsonld.flatten(expanded).then((flat) => {
-    //let graph = expand(expanded);
-    //console.log(graph);
+  return new Promise((resolve, reject) => {
+    console.log("parseDump");
+    console.log(graphData);
+    const jsonld = require("jsonld");
+    console.log("Frame");
+    console.log(FRAME);
+    jsonld.frame(graphData, FRAME).then((framed) => {
+      console.log("Framed");
+      console.log(framed);
+      //jsonld.flatten(expanded).then((flat) => {
+      //let graph = expand(expanded);
+      //console.log(graph);
 
-    let graph = framed["@graph"][0];
+      let graph = framed["@graph"][0];
 
-    if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
+      if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
 
-    dataset.accrual_periodicity = getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
-    dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graph, "@value", true);
-    dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
-    dataset.documentation = tryGet(FOAF.page, graph, "@id", true);
+      dataset.accrual_periodicity = getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
+      dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graph, "@value", true);
+      dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
+      dataset.documentation = tryGet(FOAF.page, graph, "@id", true);
 
-    loadTitles(dataset, graph);
-    loadDescriptions(dataset, graph);
-    loadKeywords(dataset, graph, lang);
-    loadTemporal(dataset, graph);
-    loadContactPoint(dataset, graph);
-    loadThemes(dataset, graph);
-    loadOfn(dataset, graph);
-    loadSpatial(dataset, graph, codelist, lang);
-    loadDistributions(distributions, graph);
+      loadTitles(dataset, graph);
+      loadDescriptions(dataset, graph);
+      loadKeywords(dataset, graph, lang);
+      loadTemporal(dataset, graph);
+      loadContactPoint(dataset, graph);
+      loadThemes(dataset, graph);
+      loadOfn(dataset, graph);
+      loadSpatial(dataset, graph, codelist, lang);
+      loadDistributions(distributions, graph);
 
-    if (src) {
-      src.$refs.themes.reload(dataset.themes);
-    }
-    //});
+      if (src) {
+        src.$refs.themes.reload(dataset.themes);
+      }
+
+      resolve({
+        "dataset": dataset,
+        "distributions": distributions
+      })
+      //});
+    });
   });
 }

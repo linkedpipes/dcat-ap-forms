@@ -20,6 +20,8 @@ import {
 import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
 import {typeFromUrl} from "./edit/codelists/ruian-type";
 import {parseDump} from "./edit/loader";
+import {createDataset} from "./edit/dataset-model";
+import {createDistribution} from "./edit/distribution-model";
 
 function update_url(url) {
   if (DEREFERENCE_PROXY === "") {
@@ -29,16 +31,23 @@ function update_url(url) {
   }
 }
 
-export function importDataset(url, lang, codelist, datasetModel, distributionsModel) {
+export function importDataset(url, lang, codelist) {
   console.log("Import dataset");
   //keep this as much consistent with dataset-model! any parsing logic must go into parseDump
   return new Promise((resolve, reject) => {
     getRemoteJsonLd(url).then((response) => {
       const graphData = getDefaultGraphData(normalize(response.json));
-      parseDump(graphData, datasetModel, distributionsModel, lang, codelist, null);
-
-      console.log("Importing done");
-      resolve(true);
+      console.log(graphData);
+      let pkg = {
+        "dataset": createDataset(),
+        "distributions": [createDistribution()]
+      }
+      parseDump(graphData, pkg.dataset, pkg.distributions, lang, codelist, null).then((pkg) => {
+        console.log("Importing done");
+        console.log(pkg.dataset);
+        console.log(pkg.distributions);
+        resolve(pkg);
+      });
     });
   });
 }

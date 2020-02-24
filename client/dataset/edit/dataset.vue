@@ -153,17 +153,12 @@ export default {
     }
 
     if (url !== undefined) {
-      this.data.dataset = createDataset();
-      this.data.distributions.push(createDistribution());
-      importDataset(url, this.$vuetify.lang.current, this.data.codelist, this.data.dataset, this.data.distributions).then((result) => {
+      importDataset(url, this.$vuetify.lang.current, this.data.codelist).then((result) => {
+        this.data.dataset = result.dataset;
+        this.data.distributions = result.distributions;
         this.data.status = "ready";
         //return loadLabelsForDistributions(distributions, this.$vuetify.lang.current);
-      });/*
-        .catch((error) => {
-          console.error(error);
-          this.data.status = "error";
-          this.data.error = error;
-        });*/
+      });
     }
   },
   "methods": {

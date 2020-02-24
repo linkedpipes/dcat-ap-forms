@@ -241,27 +241,501 @@ const BYLANY_DS = {
   "https://data.eghuro.cz/dump/bylany.json" : BYLANY
 }
 
-// download, import, export, should be 1:1 match
+// import, then export
 let loaderTest = (iri) => {
   return new Promise((resolve, reject) => {
     let dataset = createDataset();
     let distributions = [createDistribution()];
-    importDataset(iri, "en", {}, dataset, distributions).then((result) => {
+    importDataset(iri, "cs", {}, dataset, distributions).then((result) => {
       console.log("*** Imported ***");
-      resolve(exportToJsonLd(dataset, distributions));
+      console.log(result.dataset);
+      console.log(result.distributions);
+      console.log("*** Exporting ***");
+      const exported = exportToJsonLd(result.dataset, result.distributions);
+      console.log(JSON.stringify(exported));
+      resolve(JSON.parse(JSON.stringify(exported, null, 2))); //to emulate download
     });
+  });
+}
+
+let testRunner = (srcIri, expected, done) => {
+  loaderTest(srcIri).then((output) => {
+    expect(output).toEqual(expected);
+    done();
   });
 }
 
 test("Bylany", done => {
   REMOTE_SOURCE = BYLANY_DS;
   const srcIri = "https://data.eghuro.cz/dump/bylany.json";
-  getRemoteJson(srcIri).then((expected) => {
-    console.log(expected.json);
-    console.log("***");
-    loaderTest(srcIri).then((output) => {
-      expect(output).toEqual(output);
-      done();
-    })
-  })
+  const expected = {
+    "@id": "_:ds",
+    "@type": [
+      "http://www.w3.org/ns/dcat#Dataset",
+      "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    ],
+    "http://purl.org/dc/terms/title": [
+      {
+        "@language": "cs",
+        "@value": "Obec Bylany"
+      }
+    ],
+    "http://purl.org/dc/terms/description": [
+      {
+        "@language": "cs",
+        "@value": "Oprava kuchyně v MŠ-III.etapa"
+      }
+    ],
+    "http://www.w3.org/ns/dcat#distribution": [
+      {
+        "@type": "http://www.w3.org/ns/dcat#Distribution",
+        "http://www.w3.org/ns/dcat#downloadURL": {
+          "@id": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf"
+        },
+        "http://www.w3.org/ns/dcat#mediaType": {
+          "@id": null
+        },
+        "http://purl.org/dc/terms/format": {
+          "@id": null
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
+          "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
+          "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
+            "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
+          },
+          "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
+            "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
+          },
+          "https://data.gov.cz/slovník/podmínky-užití/databáze-chráněná-zvláštními-právy": {
+            "@id": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
+          },
+          "https://data.gov.cz/slovník/podmínky-užití/osobní-údaje": {
+            "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
+          }
+        }
+      }
+    ],
+    "http://www.w3.org/ns/dcat#keyword": [
+      [
+        {
+          "@language": "cs",
+          "@value": "obec Bylany"
+        }
+      ]
+    ],
+    "http://purl.org/dc/terms/accrualPeriodicity": {
+      "@id": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"
+    },
+    "http://purl.org/dc/terms/spatial": [
+      {
+        "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+      }
+    ],
+    "http://www.w3.org/ns/dcat#theme": [],
+    "http://purl.org/dc/terms/temporal": {
+      "@type": [
+        "http://purl.org/dc/terms/PeriodOfTime"
+      ],
+      "http://www.w3.org/ns/dcat#startDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date",
+        "@value": "2017-06-01"
+      },
+      "http://www.w3.org/ns/dcat#endDate": {
+        "@type": "http://www.w3.org/2001/XMLSchema#date",
+        "@value": "2017-08-31"
+      }
+    },
+    "http://www.w3.org/ns/dcat#contactPoint": {
+      "@type": [
+        "http://www.w3.org/2006/vcard/ns#Organization"
+      ],
+      "http://www.w3.org/2006/vcard/ns#fn": {
+        "@language": "cs",
+        "@value": "Jan Málek,starosta"
+      },
+      "http://www.w3.org/2006/vcard/ns#hasEmail": "ou.bylany@worldonline.cz"
+    }
+  };
+
+  testRunner(srcIri, expected, done);
+
 });
+
+
+const ISS94 = {
+  "@id": "_:ds",
+  "@type": [
+    "http://www.w3.org/ns/dcat#Dataset",
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+  ],
+  "http://purl.org/dc/terms/title": [
+    {
+      "@language": "cs",
+      "@value": "aaabbb"
+    }
+  ],
+  "http://purl.org/dc/terms/description": [
+    {
+      "@language": "cs",
+      "@value": "bbb"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#keyword": [
+    [
+      {
+        "@language": "cs",
+        "@value": "cccs"
+      },
+      {
+        "@language": "en",
+        "@value": "en"
+      }
+    ]
+  ],
+  "http://www.w3.org/ns/dcat#distribution": [
+    {
+      "@type": "http://www.w3.org/ns/dcat#Distribution",
+      "http://purl.org/dc/terms/title": [
+        {
+          "@language": "cs",
+          "@value": "Moje webservica"
+        },
+        {
+          "@language": "en",
+          "@value": "my webservice"
+        }
+      ],
+      "http://www.w3.org/ns/dcat#accessURL": {
+        "@id": "https://url.cz"
+      },
+      "http://www.w3.org/ns/dcat#accessService": {
+        "@type": "http://www.w3.org/ns/dcat#DataService",
+        "http://www.w3.org/ns/dcat#endpointURL": {
+          "@id": "https://url.cz"
+        },
+        "http://www.w3.org/ns/dcat#endpointDescription": {
+          "@id": "https://popis.url"
+        },
+        "http://purl.org/dc/terms/title": [
+          {
+            "@language": "cs",
+            "@value": "Moje webservica"
+          },
+          {
+            "@language": "en",
+            "@value": "my webservice"
+          }
+        ],
+        "http://www.w3.org/ns/dcat#servesDataset": {
+          "@id": "_:ds"
+        }
+      },
+      "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
+        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
+        "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-chráněná-zvláštními-právy": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/osobní-údaje": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
+        }
+      }
+    }
+  ],
+  "http://purl.org/dc/terms/accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "http://purl.org/dc/terms/spatial": [
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    },
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    },
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ENER"
+    }
+  ],
+  "http://purl.org/dc/terms/conformsTo": []
+}
+
+const ISS94_EXPECTED = {
+  "@id": "_:ds",
+  "@type": [
+    "http://www.w3.org/ns/dcat#Dataset",
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+  ],
+  "http://purl.org/dc/terms/title": [
+    {
+      "@language": "cs",
+      "@value": "aaabbb"
+    }
+  ],
+  "http://purl.org/dc/terms/description": [
+    {
+      "@language": "cs",
+      "@value": "bbb"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#distribution": [
+    {
+      "@type": "http://www.w3.org/ns/dcat#Distribution",
+      "http://purl.org/dc/terms/title": [
+        {
+          "@language": "cs",
+          "@value": "Moje webservica"
+        },
+        {
+          "@language": "en",
+          "@value": "my webservice"
+        }
+      ],
+      "http://www.w3.org/ns/dcat#accessURL": {
+        "@id": "https://url.cz"
+      },
+      "http://www.w3.org/ns/dcat#accessService": {
+        "@type": "http://www.w3.org/ns/dcat#DataService",
+        "http://www.w3.org/ns/dcat#endpointURL": {
+          "@id": "https://url.cz"
+        },
+        "http://www.w3.org/ns/dcat#endpointDescription": {
+          "@id": "https://popis.url"
+        },
+        "http://purl.org/dc/terms/title": [
+          {
+            "@language": "cs",
+            "@value": "Moje webservica"
+          },
+          {
+            "@language": "en",
+            "@value": "my webservice"
+          }
+        ],
+        "http://www.w3.org/ns/dcat#servesDataset": {
+          "@id": "_:ds"
+        }
+      },
+      "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
+        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
+        "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-chráněná-zvláštními-právy": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/osobní-údaje": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
+        }
+      }
+    }
+  ],
+  "http://www.w3.org/ns/dcat#keyword": [
+    [
+      {
+        "@language": "cs",
+        "@value": "cccs"
+      },
+      {
+        "@language": "en",
+        "@value": "en"
+      }
+    ]
+  ],
+  "http://purl.org/dc/terms/accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "http://purl.org/dc/terms/spatial": [
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/ENER"
+    }
+  ]
+};
+
+test("ISS94", done => {
+  REMOTE_SOURCE = {
+    "https://data.eghuro.cz/dump/nkod-registrace.jsonld (5).txt": ISS94
+  };
+  const srcIri = "https://data.eghuro.cz/dump/nkod-registrace.jsonld (5).txt";
+
+  testRunner(srcIri, ISS94_EXPECTED, done);
+});
+
+const ISS95 = {
+  "@type": [
+    "http://www.w3.org/ns/dcat#Dataset",
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+  ],
+  "http://purl.org/dc/terms/title": {
+    "@language": "cs",
+    "@value": "Aktuality"
+  },
+  "http://purl.org/dc/terms/description": {
+    "@language": "cs",
+    "@value": "V této sekci jsou definovány jednotlivé třídy a jejich vlastnosti potřebné pro popis aktualit. Pro každou vlastnost je uveden její identifikátor, který je pro její reprezentaci použit ve všech datových formátech, její název, datový typ, popis a příklad."
+  },
+  "http://www.w3.org/ns/dcat#keyword": [
+    {
+      "@language": "cs",
+      "@value": "Aktuality"
+    },
+    {
+      "@language": "cs",
+      "@value": "Novinky"
+    },
+    {
+      "@language": "cs",
+      "@value": "Informace"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#distribution": [
+    {
+      "@type": [
+        "http://www.w3.org/ns/dcat#Distribution"
+      ],
+      "http://www.w3.org/ns/dcat#downloadURL": {
+        "@id": "http://nesmysl.cz"
+      },
+      "http://www.w3.org/ns/dcat#mediaType": {
+        "@id": "http://www.iana.org/assignments/media-types/application/json"
+      },
+      "http://purl.org/dc/terms/format": {
+        "@id": "http://publications.europa.eu/resource/authority/file-type/JSON"
+      },
+      "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
+        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
+        "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-chráněná-zvláštními-právy": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/osobní-údaje": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
+        }
+      }
+    }
+  ],
+  "http://purl.org/dc/terms/accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "http://purl.org/dc/terms/spatial": {
+    "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+  },
+  "http://www.w3.org/ns/dcat#theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/SOCI"
+    }
+  ]
+}
+
+const ISS95_EXPECTED = {
+  "@id": "_:ds",
+  "@type": [
+    "http://www.w3.org/ns/dcat#Dataset",
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+  ],
+  "http://purl.org/dc/terms/title": [
+    {
+      "@language": "cs",
+      "@value": "Aktuality"
+    }
+  ],
+  "http://purl.org/dc/terms/description": [
+    {
+      "@language": "cs",
+      "@value": "V této sekci jsou definovány jednotlivé třídy a jejich vlastnosti potřebné pro popis aktualit. Pro každou vlastnost je uveden její identifikátor, který je pro její reprezentaci použit ve všech datových formátech, její název, datový typ, popis a příklad."
+    }
+  ],
+  "http://www.w3.org/ns/dcat#distribution": [
+    {
+      "@type": "http://www.w3.org/ns/dcat#Distribution",
+      "http://www.w3.org/ns/dcat#downloadURL": {
+        "@id": "http://nesmysl.cz"
+      },
+      "http://www.w3.org/ns/dcat#mediaType": {
+        "@id": "http://www.iana.org/assignments/media-types/application/json"
+      },
+      "http://purl.org/dc/terms/format": {
+        "@id": "http://publications.europa.eu/resource/authority/file-type/JSON"
+      },
+      "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
+        "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
+        "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/databáze-chráněná-zvláštními-právy": {
+          "@id": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/"
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/osobní-údaje": {
+          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
+        }
+      }
+    }
+  ],
+  "http://www.w3.org/ns/dcat#keyword": [
+    [
+      {
+        "@language": "cs",
+        "@value": "Aktuality"
+      }
+    ],
+    [
+      {
+        "@language": "cs",
+        "@value": "Novinky"
+      }
+    ],
+    [
+      {
+        "@language": "cs",
+        "@value": "Informace"
+      }
+    ]
+  ],
+  "http://purl.org/dc/terms/accrualPeriodicity": {
+    "@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"
+  },
+  "http://purl.org/dc/terms/spatial": [
+    {
+      "@id": "https://linked.cuzk.cz/resource/ruian/stat/1"
+    }
+  ],
+  "http://www.w3.org/ns/dcat#theme": [
+    {
+      "@id": "http://publications.europa.eu/resource/authority/data-theme/SOCI"
+    }
+  ]
+}
+
+test("ISS95", done=> {
+  REMOTE_SOURCE = {
+    "https://data.eghuro.cz/dump/nkod-registrace.jsonld_aktuality.txt": ISS95
+  }
+
+  const srcIri = "https://data.eghuro.cz/dump/nkod-registrace.jsonld_aktuality.txt";
+  testRunner(srcIri, ISS95_EXPECTED, done);
+})

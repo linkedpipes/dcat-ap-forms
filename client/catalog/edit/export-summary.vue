@@ -8,7 +8,7 @@
       <v-flex v-if="!isValid">
         <v-alert 
           :value="!isValid" 
-          outline 
+          outlined
           type="error"
         >
           {{ $t('catalog_summary_error') }}
@@ -17,7 +17,7 @@
       <v-flex v-if="isValid">
         <v-alert 
           :value="isValid" 
-          outline 
+          outlined
           type="success"
         >
           {{ $t('catalog_summary_download') }}
@@ -37,8 +37,8 @@
         :disabled="!isValid"
         class="hidden-xs-only"
         color="success"
-        round
-        outline 
+        rounded
+        outlined
         @click="onDownload"
       >
         <v-icon left>
@@ -48,38 +48,38 @@
       </v-btn>
     </v-layout>
     <v-list two-line>
-      <v-list-tile avatar>
-        <v-list-tile-avatar>
+      <v-list-item avatar>
+        <v-list-item-avatar>
           <v-icon class="blue white--text">
             person
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ catalog.contact_point_name }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>
             {{ $t('catalog_contact_point_name') }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider />
 
-      <v-list-tile avatar>
-        <v-list-tile-avatar>
+      <v-list-item avatar>
+        <v-list-item-avatar>
           <v-icon class="blue white--text">
             alternate_email
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ catalog.contact_point_email }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>
             {{ $t('catalog_contact_point_email') }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
           <v-btn 
             icon 
             ripple 
@@ -89,42 +89,42 @@
               alternate_email
             </v-icon>
           </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
+        </v-list-item-action>
+      </v-list-item>
       <v-divider />
 
-      <v-list-tile avatar>
-        <v-list-tile-avatar>
+      <v-list-item avatar>
+        <v-list-item-avatar>
           <v-icon class="blue white--text">
             category
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ typeToLabel(catalog.type, $vuetify.lang.current) }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>
             {{ $t('catalog_type') }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
       <v-divider />
 
-      <v-list-tile avatar>
-        <v-list-tile-avatar>
+      <v-list-item avatar>
+        <v-list-item-avatar>
           <v-icon class="blue white--text">
             link
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ catalog.endpoint }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>
             {{ $t('catalog_url') }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
           <v-btn 
             icon 
             ripple 
@@ -134,28 +134,28 @@
               open_in_new
             </v-icon>
           </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
+        </v-list-item-action>
+      </v-list-item>
 
       <v-divider v-if="catalog.homepage" />
-      <v-list-tile
+      <v-list-iteem
         v-if="catalog.homepage"
         avatar
       >
-        <v-list-tile-avatar>
+        <v-list-item-avatar>
           <v-icon class="blue white--text">
             home
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title>
             {{ catalog.homepage }}
-          </v-list-tile-title>
-          <v-list-tile-sub-title>
+          </v-list-item-title>
+          <v-list-item-subtitle>
             {{ $t('catalog_homepage') }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
           <v-btn
             icon
             ripple
@@ -165,8 +165,8 @@
               open_in_new
             </v-icon>
           </v-btn>
-        </v-list-tile-action>
-      </v-list-tile>
+        </v-list-item-action>
+      </v-list-iteem>
     </v-list>
     <v-divider class="my-2" />
     <v-layout 
@@ -174,26 +174,30 @@
       class="mb-2"
     >
       <v-spacer />
-      <v-tooltip bottom>
-        <v-btn 
-          slot="activator"
-          :disabled="!isValid"
-          color="success"
-          round
-          outline 
-          @click="onDownload"
-        >
-          <v-icon left>
-            file_download
-          </v-icon>
-          <span>{{ $t('button_download') }}</span>
-        </v-btn>
-        <span v-if="isValid">
+      <template v-slot:activator="{ on }">
+        <v-tooltip bottom>
+          <v-btn
+                  slot="activator"
+                  :disabled="!isValid"
+                  color="success"
+                  rounded
+                  outlined
+                  @click="onDownload"
+                  v-on="on"
+          >
+            <v-icon left>
+              file_download
+            </v-icon>
+            <span>{{ $t('button_download') }}</span>
+          </v-btn>
+          <span v-if="isValid">
           {{ $t('summary_download') }}
           <code>{{ nkodDatabox }}</code>.
         </span>
-        <span v-if="!isValid">{{ $t('summary_error') }}</span>
-      </v-tooltip>
+          <span v-if="!isValid">{{ $t('summary_error') }}</span>
+        </v-tooltip>
+      </template>
+
     </v-layout>
   </v-container>
 </template>

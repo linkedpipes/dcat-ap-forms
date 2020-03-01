@@ -5,7 +5,7 @@
   >
     <v-btn 
       v-if="value > 1"
-      flat
+      text
       @click="onPrevious"
     >
       <v-icon>arrow_back</v-icon>
@@ -14,7 +14,7 @@
     <v-spacer />
     <v-btn 
       v-if="value < 2"
-      flat
+      text
       color="primary" 
       @click="onNext"
     >

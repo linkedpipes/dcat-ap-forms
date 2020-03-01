@@ -6,7 +6,7 @@
   >
     <v-stepper 
       :value="ui.step" 
-      @input="onStepperInput"
+      @change="onStepperInput"
     >
       <v-stepper-header>
         <v-stepper-step 

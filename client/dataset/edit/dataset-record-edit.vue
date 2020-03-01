@@ -665,10 +665,50 @@
       row
       wrap
     >
-      <upload-btn
-        :title="$t('load')"
-        @file-update="onFileChanged"
-      />
+      <div class="text-center">
+        <v-dialog
+          v-model="dialog_upload"
+          width="500">
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              text
+              v-on="on"
+              >
+              {{ $t('load') }}
+            </v-btn>
+          </template>
+
+          <v-card>
+            <v-toolbar
+                    dark
+                    color="primary"
+            >
+              <v-toolbar-title>{{ $t('load') }}</v-toolbar-title>
+              <v-spacer />
+              <v-btn
+                      icon
+                      color="primary"
+                      @click="dialog_upload = false"
+              >
+                <v-icon>close</v-icon>
+              </v-btn>
+            </v-toolbar>
+            <v-card-text>
+              <v-layout
+                row
+                wrap
+              >
+                <v-file-input
+                  :label="$t('load_hint')"
+                  @change="onFileChanged"
+                />
+              </v-layout>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+      </div>
+
 
       <div class="text-center">
         <v-dialog
@@ -842,11 +882,13 @@ export default {
       }
     },
     "onFileChanged": function (file) {
+      console.log("On file changed");
+      console.log(file);
       do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
+      this.dialog_upload = false;
     },
     "loadUrl": function() {
       this.dialog_url = false;
-      //do_loadUrl(this.url_to_load_from, this, this.$vuetify.lang.current, this.codelist, this);
       importDataset(this.url_to_load_from, this.$vuetify.lang.current, this.codelist).then((result) => {
         this.dataset = result.dataset;
         this.distributions = result.distributions;

@@ -3,6 +3,7 @@ export default {
   "step_distribution": "Distribuce",
   "step_download": "Shrnutí",
   "load": "NAČÍST ZE SOUBORU",
+  "load_hint": "Klikněte a vyberte soubor",
   "dataset_title_cs": "Název datové sady česky",
   "dataset_title_en": "Název datové sady anglicky",
   "dataset_title_invalid": "Název datové sady je povinný.",

@@ -3,6 +3,7 @@ export default {
   "step_distribution": "Distribution",
   "step_download": "Summary",
   "load": "LOAD FROM FILE",
+  "load_hint": "Click and select a file",
   "dataset_title_cs": "Dataset title in Czech",
   "dataset_title_en": "Dataset title in English",
   "dataset_title_invalid": "Dataset title is mandatory.",

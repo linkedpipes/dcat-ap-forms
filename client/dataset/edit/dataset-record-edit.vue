@@ -6,7 +6,7 @@
   >
     <v-alert
       outlined
-      value
+      value="true"
       type="warning"
       dismissible
     >

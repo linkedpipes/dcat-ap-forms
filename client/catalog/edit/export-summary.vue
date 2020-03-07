@@ -138,7 +138,7 @@
       </v-list-item>
 
       <v-divider v-if="catalog.homepage" />
-      <v-list-iteem
+      <v-list-item
         v-if="catalog.homepage"
         avatar
       >
@@ -166,7 +166,7 @@
             </v-icon>
           </v-btn>
         </v-list-item-action>
-      </v-list-iteem>
+      </v-list-item>
     </v-list>
     <v-divider class="my-2" />
     <v-layout 

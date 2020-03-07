@@ -153,7 +153,7 @@ export default {
     }
 
     if (url !== undefined) {
-      importDataset(url, this.$vuetify.lang.current, this.data.codelist).then((result) => {
+      importDataset(url, this.$vuetify.lang.current, this.data.codelist, true).then((result) => {
         this.data.dataset = result.dataset;
         this.data.distributions = result.distributions;
         this.data.status = "ready";

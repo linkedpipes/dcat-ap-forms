@@ -177,13 +177,13 @@
       <template v-slot:activator="{ on }">
         <v-tooltip bottom>
           <v-btn
-                  slot="activator"
-                  :disabled="!isValid"
-                  color="success"
-                  rounded
-                  outlined
-                  @click="onDownload"
-                  v-on="on"
+            slot="activator"
+            :disabled="!isValid"
+            color="success"
+            rounded
+            outlined
+            @click="onDownload"
+            v-on="on"
           >
             <v-icon left>
               file_download
@@ -191,13 +191,12 @@
             <span>{{ $t('button_download') }}</span>
           </v-btn>
           <span v-if="isValid">
-          {{ $t('summary_download') }}
-          <code>{{ nkodDatabox }}</code>.
-        </span>
+            {{ $t('summary_download') }}
+            <code>{{ nkodDatabox }}</code>.
+          </span>
           <span v-if="!isValid">{{ $t('summary_error') }}</span>
         </v-tooltip>
       </template>
-
     </v-layout>
   </v-container>
 </template>

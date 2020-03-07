@@ -668,28 +668,29 @@
       <div class="text-center">
         <v-dialog
           v-model="dialog_upload"
-          width="500">
+          width="500"
+        >
           <template v-slot:activator="{ on }">
             <v-btn
               color="primary"
               text
               v-on="on"
-              >
+            >
               {{ $t('load') }}
             </v-btn>
           </template>
 
           <v-card>
             <v-toolbar
-                    dark
-                    color="primary"
+              dark
+              color="primary"
             >
               <v-toolbar-title>{{ $t('load') }}</v-toolbar-title>
               <v-spacer />
               <v-btn
-                      icon
-                      color="primary"
-                      @click="dialog_upload = false"
+                icon
+                color="primary"
+                @click="dialog_upload = false"
               >
                 <v-icon>close</v-icon>
               </v-btn>

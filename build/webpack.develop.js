@@ -41,6 +41,10 @@ module.exports = merge(common, {
         "test": /\.(js|vue)$/,
         "loader": "eslint-loader",
         "exclude": /node_modules/
+      }, {
+        //see: https://github.com/webpack-contrib/css-loader/issues/38#issuecomment-72287584
+        "test": /\.(png|woff|woff2|eot|ttf|svg)$/,
+        "loader": "url-loader?limit=100000"
       }
     ]
   },

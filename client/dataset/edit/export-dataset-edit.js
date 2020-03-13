@@ -66,7 +66,7 @@ export function exportToJsonLd(dataset, distributions) {
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
-    output[DCATAP.spatialResolutionInMeters] = asValue(dataset.spatial_resolution_meters);
+    output[DCATAP.spatialResolutionInMeters] = asXsdDecimal(dataset.spatial_resolution_meters);
   }
 
   const contactPoint = exportContactPoint(dataset);
@@ -107,6 +107,13 @@ function asIri(value) {
 function asValue(value) {
   return {
     "@value": value
+  }
+}
+
+function asXsdDecimal(value) {
+  return {
+    "@value": value,
+    "@type": "http://www.w3.org/2001/XMLSchema#decimal"
   }
 }
 

@@ -891,8 +891,7 @@ export default {
     "loadUrl": function() {
       this.dialog_url = false;
       importDataset(this.url_to_load_from, this.$vuetify.lang.current, this.codelist, false).then((result) => {
-        this.dataset = result.dataset;
-        this.distributions = result.distributions;
+        this.$emit("reload", result.dataset, result.distributions);
       });
       this.url_to_load_from = "";
     }

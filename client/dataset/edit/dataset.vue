@@ -37,6 +37,7 @@
             :dataset="data.dataset"
             :codelist="data.codelist"
             :distributions="data.distributions"
+            @reload="reloadData"
           />
         </v-stepper-content>
         <v-stepper-content :step="2">
@@ -154,14 +155,18 @@ export default {
 
     if (url !== undefined) {
       importDataset(url, this.$vuetify.lang.current, this.data.codelist, true).then((result) => {
-        this.data.dataset = result.dataset;
-        this.data.distributions = result.distributions;
+        this.reloadData(result.dataset, result.distributions);
         this.data.status = "ready";
         //return loadLabelsForDistributions(distributions, this.$vuetify.lang.current);
       });
     }
   },
   "methods": {
+    "reloadData": function(dataset, distributions) {
+      this.data.dataset = dataset;
+      this.data.distributions = distributions;
+      this.ui.distribution = 0;
+    },
     "isDatasetValid": function () {
       if (!this.validation.dataset) {
         return true;

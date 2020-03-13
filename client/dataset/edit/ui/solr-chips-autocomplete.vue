@@ -25,7 +25,7 @@
     >
       <v-chip
         close
-        @input="removeTheme(data.item)"
+        @click:close="removeTheme(data.item)"
       >
         <strong>{{ data.item[$vuetify.lang.current] }}</strong>
       </v-chip>

@@ -216,7 +216,7 @@
         <div class="text-center">
           <v-dialog
             v-model="dialog_keyword"
-            width="500"
+            full-width
           >
             <template v-slot:activator="{ on }">
               <v-btn
@@ -339,7 +339,7 @@
         <div class="text-center">
           <v-dialog
             v-model="dialog"
-            width="500"
+            full-width
           >
             <template v-slot:activator="{ on }">
               <v-btn
@@ -668,7 +668,7 @@
       <div class="text-center">
         <v-dialog
           v-model="dialog_upload"
-          width="500"
+          full-width
         >
           <template v-slot:activator="{ on }">
             <v-btn
@@ -714,7 +714,7 @@
       <div class="text-center">
         <v-dialog
           v-model="dialog_url"
-          width="500"
+          full-width
         >
           <template v-slot:activator="{ on }">
             <v-btn

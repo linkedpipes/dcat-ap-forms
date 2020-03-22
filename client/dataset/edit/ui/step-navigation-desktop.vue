@@ -2,6 +2,7 @@
   <v-layout 
     row 
     mt-1
+    ma-3
   >
     <v-btn 
       v-if="value > 1"

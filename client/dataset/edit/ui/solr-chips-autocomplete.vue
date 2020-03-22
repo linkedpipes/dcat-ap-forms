@@ -31,11 +31,13 @@
       </v-chip>
     </template>
     <template slot="no-data">
-      <v-list-tile>
-        <v-list-tile-title>
-          {{ noDataPrompt }}
-        </v-list-tile-title>
-      </v-list-tile>
+      <v-flex ma-5>
+        <v-list-tile>
+          <v-list-tile-title>
+            {{ noDataPrompt }}
+          </v-list-tile-title>
+        </v-list-tile>
+      </v-flex>
     </template>
   </v-autocomplete>
 </template>

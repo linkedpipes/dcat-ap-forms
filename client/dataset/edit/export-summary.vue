@@ -33,6 +33,7 @@
       </v-flex>
       <v-flex md2 sm4 lg2 xl2>
         <v-btn
+          :disabled="!isValid"
           class="hidden-xs-only"
           rounded
           outlined

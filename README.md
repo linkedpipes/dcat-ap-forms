@@ -109,6 +109,8 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
 npm install
 ```
 
+The *fibers* package might require additional dependencies, see [solution](https://github.com/laverdet/node-fibers/issues/248#issuecomment-157327061).
+
 * Custom configuration, can be provided using Javascript configuration file. Copy and edit the sample:
 ```
 cp configuration.js my-configuration.js

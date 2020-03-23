@@ -15,10 +15,15 @@ require("vuetify/dist/vuetify.css");
 
 Vue.config.productionTip = false;
 
+const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 Vue.use(Vuetify, {
   "lang": {
     "locales": {"cs": prepareLabels(AppLabels, CatalogLabels)},
     "current": "cs"
+  },
+  "theme": {
+    "dark": dark
   }
 });
 Vue.use(VueRouter);

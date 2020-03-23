@@ -20,12 +20,16 @@ Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
-/* eslint-disable no-new */
+const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+/* eslint-disable no-new */
 const opts = {
   "lang": {
     "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
     "current": "cs"
+  },
+  "theme": {
+    "dark": dark
   }
 };
 

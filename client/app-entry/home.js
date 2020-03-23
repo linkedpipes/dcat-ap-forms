@@ -13,10 +13,17 @@ Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(UploadButton);
 
+const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+const opts = {
+  "theme": {
+    "dark": dark
+  }
+}
 /* eslint-disable no-new */
-const vuetify = new Vuetify();
+const vuetify = new Vuetify(opts);
 new Vue({
   "vuetify": vuetify,
   "el": "#app",
-  "render": (h) => h(App)
+  "render": (h) => h(App),
 });

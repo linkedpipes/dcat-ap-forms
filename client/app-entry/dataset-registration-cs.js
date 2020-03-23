@@ -21,10 +21,16 @@ Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
+
+const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
 const opts = {
   "lang": {
     "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
     "current": "cs"
+  },
+  "theme": {
+    "dark": dark
   }
 };
 
@@ -35,5 +41,5 @@ new Vue({
   "vuetify": vuetify,
   "el": "#app",
   "router": new VueRouter({"mode": "history"}),
-  "render": (h) => h(App)
+  "render": (h) => h(App),
 });

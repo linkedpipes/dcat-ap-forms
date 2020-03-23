@@ -1,7 +1,6 @@
 <template>
   <v-bottom-navigation
     v-model="value"
-    absolute
   >
     <v-btn
       :value="1" 

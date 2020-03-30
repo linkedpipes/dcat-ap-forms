@@ -25,27 +25,27 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex md10 sm8 lg10 xl10>
-        <h2 class="display-1">
-          {{ dataset.title }}
-        </h2>
-      </v-flex>
-      <v-flex md2 sm4 lg2 xl2>
-        <v-btn
-          :disabled="!isValid"
-          class="hidden-xs-only"
-          rounded
-          outlined
-          color="success"
-          @click="onDownload"
-        >
-          <v-icon left>
-            file_download
-          </v-icon>
-          <span>{{ $t('button_download') }}</span>
-        </v-btn>
-      </v-flex>
+    <v-layout
+      row
+      class="pr-2"
+    >
+      <h2 class="display-1">
+        {{ dataset.title }}
+      </h2>
+      <v-spacer />
+      <v-btn
+        :disabled="!isValid"
+        class="hidden-xs-only"
+        rounded
+        outlined
+        color="success"
+        @click="onDownload"
+      >
+        <v-icon left>
+          file_download
+        </v-icon>
+        <span>{{ $t('button_download') }}</span>
+      </v-btn>
     </v-layout>
     <p class="subheading multiline">
       {{ dataset.description }}
@@ -386,12 +386,12 @@
       </v-flex>
     </v-layout>
     <v-divider class="my-2" />
-    <v-layout row>
-      <v-flex md10 sm8 lg10 xl10>
-        <v-spacer />
-      </v-flex>
-      <v-flex md2 sm4 lg2 xl2>
-       <v-tooltip bottom>
+    <v-layout
+      row
+      class="pr-2"
+    >
+      <v-spacer />
+      <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn
             :disabled="!isValid"
@@ -412,7 +412,6 @@
         </span>
         <span v-if="!isValid">{{ $t('summary_error') }}</span>
       </v-tooltip>
-      </v-flex>
     </v-layout>
   </v-container>
 </template>

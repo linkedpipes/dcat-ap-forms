@@ -5,7 +5,7 @@
     lazy
   >
     <v-card>
-      <v-card-title><v-spacer/></v-card-title>
+      <v-card-title><v-spacer /></v-card-title>
       <v-card-text>
         <span v-html="$t('help_' + name)" />
       </v-card-text>

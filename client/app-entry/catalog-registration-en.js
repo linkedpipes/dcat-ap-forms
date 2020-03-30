@@ -21,7 +21,12 @@ Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
-const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+var dark = false;
+var mq = null;
+if (window.matchMedia) {
+  mq = window.matchMedia("(prefers-color-scheme: dark)");
+  dark = mq.matches;
+}
 
 /* eslint-disable no-new */
 const opts = {
@@ -43,3 +48,9 @@ new Vue({
   "router": new VueRouter({"mode": "history"}),
   "render": (h) => h(App)
 });
+
+if (mq != null) {
+  mq.addEventListener("change", (e) => {
+    vuetify.framework.theme.dark = e.matches;
+  });
+}

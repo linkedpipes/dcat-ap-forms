@@ -9,7 +9,7 @@ import {
   SCHEMA
 } from "../vocabulary";
 
-export const FRAMESSSS = {
+export const FRAME = {
   "@type": DCATAP.Dataset,
   [DCATAP.distribution]: [{
     "@type": [DCATAP.Distribution]

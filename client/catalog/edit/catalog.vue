@@ -52,7 +52,7 @@ import CatalogEdit from "./catalog-edit-record";
 import ExportSummary from "./export-summary";
 import StepperNavigationMobile from "./ui/step-navigation-mobile";
 import StepperNavigationDesktop from "./ui/step-navigation-desktop";
-import setPageTitle from "@/app-service/page-title";
+import setPageTitle from "../../app-service/page-title";
 
 export default {
   "name": "app-catalog-edit",

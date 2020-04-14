@@ -4,7 +4,7 @@ import {
   url,
   email,
   applyArray
-} from "@/app-service/validators";
+} from "../../app-service/validators";
 
 export function createCatalog() {
   return {

@@ -3,7 +3,7 @@ import {
   DCATAP,
   FOAF,
   VCARD
-} from "@/app-service/vocabulary";
+} from "../../app-service/vocabulary";
 
 export function exportToJsonLd(catalog) {
   const output = {

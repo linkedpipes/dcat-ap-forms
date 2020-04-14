@@ -6,7 +6,7 @@ import {
   PU,
   CREATIVE_COMMONS,
   NKOD
-} from "@/app-service/vocabulary";
+} from "../../app-service/vocabulary";
 
 export function exportToJsonLd(dataset, distributions) {
   let titles = [asNamedLangString(dataset.title_cs, "cs")];

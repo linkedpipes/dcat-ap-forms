@@ -3,7 +3,7 @@
  */
 
 import Vue from "vue";
-import {getLocalJson} from "@/app-service/http";
+import {getLocalJson} from "../../../app-service/http";
 
 const storage = {};
 

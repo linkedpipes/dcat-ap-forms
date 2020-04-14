@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Help from "@/app-service/help";
-import DatasetWithdrawn from "@/dataset/delete/dataset-delete";
+import Help from "../app-service/help";
+import DatasetWithdrawn from "../dataset/delete/dataset-delete";
 
 export default {
   "name": "dataset-withdrawn",

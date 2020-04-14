@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Help from "@/app-service/help";
-import DatasetRegistration from "@/dataset/edit/dataset";
+import Help from "../app-service/help";
+import DatasetRegistration from "../dataset/edit/dataset";
 
 export default {
   "name": "dataset-registration",

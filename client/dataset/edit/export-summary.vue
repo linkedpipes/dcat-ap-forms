@@ -418,7 +418,7 @@
 
 <script>
 import {exportToJsonLd} from "./export-dataset-edit";
-import {downloadAsJsonLd} from "@/app-service/download";
+import {downloadAsJsonLd} from "../../app-service/download";
 import DistributionCard from "./ui/distribution-card";
 import {getLabel as datasetThemeToLabel} from "./codelists/dataset-theme";
 import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";

@@ -7,11 +7,11 @@ import {
   PU,
   CREATIVE_COMMONS,
   SCHEMA
-} from "@/app-service/vocabulary";
+} from "../vocabulary";
 
-export const FRAME = {
+export const FRAMESSSS = {
   "@type": DCATAP.Dataset,
   [DCATAP.distribution]: [{
     "@type": [DCATAP.Distribution]
   }]
-}
+};

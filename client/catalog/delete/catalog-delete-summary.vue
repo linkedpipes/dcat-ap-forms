@@ -76,7 +76,7 @@
 
 <script>
 import {exportToJsonLd} from "./export-catalog-delete";
-import {downloadAsJsonLd} from "@/app-service/download";
+import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
   "name": "app-export-summary",

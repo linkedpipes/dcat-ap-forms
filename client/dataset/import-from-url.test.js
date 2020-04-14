@@ -1,7 +1,7 @@
-import * as http from "@/app-service/http";
+import * as http from "../app-service/http";
 import {importDataset} from "./import-from-url";
 import {exportToJsonLd} from "./edit/export-dataset-edit";
-import {getRemoteJson} from "@/app-service/http";
+import {getRemoteJson} from "../app-service/http";
 import {createDistribution} from "./edit/distribution-model";
 import {createDataset} from "./edit/dataset-model";
 

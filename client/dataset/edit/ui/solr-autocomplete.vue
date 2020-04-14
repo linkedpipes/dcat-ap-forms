@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import {getLocalJson} from "@/app-service/http";
+import {getLocalJson} from "../../../app-service/http";
 import {addItems, fetchLabelFromCodeList} from "../codelists/local-storage";
 
 export default {

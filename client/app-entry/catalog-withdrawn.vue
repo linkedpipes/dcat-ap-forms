@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Help from "@/app-service/help";
-import CatalogWithdrawn from "@/catalog/delete/catalog-delete";
+import Help from "../app-service/help";
+import CatalogWithdrawn from "../catalog/delete/catalog-delete";
 
 export default {
   "name": "catalog-withdrawn",

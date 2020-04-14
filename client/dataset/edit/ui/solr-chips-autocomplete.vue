@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import {getLocalJson} from "@/app-service/http";
+import {getLocalJson} from "../../../app-service/http";
 import {addItems} from "../codelists/local-storage";
 
 export default {

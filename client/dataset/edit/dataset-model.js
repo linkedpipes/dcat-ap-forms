@@ -1,5 +1,5 @@
-import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "@/app-service/validators";
-import {getDefaultGraphData, normalize,} from "@/app-service/jsonld";
+import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "../../app-service/validators";
+import {getDefaultGraphData, normalize,} from "../../app-service/jsonld";
 import {parseDump} from "./loader";
 
 export function createDataset() {

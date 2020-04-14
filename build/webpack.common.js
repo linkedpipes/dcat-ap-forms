@@ -33,9 +33,6 @@ module.exports = {
   "resolve": {
     "modules": ["node_modules"],
     "extensions": [".js", ".vue"],
-    "alias": {
-      "@": path.resolve("client")
-    }
   },
   "module": {
     "rules": [

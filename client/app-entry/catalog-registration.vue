@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Help from "@/app-service/help";
-import CatalogRegistration from "@/catalog/edit/catalog";
+import Help from "../app-service/help";
+import CatalogRegistration from "../catalog/edit/catalog";
 
 export default {
   "name": "catalog-registration",

@@ -1,4 +1,4 @@
-import {getRemoteJson} from "@/app-service/http";
+import {getRemoteJson} from "../app-service/http";
 import {
   normalize,
   getDefaultGraphData,
@@ -6,10 +6,10 @@ import {
   getByType,
   getId,
   getValue
-} from "@/app-service/jsonld";
+} from "../app-service/jsonld";
 import {
   DCATAP, DCTERMS
-} from "@/app-service/vocabulary";
+} from "../app-service/vocabulary";
 
 function update_url(url) {
   if (DEREFERENCE_PROXY === "") {

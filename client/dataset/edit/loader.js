@@ -1,4 +1,4 @@
-import {url} from "@/app-service/validators";
+import {url} from "../../app-service/validators";
 import {getLabel as continentsToLabel, prefix as continentPrefix} from "./codelists/continents";
 import {getLabel as countriesToLabel, prefix as countryPrefix} from "./codelists/countries";
 import {getLabel as placesToLabel, prefix as placePrefix} from "./codelists/places";
@@ -12,8 +12,8 @@ import {
   PU,
   CREATIVE_COMMONS,
   SCHEMA
-} from "@/app-service/vocabulary";
-import {FRAME} from "@/app-service/jsonld/frame";
+} from "../../app-service/vocabulary";
+import {FRAME} from "../../app-service/jsonld/frame";
 
 function tryGet(key, object, nestedKey="@id", single=true) {
   try {

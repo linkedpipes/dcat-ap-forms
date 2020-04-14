@@ -65,7 +65,7 @@
 
 <script>
 import {exportToJsonLd} from "./export-dataset-delete";
-import {downloadAsJsonLd} from "@/app-service/download";
+import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
   "name": "app-export-summary",

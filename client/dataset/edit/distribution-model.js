@@ -4,7 +4,7 @@ import {
   url,
   applyArray,
   shouldValidate
-} from "@/app-service/validators";
+} from "../../app-service/validators";
 
 export function createDistribution() {
   return decorateDistribution({

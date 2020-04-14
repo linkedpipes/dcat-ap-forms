@@ -18,7 +18,7 @@
 <script>
 import {importMinimalDataset} from "../import-from-url";
 import DatasetDeleteSummary from "./dataset-delete-summary";
-import setPageTitle from "@/app-service/page-title";
+import setPageTitle from "../../app-service/page-title";
 
 export default {
   "name": "app-dataset-delete",

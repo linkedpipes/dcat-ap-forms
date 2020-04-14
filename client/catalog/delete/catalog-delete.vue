@@ -18,7 +18,7 @@
 <script>
 import {importCatalog} from "../import-from-url";
 import CatalogDeleteSummary from "./catalog-delete-summary";
-import setPageTitle from "@/app-service/page-title";
+import setPageTitle from "../../app-service/page-title";
 
 export default {
   "name": "app-dataset-delete",

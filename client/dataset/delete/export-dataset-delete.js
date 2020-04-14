@@ -3,7 +3,7 @@ import {
   NKOD,
   ADMS,
   STATUS
-} from "@/app-service/vocabulary";
+} from "../../app-service/vocabulary";
 
 export function exportToJsonLd(dataset) {
   const output = {

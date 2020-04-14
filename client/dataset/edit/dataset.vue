@@ -98,7 +98,7 @@ import StepperNavigationMobile from "./ui/step-navigation-mobile";
 import StepperNavigationDesktop from "./ui/step-navigation-desktop";
 import ExportSummary from "./export-summary";
 import {importDataset, loadLabelsForDistributions} from "../import-from-url";
-import setPageTitle from "@/app-service/page-title";
+import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
 
 export default {

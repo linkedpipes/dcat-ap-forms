@@ -1,4 +1,4 @@
-import {getRemoteJson} from "@/app-service/http";
+import {getRemoteJson} from "../app-service/http";
 import {
   normalize,
   getDefaultGraphData,
@@ -7,7 +7,7 @@ import {
   getValues,
   getByIri,
   getId
-} from "@/app-service/jsonld";
+} from "../app-service/jsonld";
 import {
   DCTERMS,
   DCATAP,
@@ -16,7 +16,7 @@ import {
   SCHEMA,
   PU,
   SKOS
-} from "@/app-service/vocabulary";
+} from "../app-service/vocabulary";
 import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
 import {typeFromUrl} from "./edit/codelists/ruian-type";
 import {parseDump} from "./edit/loader";

@@ -382,8 +382,7 @@ function getSingle(obj) {
 export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
   return new Promise((resolve, reject) => {
     const jsonld = require("jsonld");
-    jsonld.frame(graphData, FRAME).then((framed) => {
-      let graph = framed["@graph"][0];
+    jsonld.frame(graphData, FRAME).then((graph) => {
 
       if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
 

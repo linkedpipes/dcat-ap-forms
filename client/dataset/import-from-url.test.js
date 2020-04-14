@@ -189,12 +189,7 @@ let loaderTest = (iri) => {
     let dataset = createDataset();
     let distributions = [createDistribution()];
     importDataset(iri, "cs", {}, dataset, distributions).then((result) => {
-      console.log("*** Imported ***");
-      console.log(result.dataset);
-      console.log(result.distributions);
-      console.log("*** Exporting ***");
       const exported = exportToJsonLd(result.dataset, result.distributions);
-      console.log(JSON.stringify(exported));
       resolve(JSON.parse(JSON.stringify(exported, null, 2))); //to emulate download
     });
   });

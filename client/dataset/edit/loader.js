@@ -37,12 +37,7 @@ function ruianLabel(iri, codelist, lang) {
 }
 
 function parseLicense(distribution, spec) {
-  console.log("Parse license");
-  console.log(spec);
   const autorskeDilo = tryGet(PU.autorskeDilo, spec);
-  console.log(PU.autorskeDilo);
-  console.log(spec[PU.autorskeDilo]);
-  console.log(autorskeDilo);
   switch (autorskeDilo) {
   case PU.obsahujeViceAutorskychDel:
     distribution.license_author_type = "MULTI";
@@ -229,8 +224,6 @@ function loadSpatial(dataset, graphData, codelist, lang) {
 }
 
 function loadDistribution(distribution) {
-  console.log("Load distribution");
-  console.log(distribution);
   let distr_title = {"cs": "", "en": ""};
   if (DCTERMS.title in distribution) {
     if (Array.isArray(distribution[DCTERMS.title])) {
@@ -284,19 +277,14 @@ function loadDistribution(distribution) {
 }
 
 function loadDistributions(distributions, graphData) {
-  console.log("Load distributions");
   distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
 
   if (Array.isArray(getSingle(graphData[DCATAP.distribution]))) {
-    console.log(getSingle(graphData[DCATAP.distribution]));
     getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
-      console.log(distribution);
       if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
     });
   } else if (Array.isArray(graphData[DCATAP.distribution])) {
-    console.log(getSingle(graphData[DCATAP.distribution]));
     graphData[DCATAP.distribution].forEach((distribution) => {
-      console.log(distribution);
       if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
     });
   } else {
@@ -357,10 +345,8 @@ function loadTemporal(dataset, graphData) {
 }
 
 function loadContactPoint(dataset, graphData) {
-  console.log("Load contact point");
   if (DCATAP.contactPoint in graphData) {
     const contact = getSingle(graphData[DCATAP.contactPoint]);
-    console.log(contact);
     if (VCARD.fn in contact) {
       if ((typeof contact[VCARD.fn]) === "string") {
         dataset.contact_point_name = contact[VCARD.fn];
@@ -395,18 +381,8 @@ function getSingle(obj) {
 
 export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
   return new Promise((resolve, reject) => {
-    console.log("parseDump");
-    console.log(graphData);
     const jsonld = require("jsonld");
-    console.log("Frame");
-    console.log(FRAME);
     jsonld.frame(graphData, FRAME).then((framed) => {
-      console.log("Framed");
-      console.log(framed);
-      //jsonld.flatten(expanded).then((flat) => {
-      //let graph = expand(expanded);
-      //console.log(graph);
-
       let graph = framed["@graph"][0];
 
       if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];

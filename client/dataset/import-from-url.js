@@ -32,7 +32,6 @@ function update_url(url) {
 }
 
 export function importDataset(url, lang, codelist, update) {
-  console.log("Import dataset");
   //keep this as much consistent with dataset-model! any parsing logic must go into parseDump
   return new Promise((resolve, reject) => {
     let get = getRemoteJsonLdFile;
@@ -42,15 +41,11 @@ export function importDataset(url, lang, codelist, update) {
 
     get(url).then((response) => {
       const graphData = getDefaultGraphData(normalize(response.json));
-      console.log(graphData);
       let pkg = {
         "dataset": createDataset(),
         "distributions": [createDistribution()]
       }
       parseDump(graphData, pkg.dataset, pkg.distributions, lang, codelist, null).then((pkg) => {
-        console.log("Importing done");
-        console.log(pkg.dataset);
-        console.log(pkg.distributions);
         resolve(pkg);
       });
     });

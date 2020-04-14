@@ -51,28 +51,16 @@ module.exports = {
         ]
       },
       {
-        test: /\.s(c|a)ss$/,
+        test: /\.s(c|a)s$/,
         use: [
           "vue-style-loader",
           "css-loader",
-          {
-            loader: "sass-loader",
-            // Requires sass-loader@^7.0.0
-            options: {
-              implementation: require("sass"),
-              fiber: require("fibers"),
-              indentedSyntax: true // optional
-            },
-            // Requires sass-loader@^8.0.0
-            options: {
-              implementation: require("sass"),
-              sassOptions: {
-                fiber: require("fibers"),
-                indentedSyntax: true // optional
-              },
-            },
-          },
+          "sass-loader",
         ],
+      }, {
+        //see: https://github.com/webpack-contrib/css-loader/issues/38#issuecomment-72287584
+        "test": /\.(png|woff|woff2|eot|ttf|svg)$/,
+        "loader": "url-loader?limit=100000"
       }
     ]
   },

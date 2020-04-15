@@ -4,14 +4,22 @@
       <v-layout justify-left>
         <ul>
           <li>
-            <a href="./registrace-datové-sady">Registrace datové sady</a>
+            <a href="./registrace-datové-sady">
+              Registrace datové sady
+            </a>
             &nbsp;/&nbsp;
-            <a href="./dataset-registration">Dataset registration</a>
+            <a href="./dataset-registration">
+              Dataset registration
+            </a>
           </li>
           <li>
-            <a href="./registrace-lokálního-katalogu">Registrace lokálního katalogu</a>
+            <a href="./registrace-lokálního-katalogu">
+              Registrace lokálního katalogu
+            </a>
             &nbsp;/&nbsp;
-            <a href="./local-catalog-registration">Local catalog registration</a>
+            <a href="./local-catalog-registration">
+              Local catalog registration
+            </a>
           </li>
         </ul>
       </v-layout>

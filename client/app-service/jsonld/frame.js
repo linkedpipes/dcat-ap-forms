@@ -1,13 +1,4 @@
-import {
-  DCTERMS,
-  DCATAP,
-  NKOD,
-  FOAF,
-  VCARD,
-  PU,
-  CREATIVE_COMMONS,
-  SCHEMA
-} from "../vocabulary";
+import {DCATAP} from "../vocabulary";
 
 export const FRAME = {
   "@type": DCATAP.Dataset,

@@ -115,7 +115,8 @@ export default {
     },
     "reload":  function (values) {
       values.forEach((value) => {
-        const url = createTitleQueryUrl(this.codeList, value, this.$vuetify.lang.current);
+        const url = createTitleQueryUrl(
+          this.codeList, value, this.$vuetify.lang.current);
         getLocalJson(url).then((response) => {
           if (response.json.response.docs.length === 0) {
             this.items = [...this.items, createNonLabeledItem(value)];

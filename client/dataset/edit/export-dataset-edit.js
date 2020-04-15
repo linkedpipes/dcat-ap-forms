@@ -10,12 +10,18 @@ import {
 
 export function exportToJsonLd(dataset, distributions) {
   let titles = [asNamedLangString(dataset.title_cs, "cs")];
-  if (isNotEmpty(dataset.title_en)) titles.push(asNamedLangString(dataset.title_en, "en"));
+  if (isNotEmpty(dataset.title_en)) {
+    titles.push(asNamedLangString(dataset.title_en, "en"));
+  }
 
   let descriptions = [asNamedLangString(dataset.description_cs, "cs")];
-  if (isNotEmpty(dataset.description_en)) descriptions.push(asNamedLangString(dataset.description_en, "en"));
+  if (isNotEmpty(dataset.description_en)) {
+    descriptions.push(asNamedLangString(dataset.description_en, "en"));
+  }
 
-  if (isEmpty(dataset.iri)) dataset.iri = "_:ds";
+  if (isEmpty(dataset.iri)) {
+    dataset.iri = "_:ds";
+  }
   const output = {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
@@ -24,13 +30,17 @@ export function exportToJsonLd(dataset, distributions) {
   };
 
   if (distributions.length > 0) {
-    output[DCATAP.distribution] = distributions.map((distribution) => exportDistribution(distribution, dataset.iri))
+    output[DCATAP.distribution] =
+      distributions.map(
+        (distribution) => exportDistribution(distribution, dataset.iri))
   }
 
   if (dataset.keywords.length > 0) {
     output[DCATAP.keyword] = dataset.keywords.map(function(keyword){
       let keywords = [asNamedLangString(keyword.cs, "cs")];
-      if (isNotEmpty(keyword.en)) keywords.push(asNamedLangString(keyword.en, "en"));
+      if (isNotEmpty(keyword.en)) {
+        keywords.push(asNamedLangString(keyword.en, "en"));
+      }
       return keywords
     })
   }
@@ -48,10 +58,16 @@ export function exportToJsonLd(dataset, distributions) {
     output[FOAF.page] = asIri(dataset.documentation);
   }
 
-  const themes = [...dataset.dataset_themes, ...dataset.themes, ...dataset.dataset_custom_themes];
+  const themes = [
+    ...dataset.dataset_themes,
+    ...dataset.themes,
+    ...dataset.dataset_custom_themes
+  ];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
-  if (dataset.ofn.length > 0) output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
+  if (dataset.ofn.length > 0) {
+    output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
+  }
 
   const temporal = exportTemporal(dataset);
   if (isNotEmpty(temporal)) {
@@ -66,7 +82,8 @@ export function exportToJsonLd(dataset, distributions) {
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
-    output[DCATAP.spatialResolutionInMeters] = asXsdDecimal(dataset.spatial_resolution_meters);
+    output[DCATAP.spatialResolutionInMeters] =
+      asXsdDecimal(dataset.spatial_resolution_meters);
   }
 
   const contactPoint = exportContactPoint(dataset);
@@ -101,12 +118,6 @@ function asNamedLangString(value, lang) {
 function asIri(value) {
   return {
     "@id": value
-  }
-}
-
-function asValue(value) {
-  return {
-    "@value": value
   }
 }
 
@@ -174,7 +185,9 @@ function exportDistribution(distribution, datasetIri) {
   if (isNotEmpty(distribution.title_en)) {
     titles.push(asNamedLangString(distribution.title_en, "en"));
   }
-  if (titles.length > 0) output[DCTERMS.title] = titles;
+  if (titles.length > 0) {
+    output[DCTERMS.title] = titles;
+  }
 
   if (distribution.isFileOrService === "FILE") {
     output[DCATAP.downloadURL] = asIri(distribution.url);
@@ -192,15 +205,16 @@ function exportDistribution(distribution, datasetIri) {
     if (isNotEmpty(distribution.compressFormat)) {
       output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
     }
-  }
-  else if (distribution.isFileOrService === "SERVICE") {
+  } else if (distribution.isFileOrService === "SERVICE") {
     output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
     output[DCATAP.accessService] = {
       "@type": DCATAP.DataService,
       [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
       [DCATAP.endpointDescription]: asIri(distribution.service_description)
     };
-    if (titles.length > 0) output[DCATAP.accessService][DCTERMS.title] = titles;
+    if (titles.length > 0) {
+      output[DCATAP.accessService][DCTERMS.title] = titles;
+    }
     if (isNotEmpty(datasetIri)) {
       output[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
     }

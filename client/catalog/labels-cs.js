@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 export default {
   "nav_catalog": "Katalog",
   "step_catalog": "Katalog",

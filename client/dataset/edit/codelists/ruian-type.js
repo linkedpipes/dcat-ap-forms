@@ -18,7 +18,8 @@ export default [
   },
   {
     "value": prefix + "MC",
-    "cs": "Území městského obvodu nebo městské části územně členěného statutárního města",
+    "cs": "Území městského obvodu nebo městské části územně členěného "
+      + "statutárního města",
     "en": "City district of territorially structured statutory city"
   },
   {
@@ -39,7 +40,8 @@ export default [
   {
     "value": prefix + "PU",
     "cs": "Správní obvod obce s pověřeným obecním úřadem",
-    "en": "Administrative district of a municipality with an authorized municipal office"
+    "en": "Administrative district of a municipality with an authorized "
+      + "municipal office"
   },
   {
     "value": prefix + "OK",
@@ -115,7 +117,7 @@ export function typeFromUrl(url) {
     return prefix + "VO";
   } else if (url.indexOf("/vusc/") !== -1) {
     return prefix + "VC";
-  }  else if (url.indexOf("/spravni-obvod/") !== -1) {
+  } else if (url.indexOf("/spravni-obvod/") !== -1) {
     return prefix + "SP";
   }
 }

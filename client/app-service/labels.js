@@ -10,7 +10,7 @@ export function prepareLabels() {
   return result;
 }
 
-function install(Vue, options) {
+function install(Vue) {
   Object.defineProperty(Vue.prototype, "$t", {
     "value": function (name) {
       return this.$vuetify.lang.t("$vuetify." + name)

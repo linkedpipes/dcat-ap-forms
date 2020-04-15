@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 export default {
   "step_dataset": "Dataset",
   "step_distribution": "Distribution",

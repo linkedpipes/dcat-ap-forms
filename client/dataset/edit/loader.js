@@ -1,7 +1,16 @@
 import {url} from "../../app-service/validators";
-import {getLabel as continentsToLabel, prefix as continentPrefix} from "./codelists/continents";
-import {getLabel as countriesToLabel, prefix as countryPrefix} from "./codelists/countries";
-import {getLabel as placesToLabel, prefix as placePrefix} from "./codelists/places";
+import {
+  getLabel as continentsToLabel,
+  prefix as continentPrefix,
+} from "./codelists/continents";
+import {
+  getLabel as countriesToLabel,
+  prefix as countryPrefix,
+} from "./codelists/countries";
+import {
+  getLabel as placesToLabel,
+  prefix as placePrefix,
+} from "./codelists/places";
 import {createDistribution} from "./distribution-model";
 import {getItem} from "./codelists/local-storage";
 import {
@@ -14,6 +23,7 @@ import {
   SCHEMA
 } from "../../app-service/vocabulary";
 import {FRAME} from "../../app-service/jsonld/frame";
+import jsonld from "jsonld";
 
 function tryGet(key, object, nestedKey="@id", single=true) {
   try {
@@ -141,7 +151,7 @@ function loadDescriptions(dataset, graphData) {
 function loadKeyword(dataset, keyword, lang) {
   let key = {};
   if (Array.isArray(keyword)) {
-    keyword.forEach(function (version, _) {
+    keyword.forEach(function (version) {
       if ("@language" in version) {
         const l = version["@language"];
         key[l] = version["@value"];
@@ -152,8 +162,12 @@ function loadKeyword(dataset, keyword, lang) {
   } else { // for old files without multilang keywords
     key[lang] = keyword["@value"];
   }
-  if (!("en" in key)) key["en"] = "";
-  if (!("cs" in key)) key["cs"] = "";
+  if (!("en" in key)) {
+    key["en"] = "";
+  }
+  if (!("cs" in key)) {
+    key["cs"] = "";
+  }
   dataset.keywords.push(key);
 }
 
@@ -194,7 +208,8 @@ function loadSpatial(dataset, graphData, codelist, lang) {
         let loadedItem = {
           "url": graphItem["@id"]
         };
-        if (loadedItem["url"].startsWith("https://linked.cuzk.cz/resource/ruian/")) {
+        if (loadedItem["url"].startsWith(
+          "https://linked.cuzk.cz/resource/ruian/")) {
           loadedItem["type"] = "RUIAN";
           loadedItem["label"] = ruianLabel(loadedItem["url"], codelist, lang);
           loadedItem["ruian"] = graphItem["@id"];
@@ -227,9 +242,9 @@ function loadDistribution(distribution) {
   let distr_title = {"cs": "", "en": ""};
   if (DCTERMS.title in distribution) {
     if (Array.isArray(distribution[DCTERMS.title])) {
-      let distr_titles = distribution[DCTERMS.title]; // looks like this: [{"@language": "", "@value": ""}]
+      let distr_titles = distribution[DCTERMS.title];
 
-      distr_titles.forEach(function (t, _) {
+      distr_titles.forEach(function (t) {
         const l = t["@language"];
         distr_title[l] = t["@value"];
       });
@@ -266,7 +281,9 @@ function loadDistribution(distribution) {
   d["service_endpoint_url"] = endpointUrl;
   d["url"] = tryGet(DCATAP.downloadURL, distribution);
   d["title_cs"] = distr_title["cs"];
-  if ("en" in distr_title) d["title_en"] = distr_title["en"];
+  if ("en" in distr_title) {
+    d["title_en"] = distr_title["en"];
+  }
   d["isFileOrService"] = fileOrService;
 
   if (PU.specifikace in distribution) {
@@ -277,19 +294,26 @@ function loadDistribution(distribution) {
 }
 
 function loadDistributions(distributions, graphData) {
-  distributions.splice(0, distributions.length, createDistribution()); //remove all and add a dummy
+  // Remove all and add a dummy.
+  distributions.splice(0, distributions.length, createDistribution());
 
   if (Array.isArray(getSingle(graphData[DCATAP.distribution]))) {
     getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
-      if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
+      if (null !== distribution) {
+        distributions.splice(0, 0, loadDistribution(distribution))
+      }
     });
   } else if (Array.isArray(graphData[DCATAP.distribution])) {
     graphData[DCATAP.distribution].forEach((distribution) => {
-      if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution))
+      if (null !== distribution) {
+        distributions.splice(0, 0, loadDistribution(distribution))
+      }
     });
   } else {
     const distribution = graphData[DCATAP.distribution];
-    if (null !== distribution) distributions.splice(0, 0, loadDistribution(distribution));
+    if (null !== distribution) {
+      distributions.splice(0, 0, loadDistribution(distribution));
+    }
   }
 
   if (distributions.length > 0) {
@@ -299,7 +323,8 @@ function loadDistributions(distributions, graphData) {
 
 function loadTheme(dataset, theme) {
   const t = theme["@id"];
-  if (t.startsWith("http://publications.europa.eu/resource/authority/data-theme/")) {
+  if (t.startsWith(
+    "http://publications.europa.eu/resource/authority/data-theme/")) {
     dataset.dataset_themes.push(t)
   } else if (t.startsWith("http://eurovoc.europa.eu/")){
     dataset.themes.push(t);
@@ -365,7 +390,7 @@ function loadOfn(dataset, graphData) {
   dataset.ofn = [];
   if (DCTERMS.conformsTo in graphData) {
     const conforms = graphData[DCTERMS.conformsTo];
-    conforms.forEach(function(ofn, _) {
+    conforms.forEach(function(ofn) {
       dataset.ofn.push(ofn["@id"]);
     });
   }
@@ -379,16 +404,21 @@ function getSingle(obj) {
   }
 }
 
-export function parseDump(graphData, dataset, distributions, lang, codelist, src) {
-  return new Promise((resolve, reject) => {
-    const jsonld = require("jsonld");
+export function parseDump(
+  graphData, dataset, distributions, lang, codelist, src) {
+  return new Promise((resolve) => {
     jsonld.frame(graphData, FRAME).then((graph) => {
 
-      if ("@id" in graphData && url(graphData["@id"])) dataset.iri = graph["@id"];
+      if ("@id" in graphData && url(graphData["@id"])) {
+        dataset.iri = graph["@id"];
+      }
 
-      dataset.accrual_periodicity = getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
-      dataset.temporal_resolution = tryGet(DCATAP.temporalResolution, graph, "@value", true);
-      dataset.spatial_resolution_meters = tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
+      dataset.accrual_periodicity =
+        getSingle(graph[DCTERMS.accrualPeriodicity])["@id"];
+      dataset.temporal_resolution =
+        tryGet(DCATAP.temporalResolution, graph, "@value", true);
+      dataset.spatial_resolution_meters =
+        tryGet(DCATAP.spatialResolutionInMeters, graph, "@value", true);
       dataset.documentation = tryGet(FOAF.page, graph, "@id", true);
 
       loadTitles(dataset, graph);
@@ -409,7 +439,6 @@ export function parseDump(graphData, dataset, distributions, lang, codelist, src
         "dataset": dataset,
         "distributions": distributions
       })
-      //});
     });
   });
 }

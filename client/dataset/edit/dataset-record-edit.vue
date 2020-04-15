@@ -526,8 +526,17 @@
               close
               @click:close="removeSpatial(data.item)"
             >
-              <strong v-if="data.item.type === 'URL'">{{ data.item.url }}</strong>
-              <strong v-else-if="data.item.type === 'RUIAN' || data.item.type === 'CONTINENT' || data.item.type === 'COUNTRY' || data.item.type === 'PLACE'">{{ data.item.label }}</strong>
+              <strong v-if="data.item.type === 'URL'">
+                {{ data.item.url }}
+              </strong>
+              <strong
+                v-else-if="data.item.type === 'RUIAN'
+                  || data.item.type === 'CONTINENT'
+                  || data.item.type === 'COUNTRY'
+                  || data.item.type === 'PLACE'"
+              >
+                {{ data.item.label }}
+              </strong>
               <strong v-else>{{ data.item }}</strong>
             </v-chip>
           </template>
@@ -777,7 +786,12 @@
 </template>
 
 <script>
-import {createDatasetValidators, do_addKeyword, do_addSpatial, do_loadFile} from "./dataset-model";
+import {
+  createDatasetValidators,
+  do_addKeyword,
+  do_addSpatial,
+  do_loadFile,
+} from "./dataset-model";
 import DatePicker from "./ui/date-picker";
 import RuinTypeCodelist from "./codelists/ruian-type"
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -836,7 +850,7 @@ export default {
       this.dialog_keyword = false;
     },
     "addSpatial": function() {
-      var label = null;
+      let label = null;
       if (this.tmp_spatial_active_tab === 0) {
         label = this.ruianLabel(this.ruian);
       } else if (this.tmp_spatial_active_tab === 1) {
@@ -847,7 +861,10 @@ export default {
         label = placesToLabel(this.place, this.$vuetify.lang.current);
       }
 
-      if (do_addSpatial(this.dataset, this.ruian_type, this.ruian, this.spatial_url, this.continent, this.country, this.place, this.tmp_spatial_active_tab, label)) {
+      if (do_addSpatial(
+        this.dataset, this.ruian_type, this.ruian,
+        this.spatial_url, this.continent, this.country, this.place,
+        this.tmp_spatial_active_tab, label)) {
         this.dialog = false;
       }
     },
@@ -875,7 +892,8 @@ export default {
       this.$refs.ruian.clearItemCache();
     },
     "ruianLabel": function (iri) {
-      const value = getItem(this.codelist, "ruian", iri, this.$vuetify.lang.current);
+      const value = getItem(
+        this.codelist, "ruian", iri, this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
       } else {
@@ -885,12 +903,17 @@ export default {
     "onFileChanged": function (file) {
       console.log("On file changed");
       console.log(file);
-      do_loadFile(file, this.dataset, this.distributions, this.$vuetify.lang.current, this.codelist, this);
+      do_loadFile(
+        file, this.dataset, this.distributions, this.$vuetify.lang.current,
+        this.codelist, this);
       this.dialog_upload = false;
     },
     "loadUrl": function() {
       this.dialog_url = false;
-      importDataset(this.url_to_load_from, this.$vuetify.lang.current, this.codelist, false).then((result) => {
+      importDataset(
+        this.url_to_load_from, this.$vuetify.lang.current,
+        this.codelist, false
+      ).then((result) => {
         this.$emit("reload", result.dataset, result.distributions);
       });
       this.url_to_load_from = "";

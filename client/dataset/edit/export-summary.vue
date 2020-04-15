@@ -11,7 +11,7 @@
           outlined
           type="error"
         >
-          {{ $t('summary_error') }}
+          {{ $t("summary_error") }}
         </v-alert>
       </v-flex>
       <v-flex v-if="isValid">
@@ -20,7 +20,7 @@
           outlined
           type="success"
         >
-          {{ $t('summary_download') }}
+          {{ $t("summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
@@ -44,7 +44,7 @@
         <v-icon left>
           file_download
         </v-icon>
-        <span>{{ $t('button_download') }}</span>
+        <span>{{ $t("button_download") }}</span>
       </v-btn>
     </v-layout>
     <p class="subheading multiline">
@@ -63,7 +63,8 @@
           subheader
         >
           <v-list-item
-            v-if="dataset.dataset_themes.length || dataset.dataset_custom_themes.length"
+            v-if="dataset.dataset_themes.length
+              || dataset.dataset_custom_themes.length"
             avatar
           >
             <v-list-item-avatar>
@@ -80,7 +81,10 @@
                   {{ index > 0 ? ", " : "" }}
                   {{ datasetThemeToLabel(theme, $vuetify.lang.current) }}
                 </span>
-                <span v-if="dataset.dataset_themes.length && dataset.dataset_custom_themes.length">, </span>
+                <span
+                  v-if="dataset.dataset_themes.length
+                    && dataset.dataset_custom_themes.length"
+                >, </span>
                 <span
                   v-for="(theme, index) in dataset.dataset_custom_themes"
                   :key="theme"
@@ -90,7 +94,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('dataset_theme') }}
+                {{ $t("dataset_theme") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -115,7 +119,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('dataset_ofn') }}
+                {{ $t("dataset_ofn") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -133,7 +137,7 @@
                 }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('accrual_periodicity') }}
+                {{ $t("accrual_periodicity") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -158,7 +162,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('keywords') }}
+                {{ $t("keywords") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -177,7 +181,7 @@
                 {{ dataset.contact_point_name }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('contact_point_name') }}
+                {{ $t("contact_point_name") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -196,7 +200,7 @@
                 {{ dataset.contact_point_email }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('contact_point_email') }}
+                {{ $t("contact_point_email") }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -226,7 +230,7 @@
                 {{ dataset.documentation }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('documentation') }}
+                {{ $t("documentation") }}
               </v-list-item-subtitle>
             </v-list-item-content>
             <v-list-item-action>
@@ -261,7 +265,10 @@
                   <span v-if="item.type === 'RUIAN'">
                     {{ ruianLabel(item.ruian) }}
                   </span>
-                  <span v-else-if="item.type==='COUNTRY' || item.type==='CONTINENT' || item.type==='PLACE'">
+                  <span
+                    v-else-if="item.type==='COUNTRY'
+                      || item.type==='CONTINENT' || item.type==='PLACE'"
+                  >
                     {{ item.label }}
                   </span>
                   <span v-else>
@@ -270,7 +277,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('dataset_spatial') }}
+                {{ $t("dataset_spatial") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -292,7 +299,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('temporal') }}
+                {{ $t("temporal") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -313,7 +320,7 @@
                 {{ dataset.temporal_resolution }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('temporal_resolution') }}
+                {{ $t("temporal_resolution") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -334,7 +341,7 @@
                 {{ dataset.spatial_resolution_meters }}
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('spatial_resolution_meters') }}
+                {{ $t("spatial_resolution_meters") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -361,7 +368,7 @@
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
-                {{ $t('themes') }}
+                {{ $t("themes") }}
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -404,13 +411,13 @@
             <v-icon left>
               file_download
             </v-icon>
-            <span>{{ $t('button_download') }}</span>
+            <span>{{ $t("button_download") }}</span>
           </v-btn>
         </template>
-        <span v-if="isValid">{{ $t('summary_download') }}
+        <span v-if="isValid">{{ $t("summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </span>
-        <span v-if="!isValid">{{ $t('summary_error') }}</span>
+        <span v-if="!isValid">{{ $t("summary_error") }}</span>
       </v-tooltip>
     </v-layout>
   </v-container>

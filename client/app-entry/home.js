@@ -7,14 +7,14 @@ import UploadButton from "vuetify-upload-button";
 
 import App from "./home.vue";
 
-require("vuetify/dist/vuetify.css");
+import "vuetify/dist/vuetify.css";
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(UploadButton);
 
-var dark = false;
-var mq = null;
+let dark = false;
+let mq = null;
 if (window.matchMedia) {
   mq = window.matchMedia("(prefers-color-scheme: dark)");
   dark = mq.matches;
@@ -24,7 +24,8 @@ const opts = {
   "theme": {
     "dark": dark
   }
-}
+};
+
 /* eslint-disable no-new */
 const vuetify = new Vuetify(opts);
 new Vue({

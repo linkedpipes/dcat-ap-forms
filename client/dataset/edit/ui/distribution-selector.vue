@@ -15,7 +15,9 @@
       icon
       @click="onSelect(index)"
     >
-      <v-icon :color="index === value ? 'blue' : (isValid(index) ? undefined : 'red')">
+      <v-icon
+        :color="index === value ? 'blue' : (isValid(index) ? undefined : 'red')"
+      >
         lens
       </v-icon>
     </v-btn>
@@ -77,8 +79,5 @@ export default {
 <style scoped>
     .centred {
         text-align: center;
-    }
-    .active {
-        color: blue;
     }
 </style>

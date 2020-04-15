@@ -86,18 +86,16 @@ import DistributionEdit from "./distribution-record-edit";
 import {
   createDataset,
   isDatasetValid,
-  decorateDataset
 } from "./dataset-model";
 import {
   createDistribution,
   isDistributionValid,
-  decorateDistribution
 } from "./distribution-model";
 import DistributionSelector from "./ui/distribution-selector";
 import StepperNavigationMobile from "./ui/step-navigation-mobile";
 import StepperNavigationDesktop from "./ui/step-navigation-desktop";
 import ExportSummary from "./export-summary";
-import {importDataset, loadLabelsForDistributions} from "../import-from-url";
+import {importDataset} from "../import-from-url";
 import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
 
@@ -154,11 +152,11 @@ export default {
     }
 
     if (url !== undefined) {
-      importDataset(url, this.$vuetify.lang.current, this.data.codelist, true).then((result) => {
-        this.reloadData(result.dataset, result.distributions);
-        this.data.status = "ready";
-        //return loadLabelsForDistributions(distributions, this.$vuetify.lang.current);
-      });
+      importDataset(url, this.$vuetify.lang.current, this.data.codelist, true)
+        .then((result) => {
+          this.reloadData(result.dataset, result.distributions);
+          this.data.status = "ready";
+        });
     }
   },
   "methods": {

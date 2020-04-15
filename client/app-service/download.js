@@ -6,8 +6,7 @@ export function download(filename, data, mimeType) {
   const blob = new Blob([data], {"type": mimeType});
   if (window.navigator.msSaveOrOpenBlob) {
     window.navigator.msSaveBlob(blob, filename);
-  }
-  else {
+  } else {
     const element = document.createElement("a");
     const href = window.URL.createObjectURL(blob);
     const url = [mimeType, element.download, element.href].join(":");

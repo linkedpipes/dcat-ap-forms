@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 export default {
   "step_dataset": "Datová sada",
   "step_distribution": "Distribuce",

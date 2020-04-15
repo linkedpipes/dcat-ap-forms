@@ -11,7 +11,7 @@ import {Plugin as Help} from "../app-service/help";
 import AppLabels from "../app/labels-en";
 import DatasetLabels from "../dataset/labels-en";
 
-require("vuetify/dist/vuetify.css");
+import "vuetify/dist/vuetify.css";
 
 Vue.config.productionTip = false;
 
@@ -20,8 +20,8 @@ Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
-var dark = false;
-var mq = null;
+let dark = false;
+let mq = null;
 if (window.matchMedia) {
   mq = window.matchMedia("(prefers-color-scheme: dark)");
   dark = mq.matches;
@@ -38,7 +38,7 @@ const opts = {
 };
 
 /* eslint-disable no-new */
-const vuetify = new Vuetify(opts)
+const vuetify = new Vuetify(opts);
 new Vue({
   "vuetify": vuetify,
   "el": "#app",

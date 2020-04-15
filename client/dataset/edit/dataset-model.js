@@ -1,4 +1,13 @@
-import {apply, applyEach, decimal, email, provided, spatial, temporal, url} from "../../app-service/validators";
+import {
+  apply,
+  applyEach,
+  decimal,
+  email,
+  provided,
+  spatial,
+  temporal,
+  url
+} from "../../app-service/validators";
 import {getDefaultGraphData, normalize,} from "../../app-service/jsonld";
 import {parseDump} from "./loader";
 
@@ -9,7 +18,8 @@ export function createDataset() {
     "title_en": "",
     "description_cs": "",
     "description_en": "",
-    "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
+    "accrual_periodicity":
+      "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
     "spatial": [],
     "temporal_start": "",
     "temporal_end": "",
@@ -89,21 +99,25 @@ export function createDatasetValidators() {
 }
 
 export function isDatasetValid(dataset) {
-  return provided(dataset.title_cs)  &&
-        provided(dataset.description_cs)  &&
-        provided(dataset.spatial) &&
-        provided(dataset.keywords) &&
-        provided(dataset.dataset_themes) &&
-        allCustomThemesValid(dataset.dataset_custom_theme) &&
-        allCustomThemesValid(dataset.ofn) &&
-        temporal(dataset.temporal_resolution) &&
-        spatial(dataset.spatial_resolution_meters);
+  return provided(dataset.title_cs) &&
+    provided(dataset.description_cs) &&
+    provided(dataset.spatial) &&
+    provided(dataset.keywords) &&
+    provided(dataset.dataset_themes) &&
+    allCustomThemesValid(dataset.dataset_custom_theme) &&
+    allCustomThemesValid(dataset.ofn) &&
+    temporal(dataset.temporal_resolution) &&
+    spatial(dataset.spatial_resolution_meters);
 }
 
 function allCustomThemesValid(value) {
-  if (!provided(value)) return true;
+  if (!provided(value)) {
+    return true;
+  }
   let bundle = {"isValid": true};
-  value.forEach(function (item) { this.isValid = this.isValid & url(item) }, bundle);
+  value.forEach(function (item) {
+    this.isValid = this.isValid & url(item)
+  }, bundle);
   return bundle.isValid;
 }
 
@@ -113,13 +127,16 @@ function isEmpty(value) {
 
 function keywordNotPresent(keywords, multilang) {
   return keywords.some(function (keyword) {
-    let bundle = { "value": false};
-    Object.keys(multilang).forEach(function(langTag) { //loop over 2 lang tags
+    let bundle = {"value": false};
+    //loop over 2 lang tags
+    Object.keys(multilang).forEach(function (langTag) {
       if (langTag in keyword) {
-        if ((!isEmpty(keyword[langTag]) || !isEmpty(multilang[langTag])) && (keyword[langTag] === multilang[langTag])) {
-          // will report true if we match any respective language equivalent regardless of the other
-          // so a match in the Czech version of the keyword or a match in the English version of the keyword
-          // will yield a duplicity
+        if ((!isEmpty(keyword[langTag]) || !isEmpty(multilang[langTag]))
+          && (keyword[langTag] === multilang[langTag])) {
+          // will report true if we match any respective language
+          // equivalent regardless of the other so a match in the Czech
+          // version of the keyword or a match in the English version of
+          // the keyword will yield a duplicity
           this.value = true;
         }
       }
@@ -129,12 +146,16 @@ function keywordNotPresent(keywords, multilang) {
 }
 
 export function do_addKeyword(dataset, key_cs, key_en) {
-  if (!key_cs) return;
+  if (!key_cs) {
+    return;
+  }
   const multilang = {
     "cs": key_cs,
     "en": key_en
   };
-  if (!keywordNotPresent(dataset.keywords, multilang)) dataset.keywords.push(multilang);
+  if (!keywordNotPresent(dataset.keywords, multilang)) {
+    dataset.keywords.push(multilang);
+  }
 }
 
 function createSpatial(type, url, label) {
@@ -146,16 +167,21 @@ function createSpatial(type, url, label) {
 }
 
 function spatialNotPresent(spatial, type, url) {
-  return spatial.some(function(item) {
+  return spatial.some(function (item) {
     return (item["type"] === type) && (item["url"] === url);
   });
 }
 
-export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent, country, place, active_tab, label) {
+export function do_addSpatial(
+  dataset, ruian_type, ruian, spatial_url, continent, country, place,
+  active_tab, label) {
+  //
   if (active_tab === 0) {
     let bundle = {"present": false};
-    dataset.spatial.forEach(function(item) {
-      if ((item.type === "RUIAN") && (item.ruian === ruian)) { this.present = true }
+    dataset.spatial.forEach(function (item) {
+      if ((item.type === "RUIAN") && (item.ruian === ruian)) {
+        this.present = true
+      }
     }, bundle);
 
     if (!bundle.present) {
@@ -167,22 +193,30 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
       })
     }
   } else if (active_tab === 1) {
-    if (!continent) return false;
+    if (!continent) {
+      return false;
+    }
     if (!spatialNotPresent(dataset.spatial, "CONTINENT", continent)) {
       dataset.spatial.push(createSpatial("CONTINENT", continent, label));
     }
   } else if (active_tab === 2) {
-    if (!country) return false;
+    if (!country) {
+      return false;
+    }
     if (!spatialNotPresent(dataset.spatial, "COUNTRY", country)) {
       dataset.spatial.push(createSpatial("COUNTRY", country, label));
     }
   } else if (active_tab === 3) {
-    if (!place) return false;
+    if (!place) {
+      return false;
+    }
     if (!spatialNotPresent(dataset.spatial, "PLACE", place)) {
       dataset.spatial.push(createSpatial("PLACE", place, label));
     }
   } else if (active_tab === 4) {
-    if (!spatial_url) return false;
+    if (!spatial_url) {
+      return false;
+    }
     if (!spatialNotPresent(dataset.spatial, "URL", spatial_url)) {
       dataset.spatial.push({
         "type": "URL",
@@ -195,7 +229,7 @@ export function do_addSpatial(dataset, ruian_type, ruian, spatial_url, continent
 
 export function do_loadFile(file, dataset, distributions, lang, codelist, src) {
   let reader = new FileReader();
-  reader.onload = function() {
+  reader.onload = function () {
     const file_data = getDefaultGraphData(normalize(JSON.parse(reader.result)));
     parseDump(file_data, dataset, distributions, lang, codelist, src);
   };

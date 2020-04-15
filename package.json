@@ -23,6 +23,7 @@
     "cross-env": "^7.0.2",
     "css-loader": "^3.5.2",
     "deepmerge": "^4.2.2",
+    "eslint-plugin-jest": "^23.8.2",
     "express": "^4.17.1",
     "isomorphic-fetch": "^2.2.1",
     "jsonld": "^3.0.1",

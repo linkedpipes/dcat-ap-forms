@@ -11,18 +11,18 @@ import {Plugin as Help} from "../app-service/help";
 import AppLabels from "../app/labels-en";
 import CatalogLabels from "../catalog/labels-en";
 
-require("vuetify/dist/vuetify.css");
+import "vuetify/dist/vuetify.css";
 
 Vue.config.productionTip = false;
 
-var dark = false;
-var mq = null;
+let dark = false;
+let mq = null;
 if (window.matchMedia) {
   mq = window.matchMedia("(prefers-color-scheme: dark)");
   dark = mq.matches;
 }
 
-Vue.use(Vuetify, {
+const opts = {
   "lang": {
     "locales": {"en": prepareLabels(AppLabels, CatalogLabels)},
     "current": "en"
@@ -30,13 +30,17 @@ Vue.use(Vuetify, {
   "theme": {
     "dark": dark
   }
-});
+};
+
 Vue.use(VueRouter);
 Vue.use(LabelsPlugin);
 Vue.use(Help);
 
+const vuetify = new Vuetify(opts);
+
 /* eslint-disable no-new */
 new Vue({
+  "vuetify": vuetify,
   "el": "#app",
   "router": new VueRouter({"mode": "history"}),
   "render": (h) => h(App)

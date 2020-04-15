@@ -34,7 +34,8 @@ export const DCATAP = {
   "startDate": "http://www.w3.org/ns/dcat#startDate",
   "endDate": "http://www.w3.org/ns/dcat#endDate",
   "temporalResolution": "http://www.w3.org/ns/dcat#temporalResolution",
-  "spatialResolutionInMeters": "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+  "spatialResolutionInMeters":
+    "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
 };
 
 export const FOAF = {
@@ -59,15 +60,18 @@ export const PU = {
   "specifikace": PU_VOCAB_PREFIX + "specifikace",
   "autorskeDilo": PU_VOCAB_PREFIX + "autorské-dílo",
   "databazeJakoAutorskeDilo": PU_VOCAB_PREFIX + "databáze-jako-autorské-dílo",
-  "databazeChranenaZvlastnimiPravy": PU_VOCAB_PREFIX + "databáze-chráněná-zvláštními-právy",
+  "databazeChranenaZvlastnimiPravy":
+    PU_VOCAB_PREFIX + "databáze-chráněná-zvláštními-právy",
   "autor": PU_VOCAB_PREFIX + "autor",
   "autorDatabaze": PU_VOCAB_PREFIX + "autor-databáze",
   "osobniUdaje": PU_VOCAB_PREFIX + "osobní-údaje",
   "Specifikace": PU_VOCAB_PREFIX + "Specifikace",
   "obsahujeViceAutorskychDel": PU_PREFIX + "obsahuje-více-autorských-děl/",
   "neobsahujeAutorskaDila": PU_PREFIX + "neobsahuje-autorská-díla/",
-  "neniAutorskopravneChranenouDatabazi": PU_PREFIX + "není-autorskoprávně-chráněnou-databází/",
-  "neniChranenazvlastnimPravemPorizovateleDatabaze": PU_PREFIX + "není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+  "neniAutorskopravneChranenouDatabazi":
+    PU_PREFIX + "není-autorskoprávně-chráněnou-databází/",
+  "neniChranenazvlastnimPravemPorizovateleDatabaze":
+    PU_PREFIX + "není-chráněna-zvláštním-právem-pořizovatele-databáze/",
   "obsahujeOsobniUdaje": PU_PREFIX + "obsahuje-osobní-údaje/",
   "neobsahujeOsobniUdaje": PU_PREFIX + "neobsahuje-osobní-údaje/"
 };
@@ -78,9 +82,9 @@ export const CREATIVE_COMMONS = {
 };
 
 export const NKOD = {
-  "Formular": "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
+  "Formular":
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
   "lkod": "https://data.gov.cz/slovník/nkod/lkod"
-
 };
 
 export const ADMS = {

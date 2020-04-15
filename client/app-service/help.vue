@@ -24,7 +24,7 @@ export const Plugin = {
   "install": install
 };
 
-function install(Vue, options) {
+function install(Vue) {
   Object.defineProperty(Vue.prototype, "$h", {
     "get": () => onShow
   });
@@ -39,7 +39,7 @@ export default {
   "name": "app-help",
   "data": () => data,
   "watch": {
-    "$route": function (location) {
+    "$route": function () {
       this.isOpen = false;
     }
   }

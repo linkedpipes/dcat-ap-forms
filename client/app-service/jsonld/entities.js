@@ -9,7 +9,7 @@ export function getByType(graphData, type) {
 function filterEntities(graphData, filter) {
   const output = [];
   for (let index in graphData) {
-    if (!graphData.hasOwnProperty(index)) {
+    if (!Object.prototype.hasOwnProperty.call(graphData, index)) {
       continue;
     }
     const entity = graphData[index];
@@ -22,7 +22,7 @@ function filterEntities(graphData, filter) {
 
 export function getByIri(graphData, iri) {
   for (let index in graphData) {
-    if (!graphData.hasOwnProperty(index)) {
+    if (!Object.prototype.hasOwnProperty.call(graphData, index)) {
       continue;
     }
     const entity = graphData[index];

@@ -210,17 +210,17 @@ export default {
   "name": "app-catalog-export-summary",
   "props": {
     "catalog": {"type": Object, "required": true},
-    "isValid": {"type": Boolean, "required": true}
+    "isValid": {"type": Boolean, "required": true},
   },
   "computed": {
     "nkodDatabox": function () {
       return NKOD_ISDS;
-    }
+    },
   },
   "methods": {
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.catalog);
-      downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld)
+      downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld);
     },
     "openCatalog": function () {
       window.open(this.catalog.iri);
@@ -229,9 +229,9 @@ export default {
       window.open(this.catalog.homepage);
     },
     "sendEmail": function () {
-      window.open("mailto:" + this.catalog.contact_point_email)
+      window.open("mailto:" + this.catalog.contact_point_email);
     },
-    "typeToLabel": typeToLabel
-  }
-}
+    "typeToLabel": typeToLabel,
+  },
+};
 </script>

@@ -60,18 +60,18 @@ export default {
     "app-step-navigation-mobile": StepperNavigationMobile,
     "app-step-navigation-desktop": StepperNavigationDesktop,
     "app-catalog" : CatalogEdit,
-    "app-export": ExportSummary
+    "app-export": ExportSummary,
   },
   "data": () => ({
     "data": {
-      "catalog": createCatalog()
+      "catalog": createCatalog(),
     },
     "ui": {
-      "step": 1
+      "step": 1,
     },
     "validation": {
-      "catalog": false
-    }
+      "catalog": false,
+    },
   }),
   "watch": {
     "$route" : function(location) {
@@ -80,7 +80,7 @@ export default {
       } else if (location.query.krok !== this.ui.krok) {
         this.ui.step = location.query.krok;
       }
-    }
+    },
   },
   "mounted": function() {
     setPageTitle("Registrace lokálního katalogu do NKOD");
@@ -107,10 +107,10 @@ export default {
       }
       this.$router.push({
         "query": {
-          "krok": value
-        }
+          "krok": value,
+        },
       });
-    }
-  }
-}
+    },
+  },
+};
 </script>

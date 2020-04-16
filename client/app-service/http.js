@@ -27,8 +27,8 @@ function fetchJson(method, url, accept, content) {
   const request = {
     "method": method,
     "headers": {
-      "Accept": accept
-    }
+      "Accept": accept,
+    },
   };
   if (content !== undefined) {
     request["body"] = JSON.stringify(content);
@@ -51,8 +51,8 @@ function handleJsonRequest(response) {
     promise = response.json().catch(() => {
       return Promise.reject({
         "error": ERROR_PARSING,
-        "content-type": contentType
-      })
+        "content-type": contentType,
+      });
     });
   } else {
     promise = Promise.resolve({});
@@ -61,13 +61,13 @@ function handleJsonRequest(response) {
     if (response.ok) {
       return {
         "status": response.status,
-        "json": data
-      }
+        "json": data,
+      };
     } else {
       return Promise.reject({
         "error": ERROR_RESPONSE,
         "status": response.status,
-        "json": data
+        "json": data,
       });
     }
   });
@@ -76,6 +76,6 @@ function handleJsonRequest(response) {
 function failureToResponse(error) {
   console.error("Can't execute fetch: ", error);
   return Promise.reject({
-    "error": ERROR_FETCH
-  })
+    "error": ERROR_FETCH,
+  });
 }

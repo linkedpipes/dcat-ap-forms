@@ -23,14 +23,14 @@ import setPageTitle from "../../app-service/page-title";
 export default {
   "name": "app-dataset-delete",
   "components": {
-    "app-summary": DatasetDeleteSummary
+    "app-summary": DatasetDeleteSummary,
   },
   "data": () => ({
     "data": {
       "status": "loading",
       "dataset": undefined,
-      "error": undefined
-    }
+      "error": undefined,
+    },
   }),
   "mounted": function () {
     setPageTitle(this.$t("delete_page_title"));
@@ -49,7 +49,7 @@ export default {
       this.data.status = "error";
       this.data.error = error;
     });
-  }
-}
+  },
+};
 
 </script>

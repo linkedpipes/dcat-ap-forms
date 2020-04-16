@@ -32,11 +32,11 @@ if (window.matchMedia) {
 const opts = {
   "lang": {
     "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
-    "current": "cs"
+    "current": "cs",
   },
   "theme": {
-    "dark": dark
-  }
+    "dark": dark,
+  },
 };
 
 const vuetify = new Vuetify(opts);

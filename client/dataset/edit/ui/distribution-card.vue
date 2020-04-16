@@ -676,7 +676,7 @@ export default {
   "name": "app-distribution-card",
   "props": {
     "distribution": {"type": Object, "required": true},
-    "codelist": {"type": Object, "required": true}
+    "codelist": {"type": Object, "required": true},
   },
   "computed": {
     "schemaProvided": function () {
@@ -754,9 +754,9 @@ export default {
     },
     "openUrl": function (url) {
       downloadUrl(url);
-    }
-  }
-}
+    },
+  },
+};
 
 function downloadUrl(uri) {
   window.open(uri);

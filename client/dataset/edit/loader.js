@@ -20,7 +20,7 @@ import {
   VCARD,
   PU,
   CREATIVE_COMMONS,
-  SCHEMA
+  SCHEMA,
 } from "../../app-service/vocabulary";
 import {FRAME} from "../../app-service/jsonld/frame";
 import jsonld from "jsonld";
@@ -177,7 +177,7 @@ function loadKeywords(dataset, graphData, lang) {
   dataset.keywords = [];
 
   if (!Array.isArray(keywords)) {
-    let key = {"cs": "", "en": ""}
+    let key = {"cs": "", "en": ""};
     if ((typeof keywords) === "string") {
       key[lang] = keywords;
       dataset.keywords.push(key);
@@ -206,7 +206,7 @@ function loadSpatial(dataset, graphData, codelist, lang) {
     spatial.forEach((graphItem) => {
       if (graphItem !== null) {
         let loadedItem = {
-          "url": graphItem["@id"]
+          "url": graphItem["@id"],
         };
         if (loadedItem["url"].startsWith(
           "https://linked.cuzk.cz/resource/ruian/")) {
@@ -215,17 +215,17 @@ function loadSpatial(dataset, graphData, codelist, lang) {
           loadedItem["ruian"] = graphItem["@id"];
         } else if (loadedItem["url"].startsWith(continentPrefix)) {
           loadedItem["type"] = "CONTINENT";
-          loadedItem["label"] = continentsToLabel(loadedItem["url"], lang)
+          loadedItem["label"] = continentsToLabel(loadedItem["url"], lang);
         } else if (loadedItem["url"].startsWith(countryPrefix)) {
           loadedItem["type"] = "COUNTRY";
-          loadedItem["label"] = countriesToLabel(loadedItem["url"], lang)
+          loadedItem["label"] = countriesToLabel(loadedItem["url"], lang);
         } else if (loadedItem["url"].startsWith(placePrefix)) {
           loadedItem["type"] = "PLACE";
-          loadedItem["label"] = placesToLabel(loadedItem["url"], lang)
+          loadedItem["label"] = placesToLabel(loadedItem["url"], lang);
         } else {
-          loadedItem["type"] = "URL"
+          loadedItem["type"] = "URL";
         }
-        dataset.spatial.push(loadedItem)
+        dataset.spatial.push(loadedItem);
       }
     });
   } else {
@@ -300,13 +300,13 @@ function loadDistributions(distributions, graphData) {
   if (Array.isArray(getSingle(graphData[DCATAP.distribution]))) {
     getSingle(graphData[DCATAP.distribution]).forEach((distribution) => {
       if (null !== distribution) {
-        distributions.splice(0, 0, loadDistribution(distribution))
+        distributions.splice(0, 0, loadDistribution(distribution));
       }
     });
   } else if (Array.isArray(graphData[DCATAP.distribution])) {
     graphData[DCATAP.distribution].forEach((distribution) => {
       if (null !== distribution) {
-        distributions.splice(0, 0, loadDistribution(distribution))
+        distributions.splice(0, 0, loadDistribution(distribution));
       }
     });
   } else {
@@ -325,11 +325,11 @@ function loadTheme(dataset, theme) {
   const t = theme["@id"];
   if (t.startsWith(
     "http://publications.europa.eu/resource/authority/data-theme/")) {
-    dataset.dataset_themes.push(t)
+    dataset.dataset_themes.push(t);
   } else if (t.startsWith("http://eurovoc.europa.eu/")){
     dataset.themes.push(t);
   } else {
-    dataset.dataset_custom_themes.push(t)
+    dataset.dataset_custom_themes.push(t);
   }
 }
 
@@ -437,8 +437,8 @@ export function parseDump(
 
       resolve({
         "dataset": dataset,
-        "distributions": distributions
-      })
+        "distributions": distributions,
+      });
     });
   });
 }

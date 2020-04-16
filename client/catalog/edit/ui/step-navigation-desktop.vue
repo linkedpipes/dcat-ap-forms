@@ -28,7 +28,7 @@
 export default {
   "name": "app-catalog-step-navigation-desktop",
   "props": {
-    "value": {"required": true}
+    "value": {"required": true},
   },
   "computed": {
     "prevLabel": function() {
@@ -40,9 +40,9 @@ export default {
     "nextLabel": function() {
       switch (this.value) {
       case 1:
-        return this.$t("nav_download")
+        return this.$t("nav_download");
       }
-    }
+    },
   },
   "methods": {
     "onPrevious": function () {
@@ -50,7 +50,7 @@ export default {
     },
     "onNext": function () {
       this.$emit("input", this.value + 1);
-    }
-  }
-}
+    },
+  },
+};
 </script>

@@ -3,23 +3,23 @@ module.exports = {
   "testURL": "http://localhost/",
   "moduleFileExtensions": [
     "js",
-    "vue"
+    "vue",
   ],
   "moduleNameMapper": {
-    "^@/(.*)$": "<rootDir>/client/$1"
+    "^@/(.*)$": "<rootDir>/client/$1",
   },
   "transform": {
     "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-    ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest"
+    ".*\\.(vue)$": "<rootDir>/node_modules/vue-jest",
   },
   "snapshotSerializers": [
-    "<rootDir>/node_modules/jest-serializer-vue"
+    "<rootDir>/node_modules/jest-serializer-vue",
   ],
   "roots": [
     "client",
-    "server"
+    "server",
   ],
   "globals": {
-    "DEREFERENCE_PROXY": ""
-  }
+    "DEREFERENCE_PROXY": "",
+  },
 };

@@ -43,6 +43,5 @@ export default {
   "common_errors_description": "Nedělejte stejné chyby jako řada poskytovatelů před vámi. Před registrací lokálního katalogu se ujistětě, že neděláte nějaké z ",
   "common_errors_link_label": "nejčastějších chyb v otevřených datech",
   "ofn": "Také se ujistěte, že rozhraní vašeho katalogu splňuje ",
-  "ofn_link_label": "Otevřenou formální normu pro rozhraní katalogů otevřených dat"
+  "ofn_link_label": "Otevřenou formální normu pro rozhraní katalogů otevřených dat",
 };
-

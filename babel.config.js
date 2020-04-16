@@ -7,10 +7,10 @@ module.exports = (api) => {
       "@babel/preset-env",
       {
         "targets": {
-          "chrome": 41
-        }
-      }
-    ]
+          "chrome": 41,
+        },
+      },
+    ],
   ];
 
   const plugins = [];
@@ -20,6 +20,6 @@ module.exports = (api) => {
   return {
     "presets": presets,
     "plugins": plugins,
-    "ignore": ignore
-  }
+    "ignore": ignore,
+  };
 };

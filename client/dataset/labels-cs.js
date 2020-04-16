@@ -209,4 +209,4 @@ export default {
   "hint_url_title": "Zadejte HTTPS URL zdroje dat do formuláře k načtení",
   "help_url_title": "<h3>URL dat do formuláře</h3><p>Mimo načtení ze souboru lze napřímo určit URL zdroje dat do formuláře. Očekává se, že na daném URL bude soubor stažený z této aplikace nebo soubor s ním kompatibilní.</p>",
   "load_invalid_url": "Nevalidní HTTPS URL.",
-}
+};

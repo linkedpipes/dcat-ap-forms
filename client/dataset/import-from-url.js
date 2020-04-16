@@ -5,7 +5,7 @@ import {
   getByType,
   getValue,
   getValues,
-  getId
+  getId,
 } from "../app-service/jsonld";
 import {
   DCTERMS,
@@ -38,7 +38,7 @@ export function importDataset(url, lang, codelist, update) {
       const graphData = getDefaultGraphData(normalize(response.json));
       let pkg = {
         "dataset": createDataset(),
-        "distributions": [createDistribution()]
+        "distributions": [createDistribution()],
       };
       parseDump(graphData, pkg.dataset, pkg.distributions, lang, codelist, null)
         .then((pkg) => {
@@ -68,8 +68,8 @@ function parseDataset(dataset) {
     "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
     "ruian": "",
     //
-    ...parseSpatial(getValues(dataset, DCTERMS.spatial))
-  }
+    ...parseSpatial(getValues(dataset, DCTERMS.spatial)),
+  };
 }
 
 function parseSpatial(values) {
@@ -95,7 +95,7 @@ function parseSpatial(values) {
   }
   return {
     "ruian": url,
-    "ruian_type": type
+    "ruian_type": type,
   };
 }
 

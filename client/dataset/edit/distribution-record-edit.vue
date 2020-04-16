@@ -439,7 +439,7 @@ import {
   author_license_types,
   db_author_license_types,
   db_special_license_types,
-  personal_data_links
+  personal_data_links,
 } from "./codelists/license";
 import DatePicker from "./ui/date-picker";
 import SolrAutocomplete from "./ui/solr-autocomplete";
@@ -448,11 +448,11 @@ export default {
   "name": "app-distribution-record-edit",
   "components": {
     "app-date-picker": DatePicker,
-    "app-solr-autocomplete": SolrAutocomplete
+    "app-solr-autocomplete": SolrAutocomplete,
   },
   "props": {
     "distribution": {"type": Object, "required": true},
-    "canBeDeleted": {"type": Boolean, "required": true}
+    "canBeDeleted": {"type": Boolean, "required": true},
   },
   "data": () => ({
     "author_license_types": author_license_types,
@@ -461,8 +461,8 @@ export default {
     "personal_data_links": personal_data_links,
     "distribution_types": [
       {"value": "FILE", "cs": "Soubor ke stažení", "en": "Downloadable file"},
-      {"value": "SERVICE", "cs": "Datová služba", "en":"Data Service"}
-    ]
+      {"value": "SERVICE", "cs": "Datová služba", "en":"Data Service"},
+    ],
   }),
   "computed": {
     ...createDistributionValidators(),
@@ -480,7 +480,7 @@ export default {
     },
     "isCustomSpecialDb": function () {
       return this.distribution.license_specialdb_type === "CUSTOM";
-    }
+    },
   },
   "methods": {
     "onDelete": function () {

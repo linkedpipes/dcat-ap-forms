@@ -40,7 +40,7 @@
                 <v-btn 
                   icon 
                   ripple 
-                  @click="openUrl(catalog.iri)"
+                  @click="openUrlInNewWindow(catalog.iri)"
                 >
                   <v-icon color="blue">
                     open_in_new
@@ -81,33 +81,22 @@ import {downloadAsJsonLd} from "../../app-service/download";
 export default {
   "name": "app-export-summary",
   "props": {
-    "catalog": {"type": Object, "required": true}
+    "catalog": {"type": Object, "required": true},
   },
   "computed": {
     "nkodDatabox": function() {
       return NKOD_ISDS;
-    }
+    },
   },
   "methods": {
     "onExport": function () {
       const jsonld = exportToJsonLd(this.catalog);
-      downloadAsJsonLd(
-        "nkod-odstranění-katalogu.jsonld.txt",jsonld)
+      downloadAsJsonLd("nkod-odstranění-katalogu.jsonld.txt",jsonld);
     },
-    "openUrl": function (url) {
-      downloadUrl(url);
-    }           
-  }
-}
-
-function downloadUrl(uri) {
-  window.open(uri);
-}   
+    "openUrlInNewWindow": function (url) {
+      window.open(url);
+    },           
+  },
+};
 
 </script>
-
-<style scoped>
-    .multiline {
-        white-space: pre-wrap;
-    }
-</style>

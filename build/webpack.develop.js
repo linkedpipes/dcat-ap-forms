@@ -6,7 +6,7 @@ module.exports = merge(common, {
   "mode": "development",
   "devtool": "eval",
   "entry": {
-    "webpack-hot-middleware": "webpack-hot-middleware/client"
+    "webpack-hot-middleware": "webpack-hot-middleware/client",
   },
   "output": {
     "filename": "[name].js",
@@ -18,14 +18,14 @@ module.exports = merge(common, {
           "test": /[\\/]node_modules[\\/]/,
           "name": "commons",
           "chunks": "all",
-          "filename": "[name].js"
-        }
-      }
+          "filename": "[name].js",
+        },
+      },
     },
-    "occurrenceOrder": true
+    "occurrenceOrder": true,
   },
   "devServer": {
-    "hot": true
+    "hot": true,
   },
   "module": {
     "rules": [
@@ -33,18 +33,17 @@ module.exports = merge(common, {
         "test": /\.css$/,
         "use": [
           "vue-style-loader",
-          "css-loader"
-        ]
+          "css-loader",
+        ],
       }, {
-        // Apply linter during run development.
         "enforce": "pre",
         "test": /\.(js|vue)$/,
         "loader": "eslint-loader",
-        "exclude": /node_modules/
-      }
-    ]
+        "exclude": /node_modules/,
+      },
+    ],
   },
   "plugins": [
-    new webpack.HotModuleReplacementPlugin()
-  ]
+    new webpack.HotModuleReplacementPlugin(),
+  ],
 });

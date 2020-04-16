@@ -19,9 +19,9 @@ module.exports = merge(common, {
           "test": /[\\/]node_modules[\\/]/,
           "name": "commons",
           "chunks": "all",
-          "filename": "[name].[chunkhash].js"
-        }
-      }
+          "filename": "[name].[chunkhash].js",
+        },
+      },
     },
     "occurrenceOrder": true,
     "minimizer": [
@@ -36,7 +36,7 @@ module.exports = merge(common, {
           },
         },
       }),
-    ]
+    ],
   },
   "module": {
     "rules": [
@@ -44,23 +44,23 @@ module.exports = merge(common, {
         "test": /\.css?$/,
         "use": [
           MiniCssExtractPlugin.loader,
-          "css-loader"
-        ]
-      }
-    ]
+          "css-loader",
+        ],
+      },
+    ],
   },
   "plugins": [
     new CleanWebpackPlugin({
-      cleanAfterEveryBuildPatterns: ["dist"]
+      cleanAfterEveryBuildPatterns: ["dist"],
     }),
     new MiniCssExtractPlugin({
-      "filename": "[name].[chunkhash].css"
+      "filename": "[name].[chunkhash].css",
     }),
     new CopyWebpackPlugin([
       {
         "from": path.join(__dirname, "..", "public", "assets"),
-        "to": path.join(__dirname, "..", "dist", "assets")
-      }
-    ])
-  ]
+        "to": path.join(__dirname, "..", "dist", "assets"),
+      },
+    ]),
+  ],
 });

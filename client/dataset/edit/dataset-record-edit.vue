@@ -793,7 +793,7 @@ import {
   do_loadFile,
 } from "./dataset-model";
 import DatePicker from "./ui/date-picker";
-import RuinTypeCodelist from "./codelists/ruian-type"
+import RuinTypeCodelist from "./codelists/ruian-type";
 import FrequenciesCodeList from "./codelists/frequencies";
 import {getLabel as continentsToLabel} from "./codelists/continents";
 import {getLabel as countriesToLabel} from "./codelists/countries";
@@ -840,7 +840,7 @@ export default {
     "keyword_en": "",
   }),
   "computed": {
-    ...createDatasetValidators()
+    ...createDatasetValidators(),
   },
   "methods": {
     "addKeyword": function() {
@@ -917,7 +917,7 @@ export default {
         this.$emit("reload", result.dataset, result.distributions);
       });
       this.url_to_load_from = "";
-    }
-  }
+    },
+  },
 };
 </script>

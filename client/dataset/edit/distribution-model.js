@@ -3,7 +3,7 @@ import {
   provided,
   url,
   applyArray,
-  shouldValidate
+  shouldValidate,
 } from "../../app-service/validators";
 
 export function createDistribution() {
@@ -38,9 +38,9 @@ export function decorateDistribution(distribution) {
   return {
     ...distribution,
     "$validators": {
-      "force": false
-    }
-  }
+      "force": false,
+    },
+  };
 }
 
 export function createDistributionValidators() {
@@ -70,7 +70,7 @@ export function createDistributionValidators() {
       (t) => t.distribution, "url",
       [
         [provided, "distribution_url_missing"],
-        [url, "distribution_url_invalid"]
+        [url, "distribution_url_invalid"],
       ]),
     "err_format": apply(
       (t) => t.distribution, "format",
@@ -86,7 +86,7 @@ export function createDistributionValidators() {
       (t) => t.distribution, "service_description",
       [
         [provided, "endpoint_description_missing"],
-        [url, "endpoint_description_invalid"]
+        [url, "endpoint_description_invalid"],
       ]),
     "err_endpoint": applyArray(
       (t) => t.distribution, "service_endpoint_url",
@@ -94,7 +94,7 @@ export function createDistributionValidators() {
         [provided, "endpoint_url_missing"],
         [url, "endpoint_url_invalid"],
       ]),
-    "err_title": validateTitle()
+    "err_title": validateTitle(),
   };
 }
 
@@ -124,12 +124,12 @@ function isAccessValid(dist) {
               url(dist.url) &&
               provided(dist.format) &&
               isValidFormat(dist.format) &&
-              provided(dist.media_type)
+              provided(dist.media_type);
   } else if (dist.isFileOrService === "SERVICE") {
     return provided(dist.service_endpoint_url) &&
             url(dist.service_endpoint_url) &&
             provided(dist.service_description) &&
-            url(dist.service_description)
+            url(dist.service_description);
   }
 }
 
@@ -146,7 +146,7 @@ function validateAuthor(licence_prop, name_prop) {
     } else {
       return [this.$t("author_name_missing")];
     }
-  }
+  };
 }
 
 function isAuthorValid(licence, value) {
@@ -173,9 +173,9 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
     if (url(value)) {
       return [];
     } else {
-      return [this.$t(invalid_prop)]
+      return [this.$t(invalid_prop)];
     }
-  }
+  };
 }
 
 function validateTitle() {
@@ -188,7 +188,7 @@ function validateTitle() {
     }
 
     return [];
-  }
+  };
 }
 
 function isTitleValid(dist) {
@@ -215,7 +215,7 @@ function validatePersonal() {
     } else {
       return [] ;
     }
-  }
+  };
 }
 
 function isPersonalValid(value) {

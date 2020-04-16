@@ -23,8 +23,8 @@ function initializeWebpack(app) {
     "publicPath": config.output.publicPath.substr(1),
     "stats": {
       "colors": true,
-      "chunks": false
-    }
+      "chunks": false,
+    },
   }));
   app.use(webpackHotMiddleware(webpackCompiler));
 }

@@ -2,9 +2,6 @@
   <v-content v-if="data.status === 'ready'">
     <app-summary :catalog="data.catalog" />
   </v-content>
-  <v-content v-else-if="data.status === 'missing-catalog'">
-    <!-- TODO Add content -->
-  </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
       {{ $t("cant_import_catalog") }}
@@ -16,38 +13,38 @@
 </template>
 
 <script>
-import {importCatalog} from "../import-from-url";
+import {importCatalog} from "../import-catalog-from-url";
 import CatalogDeleteSummary from "./catalog-delete-summary";
 import setPageTitle from "../../app-service/page-title";
 
 export default {
   "name": "app-dataset-delete",
   "components": {
-    "app-summary": CatalogDeleteSummary
+    "app-summary": CatalogDeleteSummary,
   },
   "data": () => ({
     "data": {
       "status": "loading",
       "catalog": undefined,
-      "error": undefined
-    }
+      "error": undefined,
+    },
   }),
   "mounted": function () {
     setPageTitle(this.$t("catalog_delete_page_title"));
     const url = this.$route.query.url;
     if (url === undefined) {
-      this.data.status = "missing-catalog";
+      this.data.status = "error";
       return;
     }
     importCatalog(url).then((catalog) => {
       this.data.catalog = catalog;
       this.data.status = "ready";
     }).catch((error) => {
-      console.error(error);
       this.data.status = "error";
       this.data.error = error;
+      console.error("Can't import dataset", error);
     });
-  }
-}
+  },
+};
 
 </script>

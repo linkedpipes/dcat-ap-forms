@@ -434,18 +434,18 @@ import {getItem} from "./codelists/local-storage";
 export default {
   "name": "app-export-summary",
   "components": {
-    "app-distribution-card": DistributionCard
+    "app-distribution-card": DistributionCard,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
     "isValid": {"type": Boolean, "required": true},
-    "codelist": {"type": Object, "required": true}
+    "codelist": {"type": Object, "required": true},
   },
   "computed": {
     "nkodDatabox": function () {
       return NKOD_ISDS;
-    }
+    },
   },
   "methods": {
     "ruianLabel": function (iri) {
@@ -459,7 +459,7 @@ export default {
     },
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.dataset, this.distributions);
-      downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld)
+      downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld);
     },
     "openDocumentation": function () {
       downloadUrl(this.dataset.documentation);
@@ -480,9 +480,9 @@ export default {
     },
     "openUrl": function (url) {
       downloadUrl(url);
-    }
-  }
-}
+    },
+  },
+};
 
 function downloadUrl(uri) {
   window.open(uri);

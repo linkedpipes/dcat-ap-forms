@@ -9,59 +9,59 @@ const defaultConfiguration = {
   "head": [
     {
       "$type": "meta",
-      "charset": "UTF-8"
+      "charset": "UTF-8",
     }, {
       "$type": "meta",
       "name": "viewport",
-      "content": "width=device-width,initial-scale=1.0"
+      "content": "width=device-width,initial-scale=1.0",
     }, {
       "$type": "meta",
       "name": "theme-color",
-      "content": "#057fa5"
+      "content": "#057fa5",
     }, {
       "$type": "meta",
       "name": "msapplication-TileColor",
-      "content": "#057fa5"
+      "content": "#057fa5",
     }, {
       "$type": "meta",
       "name": "msapplication-config",
-      "content": "./assets/icons/browserconfig.xml"
+      "content": "./assets/icons/browserconfig.xml",
     }, {
       "$type": "link",
       "rel": "apple-touch-icon",
       "sizes": "180x180",
-      "href": "./assets/icons/apple-touch-icon.png"
+      "href": "./assets/icons/apple-touch-icon.png",
     }, {
       "$type": "link",
       "rel": "icon",
       "type": "image/png",
       "sizes": "32x32",
-      "href": "./assets/icons/favicon-32x32.png"
+      "href": "./assets/icons/favicon-32x32.png",
     }, {
       "$type": "link",
       "rel": "icon",
       "type": "image/png",
       "sizes": "16x16",
-      "href": "./assets/icons/favicon-16x16.png"
+      "href": "./assets/icons/favicon-16x16.png",
     }, {
       "$type": "link",
       "rel": "manifest",
-      "href": "./assets/manifest.json"
+      "href": "./assets/manifest.json",
     }, {
       "$type": "link",
       "rel": "mask-icon",
       "href": "./assets/icons/safari-pinned-tab.svg",
-      "color": "#5bbad5"
+      "color": "#5bbad5",
     }, {
       "$type": "link",
       "rel": "shortcut icon",
-      "href": "./assets/icons/favicon.ico"
+      "href": "./assets/icons/favicon.ico",
     }, {
       "$type": "link",
       "href": "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons",
-      "rel": "stylesheet"
-    }
-  ]
+      "rel": "stylesheet",
+    },
+  ],
 };
 
 (function initialize() {

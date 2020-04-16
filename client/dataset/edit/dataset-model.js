@@ -6,9 +6,9 @@ import {
   provided,
   spatial,
   temporal,
-  url
+  url,
 } from "../../app-service/validators";
-import {getDefaultGraphData, normalize,} from "../../app-service/jsonld";
+import {getDefaultGraphData, normalize} from "../../app-service/jsonld";
 import {parseDump} from "./loader";
 
 export function createDataset() {
@@ -34,16 +34,16 @@ export function createDataset() {
     "contact_point_email": "",
     "keywords": [],
     "url_to_load_from": "",
-  })
+  });
 }
 
 export function decorateDataset(dataset) {
   return {
     ...dataset,
     "$validators": {
-      "force": false
-    }
-  }
+      "force": false,
+    },
+  };
 }
 
 export function createDatasetValidators() {
@@ -94,7 +94,7 @@ export function createDatasetValidators() {
     "err_url_load": apply(
       (t) => t.dataset, "url_to_load_from",
       url, "load_invalid_url"
-    )
+    ),
   };
 }
 
@@ -116,7 +116,7 @@ function allCustomThemesValid(value) {
   }
   let bundle = {"isValid": true};
   value.forEach(function (item) {
-    this.isValid = this.isValid & url(item)
+    this.isValid = this.isValid & url(item);
   }, bundle);
   return bundle.isValid;
 }
@@ -151,7 +151,7 @@ export function do_addKeyword(dataset, key_cs, key_en) {
   }
   const multilang = {
     "cs": key_cs,
-    "en": key_en
+    "en": key_en,
   };
   if (!keywordNotPresent(dataset.keywords, multilang)) {
     dataset.keywords.push(multilang);
@@ -162,8 +162,8 @@ function createSpatial(type, url, label) {
   return {
     "type": type,
     "url": url,
-    "label": label
-  }
+    "label": label,
+  };
 }
 
 function spatialNotPresent(spatial, type, url) {
@@ -180,7 +180,7 @@ export function do_addSpatial(
     let bundle = {"present": false};
     dataset.spatial.forEach(function (item) {
       if ((item.type === "RUIAN") && (item.ruian === ruian)) {
-        this.present = true
+        this.present = true;
       }
     }, bundle);
 
@@ -189,8 +189,8 @@ export function do_addSpatial(
         "type": "RUIAN",
         "ruian_type": ruian_type,
         "ruian": ruian,
-        "label": label
-      })
+        "label": label,
+      });
     }
   } else if (active_tab === 1) {
     if (!continent) {
@@ -220,8 +220,8 @@ export function do_addSpatial(
     if (!spatialNotPresent(dataset.spatial, "URL", spatial_url)) {
       dataset.spatial.push({
         "type": "URL",
-        "url": spatial_url
-      })
+        "url": spatial_url,
+      });
     }
   }
   return true;

@@ -13,6 +13,13 @@ module.exports = {
       "ignoreRegExpLiterals": true,
     }],
     "curly": [2, "all"],
-    "brace-style": ["error", "1tbs"]
+    "brace-style": ["error", "1tbs"],
+    "semi": ["error", "always"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline"
+    }]
   }
 };

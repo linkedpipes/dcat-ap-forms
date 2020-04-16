@@ -22,8 +22,8 @@ if (window.matchMedia) {
 
 const opts = {
   "theme": {
-    "dark": dark
-  }
+    "dark": dark,
+  },
 };
 
 /* eslint-disable no-new */

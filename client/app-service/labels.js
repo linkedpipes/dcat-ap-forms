@@ -4,7 +4,7 @@ export function prepareLabels() {
     const arg = arguments[index];
     result = {
       ...result,
-      ...arg
+      ...arg,
     };
   }
   return result;
@@ -13,11 +13,11 @@ export function prepareLabels() {
 function install(Vue) {
   Object.defineProperty(Vue.prototype, "$t", {
     "value": function (name) {
-      return this.$vuetify.lang.t("$vuetify." + name)
-    }
+      return this.$vuetify.lang.t("$vuetify." + name);
+    },
   });
 }
 
 export const Plugin = {
-  "install": install
+  "install": install,
 };

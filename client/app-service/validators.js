@@ -38,7 +38,7 @@ export function apply(selector, property, rule, message) {
       return [];
     }
     return [this.$t(message)];
-  }
+  };
 }
 
 export function applyEach(selector, property, rule, message) {
@@ -56,7 +56,7 @@ export function applyEach(selector, property, rule, message) {
       return [];
     }
     return [this.$t(message)];
-  }
+  };
 }
 
 export function shouldValidate(value, validators, property) {
@@ -89,5 +89,5 @@ export function applyArray(selector, property, rules) {
       output.push(this.$t(rules[index][1]));
     }
     return output;
-  }
+  };
 }

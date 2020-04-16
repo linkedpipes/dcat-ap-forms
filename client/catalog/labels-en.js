@@ -43,6 +43,6 @@ export default {
   "common_errors_description": "Avoid the mistakes made by many publishers before you. Before you register your catalog, make sure that you don't do some of the ",
   "common_errors_link_label": "most common errors in open data",
   "ofn": "Also make sure that the catalog interface complies with the ",
-  "ofn_link_label": "open formal norm for the interface of open data catalogs"
+  "ofn_link_label": "open formal norm for the interface of open data catalogs",
 };
 

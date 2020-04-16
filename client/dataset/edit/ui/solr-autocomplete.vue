@@ -39,14 +39,14 @@ export default {
     "codeList": {"type": String, "required": true},
     "errorMessages": {"required": false},
     "noDataPrompt": {"type": String, "required": true},
-    "prependIcon": {"type": String}
+    "prependIcon": {"type": String},
   },
   "data": () => ({
     "loading": false,
     "items": [],
     "search": null,
     "ignoreNextSearch": false,
-    "lastFetchFor": undefined
+    "lastFetchFor": undefined,
   }),
   "mounted": function () {
     fetchTitle(this, this.value);
@@ -58,7 +58,7 @@ export default {
         return;
       }
       if (value) {
-        this.querySelections(value)
+        this.querySelections(value);
       }
     },
     "value": function (value) {
@@ -67,7 +67,7 @@ export default {
       if (!this.ignoreNextSearch) {
         fetchTitle(this, value);
       }
-    }
+    },
   },
   "methods": {
     "querySelections": function (query) {
@@ -84,9 +84,9 @@ export default {
     "onInput": function (value) {
       this.ignoreNextSearch = true;
       this.$emit("input", value);
-    }
-  }
-}
+    },
+  },
+};
 
 function createQueryUrl(codeList, query, lang) {
   return "/api/v1/codelist/" + codeList +

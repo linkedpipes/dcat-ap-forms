@@ -14,12 +14,12 @@ export function addItems(type, items) {
     // We need to add this in reactive way otherwise Vue wont detect
     // the change. For more info see:
     // https://vuejs.org/v2/guide/reactivity.html#Change-Detection-Caveats
-    Vue.set(storage, type, [])
+    Vue.set(storage, type, []);
   }
   const storageFotType = storage[type];
   items.forEach((item) => {
     // Again add to be reactive.
-    Vue.set(storageFotType, item["code"], item)
+    Vue.set(storageFotType, item["code"], item);
   });
 }
 

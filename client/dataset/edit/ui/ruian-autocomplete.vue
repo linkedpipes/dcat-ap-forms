@@ -51,13 +51,13 @@ export default {
     "errorMessages": {"required": false},
     "disabled": {"type": Boolean, "default": false},
     "type": {"type": String},
-    "prependIcon": {"type": String}
+    "prependIcon": {"type": String},
   },
   "data": () => ({
     "loading": false,
     "items": [],
     "search": null,
-    "ignoreNextSearch": false
+    "ignoreNextSearch": false,
   }),
   "mounted": function () {
     const url = createTitleQueryUrl(
@@ -74,9 +74,9 @@ export default {
         return;
       }
       if (value) {
-        this.querySelections(value)
+        this.querySelections(value);
       }
-    }
+    },
   },
   "methods": {
     "querySelections": function (query) {
@@ -95,15 +95,15 @@ export default {
     },
     "clearItemCache": function () {
       this.items = [];
-    }
-  }
-}
+    },
+  },
+};
 
 function createQueryUrl(query, type, lang) {
   return "/api/v1/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + lang +
-            "&type=" + type
+            "&type=" + type;
 }
 
 function createTitleQueryUrl(codeList, iri, lang) {

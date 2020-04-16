@@ -3,7 +3,7 @@ import {
   provided,
   url,
   email,
-  applyArray
+  applyArray,
 } from "../../app-service/validators";
 
 export function createCatalog() {
@@ -16,9 +16,9 @@ export function createCatalog() {
     "homepage": "",
     "type": undefined,
     "$validators": {
-      "force": false
-    }
-  }
+      "force": false,
+    },
+  };
 }
 
 export function createCatalogValidators() {
@@ -31,28 +31,28 @@ export function createCatalogValidators() {
       (t) => t.catalog, "endpoint",
       [
         [provided, "catalog_url_missing"],
-        [url, "catalog_url_invalid"]
+        [url, "catalog_url_invalid"],
       ]),
     "err_contact_point_email": applyArray(
       (t) => t.catalog, "contact_point_email",
       [
         [provided, "catalog_contact_point_email_missing"],
-        [email, "catalog_contact_point_email_invalid"]
+        [email, "catalog_contact_point_email_invalid"],
       ]),
     "err_contact_point_name": applyArray(
       (t) => t.catalog, "contact_point_name",
       [
-        [provided, "catalog_contact_point_name_missing"]
+        [provided, "catalog_contact_point_name_missing"],
       ]),
     "err_homepage": applyArray(
       (t) => t.catalog, "homepage",
       [
-        [url, "homepage_invalid"]
+        [url, "homepage_invalid"],
       ]),
     "err_catalog_type": apply(
       (t) => t.catalog, "type",
       provided,
-      "catalog_type_missing")
+      "catalog_type_missing"),
   };
 }
 

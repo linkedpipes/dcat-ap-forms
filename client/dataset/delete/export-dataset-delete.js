@@ -2,14 +2,14 @@ import {
   DCATAP,
   NKOD,
   ADMS,
-  STATUS
+  STATUS,
 } from "../../app-service/vocabulary";
 
 export function exportToJsonLd(dataset) {
   const output = {
     "@type": [DCATAP.Dataset, NKOD.Formular],
     "@id": dataset.iri,
-    [ADMS.status]: {"@id": STATUS.Withdrawn}
+    [ADMS.status]: {"@id": STATUS.Withdrawn},
   };
   return output;
 }

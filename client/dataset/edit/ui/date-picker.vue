@@ -47,7 +47,7 @@ export default {
     "persistentHint": {"type": Boolean, "required": false},
   },
   "data": () => ({
-    "menu": false
+    "menu": false,
   }),
   "methods": {
     "save": function (date) {
@@ -56,7 +56,7 @@ export default {
     },
     "onInput": function (value) {
       this.$emit("input", value);
-    }
-  }
+    },
+  },
 };
 </script>

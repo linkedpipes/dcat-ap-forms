@@ -33,7 +33,7 @@ export default {
   "methods": {
     "onClick": function (value) {
       this.$emit("input", value);
-    }
-  }
-}
+    },
+  },
+};
 </script>

@@ -15,5 +15,5 @@ function start(app) {
 
 module.exports = {
   "initialize" : initialize,
-  "start": start
+  "start": start,
 };

@@ -208,5 +208,4 @@ export default {
   "hint_url_title": "Enter HTTPS URL of the source data to load into form.",
   "help_url_title": "<h3>Form data URLe</h3><p>Besides loading from file, it's possible to directly enter URL of the source data to load into form. It's expected for the URL to contain a file downloaded from this app or compatible.</p>",
   "load_invalid_url": "Invalid HTTPS URL.",
-
-}
+};

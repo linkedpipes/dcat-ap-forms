@@ -107,7 +107,7 @@ export default {
     "app-distribution-selector": DistributionSelector,
     "app-step-navigation-mobile": StepperNavigationMobile,
     "app-step-navigation-desktop": StepperNavigationDesktop,
-    "app-export-summary": ExportSummary
+    "app-export-summary": ExportSummary,
   },
   "data": () => ({
     "data": {
@@ -115,16 +115,16 @@ export default {
       "status": "loading",
       "dataset": undefined,
       "distributions": [],
-      "error": undefined
+      "error": undefined,
     },
     "ui": {
       "step": 1,
-      "distribution": 0
+      "distribution": 0,
     },
     "validation": {
       "dataset": false,
-      "distributions": false
-    }
+      "distributions": false,
+    },
   }),
   "watch": {
     "$route": function (location) {
@@ -133,7 +133,7 @@ export default {
       } else if (location.query.krok !== this.ui.krok) {
         this.ui.step = location.query.krok;
       }
-    }
+    },
   },
   "mounted": function () {
     setPageTitle(this.$t("edit_page_title"));
@@ -191,7 +191,7 @@ export default {
     "addDistribution": function () {
       this.data.distributions = [
         ...this.data.distributions,
-        createDistribution()
+        createDistribution(),
       ];
       this.ui.distribution = this.data.distributions.length - 1;
     },
@@ -199,7 +199,7 @@ export default {
       const index = this.ui.distribution;
       this.data.distributions = [
         ...this.data.distributions.slice(0, index),
-        ...this.data.distributions.slice(index + 1)
+        ...this.data.distributions.slice(index + 1),
       ];
       this.ui.distribution = Math.min(
         this.ui.distribution,
@@ -223,11 +223,11 @@ export default {
       this.$router.push({
         "query": {
           ...this.$route.query,
-          "krok": value
-        }
+          "krok": value,
+        },
       });
-    }
-  }
+    },
+  },
 };
 
 

@@ -37,7 +37,7 @@ export default {
       case 2:
         return this.$t("nav_dataset");
       case 3:
-        return this.$t("nav_distributions")
+        return this.$t("nav_distributions");
       }
     },
     "nextLabel": function() {
@@ -45,9 +45,9 @@ export default {
       case 1:
         return this.$t("nav_distributions");
       case 2:
-        return this.$t("nav_download")
+        return this.$t("nav_download");
       }
-    }
+    },
   },
   "methods": {
     "onPrevious": function () {
@@ -58,7 +58,7 @@ export default {
     },
     "onDownload": function() {
       this.$emit("download");
-    }
-  }
-}
+    },
+  },
+};
 </script>

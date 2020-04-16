@@ -38,10 +38,10 @@ export default function normalize(data) {
   } else {
     // There is no graph.
     graphList.push({
-      "@graph": data
+      "@graph": data,
     });
   }
   return {
-    "@graph": graphList
+    "@graph": graphList,
   };
 }

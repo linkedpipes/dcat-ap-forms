@@ -30,11 +30,11 @@ if (window.matchMedia) {
 const opts = {
   "lang": {
     "locales": {"en": prepareLabels(AppLabels, DatasetLabels)},
-    "current": "en"
+    "current": "en",
   },
   "theme": {
-    "dark": dark
-  }
+    "dark": dark,
+  },
 };
 
 /* eslint-disable no-new */
@@ -43,7 +43,7 @@ new Vue({
   "vuetify": vuetify,
   "el": "#app",
   "router": new VueRouter({"mode": "history"}),
-  "render": (h) => h(App)
+  "render": (h) => h(App),
 });
 
 if (mq != null) {

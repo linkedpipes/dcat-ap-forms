@@ -17,16 +17,16 @@
 
 const data = {
   "isOpen": false,
-  "name": ""
+  "name": "",
 };
 
 export const Plugin = {
-  "install": install
+  "install": install,
 };
 
 function install(Vue) {
   Object.defineProperty(Vue.prototype, "$h", {
-    "get": () => onShow
+    "get": () => onShow,
   });
 }
 
@@ -41,8 +41,8 @@ export default {
   "watch": {
     "$route": function () {
       this.isOpen = false;
-    }
-  }
-}
+    },
+  },
+};
 
 </script>

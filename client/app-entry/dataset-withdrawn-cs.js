@@ -31,11 +31,11 @@ if (window.matchMedia) {
 const opts = {
   "lang": {
     "locales": {"cs": prepareLabels(AppLabels, DatasetLabels)},
-    "current": "cs"
+    "current": "cs",
   },
   "theme": {
-    "dark": dark
-  }
+    "dark": dark,
+  },
 };
 
 const vuetify = new Vuetify(opts);
@@ -44,7 +44,7 @@ new Vue({
   "vuetify": vuetify,
   "el": "#app",
   "router": new VueRouter({"mode": "history"}),
-  "render": (h) => h(App)
+  "render": (h) => h(App),
 });
 
 if (mq != null) {

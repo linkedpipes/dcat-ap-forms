@@ -13,7 +13,7 @@ export default {
   "name": "catalog-registration",
   "components": {
     "app-help": Help,
-    "app-catalog-registration": CatalogRegistration
-  }
-}
+    "app-catalog-registration": CatalogRegistration,
+  },
+};
 </script>

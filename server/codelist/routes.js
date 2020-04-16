@@ -17,14 +17,14 @@ const configuration = require("../config");
 function createCodelistGet(baseUrl, sorted) {
   let querySuffix = "";
   if (sorted) {
-    querySuffix += "&sort=priority desc"
+    querySuffix += "&sort=priority desc";
   }
   return (req, res) => {
     const url = baseUrl + "/query?q=" + getSolrQuery(req) + querySuffix;
     request.get({"url": url}).on("error", (error) => {
       handleError(res, error);
     }).pipe(res);
-  }
+  };
 }
 
 function getSolrQuery(req) {
@@ -38,7 +38,7 @@ function getSolrQuery(req) {
 function handleError(res, error) {
   console.error("Solr query failed.", error);
   res.status(500).json({
-    "error": "service_request_failed"
+    "error": "service_request_failed",
   });
 }
 
@@ -51,5 +51,5 @@ function createRuianCodelistGet() {
     request.get({"url": url}).on("error", (error) => {
       handleError(res, error);
     }).pipe(res);
-  }
+  };
 }

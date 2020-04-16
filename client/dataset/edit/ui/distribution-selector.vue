@@ -48,7 +48,7 @@ export default {
   "name": "app-item-selector",
   "props": {
     "value": {"type": Number, "required": true},
-    "distributions": {"type": Array, "required": true}
+    "distributions": {"type": Array, "required": true},
   },
   "methods": {
     "onPrevious": function () {
@@ -71,8 +71,8 @@ export default {
         return true;
       }
       return isDistributionValid(distribution);
-    }
-  }
+    },
+  },
 };
 </script>
 

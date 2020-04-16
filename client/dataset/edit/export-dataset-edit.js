@@ -5,7 +5,7 @@ import {
   VCARD,
   PU,
   CREATIVE_COMMONS,
-  NKOD
+  NKOD,
 } from "../../app-service/vocabulary";
 
 export function exportToJsonLd(dataset, distributions) {
@@ -26,13 +26,13 @@ export function exportToJsonLd(dataset, distributions) {
     "@id": dataset.iri,
     "@type": [DCATAP.Dataset, NKOD.Formular],
     [DCTERMS.title]: titles,
-    [DCTERMS.description]: descriptions
+    [DCTERMS.description]: descriptions,
   };
 
   if (distributions.length > 0) {
     output[DCATAP.distribution] =
       distributions.map(
-        (distribution) => exportDistribution(distribution, dataset.iri))
+        (distribution) => exportDistribution(distribution, dataset.iri));
   }
 
   if (dataset.keywords.length > 0) {
@@ -41,8 +41,8 @@ export function exportToJsonLd(dataset, distributions) {
       if (isNotEmpty(keyword.en)) {
         keywords.push(asNamedLangString(keyword.en, "en"));
       }
-      return keywords
-    })
+      return keywords;
+    });
   }
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
@@ -52,7 +52,7 @@ export function exportToJsonLd(dataset, distributions) {
   if (dataset.spatial.length > 0) {
     output[DCTERMS.spatial] = dataset.spatial.map(
       (spatial) => getSpatialIri(spatial)
-    )
+    );
   }
   if (isNotEmpty(dataset.documentation)) {
     output[FOAF.page] = asIri(dataset.documentation);
@@ -61,7 +61,7 @@ export function exportToJsonLd(dataset, distributions) {
   const themes = [
     ...dataset.dataset_themes,
     ...dataset.themes,
-    ...dataset.dataset_custom_themes
+    ...dataset.dataset_custom_themes,
   ];
   output[DCATAP.theme] = themes.map((t) => asIri(t));
 
@@ -77,7 +77,7 @@ export function exportToJsonLd(dataset, distributions) {
   if (isNotEmpty(dataset.temporal_resolution)) {
     output[DCATAP.temporalResolution] = {
       "@value": dataset.temporal_resolution ,
-      "@type": "http://www.w3.org/2001/XMLSchema#duration"
+      "@type": "http://www.w3.org/2001/XMLSchema#duration",
     };
   }
 
@@ -104,28 +104,28 @@ function isEmpty(value) {
 function asLangString(value) {
   return {
     "@language": "cs",
-    "@value": value
-  }
+    "@value": value,
+  };
 }
 
 function asNamedLangString(value, lang) {
   return {
     "@language": lang,
-    "@value": value
-  }
+    "@value": value,
+  };
 }
 
 function asIri(value) {
   return {
-    "@id": value
-  }
+    "@id": value,
+  };
 }
 
 function asXsdDecimal(value) {
   return {
     "@value": value,
-    "@type": "http://www.w3.org/2001/XMLSchema#decimal"
-  }
+    "@type": "http://www.w3.org/2001/XMLSchema#decimal",
+  };
 }
 
 function exportTemporal(dataset) {
@@ -134,18 +134,18 @@ function exportTemporal(dataset) {
     return undefined;
   }
   const output = {
-    "@type": [DCTERMS.PeriodOfTime]
+    "@type": [DCTERMS.PeriodOfTime],
   };
   if (containsValidDate(dataset.temporal_start)) {
     output[DCATAP.startDate] = {
       "@type": "http://www.w3.org/2001/XMLSchema#date",
-      "@value": dataset.temporal_start
+      "@value": dataset.temporal_start,
     };
   }
   if (containsValidDate(dataset.temporal_end)) {
     output[DCATAP.endDate] = {
       "@type": "http://www.w3.org/2001/XMLSchema#date",
-      "@value": dataset.temporal_end
+      "@value": dataset.temporal_end,
     };
   }
   return output;
@@ -157,7 +157,7 @@ function containsValidDate(value) {
 
 function exportContactPoint(dataset) {
   const output = {
-    "@type": [VCARD.Organization]
+    "@type": [VCARD.Organization],
   };
   if (isEmpty(dataset.contact_point_name) &&
       isEmpty(dataset.contact_point_email)) {
@@ -175,7 +175,7 @@ function exportContactPoint(dataset) {
 function exportDistribution(distribution, datasetIri) {
 
   const output = {
-    "@type": DCATAP.Distribution
+    "@type": DCATAP.Distribution,
   };
 
   let titles = [];
@@ -199,18 +199,18 @@ function exportDistribution(distribution, datasetIri) {
     }
 
     if (isNotEmpty(distribution.packageFormat)) {
-      output[DCATAP.packageFormat] = asIri(distribution.packageFormat)
+      output[DCATAP.packageFormat] = asIri(distribution.packageFormat);
     }
 
     if (isNotEmpty(distribution.compressFormat)) {
-      output[DCATAP.compressFormat] = asIri(distribution.compressFormat)
+      output[DCATAP.compressFormat] = asIri(distribution.compressFormat);
     }
   } else if (distribution.isFileOrService === "SERVICE") {
     output[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
     output[DCATAP.accessService] = {
       "@type": DCATAP.DataService,
       [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
-      [DCATAP.endpointDescription]: asIri(distribution.service_description)
+      [DCATAP.endpointDescription]: asIri(distribution.service_description),
     };
     if (titles.length > 0) {
       output[DCATAP.accessService][DCTERMS.title] = titles;
@@ -231,15 +231,15 @@ function exportDistribution(distribution, datasetIri) {
 
 function getSpatialIri(spatial) {
   if (spatial.type === "RUIAN") {
-    return asIri(spatial.ruian)
+    return asIri(spatial.ruian);
   } else {
-    return asIri(spatial.url)
+    return asIri(spatial.url);
   }
 }
 
 function license(distribution) {
   const output = {
-    "@type": PU.Specifikace
+    "@type": PU.Specifikace,
   };
 
   switch (distribution.license_author_type) {

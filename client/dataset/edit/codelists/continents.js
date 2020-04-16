@@ -4,37 +4,37 @@ const codelist = [
   {
     "value": prefix + "EUROPE",
     "cs": "Evropa",
-    "en": "Europe"
+    "en": "Europe",
   },
   {
     "value": prefix + "AMERICA",
     "cs": "Amerika",
-    "en": "America"
+    "en": "America",
   },
   {
     "value": prefix + "ASIA",
     "cs": "Asie",
-    "en": "Asia"
+    "en": "Asia",
   },
   {
     "value": prefix + "AFRICA",
     "cs": "Africa",
-    "en": "Africa"
+    "en": "Africa",
   },
   {
     "value": prefix + "OCEANIA",
     "cs": "Oceánie",
-    "en": "Oceania"
+    "en": "Oceania",
   },
   {
     "value": prefix + "ANTARCTICA",
     "cs": "Antarktida",
-    "en": "Antarctica"
+    "en": "Antarctica",
   },
   {
     "value": prefix + "OP_DATPRO",
     "cs": "Předběžné údaje",
-    "en": "Provisional data"
+    "en": "Provisional data",
   },
 ];
 

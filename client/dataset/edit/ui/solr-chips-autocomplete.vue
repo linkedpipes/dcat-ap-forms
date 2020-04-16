@@ -55,13 +55,13 @@ export default {
     "codeList": {"type": String, "required": true},
     "errorMessages": {"required": false},
     "noDataPrompt": {"type": String, "required": true},
-    "prependIcon": {"type": String}
+    "prependIcon": {"type": String},
   },
   "data": () => ({
     "loading": false,
     "items": [],
     "search": null,
-    "ignoreNextSearch": false
+    "ignoreNextSearch": false,
   }),
   "mounted": function () {
     this.value.forEach((value) => {
@@ -73,11 +73,11 @@ export default {
         } else {
           addItems(this.codeList, response.json.response.docs);
           this.items = [
-            ...this.items, ...response.json.response.docs
+            ...this.items, ...response.json.response.docs,
           ];
         }
       });
-    })
+    });
   },
   "watch": {
     "search": function (value) {
@@ -86,9 +86,9 @@ export default {
         return;
       }
       if (value) {
-        this.querySelections(value)
+        this.querySelections(value);
       }
-    }
+    },
   },
   "methods": {
     "querySelections": function (query) {
@@ -109,7 +109,7 @@ export default {
       const index = this.value.indexOf(item.code);
       const newValue = [
         ... this.value.slice(0, index),
-        ... this.value.slice(index + 1)
+        ... this.value.slice(index + 1),
       ];
       this.$emit("input", newValue);
     },
@@ -123,14 +123,14 @@ export default {
           } else {
             addItems(this.codeList, response.json.response.docs);
             this.items = [
-              ...this.items, ...response.json.response.docs
+              ...this.items, ...response.json.response.docs,
             ];
           }
         });
-      })
+      });
     },
-  }
-}
+  },
+};
 
 function createQueryUrl(codeList, query, lang) {
   return "/api/v1/codelist/" + codeList +
@@ -150,8 +150,8 @@ function createNonLabeledItem(url) {
     "id": url,
     "cs": url,
     "en": url,
-    "code": url
-  }
+    "code": url,
+  };
 }
 
 </script>

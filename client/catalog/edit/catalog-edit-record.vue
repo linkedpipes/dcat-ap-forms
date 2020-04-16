@@ -119,14 +119,14 @@ export default {
   "name": "app-dataset-record-edit",
   "components": {},
   "props": {
-    "catalog": {"type": Object, "required": true}
+    "catalog": {"type": Object, "required": true},
   },
   "data": () => ({
-    "catalogTypes": CatalogTypeCodelist
+    "catalogTypes": CatalogTypeCodelist,
   }),
   "computed": {
-    ...createCatalogValidators()
-  }
+    ...createCatalogValidators(),
+  },
 };
 
 </script>

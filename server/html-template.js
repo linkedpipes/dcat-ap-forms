@@ -35,5 +35,5 @@ function generateBody(javascript) {
 }
 
 module.exports = {
-  "create": create
+  "create": create,
 };

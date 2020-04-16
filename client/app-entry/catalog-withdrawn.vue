@@ -13,7 +13,7 @@ export default {
   "name": "catalog-withdrawn",
   "components": {
     "app-help": Help,
-    "app-catalog-withdrawn": CatalogWithdrawn
-  }
-}
+    "app-catalog-withdrawn": CatalogWithdrawn,
+  },
+};
 </script>

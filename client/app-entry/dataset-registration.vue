@@ -13,7 +13,7 @@ export default {
   "name": "dataset-registration",
   "components": {
     "app-help": Help,
-    "app-dataset-registration": DatasetRegistration
-  }
-}
+    "app-dataset-registration": DatasetRegistration,
+  },
+};
 </script>

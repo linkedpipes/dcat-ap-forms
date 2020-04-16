@@ -1,5 +1,5 @@
 export const SKOS = {
-  "inScheme": "http://www.w3.org/2004/02/skos/core#inScheme"
+  "inScheme": "http://www.w3.org/2004/02/skos/core#inScheme",
 };
 
 export const DCTERMS = {
@@ -10,7 +10,7 @@ export const DCTERMS = {
   "spatial": "http://purl.org/dc/terms/spatial",
   "format": "http://purl.org/dc/terms/format",
   "conformsTo": "http://purl.org/dc/terms/conformsTo",
-  "PeriodOfTime": "http://purl.org/dc/terms/PeriodOfTime"
+  "PeriodOfTime": "http://purl.org/dc/terms/PeriodOfTime",
 };
 
 export const DCATAP = {
@@ -40,18 +40,18 @@ export const DCATAP = {
 
 export const FOAF = {
   "page": "http://xmlns.com/foaf/0.1/page",
-  "homepage": "http://xmlns.com/foaf/0.1/homepage"
+  "homepage": "http://xmlns.com/foaf/0.1/homepage",
 };
 
 export const VCARD = {
   "fn": "http://www.w3.org/2006/vcard/ns#fn",
   "hasEmail": "http://www.w3.org/2006/vcard/ns#hasEmail",
-  "Organization": "http://www.w3.org/2006/vcard/ns#Organization"
+  "Organization": "http://www.w3.org/2006/vcard/ns#Organization",
 };
 
 export const SCHEMA = {
   "endDate": "http://schema.org/endDate",
-  "startDate": "http://schema.org/startDate"
+  "startDate": "http://schema.org/startDate",
 };
 
 const PU_PREFIX = "https://data.gov.cz/podmínky-užití/";
@@ -73,24 +73,24 @@ export const PU = {
   "neniChranenazvlastnimPravemPorizovateleDatabaze":
     PU_PREFIX + "není-chráněna-zvláštním-právem-pořizovatele-databáze/",
   "obsahujeOsobniUdaje": PU_PREFIX + "obsahuje-osobní-údaje/",
-  "neobsahujeOsobniUdaje": PU_PREFIX + "neobsahuje-osobní-údaje/"
+  "neobsahujeOsobniUdaje": PU_PREFIX + "neobsahuje-osobní-údaje/",
 };
 
 export const CREATIVE_COMMONS = {
   "BY_40": "https://creativecommons.org/licenses/by/4.0/",
-  "PUBLIC_ZERO_10": "https://creativecommons.org/publicdomain/zero/1.0/"
+  "PUBLIC_ZERO_10": "https://creativecommons.org/publicdomain/zero/1.0/",
 };
 
 export const NKOD = {
   "Formular":
     "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
-  "lkod": "https://data.gov.cz/slovník/nkod/lkod"
+  "lkod": "https://data.gov.cz/slovník/nkod/lkod",
 };
 
 export const ADMS = {
-  "status": "http://www.w3.org/ns/adms#status"
+  "status": "http://www.w3.org/ns/adms#status",
 };
 
 export const STATUS = {
-  "Withdrawn": "http://purl.org/adms/status/Withdrawn"
+  "Withdrawn": "http://purl.org/adms/status/Withdrawn",
 };

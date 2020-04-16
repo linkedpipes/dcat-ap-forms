@@ -5,10 +5,10 @@ import {
   getTypes,
   getByType,
   getId,
-  getValue
+  getValue,
 } from "../app-service/jsonld";
 import {
-  DCATAP, DCTERMS
+  DCATAP, DCTERMS,
 } from "../app-service/vocabulary";
 
 function update_url(url) {
@@ -31,8 +31,8 @@ export function importCatalog(url) {
       "iri": getId(catalog),
       "title": getValue(catalog, DCTERMS.title),
       "endpoint": getValue(catalog, DCATAP.endpointURL),
-      "types": getTypes(catalog)
-    }
+      "types": getTypes(catalog),
+    };
   });
 }
 

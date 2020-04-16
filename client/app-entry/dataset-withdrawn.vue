@@ -13,7 +13,7 @@ export default {
   "name": "dataset-withdrawn",
   "components": {
     "app-help": Help,
-    "app-dataset-withdrawn": DatasetWithdrawn
-  }
-}
+    "app-dataset-withdrawn": DatasetWithdrawn,
+  },
+};
 </script>

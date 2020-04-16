@@ -24,11 +24,11 @@ module.exports = {
     "dataset-withdrawn-en":
             path.join(entryPath, "dataset-withdrawn-en.js"),
     "home":
-            path.join(entryPath, "home.js")
+            path.join(entryPath, "home.js"),
   },
   "output": {
     "path": path.join(__dirname, "..", "dist"),
-    "publicPath": "./"
+    "publicPath": "./",
   },
   "resolve": {
     "modules": ["node_modules"],
@@ -38,14 +38,14 @@ module.exports = {
     "rules": [
       {
         "test": /\.vue$/,
-        "use": "vue-loader"
+        "use": "vue-loader",
       }, {
         "test": /\.js$/,
         "use": "babel-loader",
         "include": [
           path.resolve(__dirname, "..", "client"),
-          path.resolve("node_modules")
-        ]
+          path.resolve("node_modules"),
+        ],
       },
       {
         test: /\.s(c|a)s$/,
@@ -57,16 +57,16 @@ module.exports = {
       }, {
         //see: https://github.com/webpack-contrib/css-loader/issues/38#issuecomment-72287584
         "test": /\.(png|woff|woff2|eot|ttf|svg)$/,
-        "loader": "url-loader?limit=100000"
-      }
-    ]
+        "loader": "url-loader?limit=100000",
+      },
+    ],
   },
   "plugins": [
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
       "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy),
-      "NKOD_ISDS": JSON.stringify(config.nkod_databox)
-    })
-  ]
+      "NKOD_ISDS": JSON.stringify(config.nkod_databox),
+    }),
+  ],
 };
 

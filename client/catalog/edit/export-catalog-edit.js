@@ -2,7 +2,7 @@ import {
   DCTERMS,
   DCATAP,
   FOAF,
-  VCARD
+  VCARD,
 } from "../../app-service/vocabulary";
 
 export function exportToJsonLd(catalog) {
@@ -10,9 +10,9 @@ export function exportToJsonLd(catalog) {
     "@type": [DCATAP.Catalog, catalog.type],
     [DCATAP.endpointURL]: {
       "@value": catalog.endpoint,
-      "@type": "http://www.w3.org/2001/XMLSchema#anyURI"
+      "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
     },
-    [DCTERMS.title]: asLangString(catalog.title)
+    [DCTERMS.title]: asLangString(catalog.title),
   };
   const contactPoint = exportContactPoint(catalog);
   if (isNotEmpty(contactPoint)) {
@@ -20,8 +20,8 @@ export function exportToJsonLd(catalog) {
   }
   if (isNotEmpty(catalog.homepage)) {
     output[FOAF.homepage] = {
-      "@id": catalog.homepage
-    }
+      "@id": catalog.homepage,
+    };
   }
   return output;
 }
@@ -29,8 +29,8 @@ export function exportToJsonLd(catalog) {
 function asLangString(value) {
   return {
     "@language": "cs",
-    "@value": value
-  }
+    "@value": value,
+  };
 }
 
 function isNotEmpty(value) {
@@ -43,7 +43,7 @@ function isEmpty(value) {
 
 function exportContactPoint(catalog) {
   const output = {
-    "@type": [VCARD.Organization]
+    "@type": [VCARD.Organization],
   };
   if (isEmpty(catalog.contact_point_name) &&
       isEmpty(catalog.contact_point_email)) {

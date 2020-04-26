@@ -1,5 +1,5 @@
-export function downloadAsJsonLd(fileName, jsonld) {
-  download(fileName, JSON.stringify(jsonld, null, 2), "application/ld+json");
+export function downloadAsJsonLd(fileName, content) {
+  download(fileName, JSON.stringify(content, null, 2), "application/ld+json");
 }
 
 export function download(filename, data, mimeType) {

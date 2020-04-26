@@ -6,19 +6,19 @@
     <v-btn 
       v-if="value > 1"
       text
-      @click="onPrevious"
+      @click="onClick(1)"
     >
       <v-icon>arrow_back</v-icon>
-      {{ prevLabel }}
+      {{ $t("nav_catalog") }}
     </v-btn>
     <v-spacer />
     <v-btn 
       v-if="value < 2"
       text
       color="primary" 
-      @click="onNext"
+      @click="onClick(2)"
     >
-      {{ nextLabel }}
+      {{ $t("nav_download") }}
       <v-icon>arrow_forward</v-icon>
     </v-btn>
   </v-layout>
@@ -28,28 +28,11 @@
 export default {
   "name": "app-catalog-step-navigation-desktop",
   "props": {
-    "value": {"required": true},
-  },
-  "computed": {
-    "prevLabel": function() {
-      switch (this.value) {
-      case 2:
-        return this.$t("nav_catalog");
-      }
-    },
-    "nextLabel": function() {
-      switch (this.value) {
-      case 1:
-        return this.$t("nav_download");
-      }
-    },
+    "value": {"required": true, "type": Number},
   },
   "methods": {
-    "onPrevious": function () {
-      this.$emit("input", this.value - 1);
-    },
-    "onNext": function () {
-      this.$emit("input", this.value + 1);
+    "onClick": function (value) {
+      this.$emit("input", value);
     },
   },
 };

@@ -7,36 +7,36 @@
         </div>
         <div>
           <v-list two-line>
-            <v-list-tile avatar>
-              <v-list-tile-avatar>
+            <v-list-item>
+              <v-list-item-avatar>
                 <v-icon class="blue white--text">
                   label
                 </v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ dataset.title }}
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  {{ $t("dataset_title") }}
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile avatar>
-              <v-list-tile-avatar>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ dataset.title_cs }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ $t("dataset_title_cs") }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item>
+              <v-list-item-avatar>
                 <v-icon class="blue white--text">
                   description
                 </v-icon>
-              </v-list-tile-avatar>
-              <v-list-tile-content>
-                <v-list-tile-title>
-                  {{ dataset.description }}
-                </v-list-tile-title>
-                <v-list-tile-sub-title>
-                  {{ $t("dataset_description") }}
-                </v-list-tile-sub-title>
-              </v-list-tile-content>
-            </v-list-tile>
+              </v-list-item-avatar>
+              <v-list-item-content>
+                <v-list-item-title>
+                  {{ dataset.description_cs }}
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ $t("dataset_description_cs") }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </div>
       </div>
@@ -47,10 +47,10 @@
         </div>
         <v-spacer />
         <v-btn 
-          slot="activator" 
-          round 
+          slot="activator"
           color="warning"
-          outline 
+          rounded
+          outlined
           @click="onExport"
         >
           <v-icon left>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {exportToJsonLd} from "./export-dataset-delete";
+import {exportToJsonLdForDelete} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
@@ -79,7 +79,7 @@ export default {
   },
   "methods": {
     "onExport": function () {
-      const jsonld = exportToJsonLd(this.dataset);
+      const jsonld = exportToJsonLdForDelete(this.dataset);
       downloadAsJsonLd(
         "nkod-odstranění-datové-sady.jsonld.txt",jsonld);
     },
@@ -87,9 +87,3 @@ export default {
 };
 
 </script>
-
-<style scoped>
-    .multiline {
-        white-space: pre-wrap;
-    }
-</style>

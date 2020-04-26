@@ -9,7 +9,7 @@ const storage = {};
 
 // We can change language on fly, so the items need to contains all language
 // mutations.
-export function addItems(type, items) {
+export function addStoreItems(type, items) {
   if (storage[type] === undefined) {
     // We need to add this in reactive way otherwise Vue wont detect
     // the change. For more info see:
@@ -23,7 +23,7 @@ export function addItems(type, items) {
   });
 }
 
-export function getItem(store, type, iri, lang) {
+export function getStoreItem(store, type, iri, lang) {
   if (store[type] === undefined) {
     return undefined;
   }
@@ -42,7 +42,7 @@ export function getStore() {
 export function fetchLabelFromCodeList(codeList, iri, lang) {
   const url = createTitleQueryUrl(codeList, iri, lang);
   return getLocalJson(url).then((response) => {
-    addItems(codeList, response.json.response.docs);
+    addStoreItems(codeList, response.json.response.docs);
     return response.json.response.docs;
   });
 }

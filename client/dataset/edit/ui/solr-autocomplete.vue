@@ -17,18 +17,21 @@
     @click:append-outer="$h(id)"
   >
     <template slot="no-data">
-      <v-list-tile>
-        <v-list-tile-title>
+      <v-list-item>
+        <v-list-item-title>
           {{ noDataPrompt }}
-        </v-list-tile-title>
-      </v-list-tile>
+        </v-list-item-title>
+      </v-list-item>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
 import {getLocalJson} from "../../../app-service/http";
-import {addItems, fetchLabelFromCodeList} from "../codelists/local-storage";
+import {
+  addStoreItems,
+  fetchLabelFromCodeList,
+} from "../codelists/local-storage";
 
 export default {
   "name": "app-solr-autocomplete",
@@ -76,7 +79,7 @@ export default {
       const url = createQueryUrl(
         this.codeList, query, this.$vuetify.lang.current);
       getLocalJson(url).then((response) => {
-        addItems(this.codeList, response.json.response.docs);
+        addStoreItems(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
       });

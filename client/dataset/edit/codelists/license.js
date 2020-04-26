@@ -1,4 +1,4 @@
-export const author_license_types = [
+export const authorLicenseTypes = [
   {
     "value": "MULTI",
     "cs": "Obsahuje více autorských děl",
@@ -21,7 +21,7 @@ export const author_license_types = [
   },
 ];
 
-export const db_author_license_types = [
+export const dbAuthorLicenseTypes = [
   {
     "value": "CC BY",
     "cs": "Databáze licencována CC BY 4.0",
@@ -39,7 +39,7 @@ export const db_author_license_types = [
   },
 ];
 
-export const db_special_license_types = [
+export const dbSpecialLicenseTypes = [
   {
     "value": "CC0",
     "cs": "Licencováno CC0",
@@ -57,7 +57,7 @@ export const db_special_license_types = [
   },
 ];
 
-export const personal_data_links = [
+export const personalDataTypes = [
   {
     "value": "YES",
     "cs": "Obsahuje osobní údaje",

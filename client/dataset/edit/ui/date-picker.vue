@@ -8,9 +8,7 @@
     :close-on-content-click="false"
     transition="scale-transition"
     min-width="15rem"
-    lazy 
-    offset-y 
-    full-width
+    offset-y
   >
     <template v-slot:activator="{ on }">
       <v-text-field

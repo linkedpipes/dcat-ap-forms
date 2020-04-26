@@ -4,7 +4,11 @@ import {
   url,
   applyArray,
   shouldValidate,
-} from "../../app-service/validators";
+} from "../app-service/validators";
+
+export const DIST_TYPE_FILE = "FILE";
+
+export const DIST_TYPE_SERVICE = "SERVICE";
 
 export function createDistribution() {
   return decorateDistribution({
@@ -24,13 +28,13 @@ export function createDistribution() {
     "schema": "",
     "title_cs": "",
     "title_en": "",
-    "packageFormat": "",
-    "compressFormat": "",
+    "package_format": "",
+    "compress_format": "",
     //
     "service_endpoint_url": "",
     "service_description": "",
-
-    "isFileOrService": "FILE",  //alternative: "SERVICE"
+    // type -> type
+    "type": DIST_TYPE_FILE,
   });
 }
 
@@ -65,7 +69,13 @@ export function createDistributionValidators() {
       "license_specialdb_custom_invalid"
     ),
     "err_personal": validatePersonal(),
-    //
+    ...createFileDistributionValidators(),
+    ...createServiceDistributionValidators(),
+  };
+}
+
+function createFileDistributionValidators() {
+  return {
     "err_url": applyArray(
       (t) => t.distribution, "url",
       [
@@ -82,6 +92,11 @@ export function createDistributionValidators() {
       (t) => t.distribution, "schema",
       url,
       "distribution_schema_invalid"),
+  };
+}
+
+function createServiceDistributionValidators() {
+  return {
     "err_service": applyArray(
       (t) => t.distribution, "service_description",
       [
@@ -94,43 +109,10 @@ export function createDistributionValidators() {
         [provided, "endpoint_url_missing"],
         [url, "endpoint_url_invalid"],
       ]),
-    "err_title": validateTitle(),
+    "err_title": apply(
+      (t) => t.distribution, "title_cs",
+      provided, "title_missing"),
   };
-}
-
-function isValidFormat(value) {
-  return value.includes("/");
-}
-
-export function isDistributionValid(dist) {
-  return isAccessValid(dist) && isTitleValid(dist) &&
-        isAuthorValid(
-          dist.license_author_type, dist.license_author_name) &&
-        isCustomValid(
-          dist.license_author_type, dist.license_author_custom) &&
-        isAuthorValid(
-          dist.license_db_type, dist.license_db_name) &&
-        isCustomValid(
-          dist.license_db_type, dist.license_db_custom) &&
-        isCustomValid(
-          dist.license_specialdb_type, dist.license_specialdb_custom) &&
-        isPersonalValid(
-          dist.license_personal_type);
-}
-
-function isAccessValid(dist) {
-  if(dist.isFileOrService === "FILE") {
-    return provided(dist.url) &&
-              url(dist.url) &&
-              provided(dist.format) &&
-              isValidFormat(dist.format) &&
-              provided(dist.media_type);
-  } else if (dist.isFileOrService === "SERVICE") {
-    return provided(dist.service_endpoint_url) &&
-            url(dist.service_endpoint_url) &&
-            provided(dist.service_description) &&
-            url(dist.service_description);
-  }
 }
 
 function validateAuthor(licence_prop, name_prop) {
@@ -147,13 +129,6 @@ function validateAuthor(licence_prop, name_prop) {
       return [this.$t("author_name_missing")];
     }
   };
-}
-
-function isAuthorValid(licence, value) {
-  if (licence !== "CC BY") {
-    return true;
-  }
-  return provided(value);
 }
 
 function validateCustom(licence_prop, custom_prop, invalid_prop) {
@@ -178,26 +153,64 @@ function validateCustom(licence_prop, custom_prop, invalid_prop) {
   };
 }
 
-function validateTitle() {
-  return function() {
-    if (this.distribution.isFileOrService === "SERVICE") {
-      const value = this.distribution["title_cs"];
-      if (!provided(value)) {
-        return [this.$t("title_missing")];
-      }
+function validatePersonal() {
+  return function () {
+    const value = this.distribution["license_personal_type"];
+    if (value === "UNKNOWN") {
+      return [this.$t("personal_invalid")];
+    } else {
+      return [];
     }
-
-    return [];
   };
 }
 
-function isTitleValid(dist) {
-  if (dist.isFileOrService === "SERVICE") {
-    const value = dist["title_cs"];
-    return provided(value);
+export function isDistributionValid(dist) {
+  return isAccessValid(dist)
+    && isAuthorValid(
+      dist.license_author_type, dist.license_author_name)
+    && isCustomValid(
+      dist.license_author_type, dist.license_author_custom)
+    && isAuthorValid(
+      dist.license_db_type, dist.license_db_name)
+    && isCustomValid(
+      dist.license_db_type, dist.license_db_custom)
+    && isCustomValid(
+      dist.license_specialdb_type, dist.license_specialdb_custom)
+    && isPersonalValid(
+      dist.license_personal_type);
+}
+
+const fileValidators = createFileDistributionValidators();
+
+const serviceValidators = createServiceDistributionValidators();
+
+function isAccessValid(dist) {
+  // We need to mock the UI entity, to provide all
+  // functions the validators need.
+  const wrappedDistribution = {
+    "distribution": dist,
+    "$t": (message) => message,
+  };
+  let validators;
+  if (dist.type === DIST_TYPE_FILE) {
+    validators = fileValidators;
   } else {
+    validators = serviceValidators;
+  }
+  for (let validator of Object.values(validators)) {
+    const errorMessages = validator.call(wrappedDistribution);
+    if (errorMessages.length > 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isAuthorValid(licence, value) {
+  if (licence !== "CC BY") {
     return true;
   }
+  return provided(value);
 }
 
 function isCustomValid(licence, value) {
@@ -205,17 +218,6 @@ function isCustomValid(licence, value) {
     return true;
   }
   return provided(value) && url(value);
-}
-
-function validatePersonal() {
-  return function () {
-    const value = this.distribution["license_personal_type"];
-    if (value === "UNKNOWN") {
-      return [this.$t("personal_invalid")];
-    } else {
-      return [] ;
-    }
-  };
 }
 
 function isPersonalValid(value) {

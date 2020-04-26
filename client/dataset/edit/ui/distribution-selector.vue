@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import {isDistributionValid} from "./../distribution-model";
+import {isDistributionValid} from "./../../distribution-model";
 
 export default {
   "name": "app-item-selector",

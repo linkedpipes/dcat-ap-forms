@@ -16,6 +16,7 @@ export function getLocalJson(url, accept) {
 }
 
 export function getRemoteJson(url, accept) {
+  console.log("getRemoteJson", url);
   return fetchJson("GET", url, accept);
 }
 

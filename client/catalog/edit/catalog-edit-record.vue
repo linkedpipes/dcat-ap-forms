@@ -20,18 +20,43 @@
         href="https://data.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/"
       >{{ $t('ofn_link_label') }}</a>.
     </v-alert>
-    <v-text-field
-      id="catalog_title"
-      v-model="catalog.title"
-      :label="$t('catalog_title')"
-      :error-messages="err_title"
-      :hint="$t('hint_catalog_title')"
-      prepend-icon="label"
-      append-outer-icon="help_outline"
-      required
-      clearable 
-      @click:append-outer="$h('catalog_title')"
-    />
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="catalog_title_cs"
+          v-model="catalog.title_cs"
+          :label="$t('catalog_title_cs')"
+          :error-messages="err_title_cs"
+          :hint="$t('hint_catalog_title')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          required
+          clearable
+          @click:append-outer="$h('catalog_title')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-text-field
+          id="catalog_title_en"
+          v-model="catalog.title_en"
+          :label="$t('catalog_title_en')"
+          :hint="$t('hint_catalog_title')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+          @click:append-outer="$h('catalog_title')"
+        />
+      </v-flex>
+    </v-layout>
     <v-layout 
       row 
       wrap
@@ -112,8 +137,8 @@
 </template>
 
 <script>
-import {createCatalogValidators} from "./catalog-model";
-import CatalogTypeCodelist from "./codelists/catalog-type";
+import {createCatalogValidators} from "../catalog-model";
+import CatalogTypeCodeList from "./codelists/catalog-type";
 
 export default {
   "name": "app-dataset-record-edit",
@@ -122,7 +147,7 @@ export default {
     "catalog": {"type": Object, "required": true},
   },
   "data": () => ({
-    "catalogTypes": CatalogTypeCodelist,
+    "catalogTypes": CatalogTypeCodeList,
   }),
   "computed": {
     ...createCatalogValidators(),

@@ -2,18 +2,18 @@
   <v-content v-if="data.status === 'ready'">
     <app-summary :catalog="data.catalog" />
   </v-content>
-  <v-content v-else-if="data.status === 'error'">
+  <v-content v-else-if="data.status === 'loading'">
+    <!-- No content. -->
+  </v-content>
+  <v-content v-else>
     <p class="text-xs-center mt-5">
       {{ $t("cant_import_catalog") }}
     </p>
   </v-content>
-  <v-content v-else>
-    <!-- No content. -->
-  </v-content>
 </template>
 
 <script>
-import {importCatalog} from "../import-catalog-from-url";
+import {importCatalogFromUrlWithProxy} from "../import-catalog-from-url";
 import CatalogDeleteSummary from "./catalog-delete-summary";
 import setPageTitle from "../../app-service/page-title";
 
@@ -31,12 +31,13 @@ export default {
   }),
   "mounted": function () {
     setPageTitle(this.$t("catalog_delete_page_title"));
+
     const url = this.$route.query.url;
     if (url === undefined) {
       this.data.status = "error";
       return;
     }
-    importCatalog(url).then((catalog) => {
+    importCatalogFromUrlWithProxy(url).then((catalog) => {
       this.data.catalog = catalog;
       this.data.status = "ready";
     }).catch((error) => {

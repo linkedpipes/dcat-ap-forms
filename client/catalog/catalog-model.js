@@ -4,11 +4,12 @@ import {
   url,
   email,
   applyArray,
-} from "../../app-service/validators";
+} from "../app-service/validators";
 
 export function createCatalog() {
   return {
-    "title": "",
+    "title_cs": "",
+    "title_en": "",
     "iri": undefined,
     "endpoint": "",
     "contact_point_name": "",
@@ -23,8 +24,8 @@ export function createCatalog() {
 
 export function createCatalogValidators() {
   return {
-    "err_title": apply(
-      (t) => t.catalog, "title",
+    "err_title_cs": apply(
+      (t) => t.catalog, "title_cs",
       provided,
       "catalog_title_missing"),
     "err_endpoint": applyArray(
@@ -57,7 +58,7 @@ export function createCatalogValidators() {
 }
 
 export function isCatalogValid(catalog) {
-  return provided(catalog.title) &&
+  return provided(catalog.title_cs) &&
     provided(catalog.endpoint) &&
     url(catalog.endpoint) &&
     provided(catalog.contact_point_email) &&

@@ -1,16 +1,16 @@
 <template>
-  <v-container 
-    fluid 
-    grid-list-lg 
+  <v-container
+    fluid
+    grid-list-lg
     pa-0
   >
-    <v-stepper 
-      :value="ui.step" 
+    <v-stepper
+      :value="step"
       @change="onStepperInput"
     >
       <v-stepper-header>
-        <v-stepper-step 
-          :complete="ui.step > 1"
+        <v-stepper-step
+          :complete="step > 1"
           :rules="[isCatalogValid]"
           :step="1"
           editable
@@ -18,8 +18,8 @@
           {{ $t("step_catalog") }}
         </v-stepper-step>
         <v-divider />
-        <v-stepper-step 
-          :step="2" 
+        <v-stepper-step
+          :step="2"
           editable
         >
           {{ $t("step_download") }}
@@ -30,7 +30,7 @@
           <app-catalog :catalog="data.catalog" />
         </v-stepper-content>
         <v-stepper-content :step="2">
-          <app-export 
+          <app-export
             :catalog="data.catalog"
             :is-valid="isCatalogValid()"
           />
@@ -38,16 +38,22 @@
       </v-stepper-items>
     </v-stepper>
     <div class="hidden-md-and-up">
-      <app-step-navigation-mobile v-model="ui.step" />
+      <app-step-navigation-mobile
+        :value="step"
+        @input="onStepperInput"
+      />
     </div>
     <div class="hidden-sm-and-down">
-      <app-step-navigation-desktop v-model="ui.step" />
+      <app-step-navigation-desktop
+        :value="step"
+        @input="onStepperInput"
+      />
     </div>
   </v-container>
 </template>
 
 <script>
-import {createCatalog, isCatalogValid} from "./catalog-model";
+import {createCatalog, isCatalogValid} from "../catalog-model";
 import CatalogEdit from "./catalog-edit-record";
 import ExportSummary from "./export-summary";
 import StepperNavigationMobile from "./ui/step-navigation-mobile";
@@ -66,9 +72,7 @@ export default {
     "data": {
       "catalog": createCatalog(),
     },
-    "ui": {
-      "step": 1,
-    },
+    "step": 1,
     "validation": {
       "catalog": false,
     },
@@ -76,18 +80,14 @@ export default {
   "watch": {
     "$route" : function(location) {
       if (location.query.krok === undefined) {
-        this.ui.step = 1;
-      } else if (location.query.krok !== this.ui.krok) {
-        this.ui.step = location.query.krok;
+        this.step = 1;
+      } else if (location.query.krok !== this.step) {
+        this.step = location.query.krok;
       }
     },
   },
   "mounted": function() {
-    setPageTitle("Registrace lokálního katalogu do NKOD");
-    // Set step from URL.
-    if (this.$route.query.krok !== undefined) {
-      this.ui.step = this.$route.query.krok;
-    }
+    setPageTitle(this.$t("catalog_edit_page_title"));
   },
   "methods": {
     "isCatalogValid": function () {
@@ -97,6 +97,8 @@ export default {
       return isCatalogValid(this.data.catalog);
     },
     "onStepperInput": function (value) {
+      console.log("onStepperInput", value);
+      this.step = value;
       if (!this.validation.catalog && value > 1) {
         this.validation.catalog = true;
         this.data.catalog.$validators.force = true;

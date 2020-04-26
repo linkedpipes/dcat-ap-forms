@@ -37,7 +37,8 @@
             :dataset="data.dataset"
             :codelist="data.codelist"
             :distributions="data.distributions"
-            @reload="reloadData"
+            @load-from-file="loadFromFile"
+            @load-from-url="loadFromUrl"
           />
         </v-stepper-content>
         <v-stepper-content :step="2">
@@ -64,10 +65,16 @@
       </v-stepper-items>
     </v-stepper>
     <div class="hidden-md-and-up">
-      <app-step-navigation-mobile v-model="ui.step" />
+      <app-step-navigation-mobile
+        :value="ui.step"
+        @input="onStepperInput"
+      />
     </div>
     <div class="hidden-sm-and-down">
-      <app-step-navigation-desktop v-model="ui.step" />
+      <app-step-navigation-desktop
+        :value="ui.step"
+        @input="onStepperInput"
+      />
     </div>
   </v-content>
   <v-content v-else-if="data.status === 'error'">
@@ -86,16 +93,23 @@ import DistributionEdit from "./distribution-record-edit";
 import {
   createDataset,
   isDatasetValid,
-} from "./dataset-model";
+} from "../dataset-model";
 import {
   createDistribution,
   isDistributionValid,
-} from "./distribution-model";
+} from "../distribution-model";
 import DistributionSelector from "./ui/distribution-selector";
 import StepperNavigationMobile from "./ui/step-navigation-mobile";
 import StepperNavigationDesktop from "./ui/step-navigation-desktop";
 import ExportSummary from "./export-summary";
-import {importDataset} from "../import-from-url";
+import {
+  importFromJsonLd,
+} from "../import-dataset";
+import {
+  importDatasetFromUrlWithProxy,
+  importDatasetFromUrl,
+  fetchCodelistLabels,
+} from "../import-dataset-from-url";
 import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
 
@@ -138,11 +152,6 @@ export default {
   "mounted": function () {
     setPageTitle(this.$t("edit_page_title"));
 
-    // Set step from URL.
-    if (this.$route.query.krok !== undefined) {
-      this.ui.step = this.$route.query.krok;
-    }
-
     const url = this.$route.query.url;
     if (url === undefined) {
       this.data.dataset = createDataset();
@@ -151,19 +160,28 @@ export default {
       return;
     }
 
-    if (url !== undefined) {
-      importDataset(url, this.$vuetify.lang.current, this.data.codelist, true)
-        .then((result) => {
-          this.reloadData(result.dataset, result.distributions);
-          this.data.status = "ready";
-        });
-    }
+    importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
+      .then((result) => {
+        this.setData(result.dataset, result.distributions);
+        this.data.status = "ready";
+      })
+      .catch((error) => {
+        console.error(error);
+        this.data.status = "error";
+        this.data.error = error;
+      });
   },
   "methods": {
-    "reloadData": function(dataset, distributions) {
+    "setData": function(dataset, distributions) {
       this.data.dataset = dataset;
       this.data.distributions = distributions;
       this.ui.distribution = 0;
+      // We need at least one distribution.
+      if (this.data.distributions.length === 0) {
+        this.data.distributions.push(createDistribution());
+      }
+      // Try to Load labels.
+      fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);
     },
     "isDatasetValid": function () {
       if (!this.validation.dataset) {
@@ -175,8 +193,7 @@ export default {
       if (!this.validation.distributions) {
         return true;
       }
-      for (let index in this.data.distributions) {
-        const distribution = this.data.distributions[index];
+      for (let distribution of this.data.distributions) {
         if (!distribution.$validators.force) {
           // Newly added distribution. User does not
           // visited last step after adding this one.
@@ -227,8 +244,40 @@ export default {
         },
       });
     },
+    "loadFromFile": function (file) {
+      const lang = this.$vuetify.lang.current;
+      const $this = this;
+      loadFile(file)
+        .then((content) => importFromJsonLd(content, lang))
+        .then((result) => {
+          $this.setData(result.dataset, result.distributions);
+        })
+        .catch((error) => {
+          console.error("Can't import file.", error);
+        });
+    },
+    "loadFromUrl": function(url) {
+      const lang = this.$vuetify.lang.current;
+      const $this = this;
+      importDatasetFromUrl(url, lang)
+        .then((result) => {
+          $this.setData(result.dataset, result.distributions);
+        })
+        .catch((error) => {
+          console.error("Can't import from url.", error);
+        });
+    },
   },
 };
 
+function loadFile(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(JSON.parse(reader.result));
+    };
+    reader.readAsText(file);
+  });
+}
 
 </script>

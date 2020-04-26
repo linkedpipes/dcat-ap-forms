@@ -456,7 +456,7 @@
           </v-list>
         </v-flex>
         <v-flex
-          v-if="distribution.isFileOrService==='FILE'"
+          v-if="isFileDistribution"
           xs12
           sm6
         >
@@ -599,7 +599,7 @@
           </v-list>
         </v-flex>
         <v-flex
-          v-if="distribution.isFileOrService==='SERVICE'"
+          v-if="isServiceDistribution"
           xs12
           sm6
         >
@@ -670,7 +670,8 @@
 </template>
 
 <script>
-import {getItem} from "../codelists/local-storage";
+import {getStoreItem} from "../codelists/local-storage";
+import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
 
 export default {
   "name": "app-distribution-card",
@@ -679,21 +680,27 @@ export default {
     "codelist": {"type": Object, "required": true},
   },
   "computed": {
+    "isFileDistribution": function() {
+      return this.distribution.type === DIST_TYPE_FILE;
+    },
+    "isServiceDistribution": function() {
+      return this.distribution.type === DIST_TYPE_SERVICE;
+    },
     "schemaProvided": function () {
       return this.distribution.schema !== null &&
                     this.distribution.schema.length > 0;
     },
     "packageProvided": function () {
-      return this.distribution.packageFormat !== null &&
-                    this.distribution.packageFormat.length > 0;
+      return this.distribution.package_format !== null &&
+                    this.distribution.package_format.length > 0;
     },
     "compressionProvided": function () {
-      return this.distribution.compressFormat !== null &&
-                    this.distribution.compressFormat.length > 0;
+      return this.distribution.compress_format !== null &&
+                    this.distribution.compress_format.length > 0;
     },
     "mediaTypeLabel": function () {
       const iri = this.distribution.media_type;
-      const value = getItem(
+      const value = getStoreItem(
         this.codelist, "media-types", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
@@ -704,7 +711,7 @@ export default {
     },
     "formatLabel": function () {
       const iri = this.distribution.format;
-      const value = getItem(
+      const value = getStoreItem(
         this.codelist, "file-type", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
@@ -714,8 +721,8 @@ export default {
       }
     },
     "packageLabel" : function () {
-      const iri = this.distribution.packageFormat;
-      const value = getItem(
+      const iri = this.distribution.package_format;
+      const value = getStoreItem(
         this.codelist, "media-types", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
@@ -725,8 +732,8 @@ export default {
       }
     },
     "compressionLabel" : function () {
-      const iri = this.distribution.compressFormat;
-      const value = getItem(
+      const iri = this.distribution.compress_format;
+      const value = getStoreItem(
         this.codelist, "media-types", iri,
         this.$vuetify.lang.current);
       if (value === undefined) {

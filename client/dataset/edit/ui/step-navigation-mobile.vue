@@ -36,7 +36,7 @@
 export default {
   "name": "app-step-navigation-mobile",
   "props": {
-    "value": {"required": true},
+    "value": {"required": true, "type": Number},
   },
   "methods": {
     "onClick": function (value) {

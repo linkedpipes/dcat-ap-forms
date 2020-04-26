@@ -32,11 +32,11 @@
     </template>
     <template slot="no-data">
       <v-flex ma-5>
-        <v-list-tile>
-          <v-list-tile-title>
+        <v-list-item>
+          <v-list-item-title>
             {{ noDataPrompt }}
-          </v-list-tile-title>
-        </v-list-tile>
+          </v-list-item-title>
+        </v-list-item>
       </v-flex>
     </template>
   </v-autocomplete>
@@ -44,7 +44,7 @@
 
 <script>
 import {getLocalJson} from "../../../app-service/http";
-import {addItems} from "../codelists/local-storage";
+import {addStoreItems} from "../codelists/local-storage";
 
 export default {
   "name": "app-solr-chips-autocomplete",
@@ -71,7 +71,7 @@ export default {
         if (response.json.response.docs.length === 0) {
           this.items = [...this.items, createNonLabeledItem(value)];
         } else {
-          addItems(this.codeList, response.json.response.docs);
+          addStoreItems(this.codeList, response.json.response.docs);
           this.items = [
             ...this.items, ...response.json.response.docs,
           ];
@@ -96,7 +96,7 @@ export default {
       const url = createQueryUrl(
         this.codeList, query, this.$vuetify.lang.current);
       getLocalJson(url).then((response) => {
-        addItems(this.codeList, response.json.response.docs);
+        addStoreItems(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
       });
@@ -121,7 +121,7 @@ export default {
           if (response.json.response.docs.length === 0) {
             this.items = [...this.items, createNonLabeledItem(value)];
           } else {
-            addItems(this.codeList, response.json.response.docs);
+            addStoreItems(this.codeList, response.json.response.docs);
             this.items = [
               ...this.items, ...response.json.response.docs,
             ];

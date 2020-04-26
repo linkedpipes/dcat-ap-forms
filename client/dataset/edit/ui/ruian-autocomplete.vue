@@ -30,18 +30,18 @@
       {{ data.item[$vuetify.lang.current] }} ({{ data.item.notation }})
     </template>
     <template slot="no-data">
-      <v-list-tile>
-        <v-list-tile-title>
+      <v-list-item>
+        <v-list-item-title>
           {{ $t('ruian_autocomplete_no_data') }}
-        </v-list-tile-title>
-      </v-list-tile>
+        </v-list-item-title>
+      </v-list-item>
     </template>
   </v-autocomplete>
 </template>
 
 <script>
 import {getLocalJson} from "../../../app-service/http";
-import {addItems} from "../codelists/local-storage";
+import {addStoreItems} from "../codelists/local-storage";
 
 export default {
   "name": "app-ruian-autocomplete",
@@ -60,10 +60,10 @@ export default {
     "ignoreNextSearch": false,
   }),
   "mounted": function () {
-    const url = createTitleQueryUrl(
-      this.codeList, this.value, this.$vuetify.lang.current);
+    // Fetch label for the initial value.
+    const url = createQueryUrlForIri(this.value, this.$vuetify.lang.current);
     getLocalJson(url).then((response) => {
-      addItems("ruian", response.json.response.docs);
+      addStoreItems("ruian", response.json.response.docs);
       this.items = response.json.response.docs;
     });
   },
@@ -74,17 +74,26 @@ export default {
         return;
       }
       if (value) {
-        this.querySelections(value);
+        this.fetchItems(value);
       }
+    },
+    "type": function(newValue, oldValue) {
+      if (newValue === oldValue) {
+        return;
+      }
+      // Change value to empty as it is not valid for a different type.
+      this.$emit("input", "");
+      // And clear items in suggestions.
+      this.items = [];
     },
   },
   "methods": {
-    "querySelections": function (query) {
+    "fetchItems": function (query) {
       this.loading = true;
-      let url = createQueryUrl(
+      let url = createQueryUrlForLabelAndType(
         query, this.type, this.$vuetify.lang.current);
       getLocalJson(url).then((response) => {
-        addItems("ruian", response.json.response.docs);
+        addStoreItems("ruian", response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
       });
@@ -93,24 +102,21 @@ export default {
       this.ignoreNextSearch = true;
       this.$emit("input", value);
     },
-    "clearItemCache": function () {
-      this.items = [];
-    },
   },
 };
 
-function createQueryUrl(query, type, lang) {
+function createQueryUrlForIri(iri, lang) {
+  const escapedIri = iri.replace(":", "\\:");
+  return "/api/v1/codelist/ruian" +
+    "?iri=" + encodeURIComponent(escapedIri) +
+    "&lang=" + lang;
+}
+
+function createQueryUrlForLabelAndType(query, type, lang) {
   return "/api/v1/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + lang +
             "&type=" + type;
-}
-
-function createTitleQueryUrl(codeList, iri, lang) {
-  const escapedIri = iri.replace(":", "\\:");
-  return "/api/v1/codelist/ruian" +
-            "?iri=" + encodeURIComponent(escapedIri) +
-            "&lang=" + lang;
 }
 
 </script>

@@ -1,11 +1,13 @@
 <template>
-  <v-bottom-sheet 
-    v-if="isOpen" 
-    v-model="isOpen" 
+  <v-bottom-sheet
+    v-if="isOpen"
+    v-model="isOpen"
     lazy
   >
     <v-card>
-      <v-card-title><v-spacer /></v-card-title>
+      <v-card-title>
+        <v-spacer />
+      </v-card-title>
       <v-card-text>
         <span v-html="$t('help_' + name)" />
       </v-card-text>
@@ -14,35 +16,15 @@
 </template>
 
 <script>
-
-const data = {
-  "isOpen": false,
-  "name": "",
-};
-
-export const Plugin = {
-  "install": install,
-};
-
-function install(Vue) {
-  Object.defineProperty(Vue.prototype, "$h", {
-    "get": () => onShow,
-  });
-}
-
-function onShow(name) {
-  data.name = name;
-  data.isOpen = true;
-}
+import {getData} from "./help-service";
 
 export default {
   "name": "app-help",
-  "data": () => data,
+  "data": getData,
   "watch": {
     "$route": function () {
       this.isOpen = false;
     },
   },
 };
-
 </script>

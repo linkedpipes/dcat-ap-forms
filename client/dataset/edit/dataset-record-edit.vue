@@ -6,7 +6,6 @@
   >
     <v-alert
       outlined
-      value="true"
       type="warning"
       dismissible
     >
@@ -45,7 +44,6 @@
           id="dataset_title_en"
           v-model="dataset.title_en"
           :label="$t('dataset_title_en') + $t('optional')"
-          :error-messages="err_title_en"
           :hint="$t('hint_dataset_title')"
           prepend-icon="label"
           append-outer-icon="help_outline"
@@ -85,7 +83,6 @@
           id="dataset_description_en"
           v-model="dataset.description_en"
           :label="$t('dataset_description_en') + $t('optional')"
-          :error-messages="err_description_en"
           :hint="$t('hint_dataset_description')"
           prepend-icon="description"
           append-outer-icon="help_outline"
@@ -94,6 +91,68 @@
           clearable
           @click:append-outer="$h('dataset_description')"
         />
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-combobox
+          id="keywords_cs"
+          v-model="dataset.keywords_cs"
+          :label="$t('keywords_cs')"
+          :hint="$t('hint_keywords')"
+          prepend-icon="short_text"
+          append-outer-icon="help_outline"
+          append-icon=""
+          required
+          chips
+          multiple
+          @click:append-outer="$h('keywords')"
+        >
+          <template
+            slot="selection"
+            slot-scope="data"
+          >
+            <v-chip
+              close
+              @click:close="removeKeywordCs(data.index)"
+            >
+              <strong>{{ data.item }}</strong>
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-combobox
+          id="keywords_en"
+          v-model="dataset.keywords_en"
+          :label="$t('keywords_en')"
+          :hint="$t('hint_keywords')"
+          prepend-icon="short_text"
+          append-outer-icon="help_outline"
+          append-icon=""
+          required
+          chips
+          multiple
+          @click:append-outer="$h('keywords')"
+        >
+          <template
+            slot="selection"
+            slot-scope="data"
+          >
+            <v-chip
+              close
+              @click:close="removeKeywordEn(data.index)"
+            >
+              <strong>{{ data.item }}</strong>
+            </v-chip>
+          </template>
+        </v-combobox>
       </v-flex>
     </v-layout>
     <v-layout
@@ -107,7 +166,7 @@
         <v-autocomplete
           id="dataset_themes"
           v-model="dataset.dataset_themes"
-          :items="dataset_themes"
+          :items="datasetThemeCodelist"
           :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
           :item-text="$vuetify.lang.current"
@@ -120,28 +179,6 @@
           @click:append-outer="$h('dataset_theme')"
         />
       </v-flex>
-      <v-flex
-        xs12
-        md6
-      >
-        <v-autocomplete
-          id="dataset_accrual_periodicity"
-          v-model="dataset.accrual_periodicity"
-          :items="frequencies"
-          :label="$t('accrual_periodicity')"
-          :item-text="$vuetify.lang.current"
-          prepend-icon="snooze"
-          item-value="value"
-          append-outer-icon="help_outline"
-          required
-          @click:append-outer="$h('accrual_periodicity')"
-        />
-      </v-flex>
-    </v-layout>
-    <v-layout
-      row
-      wrap
-    >
       <v-flex
         xs12
         md6
@@ -166,341 +203,46 @@
           >
             <v-chip
               close
-              @click:close="removeTheme(data.item)"
+              @click:close="removeTheme(data.index)"
             >
               <strong>{{ data.item }}</strong>
             </v-chip>
           </template>
         </v-combobox>
       </v-flex>
+    </v-layout>
+    <v-layout
+      row
+      wrap
+    >
       <v-flex
         xs12
         md6
       >
-        <v-combobox
-          id="dataset_ofn"
-          v-model="dataset.ofn"
-          :label="$t('dataset_ofn') + $t('optional')"
-          :error-messages="err_dataset_ofn"
-          :hint="$t('hint_dataset_ofn')"
+        <v-autocomplete
+          id="dataset_accrual_periodicity"
+          v-model="dataset.accrual_periodicity"
+          :items="frequencies"
+          :label="$t('accrual_periodicity')"
+          :item-text="$vuetify.lang.current"
+          prepend-icon="snooze"
           item-value="value"
-          prepend-icon="short_text"
           append-outer-icon="help_outline"
-          append-icon=""
-          chips
-          multiple
-          @click:append-outer="$h('dataset_ofn')"
-        >
-          <template
-            slot="selection"
-            slot-scope="data"
-          >
-            <v-chip
-              close
-              @click:close="removeOfn(data.item)"
-            >
-              <strong>{{ data.item }}</strong>
-            </v-chip>
-          </template>
-        </v-combobox>
-      </v-flex>
-    </v-layout>
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs1
-        md1
-      >
-        <div class="text-center">
-          <v-dialog
-            v-model="dialog_keyword"
-            full-width
-          >
-            <template v-slot:activator="{ on }">
-              <v-btn
-                color="primary"
-                fab
-                dark
-                v-on="on"
-              >
-                <v-icon>add</v-icon>
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-toolbar
-                dark
-                color="primary"
-              >
-                <v-toolbar-title>{{ $t('keyword_add') }}</v-toolbar-title>
-                <v-spacer />
-                <v-btn
-                  icon
-                  color="primary"
-                  @click="dialog_keyword = false"
-                >
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </v-toolbar>
-              <v-card-text>
-                <v-layout
-                  row
-                  wrap
-                >
-                  <v-text-field
-                    id="new_keyword_cs"
-                    v-model="keyword_cs"
-                    :label="$t('keyword_cs')"
-                    :error-messages="err_keyword_cs"
-                    :hint="$t('hint_dataset_keyword_cs')"
-                    prepend-icon="label"
-                    append-outer-icon="help_outline"
-                    clearable
-                    @click:append-outer="$h('dataset_keyword')"
-                  />
-                </v-layout>
-                <v-layout
-                  row
-                  wrap
-                >
-                  <v-text-field
-                    id="new_keyword_en"
-                    v-model="keyword_en"
-                    :label="$t('keyword_en') + $t('optional')"
-                    :error-messages="err_keyword_en"
-                    :hint="$t('hint_dataset_keyword_en')"
-                    prepend-icon="label"
-                    append-outer-icon="help_outline"
-                    clearable
-                    @click:append-outer="$h('dataset_keyword')"
-                  />
-                </v-layout>
-              </v-card-text>
-              <v-divider />
-
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  text
-                  @click="addKeyword()"
-                >
-                  {{ $t('keyword_add') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </div>
-      </v-flex>
-      <v-flex
-        xs11
-        md11
-      >
-        <v-combobox
-          id="keywords"
-          v-model="dataset.keywords"
-          :label="$t('keywords')"
-          :error-messages="err_keywords"
-          :hint="$t('hint_keywords')"
-          prepend-icon="short_text"
-          append-outer-icon="help_outline"
-          append-icon=""
           required
-          chips
-          multiple
-          readonly
-          @click:append-outer="$h('dataset_keyword')"
-        >
-          <template
-            slot="selection"
-            slot-scope="data"
-          >
-            <v-chip
-              close
-              @click:close="removeKeyword(data.item)"
-            >
-              <strong>{{ data.item.cs + " | " + data.item.en }}</strong>
-            </v-chip>
-          </template>
-        </v-combobox>
+          @click:append-outer="$h('accrual_periodicity')"
+        />
       </v-flex>
-    </v-layout>
-
-    <v-layout
-      row
-      wrap
-    >
       <v-flex
         xs1
         md1
       >
         <div class="text-center">
-          <v-dialog
-            v-model="dialog"
-            full-width
-          >
-            <template v-slot:activator="{ on }">
-              <v-btn
-                color="primary"
-                dark
-                fab
-                v-on="on"
-              >
-                <v-icon>add</v-icon>
-              </v-btn>
-            </template>
-
-            <v-card>
-              <v-toolbar
-                dark
-                color="primary"
-              >
-                <v-toolbar-title>{{ $t('dataset_spatial') }}</v-toolbar-title>
-                <v-spacer />
-                <v-btn
-                  icon
-                  color="primary"
-                  @click="dialog = false"
-                >
-                  <v-icon>close</v-icon>
-                </v-btn>
-              </v-toolbar>
-
-              <v-tabs
-                v-model="tmp_spatial_active_tab"
-                vertical
-              >
-                <v-tab>RÚIAN</v-tab>
-                <v-tab>{{ $t('dataset_spatial_continent') }}</v-tab>
-                <v-tab>{{ $t('dataset_spatial_country') }}</v-tab>
-                <v-tab>{{ $t('dataset_spatial_place') }}</v-tab>
-                <v-tab>{{ $t('dataset_spatial_arbitrary') }}</v-tab>
-
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-layout
-                        row
-                        wrap
-                      >
-                        <v-flex
-                          xs12
-                          md6
-                        >
-                          <v-autocomplete
-                            id="dataset_ruian_type"
-                            v-model="ruian_type"
-                            :items="ruianTypes"
-                            :label="$t('ruian_type')"
-                            :item-text="$vuetify.lang.current"
-                            prepend-icon="place"
-                            item-value="value"
-                            append-outer-icon="help_outline"
-                            required
-                            @click:append-outer="$h('ruian_type')"
-                            @input="onRuainTypeInput"
-                          />
-                        </v-flex>
-                        <v-flex
-                          xs12
-                          md6
-                        >
-                          <app-ruian-autocomplete
-                            id="dataset_ruian"
-                            ref="ruian"
-                            v-model="ruian"
-                            :label="$t('ruian')"
-                            :type="ruian_type"
-                            :disabled="ruian_type === ''"
-                            code-list="ruian"
-                            prepend-icon="place"
-                            @update:label="dataset.$labels.ruian = $event"
-                          />
-                        </v-flex>
-                      </v-layout>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-autocomplete
-                        v-model="continent"
-                        :label="Continent"
-                        :items="continents"
-                        :item-text="$vuetify.lang.current"
-                        item-value="value"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-autocomplete
-                        v-model="country"
-                        :label="Country"
-                        :items="countries"
-                        :item-text="$vuetify.lang.current"
-                        item-value="value"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-autocomplete
-                        v-model="place"
-                        :label="Place"
-                        :items="places"
-                        :item-text="$vuetify.lang.current"
-                        item-value="value"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <v-text-field
-                        id="spatial_custom_url"
-                        v-model="spatial_url"
-                        :label="$t('dataset_spatial_url')"
-                        :error-messages="err_spatial_url"
-                        :hint="$t('hint_dataset_spatial_url')"
-                        prepend-icon="label"
-                        append-outer-icon="help_outline"
-                        clearable
-                        @click:append-outer="$h('dataset_spatial_url')"
-                      />
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-              </v-tabs>
-
-              <v-divider />
-
-              <v-card-actions>
-                <v-spacer />
-                <v-btn
-                  color="primary"
-                  text
-                  @click="addSpatial()"
-                >
-                  {{ $t('dataset_spatial_add_confirm') }}
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <spatial-dialog @add="addSpatial" />
         </div>
       </v-flex>
-
       <v-flex
         xs11
-        md11
+        md5
       >
         <v-combobox
           id="dataset_spatial"
@@ -524,26 +266,16 @@
           >
             <v-chip
               close
-              @click:close="removeSpatial(data.item)"
+              @click:close="removeSpatial(data.index)"
             >
-              <strong v-if="data.item.type === 'URL'">
-                {{ data.item.url }}
+              <strong>
+                {{ getSpatialLabel(data.item) }}
               </strong>
-              <strong
-                v-else-if="data.item.type === 'RUIAN'
-                  || data.item.type === 'CONTINENT'
-                  || data.item.type === 'COUNTRY'
-                  || data.item.type === 'PLACE'"
-              >
-                {{ data.item.label }}
-              </strong>
-              <strong v-else>{{ data.item }}</strong>
             </v-chip>
           </template>
         </v-combobox>
       </v-flex>
     </v-layout>
-
     <v-layout
       row
       wrap
@@ -675,111 +407,8 @@
       wrap
     >
       <div class="text-center">
-        <v-dialog
-          v-model="dialog_upload"
-          full-width
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              text
-              v-on="on"
-            >
-              {{ $t('load') }}
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-toolbar
-              dark
-              color="primary"
-            >
-              <v-toolbar-title>{{ $t('load') }}</v-toolbar-title>
-              <v-spacer />
-              <v-btn
-                icon
-                color="primary"
-                @click="dialog_upload = false"
-              >
-                <v-icon>close</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text>
-              <v-layout
-                row
-                wrap
-              >
-                <v-file-input
-                  :label="$t('load_hint')"
-                  @change="onFileChanged"
-                />
-              </v-layout>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-      </div>
-
-
-      <div class="text-center">
-        <v-dialog
-          v-model="dialog_url"
-          full-width
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              text
-              v-on="on"
-            >
-              {{ $t('load_url') }}
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-toolbar
-              dark
-              color="primary"
-            >
-              <v-toolbar-title>{{ $t('load_url') }}</v-toolbar-title>
-              <v-spacer />
-              <v-btn
-                icon
-                color="primary"
-                @click="dialog_url = false"
-              >
-                <v-icon>close</v-icon>
-              </v-btn>
-            </v-toolbar>
-            <v-card-text>
-              <v-layout
-                row
-                wrap
-              >
-                <v-text-field
-                  id="url_load_from"
-                  v-model="url_to_load_from"
-                  :label="$t('url_title')"
-                  :error-messages="err_url_load"
-                  :hint="$t('hint_url_title')"
-                  prepend-icon="label"
-                  append-outer-icon="help_outline"
-                  clearable
-                  @click:append-outer="$h('url_title')"
-                />
-              </v-layout>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer />
-              <v-btn
-                color="primary"
-                text
-                @click="loadUrl"
-              >
-                {{ $t('load_url') }}
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+        <upload-file-dialog @upload="loadFromFile" />
+        <upload-url-dialog @upload="loadFromUrl" />
       </div>
     </v-layout>
   </v-container>
@@ -788,36 +417,34 @@
 <script>
 import {
   createDatasetValidators,
-  do_addKeyword,
-  do_addSpatial,
-  do_loadFile,
-} from "./dataset-model";
+  SPATIAL_RUIAN,
+  SPATIAL_COUNTRY,
+  SPATIAL_CONTINENT,
+  SPATIAL_PLACE,
+  SPATIAL_URL,
+} from "../dataset-model";
 import DatePicker from "./ui/date-picker";
-import RuinTypeCodelist from "./codelists/ruian-type";
 import FrequenciesCodeList from "./codelists/frequencies";
-import {getLabel as continentsToLabel} from "./codelists/continents";
-import {getLabel as countriesToLabel} from "./codelists/countries";
-import {getLabel as placesToLabel} from "./codelists/places";
-import ContinentsCodeList from "./codelists/continents";
-import CountryCodeList from "./codelists/countries";
-import PlaceCodeList from "./codelists/places";
+import {getContinentLabel} from "./codelists/continents";
+import {getCountryLabel} from "./codelists/countries";
+import {getPlaceLabel} from "./codelists/places";
 import SolrAutocomplete from "./ui/solr-autocomplete";
-import RuianAutocomplete from "./ui/ruian-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
-import {getItem} from "./codelists/local-storage";
-import UploadButton from "vuetify-upload-button";
-import {importDataset} from "../import-from-url";
-
+import {getStoreItem} from "./codelists/local-storage";
+import SpatialDialog from "./ui/spatial-dialog";
+import UploadFileDialog from "./ui/upload-file-dialog";
+import UploadUrlDialog from "./ui/upload-url-dialog";
 
 export default {
   "name": "app-dataset-record-edit",
   "components": {
     "app-date-picker": DatePicker,
-    "app-ruian-autocomplete": RuianAutocomplete,
     "app-solr-autocomplete": SolrAutocomplete,
     "app-solr-chips-autocomplete": SolrChipsAutocomplete,
-    "upload-btn": UploadButton,
+    "spatial-dialog": SpatialDialog,
+    "upload-file-dialog": UploadFileDialog,
+    "upload-url-dialog": UploadUrlDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
@@ -826,98 +453,70 @@ export default {
   },
   "data": () => ({
     "frequencies": FrequenciesCodeList,
-    "ruianTypes": RuinTypeCodelist,
-    "dataset_themes": DatasetThemes,
-    "continents": ContinentsCodeList,
-    "countries": CountryCodeList,
-    "places": PlaceCodeList,
+    "datasetThemeCodelist": DatasetThemes,
     "dialog": false,
     "dialog_keyword": false,
     "dialog_url": false,
-    "ruian_type": "https://linked.cuzk.cz/ontology/ruian/TypPrvku/ST",
-    "ruian": "https://linked.cuzk.cz/resource/ruian/stat/1",
-    "keyword_cs": "",
-    "keyword_en": "",
   }),
   "computed": {
     ...createDatasetValidators(),
   },
   "methods": {
-    "addKeyword": function() {
-      do_addKeyword(this.dataset, this.keyword_cs, this.keyword_en);
-      this.keyword_en = "";
-      this.keyword_cs = "";
-      this.dialog_keyword = false;
-    },
-    "addSpatial": function() {
-      let label = null;
-      if (this.tmp_spatial_active_tab === 0) {
-        label = this.ruianLabel(this.ruian);
-      } else if (this.tmp_spatial_active_tab === 1) {
-        label = continentsToLabel(this.continent, this.$vuetify.lang.current);
-      } else if (this.tmp_spatial_active_tab === 2) {
-        label = countriesToLabel(this.country, this.$vuetify.lang.current);
-      } else if (this.tmp_spatial_active_tab === 3) {
-        label = placesToLabel(this.place, this.$vuetify.lang.current);
-      }
-
-      if (do_addSpatial(
-        this.dataset, this.ruian_type, this.ruian,
-        this.spatial_url, this.continent, this.country, this.place,
-        this.tmp_spatial_active_tab, label)) {
-        this.dialog = false;
-      }
-    },
-    "removeKeyword": function (item) {
-      const index = this.dataset.keywords.indexOf(item);
-      this.dataset.keywords.splice(index, 1);
-    },
-    "removeTheme": function (item) {
-      const index = this.dataset.dataset_custom_themes.indexOf(item);
-      this.dataset.dataset_custom_themes.splice(index, 1);
-    },
-    "removeOfn": function (item) {
-      const index = this.dataset.ofn.indexOf(item);
-      this.dataset.ofn.splice(index, 1);
-    },
-    "removeSpatial": function (item) {
-      const index = this.dataset.spatial.indexOf(item);
-      this.dataset.spatial.splice(index, 1);
-    },
-    "onRuainTypeInput": function(newValue, oldValue) {
-      if (newValue === oldValue) {
+    "addSpatial": function(value) {
+      if (containsSpatial(this.dataset, value)) {
         return;
       }
-      this.ruian = "";
-      this.$refs.ruian.clearItemCache();
+      this.dataset.spatial.push(value);
     },
-    "ruianLabel": function (iri) {
-      const value = getItem(
-        this.codelist, "ruian", iri, this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
+    "removeKeywordCs": function (index) {
+      this.dataset.keywords_cs.splice(index, 1);
+      console.log("removeKeywordCs", index, this.dataset.keywords_cs);
     },
-    "onFileChanged": function (file) {
-      console.log("On file changed");
-      console.log(file);
-      do_loadFile(
-        file, this.dataset, this.distributions, this.$vuetify.lang.current,
-        this.codelist, this);
-      this.dialog_upload = false;
+    "removeKeywordEn": function (index) {
+      this.dataset.keywords_en.splice(index, 1);
     },
-    "loadUrl": function() {
-      this.dialog_url = false;
-      importDataset(
-        this.url_to_load_from, this.$vuetify.lang.current,
-        this.codelist, false
-      ).then((result) => {
-        this.$emit("reload", result.dataset, result.distributions);
-      });
-      this.url_to_load_from = "";
+    "removeTheme": function (index) {
+      this.dataset.dataset_custom_themes.splice(index, 1);
+    },
+    "removeSpatial": function (index) {
+      this.dataset.spatial.splice(index, 1);
+    },
+    "getSpatialLabel": function(item) {
+      return getSpatialLabel(this.codelist, this.$vuetify.lang.current, item);
+    },
+    "loadFromFile": function (file) {
+      this.$emit("load-from-file", file);
+    },
+    "loadFromUrl": function(url) {
+      this.$emit("load-from-url", url);
     },
   },
 };
+
+function containsSpatial(dataset, spatial) {
+  for (let item of dataset.spatial) {
+    if (item.type === spatial.type && item.url === item.url) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function getSpatialLabel(codelist, lang, item) {
+  switch (item.type) {
+  case SPATIAL_RUIAN:
+    return getStoreItem(codelist, "ruian", item.url, lang) || item.url;
+  case SPATIAL_CONTINENT:
+    return getContinentLabel(item.url, lang);
+  case SPATIAL_COUNTRY:
+    return getCountryLabel(item.url, lang);
+  case SPATIAL_PLACE:
+    return getPlaceLabel(item.url, lang);
+  case SPATIAL_URL:
+    return item.url;
+  default:
+    return item.url;
+  }
+}
+
 </script>

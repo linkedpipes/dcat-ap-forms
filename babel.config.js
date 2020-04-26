@@ -9,6 +9,11 @@ module.exports = (api) => {
         "targets": {
           "chrome": 41,
         },
+        "useBuiltIns": "usage",
+        "corejs": {
+          "version": 3,
+          "proposals": true,
+        },
       },
     ],
   ];

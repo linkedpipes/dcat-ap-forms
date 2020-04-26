@@ -1,49 +1,50 @@
-export const prefix = "http://publications.europa.eu/resource/authority/continent/";
+export const continentPrefix =
+  "http://publications.europa.eu/resource/authority/continent/";
 
-const codelist = [
+const continentCodelist = [
   {
-    "value": prefix + "EUROPE",
+    "value": continentPrefix + "EUROPE",
     "cs": "Evropa",
     "en": "Europe",
   },
   {
-    "value": prefix + "AMERICA",
+    "value": continentPrefix + "AMERICA",
     "cs": "Amerika",
     "en": "America",
   },
   {
-    "value": prefix + "ASIA",
+    "value": continentPrefix + "ASIA",
     "cs": "Asie",
     "en": "Asia",
   },
   {
-    "value": prefix + "AFRICA",
+    "value": continentPrefix + "AFRICA",
     "cs": "Africa",
     "en": "Africa",
   },
   {
-    "value": prefix + "OCEANIA",
+    "value": continentPrefix + "OCEANIA",
     "cs": "Oceánie",
     "en": "Oceania",
   },
   {
-    "value": prefix + "ANTARCTICA",
+    "value": continentPrefix + "ANTARCTICA",
     "cs": "Antarktida",
     "en": "Antarctica",
   },
   {
-    "value": prefix + "OP_DATPRO",
+    "value": continentPrefix + "OP_DATPRO",
     "cs": "Předběžné údaje",
     "en": "Provisional data",
   },
 ];
 
-export default codelist;
+export default continentCodelist;
 
-export function getLabel(iri, lang) {
-  for (let index in codelist) {
-    if (codelist[index]["value"] === iri) {
-      return codelist[index][lang];
+export function getContinentLabel(iri, lang) {
+  for (let index in continentCodelist) {
+    if (continentCodelist[index]["value"] === iri) {
+      return continentCodelist[index][lang];
     }
   }
   return iri;

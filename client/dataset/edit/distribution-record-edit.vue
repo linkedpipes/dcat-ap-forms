@@ -210,7 +210,7 @@
     </h2>
     <div>
       <v-select
-        v-model="distribution.isFileOrService"
+        v-model="distribution.type"
         :items="distribution_types"
         item-value="value"
         :item-text="$vuetify.lang.current"
@@ -222,7 +222,7 @@
       />
     </div>
 
-    <div v-if="distribution.isFileOrService==='FILE'">
+    <div v-if="isFileDistribution">
       <v-text-field
         id="distribution_url"
         v-model="distribution.url"
@@ -279,10 +279,9 @@
         >
           <app-solr-autocomplete
             id="distribution_compress_format"
-            v-model="distribution.compressFormat"
+            v-model="distribution.compress_format"
             :label="$t('distribution_compress_format') + $t('optional')"
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
-            :error-messages="err_compress_format"
             prepend-icon="description"
             code-list="media-types"
             clearable
@@ -294,10 +293,9 @@
         >
           <app-solr-autocomplete
             id="distribution_package_format"
-            v-model="distribution.packageFormat"
+            v-model="distribution.package_format"
             :label="$t('distribution_package_format') + $t('optional')"
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
-            :error-messages="err_package_format"
             prepend-icon="description"
             code-list="media-types"
             clearable
@@ -353,7 +351,7 @@
       </v-layout>
     </div>
 
-    <div v-if="distribution.isFileOrService==='SERVICE'">
+    <div v-else>
       <v-text-field
         id="endpoint_url"
         v-model="distribution.service_endpoint_url"
@@ -434,12 +432,16 @@
 </template>
 
 <script>
-import {createDistributionValidators} from "./distribution-model";
 import {
-  author_license_types,
-  db_author_license_types,
-  db_special_license_types,
-  personal_data_links,
+  createDistributionValidators,
+  DIST_TYPE_FILE,
+  DIST_TYPE_SERVICE,
+} from "../distribution-model";
+import {
+  authorLicenseTypes,
+  dbAuthorLicenseTypes,
+  dbSpecialLicenseTypes,
+  personalDataTypes,
 } from "./codelists/license";
 import DatePicker from "./ui/date-picker";
 import SolrAutocomplete from "./ui/solr-autocomplete";
@@ -455,13 +457,21 @@ export default {
     "canBeDeleted": {"type": Boolean, "required": true},
   },
   "data": () => ({
-    "author_license_types": author_license_types,
-    "db_author_license_types": db_author_license_types,
-    "db_special_license_types": db_special_license_types,
-    "personal_data_links": personal_data_links,
+    "author_license_types": authorLicenseTypes,
+    "db_author_license_types": dbAuthorLicenseTypes,
+    "db_special_license_types": dbSpecialLicenseTypes,
+    "personal_data_links": personalDataTypes,
     "distribution_types": [
-      {"value": "FILE", "cs": "Soubor ke stažení", "en": "Downloadable file"},
-      {"value": "SERVICE", "cs": "Datová služba", "en":"Data Service"},
+      {
+        "value": DIST_TYPE_FILE,
+        "cs": "Soubor ke stažení",
+        "en": "Downloadable file",
+      },
+      {
+        "value": DIST_TYPE_SERVICE,
+        "cs": "Datová služba",
+        "en":"Data Service",
+      },
     ],
   }),
   "computed": {
@@ -480,6 +490,9 @@ export default {
     },
     "isCustomSpecialDb": function () {
       return this.distribution.license_specialdb_type === "CUSTOM";
+    },
+    "isFileDistribution": function() {
+      return this.distribution.type === DIST_TYPE_FILE;
     },
   },
   "methods": {

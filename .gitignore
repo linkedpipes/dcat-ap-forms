@@ -2,9 +2,12 @@
 * text eol=lf
 
 # IntelliJ IDEA files.
+.idea/
 *.iml
 
+# File.
+.*
+
 # Generated files.
-node_modules/
 dist/
-.idea/
+node_modules/

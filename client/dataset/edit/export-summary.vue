@@ -65,7 +65,6 @@
           <v-list-item
             v-if="dataset.dataset_themes.length
               || dataset.dataset_custom_themes.length"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -99,32 +98,7 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider v-if="dataset.dataset_themes.length" />
-          <v-list-item
-            v-if="dataset.ofn.length"
-            avatar
-          >
-            <v-list-item-avatar>
-              <v-icon class="blue white--text">
-                category
-              </v-icon>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>
-                <span
-                  v-for="(theme, index) in dataset.ofn"
-                  :key="theme"
-                >
-                  {{ index > 0 ? ", " : "" }}
-                  {{ theme }}
-                </span>
-              </v-list-item-title>
-              <v-list-item-subtitle>
-                {{ $t("dataset_ofn") }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-          <v-divider v-if="dataset.ofn.length" />
-          <v-list-item avatar>
+          <v-list-item>
             <v-list-item-avatar>
               <v-icon class="blue white--text">
                 snooze
@@ -143,8 +117,7 @@
           </v-list-item>
           <v-divider />
           <v-list-item
-            v-if="dataset.keywords.length"
-            avatar
+            v-if="keywords.length"
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -154,11 +127,11 @@
             <v-list-item-content>
               <v-list-item-title>
                 <span
-                  v-for="(keyword, index) in dataset.keywords"
+                  v-for="(keyword, index) in keywords"
                   :key="keyword"
                 >
                   {{ index > 0 ? ", " : "" }}
-                  {{ keyword.cs }} | {{ keyword.en }}
+                  {{ keyword }}
                 </span>
               </v-list-item-title>
               <v-list-item-subtitle>
@@ -166,10 +139,9 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-divider v-if="dataset.keywords.length" />
+          <v-divider v-if="keywords.length" />
           <v-list-item
             v-if="dataset.contact_point_name"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -187,7 +159,6 @@
           </v-list-item>
           <v-divider
             v-if="dataset.contact_point_name"
-            avatar
           />
           <v-list-item v-if="dataset.contact_point_email">
             <v-list-item-avatar>
@@ -218,7 +189,6 @@
           <v-divider v-if="dataset.contact_point_email" />
           <v-list-item
             v-if="dataset.documentation"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -246,10 +216,7 @@
             </v-list-item-action>
           </v-list-item>
           <v-divider v-if="dataset.documentation" />
-          <v-list-item
-            v-if="dataset.spatial"
-            avatar
-          >
+          <v-list-item>
             <v-list-item-avatar>
               <v-icon class="blue white--text">
                 place
@@ -259,20 +226,11 @@
               <v-list-item-title>
                 <span
                   v-for="(item, index) in dataset.spatial"
-                  :key="item"
+                  :key="item.url"
                 >
                   {{ index > 0 ? ", " : "" }}
-                  <span v-if="item.type === 'RUIAN'">
-                    {{ ruianLabel(item.ruian) }}
-                  </span>
-                  <span
-                    v-else-if="item.type==='COUNTRY'
-                      || item.type==='CONTINENT' || item.type==='PLACE'"
-                  >
-                    {{ item.label }}
-                  </span>
-                  <span v-else>
-                    {{ item.url }}
+                  <span>
+                    {{ spatialToLabel(item) }}
                   </span>
                 </span>
               </v-list-item-title>
@@ -281,10 +239,9 @@
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-          <v-divider v-if="dataset.spatial" />
+          <v-divider />
           <v-list-item
             v-if="dataset.temporal_start || dataset.temporal_end"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -308,7 +265,6 @@
           />
           <v-list-item
             v-if="dataset.temporal_resolution"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -329,7 +285,6 @@
           />
           <v-list-item
             v-if="dataset.spatial_resolution_meters"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -350,7 +305,6 @@
           />
           <v-list-item
             v-if="dataset.themes.length"
-            avatar
           >
             <v-list-item-avatar>
               <v-icon class="blue white--text">
@@ -424,12 +378,22 @@
 </template>
 
 <script>
-import {exportToJsonLd} from "./export-dataset-edit";
+import {exportToJsonLd} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
 import DistributionCard from "./ui/distribution-card";
-import {getLabel as datasetThemeToLabel} from "./codelists/dataset-theme";
-import {getLabel as frequencyToLabel} from "./codelists/frequencies.js";
-import {getItem} from "./codelists/local-storage";
+import {getDatasetThemeLabel} from "./codelists/dataset-theme";
+import {getFrequencyLabel} from "./codelists/frequencies.js";
+import {getStoreItem} from "./codelists/local-storage";
+import {
+  SPATIAL_CONTINENT,
+  SPATIAL_COUNTRY,
+  SPATIAL_PLACE,
+  SPATIAL_RUIAN,
+  SPATIAL_URL,
+} from "../dataset-model";
+import {getContinentLabel} from "./codelists/continents";
+import {getCountryLabel} from "./codelists/countries";
+import {getPlaceLabel} from "./codelists/places";
 
 export default {
   "name": "app-export-summary",
@@ -446,10 +410,13 @@ export default {
     "nkodDatabox": function () {
       return NKOD_ISDS;
     },
+    "keywords": function() {
+      return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
+    },
   },
   "methods": {
     "ruianLabel": function (iri) {
-      const value = getItem(
+      const value = getStoreItem(
         this.codelist, "ruian", iri, this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -462,15 +429,15 @@ export default {
       downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld);
     },
     "openDocumentation": function () {
-      downloadUrl(this.dataset.documentation);
+      openUrl(this.dataset.documentation);
     },
     "openRuian": function () {
-      downloadUrl(this.dataset.ruian);
+      openUrl(this.dataset.ruian);
     },
-    "datasetThemeToLabel": datasetThemeToLabel,
-    "frequencyToLabel": frequencyToLabel,
+    "datasetThemeToLabel": getDatasetThemeLabel,
+    "frequencyToLabel": getFrequencyLabel,
     "themeToLabel": function (iri) {
-      const value = getItem(
+      const value = getStoreItem(
         this.codelist, "themes", iri, this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -478,15 +445,36 @@ export default {
         return value;
       }
     },
+    "spatialToLabel": function(item) {
+      return getSpatialLabel(this.codelist, this.$vuetify.lang.current, item);
+    },
     "openUrl": function (url) {
-      downloadUrl(url);
+      openUrl(url);
     },
   },
 };
 
-function downloadUrl(uri) {
+function openUrl(uri) {
   window.open(uri);
 }
+
+export function getSpatialLabel(codelist, lang, item) {
+  switch (item.type) {
+  case SPATIAL_RUIAN:
+    return getStoreItem(codelist, "ruian", item.url, lang) || item.url;
+  case SPATIAL_CONTINENT:
+    return getContinentLabel(item.url, lang);
+  case SPATIAL_COUNTRY:
+    return getCountryLabel(item.url, lang);
+  case SPATIAL_PLACE:
+    return getPlaceLabel(item.url, lang);
+  case SPATIAL_URL:
+    return item.url;
+  default:
+    return item.url;
+  }
+}
+
 </script>
 
 <style scoped>

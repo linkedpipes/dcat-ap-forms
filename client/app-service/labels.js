@@ -1,10 +1,9 @@
-export function prepareLabels() {
+export function prepareLabels(labels) {
   let result = {};
-  for (let index = 0; index < arguments.length; ++index) {
-    const arg = arguments[index];
+  for (let item of labels) {
     result = {
       ...result,
-      ...arg,
+      ...item,
     };
   }
   return result;
@@ -18,6 +17,6 @@ function install(Vue) {
   });
 }
 
-export const Plugin = {
+export const LabelsPlugin = {
   "install": install,
 };

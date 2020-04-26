@@ -2,7 +2,7 @@
   <v-container 
     fluid 
     grid-list-lg 
-    pa-0
+    pa-2
   >
     <v-layout row>
       <v-flex v-if="!isValid">
@@ -25,11 +25,10 @@
         </v-alert>
       </v-flex>
     </v-layout>
-
     <v-layout row>
       <v-flex md10>
         <h2 class="display-1">
-          {{ catalog.title }}
+          {{ catalog.title_cs }}
         </h2>
       </v-flex>
       <v-spacer />
@@ -48,7 +47,7 @@
       </v-btn>
     </v-layout>
     <v-list two-line>
-      <v-list-item avatar>
+      <v-list-item>
         <v-list-item-avatar>
           <v-icon class="blue white--text">
             person
@@ -64,8 +63,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider />
-
-      <v-list-item avatar>
+      <v-list-item>
         <v-list-item-avatar>
           <v-icon class="blue white--text">
             alternate_email
@@ -92,8 +90,7 @@
         </v-list-item-action>
       </v-list-item>
       <v-divider />
-
-      <v-list-item avatar>
+      <v-list-item>
         <v-list-item-avatar>
           <v-icon class="blue white--text">
             category
@@ -109,8 +106,7 @@
         </v-list-item-content>
       </v-list-item>
       <v-divider />
-
-      <v-list-item avatar>
+      <v-list-item>
         <v-list-item-avatar>
           <v-icon class="blue white--text">
             link
@@ -136,7 +132,6 @@
           </v-btn>
         </v-list-item-action>
       </v-list-item>
-
       <v-divider v-if="catalog.homepage" />
       <v-list-item
         v-if="catalog.homepage"
@@ -202,9 +197,9 @@
 </template>
 
 <script>
-import {exportToJsonLd} from "./export-catalog-edit";
+import {exportToJsonLd} from "../export-catalog";
 import {downloadAsJsonLd} from "../../app-service/download";
-import {getLabel as typeToLabel} from "./codelists/catalog-type";
+import {getCatalogTypeLabel} from "./codelists/catalog-type";
 
 export default {
   "name": "app-catalog-export-summary",
@@ -231,7 +226,7 @@ export default {
     "sendEmail": function () {
       window.open("mailto:" + this.catalog.contact_point_email);
     },
-    "typeToLabel": typeToLabel,
+    "typeToLabel": getCatalogTypeLabel,
   },
 };
 </script>

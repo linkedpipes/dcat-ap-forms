@@ -29,7 +29,7 @@
 export default {
   "name": "app-step-navigation-desktop",
   "props": {
-    "value": {"required": true},
+    "value": {"required": true, "type": Number},
   },
   "computed": {
     "prevLabel": function() {

@@ -23,8 +23,7 @@ module.exports = {
             path.join(entryPath, "dataset-withdrawn-cs.js"),
     "dataset-withdrawn-en":
             path.join(entryPath, "dataset-withdrawn-en.js"),
-    "home":
-            path.join(entryPath, "home.js"),
+    "home": path.join(entryPath, "home.js"),
   },
   "output": {
     "path": path.join(__dirname, "..", "dist"),
@@ -44,7 +43,6 @@ module.exports = {
         "use": "babel-loader",
         "include": [
           path.resolve(__dirname, "..", "client"),
-          path.resolve("node_modules"),
         ],
       },
       {

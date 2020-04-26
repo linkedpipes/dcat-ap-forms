@@ -1,6 +1,6 @@
 const prefix = "http://publications.europa.eu/resource/authority/data-theme/";
 
-const codelist = [
+const datasetThemeCodelist = [
   {
     "value": prefix + "TRAN",
     "cs": "Doprava",
@@ -60,12 +60,12 @@ const codelist = [
   },
 ];
 
-export default codelist;
+export default datasetThemeCodelist;
 
-export function getLabel(iri, lang) {
-  for (let index in codelist) {
-    if (codelist[index]["value"] === iri) {
-      return codelist[index][lang];
+export function getDatasetThemeLabel(iri, lang) {
+  for (let index in datasetThemeCodelist) {
+    if (datasetThemeCodelist[index]["value"] === iri) {
+      return datasetThemeCodelist[index][lang];
     }
   }
   return iri;

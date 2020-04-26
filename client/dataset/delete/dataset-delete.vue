@@ -2,21 +2,18 @@
   <v-content v-if="data.status === 'ready'">
     <app-summary :dataset="data.dataset" />
   </v-content>
-  <v-content v-else-if="data.status === 'missing-dataset'">
-    <!-- TODO Add content -->
+  <v-content v-else-if="data.status === 'loading'">
+    <!-- No content. -->
   </v-content>
-  <v-content v-else-if="data.status === 'error'">
+  <v-content v-else>
     <p class="text-xs-center mt-5">
       {{ $t("cant_import_dataset") }}
     </p>
   </v-content>
-  <v-content v-else>
-    <!-- No content. -->
-  </v-content>
 </template>
 
 <script>
-import {importMinimalDataset} from "../import-from-url";
+import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
 import DatasetDeleteSummary from "./dataset-delete-summary";
 import setPageTitle from "../../app-service/page-title";
 
@@ -41,8 +38,9 @@ export default {
       return;
     }
 
-    importMinimalDataset(url).then((result) => {
-      this.data.dataset = result.dataset;
+    const lang = this.$vuetify.lang.current;
+    importDatasetFromUrlWithProxy(url, lang).then((dataset) => {
+      this.data.dataset = dataset;
       this.data.status = "ready";
     }).catch((error) => {
       console.error(error);

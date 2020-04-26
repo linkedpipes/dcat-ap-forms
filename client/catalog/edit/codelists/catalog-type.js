@@ -1,4 +1,4 @@
-const codelist = [
+const catalogTypeCodeList = [
   {
     "value": "https://data.gov.cz/slovník/nkod/CkanApiLkod",
     "cs": "CKAN API",
@@ -16,12 +16,12 @@ const codelist = [
   },
 ];
 
-export default codelist;
+export default catalogTypeCodeList;
 
-export function getLabel(iri, lang) {
-  for (let index in codelist) {
-    if (codelist[index]["value"] === iri) {
-      return codelist[index][lang];
+export function getCatalogTypeLabel(iri, lang) {
+  for (let item of catalogTypeCodeList) {
+    if (item["value"] === iri) {
+      return item[lang];
     }
   }
   return iri;

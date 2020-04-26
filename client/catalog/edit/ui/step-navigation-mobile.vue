@@ -1,22 +1,20 @@
 <template>
   <v-bottom-navigation
-    v-model="value"
-    absolute
+    :value="value"
+    @change="onChange"
   >
     <v-btn 
-      :value="1" 
-      color="blue" 
+      :value="1"
+      :color="getColor(1)"
       text
-      @click="onClick(1)"
     >
       <span>{{ $t('nav_catalog') }}</span>
       <v-icon>note</v-icon>
     </v-btn>
     <v-btn 
-      :value="2" 
-      color="blue" 
+      :value="2"
+      :color="getColor(2)"
       text
-      @click="onClick(2)"
     >
       <span>{{ $t('nav_download') }}</span>
       <v-icon>cloud_download</v-icon>
@@ -28,11 +26,18 @@
 export default {
   "name": "app-catalog-step-navigation-mobile",
   "props": {
-    "value": {"required": true},
+    "value": {"required": true, "type": Number},
   },
   "methods": {
-    "onClick": function (value) {
+    "onChange": function(value) {
       this.$emit("input", value);
+    },
+    "getColor": function(value) {
+      if (this.value === value) {
+        return "blue";
+      } else {
+        return "red";
+      }
     },
   },
 };

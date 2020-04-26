@@ -1,6 +1,6 @@
 const prefix = "https://linked.cuzk.cz/ontology/ruian/TypPrvku/";
 
-export default [
+export const ruianTypeCodelist = [
   {
     "value": prefix + "SP",
     "cs": "Správní obvod v hlavním městě Praze",
@@ -80,7 +80,7 @@ export default [
   },
 ];
 
-export function typeFromUrl(url) {
+export function getRuianTypeFromUrl(url) {
   if (url.indexOf("adresni-misto") !== -1) {
     return prefix + "AD";
   } else if (url.indexOf("/cast-obce/") !== -1) {

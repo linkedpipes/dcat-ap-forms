@@ -1,6 +1,6 @@
 const prefix = "http://publications.europa.eu/resource/authority/frequency/";
 
-const codelist = [
+const frequencyCodelist = [
   {
     "value": prefix + "DAILY",
     "cs": "denní",
@@ -113,12 +113,12 @@ const codelist = [
   },
 ];
 
-export default codelist;
+export default frequencyCodelist;
 
-export function getLabel(iri, lang) {
-  for (let index in codelist) {
-    if (codelist[index]["value"] === iri) {
-      return codelist[index][lang];
+export function getFrequencyLabel(iri, lang) {
+  for (let index in frequencyCodelist) {
+    if (frequencyCodelist[index]["value"] === iri) {
+      return frequencyCodelist[index][lang];
     }
   }
   return iri;

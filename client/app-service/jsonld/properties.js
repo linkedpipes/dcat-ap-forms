@@ -41,3 +41,33 @@ export function getValues(entity, predicate) {
   });
   return output;
 }
+
+/**
+ * Support only one value per language.
+ */
+export function getLangString(entity, predicate) {
+  const value = entity[predicate];
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const result = {};
+  if (Array.isArray(value)) {
+    value.forEach((valueEntry) => {
+      const [lang, text] = getStringForValue(valueEntry);
+      result[lang] = text;
+    });
+  } else {
+    const [lang, text] = getStringForValue(value);
+    result[lang] = text;
+  }
+  return result;
+}
+
+/**
+ * Return language tag and string value.
+ */
+function getStringForValue(value) {
+  const language = value["@language"] || "";
+  const text = value["@value"] || value;
+  return [language, text];
+}

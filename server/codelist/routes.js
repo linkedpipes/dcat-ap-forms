@@ -10,6 +10,12 @@ const configuration = require("../config");
     configuration.solr_file_type, true));
   router.get("/themes", createCodelistGet(
     configuration.solr_themes));
+  router.get("/continents", createCodelistGet(
+    configuration.solr_continents));
+  router.get("/countries", createCodelistGet(
+    configuration.solr_countries));
+  router.get("/places", createCodelistGet(
+    configuration.solr_places));
   router.get("/ruian", createRuianCodelistGet());
   module.exports = router;
 })();

@@ -6,7 +6,6 @@ import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
 /**
  * Used when importing dataset for edit for example from SPARQL endpoint.
  */
-// export function importDataset(url, lang, codelist, true)
 export function importDatasetFromUrlWithProxy(url, defaultLanguage) {
   return importFromRemote(getRemoteJsonLd(updateUrl(url)), defaultLanguage);
 }
@@ -23,7 +22,6 @@ function updateUrl(url) {
   }
 }
 
-// export function importDataset(url, lang, codelist, false)
 export function importDatasetFromUrl(url, defaultLanguage) {
   return importFromRemote(getRemoteFile(url, defaultLanguage));
 }

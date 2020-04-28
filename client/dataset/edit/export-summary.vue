@@ -381,9 +381,9 @@
 import {exportToJsonLd} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
 import DistributionCard from "./ui/distribution-card";
+import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
-import {getStoreItem} from "./codelists/local-storage";
 import {
   SPATIAL_CONTINENT,
   SPATIAL_COUNTRY,
@@ -391,9 +391,13 @@ import {
   SPATIAL_RUIAN,
   SPATIAL_URL,
 } from "../dataset-model";
-import {getContinentLabel} from "./codelists/continents";
-import {getCountryLabel} from "./codelists/countries";
-import {getPlaceLabel} from "./codelists/places";
+import {
+  RUIAN,
+  EUROVOC,
+  CONTINENTS,
+  COUNTRIES,
+  PLACES,
+} from "./codelists/solr-cores";
 
 export default {
   "name": "app-export-summary",
@@ -416,13 +420,8 @@ export default {
   },
   "methods": {
     "ruianLabel": function (iri) {
-      const value = getStoreItem(
-        this.codelist, "ruian", iri, this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
+      return getStoreLabel(
+        this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.dataset, this.distributions);
@@ -437,16 +436,11 @@ export default {
     "datasetThemeToLabel": getDatasetThemeLabel,
     "frequencyToLabel": getFrequencyLabel,
     "themeToLabel": function (iri) {
-      const value = getStoreItem(
-        this.codelist, "themes", iri, this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
+      return getStoreLabel(
+        this.codelist, EUROVOC, iri, this.$vuetify.lang.current);
     },
     "spatialToLabel": function(item) {
-      return getSpatialLabel(this.codelist, this.$vuetify.lang.current, item);
+      return getSpatialLabel(this.codelist, item, this.$vuetify.lang.current);
     },
     "openUrl": function (url) {
       openUrl(url);
@@ -458,16 +452,16 @@ function openUrl(uri) {
   window.open(uri);
 }
 
-export function getSpatialLabel(codelist, lang, item) {
+export function getSpatialLabel(codelist, item, lang) {
   switch (item.type) {
   case SPATIAL_RUIAN:
-    return getStoreItem(codelist, "ruian", item.url, lang) || item.url;
+    return getStoreLabel(codelist, RUIAN, item.url, lang);
   case SPATIAL_CONTINENT:
-    return getContinentLabel(item.url, lang);
+    return getStoreLabel(codelist, CONTINENTS, item.url, lang);
   case SPATIAL_COUNTRY:
-    return getCountryLabel(item.url, lang);
+    return getStoreLabel(codelist, COUNTRIES, item.url, lang);
   case SPATIAL_PLACE:
-    return getPlaceLabel(item.url, lang);
+    return getStoreLabel(codelist, PLACES, item.url, lang);
   case SPATIAL_URL:
     return item.url;
   default:

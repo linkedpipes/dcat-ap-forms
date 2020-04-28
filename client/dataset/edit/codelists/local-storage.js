@@ -23,6 +23,10 @@ export function addStoreItems(type, items) {
   });
 }
 
+export function getStoreLabel(store, type, iri, lang) {
+  return getStoreItem(store, type, iri, lang) || iri;
+}
+
 export function getStoreItem(store, type, iri, lang) {
   if (store[type] === undefined) {
     return undefined;

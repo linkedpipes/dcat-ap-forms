@@ -34,7 +34,7 @@
               {{ $t('headline_distribution_license') }}
             </v-subheader>
             <v-list-item
-              v-if="distribution.license_author_type == 'CC BY'"
+              v-if="distribution.license_author_type === 'CC BY'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -67,7 +67,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_author_type == 'NO'"
+              v-if="distribution.license_author_type === 'NO'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -100,7 +100,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_author_type == 'MULTI'"
+              v-if="distribution.license_author_type === 'MULTI'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -133,7 +133,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_author_type == 'CUSTOM'"
+              v-if="distribution.license_author_type === 'CUSTOM'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -167,7 +167,7 @@
             </v-list-item>
 
             <v-list-item
-              v-if="distribution.license_db_type == 'CC BY'"
+              v-if="distribution.license_db_type === 'CC BY'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -200,7 +200,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_db_type == 'NO'"
+              v-if="distribution.license_db_type === 'NO'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -233,7 +233,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_db_type == 'CUSTOM'"
+              v-if="distribution.license_db_type === 'CUSTOM'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -267,7 +267,7 @@
             </v-list-item>
 
             <v-list-item
-              v-if="distribution.license_specialdb_type == 'CC0'"
+              v-if="distribution.license_specialdb_type === 'CC0'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -300,7 +300,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_specialdb_type == 'NO'"
+              v-if="distribution.license_specialdb_type === 'NO'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -333,7 +333,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_specialdb_type == 'CUSTOM'"
+              v-if="distribution.license_specialdb_type === 'CUSTOM'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -366,7 +366,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_personal_type == 'NO'"
+              v-if="distribution.license_personal_type === 'NO'"
             >
               <v-list-item-avatar>
                 <v-icon class="green white--text">
@@ -399,7 +399,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_personal_type == 'YES'"
+              v-if="distribution.license_personal_type === 'YES'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -432,7 +432,7 @@
               </v-list-item-action>
             </v-list-item>
             <v-list-item
-              v-if="distribution.license_personal_type == 'UNKNOWN'"
+              v-if="distribution.license_personal_type === 'UNKNOWN'"
             >
               <v-list-item-avatar>
                 <v-icon class="red white--text">
@@ -672,6 +672,7 @@
 <script>
 import {getStoreItem} from "../codelists/local-storage";
 import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
+import {MEDIA_TYPES, FILE_TYPE} from "../codelists/solr-cores";
 
 export default {
   "name": "app-distribution-card",
@@ -701,7 +702,7 @@ export default {
     "mediaTypeLabel": function () {
       const iri = this.distribution.media_type;
       const value = getStoreItem(
-        this.codelist, "media-types", iri,
+        this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -712,7 +713,7 @@ export default {
     "formatLabel": function () {
       const iri = this.distribution.format;
       const value = getStoreItem(
-        this.codelist, "file-type", iri,
+        this.codelist, FILE_TYPE, iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -723,7 +724,7 @@ export default {
     "packageLabel" : function () {
       const iri = this.distribution.package_format;
       const value = getStoreItem(
-        this.codelist, "media-types", iri,
+        this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;
@@ -734,7 +735,7 @@ export default {
     "compressionLabel" : function () {
       const iri = this.distribution.compress_format;
       const value = getStoreItem(
-        this.codelist, "media-types", iri,
+        this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
       if (value === undefined) {
         return iri;

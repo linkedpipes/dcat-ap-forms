@@ -25,9 +25,12 @@ import {
   SPATIAL_PLACE,
   SPATIAL_URL,
 } from "./dataset-model";
-import {continentPrefix} from "./edit/codelists/continents";
-import {countryPrefix} from "./edit/codelists/countries";
-import {placePrefix} from "./edit/codelists/places";
+import {
+  isRuian,
+  isContinent,
+  isCountry,
+  isPlace,
+} from "./edit/codelists/solr-cores";
 import {getByIri} from "../app-service/jsonld";
 import {
   createDistribution,
@@ -124,16 +127,6 @@ function loadContactPoint(flatJsonLd, datasetEntity) {
   };
 }
 
-// function loadOfn(dataset, graphData) {
-//   dataset.ofn = [];
-//   if (DCTERMS.conformsTo in graphData) {
-//     const conforms = graphData[DCTERMS.conformsTo];
-//     conforms.forEach(function (ofn) {
-//       dataset.ofn.push(ofn["@id"]);
-//     });
-//   }
-// }
-
 function loadThemes(datasetEntity) {
   const themes = [];
   const datasetThemes = [];
@@ -185,22 +178,6 @@ function loadSpatial(flatJsonLd, datasetEntity) {
     result.push(spatial);
   }
   return result;
-}
-
-function isRuian(iri) {
-  return iri.startsWith("https://linked.cuzk.cz/resource/ruian/");
-}
-
-function isContinent(iri) {
-  return iri.startsWith(continentPrefix);
-}
-
-function isCountry(iri) {
-  return iri.startsWith(countryPrefix);
-}
-
-function isPlace(iri) {
-  return iri.startsWith(placePrefix);
 }
 
 function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
@@ -257,7 +234,7 @@ function parseTermsOfUse(flatJsonLd, distribution) {
     return {};
   }
   const entities = getByIri(flatJsonLd, iri);
-  if (entities.length < 1) {
+  if (entities === undefined || entities.length < 1) {
     return {};
   }
   const termsOfUse = entities[0];

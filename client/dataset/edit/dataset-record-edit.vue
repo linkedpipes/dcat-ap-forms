@@ -395,7 +395,6 @@
     />
     <app-solr-chips-autocomplete
       id="themes"
-      ref="themes"
       v-model="dataset.themes"
       :label="$t('themes') + $t('optional')"
       :no-data-prompt="$t('themes_autocomplete_no_data')"
@@ -424,17 +423,15 @@ import {
   SPATIAL_URL,
 } from "../dataset-model";
 import DatePicker from "./ui/date-picker";
-import FrequenciesCodeList from "./codelists/frequencies";
-import {getContinentLabel} from "./codelists/continents";
-import {getCountryLabel} from "./codelists/countries";
-import {getPlaceLabel} from "./codelists/places";
 import SolrAutocomplete from "./ui/solr-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
-import {getStoreItem} from "./codelists/local-storage";
+import FrequenciesCodeList from "./codelists/frequencies";
+import {getStoreLabel} from "./codelists/local-storage";
 import SpatialDialog from "./ui/spatial-dialog";
 import UploadFileDialog from "./ui/upload-file-dialog";
 import UploadUrlDialog from "./ui/upload-url-dialog";
+import {RUIAN, CONTINENTS, COUNTRIES, PLACES} from "./codelists/solr-cores";
 
 export default {
   "name": "app-dataset-record-edit",
@@ -470,7 +467,6 @@ export default {
     },
     "removeKeywordCs": function (index) {
       this.dataset.keywords_cs.splice(index, 1);
-      console.log("removeKeywordCs", index, this.dataset.keywords_cs);
     },
     "removeKeywordEn": function (index) {
       this.dataset.keywords_en.splice(index, 1);
@@ -505,13 +501,13 @@ function containsSpatial(dataset, spatial) {
 export function getSpatialLabel(codelist, lang, item) {
   switch (item.type) {
   case SPATIAL_RUIAN:
-    return getStoreItem(codelist, "ruian", item.url, lang) || item.url;
+    return getStoreLabel(codelist, RUIAN, item.url, lang);
   case SPATIAL_CONTINENT:
-    return getContinentLabel(item.url, lang);
+    return getStoreLabel(codelist, CONTINENTS, item.url, lang);
   case SPATIAL_COUNTRY:
-    return getCountryLabel(item.url, lang);
+    return getStoreLabel(codelist, COUNTRIES, item.url, lang);
   case SPATIAL_PLACE:
-    return getPlaceLabel(item.url, lang);
+    return getStoreLabel(codelist, PLACES, item.url, lang);
   case SPATIAL_URL:
     return item.url;
   default:

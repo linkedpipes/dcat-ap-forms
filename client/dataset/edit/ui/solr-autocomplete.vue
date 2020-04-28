@@ -36,12 +36,12 @@ import {
 export default {
   "name": "app-solr-autocomplete",
   "props": {
-    "id": {"type": String, "required": false},
+    "id": {"type": String},
     "value": {"type": String, "required": true},
-    "label": {"type": String, "required": false},
+    "label": {"type": String },
     "codeList": {"type": String, "required": true},
-    "errorMessages": {"required": false},
-    "noDataPrompt": {"type": String, "required": true},
+    "errorMessages": {"type": Array},
+    "noDataPrompt": {"type": String},
     "prependIcon": {"type": String},
   },
   "data": () => ({
@@ -100,7 +100,7 @@ function createQueryUrl(codeList, query, lang) {
 function fetchTitle(component, value) {
   fetchLabelFromCodeList(
     component.codeList, value, component.$vuetify.lang.current)
-    .then((item) => component.items = item);
+    .then((items) => component.items = items);
 }
 
 </script>

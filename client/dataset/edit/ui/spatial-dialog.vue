@@ -64,11 +64,11 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <v-autocomplete
+              <app-solr-autocomplete
                 v-model="continent"
-                :items="continentCodelist"
-                :item-text="$vuetify.lang.current"
-                item-value="value"
+                code-list="continents"
+                :label="$t('continents')"
+                :noDataPrompt="$t('continents_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -76,11 +76,11 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <v-autocomplete
+              <app-solr-autocomplete
                 v-model="country"
-                :items="countryCodelist"
-                :item-text="$vuetify.lang.current"
-                item-value="value"
+                code-list="countries"
+                :label="$t('countries')"
+                :noDataPrompt="$t('countries_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -88,11 +88,11 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <v-autocomplete
+              <app-solr-autocomplete
                 v-model="place"
-                :items="placeCodelist"
-                :item-text="$vuetify.lang.current"
-                item-value="value"
+                code-list="places"
+                :label="$t('places')"
+                :noDataPrompt="$t('places_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -105,7 +105,6 @@
                 v-model="customUrl"
                 :label="$t('dataset_spatial_url')"
                 :hint="$t('hint_dataset_spatial_url')"
-                prepend-icon="label"
                 append-outer-icon="help_outline"
                 clearable
                 @click:append-outer="$h('dataset_spatial_url')"
@@ -131,11 +130,8 @@
 
 <script>
 import RuianAutocomplete from "./ruian-autocomplete";
+import SolrAutocomplete from "./solr-autocomplete";
 import {ruianTypeCodelist} from "../codelists/ruian-type";
-import DatasetThemes from "../codelists/dataset-theme";
-import ContinentsCodeList from "../codelists/continents";
-import CountryCodeList from "../codelists/countries";
-import PlaceCodeList from "../codelists/places";
 import {
   SPATIAL_RUIAN,
   SPATIAL_CONTINENT,
@@ -144,9 +140,11 @@ import {
   SPATIAL_URL,
 } from "../../dataset-model";
 
+
 export default {
   "name": "spatial-dialog",
   "components": {
+    "app-solr-autocomplete": SolrAutocomplete,
     "app-ruian-autocomplete": RuianAutocomplete,
   },
   "data": () => ({
@@ -160,10 +158,6 @@ export default {
     "activeTab": 0,
     //
     "ruinTypeCodelist": ruianTypeCodelist,
-    "datasetThemesCodelist": DatasetThemes,
-    "continentCodelist": ContinentsCodeList,
-    "countryCodelist": CountryCodeList,
-    "placeCodelist": PlaceCodeList,
   }),
   "methods": {
     "onClose": function() {

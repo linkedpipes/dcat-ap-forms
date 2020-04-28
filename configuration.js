@@ -5,6 +5,9 @@ const defaultConfiguration = {
   "solr_file_type": "http://localhost:8983/solr/mdr-file-type",
   "solr_ruian": "http://localhost:8983/solr/ruian",
   "solr_themes": "http://localhost:8983/solr/eurovoc",
+  "solr_continents": "http://localhost:8983/solr/continents",
+  "solr_countries": "http://localhost:8983/solr/countries",
+  "solr_places": "http://localhost:8983/solr/places",
   "dereference_proxy": "",
   "head": [
     {

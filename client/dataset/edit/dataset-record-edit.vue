@@ -414,24 +414,16 @@
 </template>
 
 <script>
-import {
-  createDatasetValidators,
-  SPATIAL_RUIAN,
-  SPATIAL_COUNTRY,
-  SPATIAL_CONTINENT,
-  SPATIAL_PLACE,
-  SPATIAL_URL,
-} from "../dataset-model";
+import {createDatasetValidators} from "../dataset-model";
 import DatePicker from "./ui/date-picker";
 import SolrAutocomplete from "./ui/solr-autocomplete";
 import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 import FrequenciesCodeList from "./codelists/frequencies";
-import {getStoreLabel} from "./codelists/local-storage";
 import SpatialDialog from "./ui/spatial-dialog";
 import UploadFileDialog from "./ui/upload-file-dialog";
 import UploadUrlDialog from "./ui/upload-url-dialog";
-import {RUIAN, CONTINENTS, COUNTRIES, PLACES} from "./codelists/solr-cores";
+import {getSpatialLabel} from "./codelists/spatial";
 
 export default {
   "name": "app-dataset-record-edit",
@@ -478,7 +470,7 @@ export default {
       this.dataset.spatial.splice(index, 1);
     },
     "getSpatialLabel": function(item) {
-      return getSpatialLabel(this.codelist, this.$vuetify.lang.current, item);
+      return getSpatialLabel(this.codelist, item, this.$vuetify.lang.current);
     },
     "loadFromFile": function (file) {
       this.$emit("load-from-file", file);
@@ -491,28 +483,11 @@ export default {
 
 function containsSpatial(dataset, spatial) {
   for (let item of dataset.spatial) {
-    if (item.type === spatial.type && item.url === item.url) {
+    if (item.type === spatial.type && item.url === spatial.url) {
       return true;
     }
   }
   return false;
-}
-
-export function getSpatialLabel(codelist, lang, item) {
-  switch (item.type) {
-  case SPATIAL_RUIAN:
-    return getStoreLabel(codelist, RUIAN, item.url, lang);
-  case SPATIAL_CONTINENT:
-    return getStoreLabel(codelist, CONTINENTS, item.url, lang);
-  case SPATIAL_COUNTRY:
-    return getStoreLabel(codelist, COUNTRIES, item.url, lang);
-  case SPATIAL_PLACE:
-    return getStoreLabel(codelist, PLACES, item.url, lang);
-  case SPATIAL_URL:
-    return item.url;
-  default:
-    return item.url;
-  }
 }
 
 </script>

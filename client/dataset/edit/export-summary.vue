@@ -384,20 +384,8 @@ import DistributionCard from "./ui/distribution-card";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
-import {
-  SPATIAL_CONTINENT,
-  SPATIAL_COUNTRY,
-  SPATIAL_PLACE,
-  SPATIAL_RUIAN,
-  SPATIAL_URL,
-} from "../dataset-model";
-import {
-  RUIAN,
-  EUROVOC,
-  CONTINENTS,
-  COUNTRIES,
-  PLACES,
-} from "./codelists/solr-cores";
+import {RUIAN, EUROVOC} from "./codelists/solr-cores";
+import {getSpatialLabel} from "./codelists/spatial";
 
 export default {
   "name": "app-export-summary",
@@ -450,23 +438,6 @@ export default {
 
 function openUrl(uri) {
   window.open(uri);
-}
-
-export function getSpatialLabel(codelist, item, lang) {
-  switch (item.type) {
-  case SPATIAL_RUIAN:
-    return getStoreLabel(codelist, RUIAN, item.url, lang);
-  case SPATIAL_CONTINENT:
-    return getStoreLabel(codelist, CONTINENTS, item.url, lang);
-  case SPATIAL_COUNTRY:
-    return getStoreLabel(codelist, COUNTRIES, item.url, lang);
-  case SPATIAL_PLACE:
-    return getStoreLabel(codelist, PLACES, item.url, lang);
-  case SPATIAL_URL:
-    return item.url;
-  default:
-    return item.url;
-  }
 }
 
 </script>

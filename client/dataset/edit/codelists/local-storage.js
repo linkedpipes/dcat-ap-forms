@@ -24,19 +24,19 @@ export function addStoreItems(type, items) {
 }
 
 export function getStoreLabel(store, type, iri, lang) {
-  return getStoreItem(store, type, iri, lang) || iri;
+  const item = getStoreItem(store, type, iri, lang);
+  if (item) {
+    return item[lang] || iri;
+  } else {
+    return iri;
+  }
 }
 
-export function getStoreItem(store, type, iri, lang) {
+export function getStoreItem(store, type, iri) {
   if (store[type] === undefined) {
     return undefined;
   }
-  const item = store[type][iri];
-  if (item) {
-    return item[lang];
-  } else {
-    return undefined;
-  }
+  return store[type][iri];
 }
 
 export function getStore() {
@@ -57,5 +57,3 @@ function createTitleQueryUrl(codeList, iri, lang) {
         "?iri=" + encodeURIComponent(escapedIri) +
         "&lang=" + lang;
 }
-
-

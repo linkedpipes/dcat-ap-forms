@@ -670,7 +670,7 @@
 </template>
 
 <script>
-import {getStoreItem} from "../codelists/local-storage";
+import {getStoreLabel} from "../codelists/local-storage";
 import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
 import {MEDIA_TYPES, FILE_TYPE} from "../codelists/solr-cores";
 
@@ -701,47 +701,27 @@ export default {
     },
     "mediaTypeLabel": function () {
       const iri = this.distribution.media_type;
-      const value = getStoreItem(
+      return getStoreLabel(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
     },
     "formatLabel": function () {
       const iri = this.distribution.format;
-      const value = getStoreItem(
+      return getStoreLabel(
         this.codelist, FILE_TYPE, iri,
         this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
     },
     "packageLabel" : function () {
       const iri = this.distribution.package_format;
-      const value = getStoreItem(
+      return getStoreLabel(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
     },
     "compressionLabel" : function () {
       const iri = this.distribution.compress_format;
-      const value = getStoreItem(
+      return getStoreLabel(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
-      if (value === undefined) {
-        return iri;
-      } else {
-        return value;
-      }
     },
   },
   "methods": {

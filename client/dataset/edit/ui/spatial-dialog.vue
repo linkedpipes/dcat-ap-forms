@@ -68,7 +68,7 @@
                 v-model="continent"
                 code-list="continents"
                 :label="$t('continents')"
-                :noDataPrompt="$t('continents_no_data')"
+                :no-data-prompt="$t('continents_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -80,7 +80,7 @@
                 v-model="country"
                 code-list="countries"
                 :label="$t('countries')"
-                :noDataPrompt="$t('countries_no_data')"
+                :no-data-prompt="$t('countries_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -92,7 +92,7 @@
                 v-model="place"
                 code-list="places"
                 :label="$t('places')"
-                :noDataPrompt="$t('places_no_data')"
+                :no-data-prompt="$t('places_no_data')"
               />
             </v-card-text>
           </v-card>

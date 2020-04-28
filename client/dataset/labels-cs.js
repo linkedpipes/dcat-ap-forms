@@ -21,6 +21,7 @@ export default {
   "dataset_spatial_place": "Místo",
   "dataset_spatial_arbitrary": "URL jiného území",
   "dataset_spatial_url": "URL územního prvku",
+  "dataset_spatial_url_invalid": "Nevalidní HTTPS URL územního prvku",
   "dataset_spatial_invalid": "Související území je povinné",
   "hint_dataset_spatial_url": "Zadejte https URL jiného územního prvku, např. geonames",
   "help_dataset_spatial_url": "<h3>Související území - URL jiného území</h3><p>Pokud územní prvek nelze vybrat z existujících číselníků, můžete zadat jiné URL.</p>",

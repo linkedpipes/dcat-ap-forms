@@ -105,6 +105,7 @@
                 v-model="customUrl"
                 :label="$t('dataset_spatial_url')"
                 :hint="$t('hint_dataset_spatial_url')"
+                :error-messages="errCustomUrl"
                 append-outer-icon="help_outline"
                 clearable
                 @click:append-outer="$h('dataset_spatial_url')"
@@ -119,6 +120,7 @@
         <v-btn
           color="primary"
           text
+          :disabled="confirmDisabled"
           @click="onSave()"
         >
           {{ $t('dataset_spatial_add_confirm') }}
@@ -139,7 +141,7 @@ import {
   SPATIAL_PLACE,
   SPATIAL_URL,
 } from "../../dataset-model";
-
+import {provided, url} from "../../../app-service/validators";
 
 export default {
   "name": "spatial-dialog",
@@ -159,6 +161,31 @@ export default {
     //
     "ruinTypeCodelist": ruianTypeCodelist,
   }),
+  "computed": {
+    "errCustomUrl": function() {
+      if (!provided(this.customUrl) || url(this.customUrl)) {
+        return [];
+      } else {
+        return [this.$t("dataset_spatial_url_invalid")];
+      }
+    },
+    "confirmDisabled": function () {
+      switch (this.activeTab) {
+      case 0:
+        return this.ruian.length === 0;
+      case 1:
+        return this.continent.length === 0;
+      case 2:
+        return this.country.length === 0;
+      case 3:
+        return this.place.length === 0;
+      case 4:
+        return this.customUrl.length === 0 || this.errCustomUrl.length > 0;
+      default:
+        return false;
+      }
+    },
+  },
   "methods": {
     "onClose": function() {
       this.close();

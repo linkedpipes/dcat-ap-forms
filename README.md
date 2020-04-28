@@ -3,7 +3,7 @@
 
 ## Requirements
  * [Node.js] and npm
- * [Apache Solr] 7
+ * [Apache Solr] 8
 
 ## Installation
 
@@ -16,6 +16,11 @@ solr.cmd create -c iana-media-types
 solr.cmd create -c mdr-file-type
 solr.cmd create -c ruian
 solr.cmd create -c eurovoc
+solr.cmd create -c places
+solr.cmd create -c countries
+solr.cmd create -c continents
+solr.cmd create -c frequencies
+solr.cmd create -c dataset-themes
 ```
 
 Set core properties:
@@ -39,6 +44,36 @@ curl http://localhost:8983/solr/ruian/config -H 'Content-type:application/json' 
 }'
 
 curl http://localhost:8983/solr/eurovoc/config -H 'Content-type:application/json' -d '{
+    "set-user-property": {"update.autoCreateFields":"false"},
+    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
+    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
+}'
+
+curl http://localhost:8983/solr/places/config -H 'Content-type:application/json' -d '{
+    "set-user-property": {"update.autoCreateFields":"false"},
+    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
+    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
+}'
+
+curl http://localhost:8983/solr/countries/config -H 'Content-type:application/json' -d '{
+    "set-user-property": {"update.autoCreateFields":"false"},
+    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
+    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
+}'
+
+curl http://localhost:8983/solr/continents/config -H 'Content-type:application/json' -d '{
+    "set-user-property": {"update.autoCreateFields":"false"},
+    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
+    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
+}'
+
+curl http://localhost:8983/solr/frequencies/config -H 'Content-type:application/json' -d '{
+    "set-user-property": {"update.autoCreateFields":"false"},
+    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
+    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
+}'
+
+curl http://localhost:8983/solr/dataset-themes/config -H 'Content-type:application/json' -d '{
     "set-user-property": {"update.autoCreateFields":"false"},
     "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
     "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
@@ -99,6 +134,77 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
     "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
 }'
+
+curl http://localhost:8983/solr/places/schema -X POST -H 'Content-type:application/json' --data-binary '{
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
+        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
+        "filters": [
+            {"class":"solr.LowerCaseFilterFactory"},
+            {"class":"solr.ASCIIFoldingFilterFactory"}
+        ]
+    }},
+    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
+}'
+
+curl http://localhost:8983/solr/countries/schema -X POST -H 'Content-type:application/json' --data-binary '{
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
+        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
+        "filters": [
+            {"class":"solr.LowerCaseFilterFactory"},
+            {"class":"solr.ASCIIFoldingFilterFactory"}
+        ]
+    }},
+    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
+}'
+
+curl http://localhost:8983/solr/continents/schema -X POST -H 'Content-type:application/json' --data-binary '{
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
+        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
+        "filters": [
+            {"class":"solr.LowerCaseFilterFactory"},
+            {"class":"solr.ASCIIFoldingFilterFactory"}
+        ]
+    }},
+    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
+}'
+
+curl http://localhost:8983/solr/frequencies/schema -X POST -H 'Content-type:application/json' --data-binary '{
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
+        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
+        "filters": [
+            {"class":"solr.LowerCaseFilterFactory"},
+            {"class":"solr.ASCIIFoldingFilterFactory"}
+        ]
+    }},
+    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
+}'
+
+curl http://localhost:8983/solr/dataset-themes/schema -X POST -H 'Content-type:application/json' --data-binary '{
+    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
+        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
+        "filters": [
+            {"class":"solr.LowerCaseFilterFactory"},
+            {"class":"solr.ASCIIFoldingFilterFactory"}
+        ]
+    }},
+    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
+    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
+    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
+}'
+
 
 ```
 

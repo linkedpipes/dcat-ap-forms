@@ -251,7 +251,7 @@
             :no-data-prompt="$t('format_autocomplete_no_data')"
             :error-messages="err_format"
             prepend-icon="description"
-            code-list="file-type"
+            :code-list="FILE_TYPE"
           />
         </v-flex>
         <v-flex
@@ -265,7 +265,7 @@
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
             :error-messages="err_media_type"
             prepend-icon="description"
-            code-list="media-types"
+            :code-list="MEDIA_TYPES"
           />
         </v-flex>
       </v-layout>
@@ -283,7 +283,7 @@
             :label="$t('distribution_compress_format') + $t('optional')"
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
             prepend-icon="description"
-            code-list="media-types"
+            :code-list="MEDIA_TYPES"
             clearable
           />
         </v-flex>
@@ -297,7 +297,7 @@
             :label="$t('distribution_package_format') + $t('optional')"
             :no-data-prompt="$t('media_type_autocomplete_no_data')"
             prepend-icon="description"
-            code-list="media-types"
+            :code-list="MEDIA_TYPES"
             clearable
           />
         </v-flex>
@@ -445,6 +445,7 @@ import {
 } from "./codelists/license";
 import DatePicker from "./ui/date-picker";
 import SolrAutocomplete from "./ui/solr-autocomplete";
+import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
 
 export default {
   "name": "app-distribution-record-edit",
@@ -473,6 +474,8 @@ export default {
         "en":"Data Service",
       },
     ],
+    "FILE_TYPE": FILE_TYPE,
+    "MEDIA_TYPES": MEDIA_TYPES,
   }),
   "computed": {
     ...createDistributionValidators(),

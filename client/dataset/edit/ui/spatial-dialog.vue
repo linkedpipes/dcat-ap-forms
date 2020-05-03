@@ -66,7 +66,7 @@
             <v-card-text>
               <app-solr-autocomplete
                 v-model="continent"
-                code-list="continents"
+                :code-list="CONTINENTS"
                 :label="$t('continents')"
                 :no-data-prompt="$t('continents_no_data')"
               />
@@ -78,7 +78,7 @@
             <v-card-text>
               <app-solr-autocomplete
                 v-model="country"
-                code-list="countries"
+                :code-list="COUNTRIES"
                 :label="$t('countries')"
                 :no-data-prompt="$t('countries_no_data')"
               />
@@ -90,7 +90,7 @@
             <v-card-text>
               <app-solr-autocomplete
                 v-model="place"
-                code-list="places"
+                :code-list="PLACES"
                 :label="$t('places')"
                 :no-data-prompt="$t('places_no_data')"
               />
@@ -142,6 +142,7 @@ import {
   SPATIAL_URL,
 } from "../../dataset-model";
 import {provided, url} from "../../../app-service/validators";
+import {CONTINENTS, COUNTRIES, PLACES} from "../codelists/server-codelists";
 
 export default {
   "name": "spatial-dialog",
@@ -160,6 +161,9 @@ export default {
     "activeTab": 0,
     //
     "ruinTypeCodelist": ruianTypeCodelist,
+    "CONTINENTS": CONTINENTS,
+    "COUNTRIES": COUNTRIES,
+    "PLACES": PLACES,
   }),
   "computed": {
     "errCustomUrl": function() {

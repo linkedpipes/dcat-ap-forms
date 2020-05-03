@@ -399,7 +399,7 @@
       :label="$t('themes') + $t('optional')"
       :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
-      code-list="themes"
+      :code-list="EUROVOC"
     />
     <v-layout
       row
@@ -424,6 +424,7 @@ import SpatialDialog from "./ui/spatial-dialog";
 import UploadFileDialog from "./ui/upload-file-dialog";
 import UploadUrlDialog from "./ui/upload-url-dialog";
 import {getSpatialLabel} from "./codelists/spatial";
+import {EUROVOC} from "./codelists/server-codelists";
 
 export default {
   "name": "app-dataset-record-edit",
@@ -446,6 +447,7 @@ export default {
     "dialog": false,
     "dialog_keyword": false,
     "dialog_url": false,
+    "EUROVOC": EUROVOC,
   }),
   "computed": {
     ...createDatasetValidators(),

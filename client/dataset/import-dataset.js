@@ -30,7 +30,7 @@ import {
   isContinent,
   isCountry,
   isPlace,
-} from "./edit/codelists/solr-cores";
+} from "./edit/codelists/server-codelists";
 import {getByIri} from "../app-service/jsonld";
 import {
   createDistribution,

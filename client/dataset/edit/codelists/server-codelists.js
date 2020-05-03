@@ -34,8 +34,8 @@ export function isPlace(iri) {
   return iri.startsWith(placePrefix);
 }
 
-export const EUROVOC = "eurovoc";
+export const EUROVOC = "themes";
 
-export const MEDIA_TYPES = "iana-media-types";
+export const MEDIA_TYPES = "media-types";
 
-export const FILE_TYPE = "mdr-file-type";
+export const FILE_TYPE = "file-type";

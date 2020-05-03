@@ -388,7 +388,7 @@ import DistributionCard from "./ui/distribution-card";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
-import {RUIAN, EUROVOC} from "./codelists/solr-cores";
+import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 
 export default {

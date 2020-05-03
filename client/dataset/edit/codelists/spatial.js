@@ -6,7 +6,7 @@ import {
   SPATIAL_URL,
 } from "../../dataset-model";
 import {getStoreItem, getStoreLabel} from "./local-storage";
-import {CONTINENTS, COUNTRIES, PLACES, RUIAN} from "./solr-cores";
+import {CONTINENTS, COUNTRIES, PLACES, RUIAN} from "./server-codelists";
 
 export function getSpatialLabel(codelist, item, lang) {
   if (item.type === SPATIAL_RUIAN) {

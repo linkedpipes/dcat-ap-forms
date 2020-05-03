@@ -672,7 +672,7 @@
 <script>
 import {getStoreLabel} from "../codelists/local-storage";
 import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
-import {MEDIA_TYPES, FILE_TYPE} from "../codelists/solr-cores";
+import {MEDIA_TYPES, FILE_TYPE} from "../codelists/server-codelists";
 
 export default {
   "name": "app-distribution-card",

@@ -24,6 +24,9 @@ export function addStoreItems(type, items) {
 }
 
 export function getStoreLabel(store, type, iri, lang) {
+  if (!iri) {
+    return "";
+  }
   const item = getStoreItem(store, type, iri, lang);
   if (item) {
     return item[lang] || iri;
@@ -44,6 +47,9 @@ export function getStore() {
 }
 
 export function fetchLabelFromCodeList(codeList, iri, lang) {
+  if (!iri){
+    return Promise.resolve();
+  }
   const url = createTitleQueryUrl(codeList, iri, lang);
   return getLocalJson(url).then((response) => {
     addStoreItems(codeList, response.json.response.docs);

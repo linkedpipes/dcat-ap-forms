@@ -60,6 +60,9 @@
             :is-valid="isDatasetValid() && areDistributionsValid()"
             :distributions="data.distributions"
             :codelist="data.codelist"
+            :export-type="data.exportType"
+            :export-allow-edit="data.exportAllowEdit"
+            @update-export="updateExport"
           />
         </v-stepper-content>
       </v-stepper-items>
@@ -93,6 +96,9 @@ import DistributionEdit from "./distribution-record-edit";
 import {
   createDataset,
   isDatasetValid,
+  EXPORT_NKOD,
+  EXPORT_EDIT,
+  EXPORT_LKOD,
 } from "../dataset-model";
 import {
   createDistribution,
@@ -130,6 +136,8 @@ export default {
       "dataset": undefined,
       "distributions": [],
       "error": undefined,
+      "exportType": EXPORT_NKOD,
+      "exportAllowEdit": false,
     },
     "ui": {
       "step": 1,
@@ -150,16 +158,20 @@ export default {
     },
   },
   "mounted": function () {
-    setPageTitle(this.$t("edit_page_title"));
-
     const url = this.$route.query.url;
     if (url === undefined) {
       this.data.dataset = createDataset();
       this.data.distributions.push(createDistribution());
       this.data.status = "ready";
+      this.data.exportType = EXPORT_NKOD;
+      this.data.exportAllowEdit = false;
+      setPageTitle(this.$t(
+        getPageTitle(this.data.dataset, this.data.exportType)));
       return;
     }
-
+    //
+    this.data.exportAllowEdit = true;
+    this.data.exportType = EXPORT_EDIT;
     importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
       .then((result) => {
         this.setData(result.dataset, result.distributions);
@@ -182,6 +194,8 @@ export default {
       }
       // Try to Load labels.
       fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);
+      setPageTitle(this.$t(
+        getPageTitle(this.data.dataset, this.data.exportType)));
     },
     "isDatasetValid": function () {
       if (!this.validation.dataset) {
@@ -267,6 +281,22 @@ export default {
           console.error("Can't import from url.", error);
         });
     },
+    "updateExport": function (event) {
+      this.data.exportType = event.type;
+      switch (event.type) {
+      case EXPORT_NKOD:
+        this.data.dataset.iri = undefined;
+        break;
+      case EXPORT_EDIT:
+        this.data.dataset.iri = this.$route.query.url;
+        break;
+      case EXPORT_LKOD:
+        this.data.dataset.iri = event.iri;
+        break;
+      }
+      setPageTitle(this.$t(
+        getPageTitle(this.data.dataset, this.data.exportType)));
+    },
   },
 };
 
@@ -278,6 +308,22 @@ function loadFile(file) {
     };
     reader.readAsText(file);
   });
+}
+
+function getPageTitle(dataset, exportType) {
+  const iri = dataset.iri;
+  switch (exportType) {
+  case EXPORT_NKOD:
+    return "edit_page_title_new";
+  case EXPORT_EDIT:
+    if (!iri || iri.startsWith("https://data.gov.cz")) {
+      return  "edit_page_title_nkod";
+    } else {
+      return "edit_page_title_lkod";
+    }
+  case EXPORT_LKOD:
+    return "edit_page_title_new_lkod";
+  }
 }
 
 </script>

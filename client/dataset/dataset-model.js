@@ -18,6 +18,22 @@ export const SPATIAL_PLACE = "PLACE";
 
 export const SPATIAL_URL = "URL";
 
+/**
+ * New dataset entry for NKOD, no URL is provided.
+ */
+export const EXPORT_NKOD = "nkod";
+
+/**
+ * Edit of existing dataset.
+ */
+export const EXPORT_EDIT = "edit";
+
+/**
+ * New dataset for LKOD with custom URL not provided
+ * in the URL.
+ */
+export const EXPORT_LKOD = "lkod";
+
 export function createDataset() {
   return decorateDataset({
     "iri": undefined,

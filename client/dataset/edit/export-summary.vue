@@ -45,8 +45,14 @@
         <v-icon left>
           file_download
         </v-icon>
-        <span>{{ $t("button_download") }}</span>
+        <span>{{ downloadLabel }}</span>
       </v-btn>
+      <export-type-dialog
+        :dataset-iri="dataset.iri"
+        :allow-edit="exportAllowEdit"
+        :export-type="exportType"
+        @save="updateExport"
+      />
     </v-layout>
     <p class="subheading multiline">
       {{ dataset.description_cs }}
@@ -369,7 +375,7 @@
             <v-icon left>
               file_download
             </v-icon>
-            <span>{{ $t("button_download") }}</span>
+            <span>{{ downloadLabel }}</span>
           </v-btn>
         </template>
         <span v-if="isValid">{{ $t("summary_download") }}
@@ -377,6 +383,12 @@
         </span>
         <span v-if="!isValid">{{ $t("summary_error") }}</span>
       </v-tooltip>
+      <export-type-dialog
+        :dataset-iri="dataset.iri"
+        :allow-edit="exportAllowEdit"
+        :export-type="exportType"
+        @save="updateExport"
+      />
     </v-layout>
   </v-container>
 </template>
@@ -390,17 +402,22 @@ import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
 import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
+import ExportTypeDialog from "./ui/export-type-dialog";
+import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 
 export default {
   "name": "app-export-summary",
   "components": {
     "app-distribution-card": DistributionCard,
+    "export-type-dialog": ExportTypeDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
     "isValid": {"type": Boolean, "required": true},
     "codelist": {"type": Object, "required": true},
+    "exportType": {"type": String, "required": true},
+    "exportAllowEdit": {"type": Boolean, "required": true},
   },
   "computed": {
     "nkodDatabox": function () {
@@ -408,6 +425,9 @@ export default {
     },
     "keywords": function() {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
+    },
+    "downloadLabel": function () {
+      return this.$t(exportButtonLabel(this.dataset.iri, this.exportType));
     },
   },
   "methods": {
@@ -437,11 +457,30 @@ export default {
     "openUrl": function (url) {
       openUrl(url);
     },
+    "updateExport": function (event) {
+      this.$emit("update-export", event);
+    },
   },
 };
 
 function openUrl(uri) {
   window.open(uri);
+}
+
+function exportButtonLabel(iri, exportType) {
+  switch (exportType) {
+  default:
+  case EXPORT_NKOD:
+    return "download_new_nkod";
+  case EXPORT_EDIT:
+    if (!iri || iri.startsWith("https://data.gov.cz")) {
+      return  "download_edit_nkod";
+    } else {
+      return "download_edit_lkod";
+    }
+  case EXPORT_LKOD:
+    return "download_new_lkod";
+  }
 }
 
 </script>

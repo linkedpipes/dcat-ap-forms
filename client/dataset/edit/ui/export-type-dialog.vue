@@ -4,7 +4,10 @@
     width="500"
   >
     <template v-slot:activator="{ on }">
-      <v-btn icon v-on="on">
+      <v-btn
+        icon
+        v-on="on"
+      >
         <v-icon>
           settings
         </v-icon>
@@ -34,18 +37,18 @@
           />
         </v-radio-group>
         <v-text-field
+          v-if="type === EXPORT_LKOD"
           id="dataset_url"
           v-model="iri"
           :label="$t('dataset_url')"
           :hint="$t('hint_dataset_url')"
           :error-messages="errUrl"
           clearable
-          v-if="type === EXPORT_LKOD"
         />
       </v-card-text>
-      <v-divider></v-divider>
+      <v-divider />
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn
           color="primary"
           text

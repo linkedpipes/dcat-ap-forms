@@ -31,7 +31,7 @@
     >
       <h2 class="display-1">
         {{ dataset.title_cs }}
-        {{ dataset.title_en ? "| " + dataset.title_en : ""}}
+        {{ dataset.title_en ? "| " + dataset.title_en : "" }}
       </h2>
       <v-spacer />
       <v-btn

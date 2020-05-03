@@ -29,7 +29,7 @@
       <v-flex md10>
         <h2 class="display-1">
           {{ catalog.title_cs }}
-          {{ catalog.title_en ? "| " + catalog.title_en : ""}}
+          {{ catalog.title_en ? "| " + catalog.title_en : "" }}
         </h2>
       </v-flex>
       <v-spacer />

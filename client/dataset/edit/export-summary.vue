@@ -30,7 +30,8 @@
       class="pr-2"
     >
       <h2 class="display-1">
-        {{ dataset.title }}
+        {{ dataset.title_cs }}
+        {{ dataset.title_en ? "| " + dataset.title_en : ""}}
       </h2>
       <v-spacer />
       <v-btn
@@ -48,7 +49,10 @@
       </v-btn>
     </v-layout>
     <p class="subheading multiline">
-      {{ dataset.description }}
+      {{ dataset.description_cs }}
+      <span v-if="dataset.description_en">
+        {{ dataset.description_en }}
+      </span>
     </p>
     <v-layout
       row
@@ -444,6 +448,6 @@ function openUrl(uri) {
 
 <style scoped>
   .multiline {
-    white-space: pre-wrap;
+    white-space: pre-line;
   }
 </style>

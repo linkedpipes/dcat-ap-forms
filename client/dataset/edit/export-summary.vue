@@ -27,7 +27,7 @@
     </v-layout>
     <v-layout
       row
-      class="pr-2"
+      class="pa-2"
     >
       <h2 class="display-1">
         {{ dataset.title_cs }}

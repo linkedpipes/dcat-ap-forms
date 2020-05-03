@@ -102,6 +102,7 @@
           id="keywords_cs"
           v-model="dataset.keywords_cs"
           :label="$t('keywords_cs')"
+          :error-messages="err_keywords_cs"
           :hint="$t('hint_keywords')"
           prepend-icon="short_text"
           append-outer-icon="help_outline"

@@ -70,7 +70,7 @@ export function createDatasetValidators() {
       (t) => t.dataset, "spatial",
       provided,
       "dataset_spatial_invalid"),
-    "err_keywords": apply(
+    "err_keywords_cs": apply(
       (t) => t.dataset, "keywords_cs",
       provided,
       "keywords_error"),

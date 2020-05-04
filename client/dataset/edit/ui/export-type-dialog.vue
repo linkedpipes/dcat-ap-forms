@@ -15,7 +15,7 @@
     </template>
     <v-card>
       <v-card-title
-        class="headline grey lighten-2"
+        class="headline"
         primary-title
       >
         {{ $t('export_dialog_title') }}

@@ -108,7 +108,6 @@ export default {
   "summary_download": "Download the registration record and send it as an only attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
   "button_download": "Download",
   "download_new_nkod": "Download new NODC recor",
-  "download_edit": "Download editing record",
   "download_edit_nkod": "Download NODC editing record",
   "download_edit_lkod": "Download LODC editing record",
   "download_new_lkod": "Download new LODC record",

@@ -27,7 +27,7 @@
             :value="EXPORT_NKOD"
           />
           <v-radio
-            :label="$t('download_edit')"
+            :label="$t('download_edit_nkod')"
             :value="EXPORT_EDIT"
             :disabled="!exportOptions.allowEdit"
           />

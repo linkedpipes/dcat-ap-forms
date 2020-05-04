@@ -109,7 +109,6 @@ export default {
   "nav_distributions": "Distribuce",
   "summary_download": "Registrační záznam stáhněte a zašlete jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
   "download_new_nkod": "Stáhnout nový záznam pro NKOD",
-  "download_edit": "Stáhnout editační záznam",
   "download_edit_nkod": "Stáhnout editační záznam pro NKOD",
   "download_edit_lkod": "Stáhnout editační záznam pro LKOD",
   "download_new_lkod": "Stáhnout nový záznam pro LKOD",

@@ -2,33 +2,34 @@
   <v-container
     fluid
     grid-list-lg
-    pa-0
   >
     <v-layout row>
-      <v-flex v-if="!isValid">
+      <v-flex>
         <v-alert
-          :value="!isValid"
+          v-if="!isValid"
           outlined
           type="error"
         >
           {{ $t("summary_error") }}
         </v-alert>
-      </v-flex>
-      <v-flex v-if="isValid">
         <v-alert
-          :value="isValid"
+          v-else-if="exportOptions.type === EXPORT_LKOD"
           outlined
           type="success"
         >
-          {{ $t("summary_download") }}
+          {{ $t("summary_lkod_download") }}
+        </v-alert>
+        <v-alert
+          v-else
+          outlined
+          type="success"
+        >
+          {{ $t("summary_nkod_download") }}
           <code>{{ nkodDatabox }}</code>.
         </v-alert>
       </v-flex>
     </v-layout>
-    <v-layout
-      row
-      class="pa-2"
-    >
+    <v-layout row>
       <h2 class="display-1">
         {{ dataset.title_cs }}
         {{ dataset.title_en ? "| " + dataset.title_en : "" }}
@@ -356,10 +357,7 @@
       </v-flex>
     </v-layout>
     <v-divider class="my-2" />
-    <v-layout
-      row
-      class="pr-2"
-    >
+    <v-layout row>
       <v-spacer />
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
@@ -377,10 +375,13 @@
             <span>{{ downloadLabel }}</span>
           </v-btn>
         </template>
-        <span v-if="isValid">{{ $t("summary_download") }}
+        <span v-if="!isValid">{{ $t("summary_error") }}</span>
+        <span v-else-if="exportOptions.type === EXPORT_LKOD">
+          {{ $t("summary_lkod_download") }}
+        </span>
+        <span v-else>{{ $t("summary_nkod_download") }}
           <code>{{ nkodDatabox }}</code>.
         </span>
-        <span v-if="!isValid">{{ $t("summary_error") }}</span>
       </v-tooltip>
       <export-type-dialog
         :dataset-iri="dataset.iri"
@@ -416,6 +417,9 @@ export default {
     "codelist": {"type": Object, "required": true},
     "exportOptions": {"type": Object, "required": true},
   },
+  "data": () => ({
+    "EXPORT_LKOD": EXPORT_LKOD,
+  }),
   "computed": {
     "nkodDatabox": function () {
       return NKOD_ISDS;

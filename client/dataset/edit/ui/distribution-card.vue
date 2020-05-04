@@ -10,12 +10,12 @@
           class="headline mb-0"
         >
           {{ distribution.title_cs }}
-        </h3> |
+        </h3>
         <h3
           v-if="distribution.title_en.length > 0"
           class="headline mb-0"
         >
-          {{ distribution.title_en }}
+          | {{ distribution.title_en }}
         </h3>
       </v-card-title>
       <v-layout

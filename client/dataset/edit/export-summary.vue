@@ -49,8 +49,7 @@
       </v-btn>
       <export-type-dialog
         :dataset-iri="dataset.iri"
-        :allow-edit="exportAllowEdit"
-        :export-type="exportType"
+        :export-options="exportOptions"
         @save="updateExport"
       />
     </v-layout>
@@ -385,8 +384,7 @@
       </v-tooltip>
       <export-type-dialog
         :dataset-iri="dataset.iri"
-        :allow-edit="exportAllowEdit"
-        :export-type="exportType"
+        :export-options="exportOptions"
         @save="updateExport"
       />
     </v-layout>
@@ -416,8 +414,7 @@ export default {
     "distributions": {"type": Array, "required": true},
     "isValid": {"type": Boolean, "required": true},
     "codelist": {"type": Object, "required": true},
-    "exportType": {"type": String, "required": true},
-    "exportAllowEdit": {"type": Boolean, "required": true},
+    "exportOptions": {"type": Object, "required": true},
   },
   "computed": {
     "nkodDatabox": function () {
@@ -427,7 +424,8 @@ export default {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
     },
     "downloadLabel": function () {
-      return this.$t(exportButtonLabel(this.dataset.iri, this.exportType));
+      return this.$t(exportButtonLabel(
+        this.dataset.iri, this.exportOptions.type));
     },
   },
   "methods": {
@@ -437,6 +435,7 @@ export default {
     },
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.dataset, this.distributions);
+      console.log(jsonld);
       downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld);
     },
     "openDocumentation": function () {

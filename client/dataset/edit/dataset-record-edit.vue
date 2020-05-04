@@ -403,6 +403,7 @@
       :code-list="EUROVOC"
     />
     <v-layout
+      v-if="allowImport"
       row
       wrap
     >
@@ -441,6 +442,7 @@ export default {
     "dataset": {"type": Object, "required": true},
     "codelist": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
+    "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
     "frequencies": FrequenciesCodeList,

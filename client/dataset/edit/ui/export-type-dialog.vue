@@ -29,7 +29,7 @@
           <v-radio
             :label="$t('download_edit')"
             :value="EXPORT_EDIT"
-            :disabled="!allowEdit"
+            :disabled="!exportOptions.allowEdit"
           />
           <v-radio
             :label="$t('download_new_lkod')"
@@ -39,7 +39,7 @@
         <v-text-field
           v-if="type === EXPORT_LKOD"
           id="dataset_url"
-          v-model="iri"
+          v-model="lkodIri"
           :label="$t('dataset_url')"
           :hint="$t('hint_dataset_url')"
           :error-messages="errUrl"
@@ -77,12 +77,11 @@ export default {
   "name": "export-type-dialog",
   "props": {
     "datasetIri": {"type": String},
-    "allowEdit": {"type": Boolean, "required": true},
-    "exportType": {"type": String, "required": true},
+    "exportOptions": {"type": Object, "required": true},
   },
   "data": () => ({
     "visible": false,
-    "iri": "",
+    "lkodIri": "",
     "type": "nkod",
     //
     "EXPORT_NKOD": EXPORT_NKOD,
@@ -102,7 +101,7 @@ export default {
       if (this.type !== EXPORT_LKOD) {
         return [];
       }
-      if (provided(this.iri) && url(this.iri)) {
+      if (provided(this.lkodIri) && url(this.lkodIri)) {
         return [];
       } else {
         return [this.$t("dataset_url_invalid")];
@@ -114,15 +113,15 @@ export default {
   },
   "methods": {
     "onOpen": function () {
-      this.iri = this.datasetIri;
-      this.type = this.exportType;
+      this.type = this.exportOptions.type;
+      this.lkodIri = this.exportOptions.lkodIri;
     },
     "close": function () {
       this.visible = false;
     },
     "save": function () {
       this.$emit("save", {
-        "iri": this.iri,
+        "lkodIri": this.lkodIri,
         "type": this.type,
       });
       this.visible = false;

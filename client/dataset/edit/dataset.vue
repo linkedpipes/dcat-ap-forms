@@ -37,6 +37,7 @@
             :dataset="data.dataset"
             :codelist="data.codelist"
             :distributions="data.distributions"
+            :allow-import="exportOptions.allowImport"
             @load-from-file="loadFromFile"
             @load-from-url="loadFromUrl"
           />
@@ -60,8 +61,7 @@
             :is-valid="isDatasetValid() && areDistributionsValid()"
             :distributions="data.distributions"
             :codelist="data.codelist"
-            :export-type="data.exportType"
-            :export-allow-edit="data.exportAllowEdit"
+            :export-options="exportOptions"
             @update-export="updateExport"
           />
         </v-stepper-content>
@@ -136,8 +136,13 @@ export default {
       "dataset": undefined,
       "distributions": [],
       "error": undefined,
-      "exportType": EXPORT_NKOD,
-      "exportAllowEdit": false,
+    },
+    "exportOptions": {
+      "type": EXPORT_NKOD,
+      "allowEdit": false,
+      "editIri": "",
+      "lkodIri": "",
+      "allowImport": true,
     },
     "ui": {
       "step": 1,
@@ -163,19 +168,40 @@ export default {
       this.data.dataset = createDataset();
       this.data.distributions.push(createDistribution());
       this.data.status = "ready";
-      this.data.exportType = EXPORT_NKOD;
-      this.data.exportAllowEdit = false;
+      this.exportOptions.type = EXPORT_NKOD;
+      this.exportOptions.allowEdit = false;
+      //
       setPageTitle(this.$t(
-        getPageTitle(this.data.dataset, this.data.exportType)));
+        getPageTitle(this.data.dataset, this.exportOptions.type)));
+      if(this.$route.query.krok) {
+        const step = parseInt(this.$route.query.krok, 10);
+        this.ui.step = step;
+        this.onStepperInput(step);
+      }
       return;
     }
     //
-    this.data.exportAllowEdit = true;
-    this.data.exportType = EXPORT_EDIT;
+    if (isCopyMode(this.$route)) {
+      this.exportOptions.type = EXPORT_NKOD;
+      this.exportOptions.editIri = "";
+    } else {
+      this.exportOptions.type = EXPORT_EDIT;
+      this.exportOptions.editIri = url;
+    }
+    this.exportOptions.allowImport = false;
+    this.exportOptions.allowEdit = true;
     importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
       .then((result) => {
         this.setData(result.dataset, result.distributions);
         this.data.status = "ready";
+        //
+        setPageTitle(this.$t(
+          getPageTitle(this.data.dataset, this.exportOptions.type)));
+        if(this.$route.query.krok) {
+          const step = parseInt(this.$route.query.krok, 10);
+          this.ui.step = step;
+          this.onStepperInput(step);
+        }
       })
       .catch((error) => {
         console.error(error);
@@ -192,10 +218,9 @@ export default {
       if (this.data.distributions.length === 0) {
         this.data.distributions.push(createDistribution());
       }
+      this.updateDatasetIri();
       // Try to Load labels.
       fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);
-      setPageTitle(this.$t(
-        getPageTitle(this.data.dataset, this.data.exportType)));
     },
     "isDatasetValid": function () {
       if (!this.validation.dataset) {
@@ -247,18 +272,17 @@ export default {
           distribution.$validators.force = true;
         });
       }
-      if (this.$route.query.krok === undefined && value === 1) {
-        // Prevent redirect after the initial page is shown.
-        return;
+      if (String(this.$route.query.krok) !== String(value)) {
+        this.$router.push({
+          "query": {
+            ...this.$route.query,
+            "krok": value,
+          },
+        });
       }
-      this.$router.push({
-        "query": {
-          ...this.$route.query,
-          "krok": value,
-        },
-      });
     },
     "loadFromFile": function (file) {
+      this.exportOptions.allowImport = false;
       const lang = this.$vuetify.lang.current;
       const $this = this;
       loadFile(file)
@@ -271,6 +295,7 @@ export default {
         });
     },
     "loadFromUrl": function(url) {
+      this.exportOptions.allowImport = false;
       const lang = this.$vuetify.lang.current;
       const $this = this;
       importDatasetFromUrl(url, lang)
@@ -282,23 +307,31 @@ export default {
         });
     },
     "updateExport": function (event) {
-      this.data.exportType = event.type;
-      switch (event.type) {
+      this.exportOptions.type = event.type;
+      this.exportOptions.lkodIri = event.lkodIri;
+      this.updateDatasetIri();
+      setPageTitle(this.$t(
+        getPageTitle(this.data.dataset, this.exportOptions.type)));
+    },
+    "updateDatasetIri": function() {
+      switch (this.exportOptions.type) {
       case EXPORT_NKOD:
         this.data.dataset.iri = undefined;
         break;
       case EXPORT_EDIT:
-        this.data.dataset.iri = this.$route.query.url;
+        this.data.dataset.iri = this.exportOptions.editIri;
         break;
       case EXPORT_LKOD:
-        this.data.dataset.iri = event.iri;
+        this.data.dataset.iri = this.exportOptions.lkodIri;
         break;
       }
-      setPageTitle(this.$t(
-        getPageTitle(this.data.dataset, this.data.exportType)));
     },
   },
 };
+
+function isCopyMode($route) {
+  return $route.query.kopie !== undefined;
+}
 
 function loadFile(file) {
   return new Promise((resolve) => {

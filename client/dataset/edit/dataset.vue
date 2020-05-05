@@ -282,7 +282,6 @@ export default {
       }
     },
     "loadFromFile": function (file) {
-      this.exportOptions.allowImport = false;
       const lang = this.$vuetify.lang.current;
       const $this = this;
       loadFile(file)
@@ -295,7 +294,6 @@ export default {
         });
     },
     "loadFromUrl": function(url) {
-      this.exportOptions.allowImport = false;
       const lang = this.$vuetify.lang.current;
       const $this = this;
       importDatasetFromUrl(url, lang)

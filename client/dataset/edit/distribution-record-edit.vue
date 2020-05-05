@@ -419,7 +419,7 @@
 
     <div v-if="canBeDeleted">
       <v-btn
-        flat
+        text
         @click="onDelete"
       >
         <v-icon color="error">

@@ -14,12 +14,19 @@
       </v-btn>
     </template>
     <v-card>
-      <v-card-title
-        class="headline"
-        primary-title
+      <v-toolbar
+        dark
+        color="primary"
       >
-        {{ $t('export_dialog_title') }}
-      </v-card-title>
+        <v-toolbar-title>{{ $t('export_dialog_title') }}</v-toolbar-title>
+        <v-spacer />
+        <v-btn
+          icon
+          @click="close"
+        >
+          <v-icon>close</v-icon>
+        </v-btn>
+      </v-toolbar>
       <v-card-text>
         <v-radio-group v-model="type">
           <v-radio

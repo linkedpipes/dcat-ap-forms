@@ -11,7 +11,6 @@
         {{ $t('load_url') }}
       </v-btn>
     </template>
-
     <v-card>
       <v-toolbar
         dark

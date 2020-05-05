@@ -171,50 +171,15 @@ export default {
   },
   "mounted": function () {
     const url = this.$route.query.url;
-    if (url === undefined) {
-      this.data.dataset = createDataset();
-      this.data.distributions.push(createDistribution());
-      this.data.status = "ready";
-      this.exportOptions.type = EXPORT_NKOD;
-      this.exportOptions.allowEdit = false;
-      //
-      setPageTitle(this.$t(
-        getPageTitle(this.data.dataset, this.exportOptions.type)));
-      if(this.$route.query.krok) {
-        const step = parseInt(this.$route.query.krok, 10);
-        this.ui.step = step;
-        this.onStepperInput(step);
-      }
-      return;
-    }
-    //
-    if (isCopyMode(this.$route)) {
-      this.exportOptions.type = EXPORT_NKOD;
-      this.exportOptions.editIri = "";
+    const dataset = this.$route.query.dataset;
+    const copyMode = isCopyMode(this.$route);
+    if (dataset) {
+      importDataset.call(this, dataset, copyMode);
+    } else if (url) {
+      importFromUrl.call(this, url);
     } else {
-      this.exportOptions.type = EXPORT_EDIT;
-      this.exportOptions.editIri = url;
+      createNewDataset.call(this);
     }
-    this.exportOptions.allowImport = false;
-    this.exportOptions.allowEdit = true;
-    importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
-      .then((result) => {
-        this.setData(result.dataset, result.distributions);
-        this.data.status = "ready";
-        //
-        setPageTitle(this.$t(
-          getPageTitle(this.data.dataset, this.exportOptions.type)));
-        if(this.$route.query.krok) {
-          const step = parseInt(this.$route.query.krok, 10);
-          this.ui.step = step;
-          this.onStepperInput(step);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        this.data.status = "error";
-        this.data.error = error;
-      });
   },
   "methods": {
     "setData": function(dataset, distributions) {
@@ -289,29 +254,27 @@ export default {
       }
     },
     "loadFromFile": function (file) {
-      const lang = this.$vuetify.lang.current;
-      const $this = this;
       loadFile(file)
-        .then((content) => importFromJsonLd(content, lang))
+        .then((content) => importFromJsonLd(
+          content, this.$vuetify.lang.current
+        ))
         .then((result) => {
           console.log("result", result);
-          $this.setData(result.dataset, result.distributions);
+          this.setData(result.dataset, result.distributions);
         })
         .catch((error) => {
           console.error("Can't import file.", error);
-          $this.ui.uploadFailedVisible = true;
+          this.ui.uploadFailedVisible = true;
         });
     },
     "loadFromUrl": function(url) {
-      const lang = this.$vuetify.lang.current;
-      const $this = this;
-      importDatasetFromUrl(url, lang)
+      importDatasetFromUrl(url, this.$vuetify.lang.current)
         .then((result) => {
-          $this.setData(result.dataset, result.distributions);
+          this.setData(result.dataset, result.distributions);
         })
         .catch((error) => {
           console.error("Can't import from url.", error);
-          $this.ui.uploadFailedVisible = true;
+          this.ui.uploadFailedVisible = true;
         });
     },
     "updateExport": function (event) {
@@ -339,6 +302,72 @@ export default {
     },
   },
 };
+
+/**
+ * For importing dataset we use the proxy.
+ */
+function importDataset(url, copyMode) {
+  if (copyMode) {
+    this.exportOptions.type = EXPORT_NKOD;
+    this.exportOptions.editIri = "";
+  } else {
+    this.exportOptions.type = EXPORT_EDIT;
+    this.exportOptions.editIri = url;
+  }
+  //
+  this.exportOptions.allowImport = false;
+  this.exportOptions.allowEdit = true;
+  importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
+    .then((result) => {
+      this.setData(result.dataset, result.distributions);
+      this.data.status = "ready";
+      initializeStepAndTitle.call(this);
+    })
+    .catch((error) => {
+      console.error("Can't import dataset.", error);
+      this.data.status = "error";
+      this.data.error = error;
+    });
+}
+
+function initializeStepAndTitle() {
+  setPageTitle(this.$t(
+    getPageTitle(this.data.dataset, this.exportOptions.type)));
+  if(this.$route.query.krok) {
+    const step = parseInt(this.$route.query.krok, 10);
+    this.ui.step = step;
+    this.onStepperInput(step);
+  }
+}
+
+function importFromUrl(url) {
+  this.exportOptions.type = EXPORT_NKOD;
+  this.exportOptions.editIri = "";
+  this.exportOptions.allowImport = true;
+  this.exportOptions.allowEdit = false;
+  //
+  importDatasetFromUrl(url, this.$vuetify.lang.current)
+    .then((result) => {
+      this.setData(result.dataset, result.distributions);
+      this.data.status = "ready";
+      initializeStepAndTitle.call(this);
+    })
+    .catch((error) => {
+      console.error("Can't import from URL.", error);
+      this.data.status = "error";
+      this.data.error = error;
+    });
+}
+
+function createNewDataset() {
+  this.data.dataset = createDataset();
+  this.data.distributions.push(createDistribution());
+  this.data.status = "ready";
+  this.exportOptions.type = EXPORT_NKOD;
+  this.exportOptions.allowEdit = false;
+  //
+  initializeStepAndTitle.call(this);
+}
 
 function isCopyMode($route) {
   return $route.query.kopie !== undefined;

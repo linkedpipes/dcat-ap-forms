@@ -1,6 +1,7 @@
 <template>
   <v-dialog
     v-model="visible"
+    width="500"
   >
     <template v-slot:activator="{ on }">
       <v-btn

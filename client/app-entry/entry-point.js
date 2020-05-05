@@ -8,6 +8,7 @@ import {initializeTheme, registerListener} from "../app-service/theme";
 
 import "vuetify/dist/vuetify.min.css";
 import "@mdi/font/css/materialdesignicons.css";
+import "../dark-mode-fix.css";
 
 export function initializeApplication(application, language, labels) {
   Vue.config.productionTip = false;

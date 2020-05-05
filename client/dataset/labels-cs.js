@@ -230,4 +230,6 @@ export default {
   "dataset_url": "Url datové sady",
   "hint_dataset_url": "Uveďtě HTTPS IRI datové sady dle pravidel vašeho lokálního katalogu",
   "dataset_url_invalid": "Nevalidní HTTPS URL.",
+  "import_dialog_failed_title": "Nepodařilo se importovat datovou sadu.",
+  "import_dialog_failed_close": "Zavřít",
 };

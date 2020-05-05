@@ -231,4 +231,6 @@ export default {
   "dataset_url": "Dataset Url ",
   "hint_dataset_url": "Enter HTTPS IRI of the dataset according to rules of your local catalog",
   "dataset_url_invalid": "Invalid HTTPS URL.",
+  "import_dialog_failed_title": "Dataset import failed.",
+  "import_dialog_failed_close": "Close",
 };

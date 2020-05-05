@@ -79,6 +79,10 @@
         @input="onStepperInput"
       />
     </div>
+    <app-upload-failed-dialog
+      :visible="ui.uploadFailedVisible"
+      @close="uploadFailedClose"
+    />
   </v-content>
   <v-content v-else-if="data.status === 'error'">
     <p class="text-xs-center mt-5">
@@ -118,6 +122,7 @@ import {
 } from "../import-dataset-from-url";
 import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
+import UploadFailedDialog from "./ui/upload-failed-dialog";
 
 export default {
   "name": "app-dataset-edit",
@@ -128,6 +133,7 @@ export default {
     "app-step-navigation-mobile": StepperNavigationMobile,
     "app-step-navigation-desktop": StepperNavigationDesktop,
     "app-export-summary": ExportSummary,
+    "app-upload-failed-dialog": UploadFailedDialog,
   },
   "data": () => ({
     "data": {
@@ -147,6 +153,7 @@ export default {
     "ui": {
       "step": 1,
       "distribution": 0,
+      "uploadFailedVisible": false,
     },
     "validation": {
       "dataset": false,
@@ -287,10 +294,12 @@ export default {
       loadFile(file)
         .then((content) => importFromJsonLd(content, lang))
         .then((result) => {
+          console.log("result", result);
           $this.setData(result.dataset, result.distributions);
         })
         .catch((error) => {
           console.error("Can't import file.", error);
+          $this.ui.uploadFailedVisible = true;
         });
     },
     "loadFromUrl": function(url) {
@@ -302,6 +311,7 @@ export default {
         })
         .catch((error) => {
           console.error("Can't import from url.", error);
+          $this.ui.uploadFailedVisible = true;
         });
     },
     "updateExport": function (event) {
@@ -324,6 +334,9 @@ export default {
         break;
       }
     },
+    "uploadFailedClose": function() {
+      this.ui.uploadFailedVisible = false;
+    },
   },
 };
 
@@ -332,10 +345,15 @@ function isCopyMode($route) {
 }
 
 function loadFile(file) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve(JSON.parse(reader.result));
+      try {
+        const content = JSON.parse(reader.result);
+        resolve(content);
+      } catch(ex) {
+        reject(ex);
+      }
     };
     reader.readAsText(file);
   });

@@ -32,7 +32,7 @@ export default {
   "mounted": function () {
     setPageTitle(this.$t("catalog_delete_page_title"));
 
-    const url = this.$route.query.url;
+    const url = this.$route.query.catalog;
     if (url === undefined) {
       this.data.status = "error";
       return;

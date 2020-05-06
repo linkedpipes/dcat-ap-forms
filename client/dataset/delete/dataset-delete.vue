@@ -30,7 +30,7 @@ export default {
   "mounted": function () {
     setPageTitle(this.$t("delete_page_title"));
 
-    const url = this.$route.query.url;
+    const url = this.$route.query.dataset;
     if (url === undefined) {
       this.status = "missing-dataset";
       return;

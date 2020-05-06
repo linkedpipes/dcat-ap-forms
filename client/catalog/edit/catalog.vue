@@ -97,7 +97,6 @@ export default {
       return isCatalogValid(this.data.catalog);
     },
     "onStepperInput": function (value) {
-      console.log("onStepperInput", value);
       this.step = value;
       if (!this.validation.catalog && value > 1) {
         this.validation.catalog = true;

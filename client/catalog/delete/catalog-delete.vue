@@ -1,14 +1,12 @@
 <template>
-  <v-content v-if="data.status === 'ready'">
-    <app-summary :catalog="data.catalog" />
+  <v-content v-if="status === 'ready'">
+    <app-summary :catalog="catalog" />
   </v-content>
-  <v-content v-else-if="data.status === 'loading'">
-    <!-- No content. -->
+  <v-content v-else-if="status === 'error'">
+    <app-import-failed :message="$t('cant_import_catalog')" />
   </v-content>
   <v-content v-else>
-    <p class="text-xs-center mt-5">
-      {{ $t("cant_import_catalog") }}
-    </p>
+    <!-- No content. -->
   </v-content>
 </template>
 
@@ -23,26 +21,24 @@ export default {
     "app-summary": CatalogDeleteSummary,
   },
   "data": () => ({
-    "data": {
-      "status": "loading",
-      "catalog": undefined,
-      "error": undefined,
-    },
+    "status": "loading",
+    "catalog": undefined,
+    "error": undefined,
   }),
   "mounted": function () {
     setPageTitle(this.$t("catalog_delete_page_title"));
 
     const url = this.$route.query.catalog;
     if (url === undefined) {
-      this.data.status = "error";
+      this.status = "error";
       return;
     }
     importCatalogFromUrlWithProxy(url).then((catalog) => {
-      this.data.catalog = catalog;
-      this.data.status = "ready";
+      this.catalog = catalog;
+      this.status = "ready";
     }).catch((error) => {
-      this.data.status = "error";
-      this.data.error = error;
+      this.status = "error";
+      this.error = error;
       console.error("Can't import dataset", error);
     });
   },

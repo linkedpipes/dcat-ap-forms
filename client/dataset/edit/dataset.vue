@@ -85,9 +85,7 @@
     />
   </v-content>
   <v-content v-else-if="data.status === 'error'">
-    <p class="text-xs-center mt-5">
-      {{ this.$vuetify.lang.t("cant_import_dataset") }}
-    </p>
+    <app-import-failed :message="$t('cant_import_dataset')" />
   </v-content>
   <v-content v-else>
     <!-- No content. -->
@@ -123,6 +121,7 @@ import {
 import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
 import UploadFailedDialog from "./ui/upload-failed-dialog";
+import ImportFailed from "../../app-service/import-failed";
 
 export default {
   "name": "app-dataset-edit",
@@ -134,6 +133,7 @@ export default {
     "app-step-navigation-desktop": StepperNavigationDesktop,
     "app-export-summary": ExportSummary,
     "app-upload-failed-dialog": UploadFailedDialog,
+    "app-import-failed": ImportFailed,
   },
   "data": () => ({
     "data": {

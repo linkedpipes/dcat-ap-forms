@@ -2,13 +2,11 @@
   <v-content v-if="status === 'ready'">
     <app-summary :dataset="dataset" />
   </v-content>
-  <v-content v-else-if="status === 'loading'">
-    <!-- No content. -->
+  <v-content v-else-if="status === 'error'">
+    <app-import-failed :message="$t('cant_import_dataset')" />
   </v-content>
   <v-content v-else>
-    <p class="text-xs-center mt-5">
-      {{ $t("cant_import_dataset") }}
-    </p>
+    <!-- No content. -->
   </v-content>
 </template>
 

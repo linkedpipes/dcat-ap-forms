@@ -1,33 +1,29 @@
 import {
-  DCTERMS,
-  DCATAP,
   FOAF,
-  VCARD,
   ADMS,
   STATUS,
 } from "../app-service/vocabulary";
 
+const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
+  "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
+
 export function exportToJsonLdForDelete(catalog) {
   return {
-    "@type": catalog.types,
-    "@id": catalog.iri,
+    "@context": context,
+    "typ": "Katalog",
+    "iri": catalog.iri,
     [ADMS.status]: {"@id": STATUS.Withdrawn},
   };
 }
 
 export function exportToJsonLd(catalog) {
   const output = {
-    "@type": [DCATAP.Catalog, catalog.type],
-    [DCATAP.endpointURL]: {
-      "@value": catalog.endpoint,
-      "@type": "http://www.w3.org/2001/XMLSchema#anyURI",
-    },
-    [DCTERMS.title]: asLangString(catalog.title_cs, catalog.title_en),
+    "@context": context,
+    "@type": ["Katalog", catalog.type],
+    "endpoint": catalog.endpoint,
+    "název": asLangMap(catalog.title_cs, catalog.title_en),
+    ...exportContactPoint(catalog),
   };
-  const contactPoint = exportContactPoint(catalog);
-  if (contactPoint !== undefined) {
-    output[DCATAP.contactPoint] = contactPoint;
-  }
   if (isNotEmpty(catalog.homepage)) {
     output[FOAF.homepage] = {
       "@id": catalog.homepage,
@@ -36,16 +32,13 @@ export function exportToJsonLd(catalog) {
   return output;
 }
 
-function asLangString(value_cs, value_en) {
-  const result = [{
-    "@language": "cs",
-    "@value": value_cs,
-  }];
+function asLangMap(value_cs, value_en) {
+  const result = {};
+  if (isNotEmpty(value_cs)) {
+    result["cs"] = value_cs;
+  }
   if (isNotEmpty(value_en)) {
-    result.push({
-      "@language": "en",
-      "@value": value_en,
-    });
+    result["en"] = value_en;
   }
   return result;
 }
@@ -59,18 +52,18 @@ function isEmpty(value) {
 }
 
 function exportContactPoint(catalog) {
-  const output = {
-    "@type": [VCARD.Organization],
-  };
   if (isEmpty(catalog.contact_point_name) &&
     isEmpty(catalog.contact_point_email)) {
-    return undefined;
+    return {};
   }
+  const output = {
+    "typ": "Organizace",
+  };
   if (isNotEmpty(catalog.contact_point_name)) {
-    output[VCARD.fn] = asLangString(catalog.contact_point_name);
+    output["jméno"] = asLangMap(catalog.contact_point_name);
   }
   if (isNotEmpty(catalog.contact_point_email)) {
-    output[VCARD.hasEmail] = catalog.contact_point_email;
+    output["e-mail"] = catalog.contact_point_email;
   }
   return output;
 }

@@ -3,178 +3,213 @@ import {
   NKOD,
   ADMS,
   STATUS,
-  DCTERMS,
-  FOAF,
-  VCARD,
   PU,
   CREATIVE_COMMONS,
 } from "../app-service/vocabulary";
 import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "./distribution-model";
+import {
+  SPATIAL_CONTINENT,
+  SPATIAL_COUNTRY,
+  SPATIAL_PLACE,
+  SPATIAL_RUIAN,
+  SPATIAL_URL,
+} from "./dataset-model";
+
+const prefixes = {
+  "http://publications.europa.eu/resource/authority/file-type/": "format",
+  "http://publications.europa.eu/resource/authority/frequency/": "frequency",
+  "http://publications.europa.eu/resource/authority/country/": "country",
+  "http://publications.europa.eu/resource/authority/continent/": "continent",
+  "http://publications.europa.eu/resource/authority/place/": "place",
+  "http://publications.europa.eu/resource/authority/data-theme/": "theme",
+  "http://eurovoc.europa.eu/": "euroVoc",
+  "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/": "ovm",
+};
+
+const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
+  "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
 export function exportToJsonLdForDelete(dataset) {
   return {
-    "@type": [DCATAP.Dataset, NKOD.Formular],
-    "@id": dataset.iri,
+    "@context": context,
+    "typ": ["Datová sada", NKOD.Formular],
+    "iri": dataset.iri,
     [ADMS.status]: {"@id": STATUS.Withdrawn},
   };
 }
 
 export function exportToJsonLd(dataset, distributions) {
-  let titles = [asLangString(dataset.title_cs, "cs")];
-  if (isNotEmpty(dataset.title_en)) {
-    titles.push(asLangString(dataset.title_en, "en"));
-  }
-
-  let descriptions = [asLangString(dataset.description_cs, "cs")];
-  if (isNotEmpty(dataset.description_en)) {
-    descriptions.push(asLangString(dataset.description_en, "en"));
-  }
-
   if (isEmpty(dataset.iri)) {
     dataset.iri = "_:ds";
   }
   const output = {
-    "@id": dataset.iri,
-    "@type": [DCATAP.Dataset, NKOD.Formular],
-    [DCTERMS.title]: titles,
-    [DCTERMS.description]: descriptions,
+    "@context": context,
+    "iri": dataset.iri,
+    "typ": ["Datová sada", NKOD.Formular],
+    "název": asLangMap(dataset.title_cs, dataset.title_en),
+    "popis": asLangMap(dataset.description_cs, dataset.description_en),
+    ...exportSpatial(dataset),
+    ...exportTemporal(dataset),
   };
 
-  if (distributions.length > 0) {
-    output[DCATAP.distribution] =
-      distributions.map(
-        (distribution) => exportDistribution(distribution, dataset.iri));
-  }
-
-  const keywords = [
-    ...dataset.keywords_cs.map(str => ({
-      "@language": "cs",
-      "@value": str,
-    })),
-    ...dataset.keywords_en.map(str => ({
-      "@language": "en",
-      "@value": str,
-    })),
-  ];
-  if (keywords.length > 0) {
-    output[DCATAP.keyword] = keywords;
+  const keywords = asLangMap(dataset.keywords_cs, dataset.keywords_en);
+  if (keywords["cs"] || keywords["en"]) {
+    output["klíčové_slovo"] = keywords;
   }
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
-    const url = dataset.accrual_periodicity;
-    output[DCTERMS.accrualPeriodicity] = asIri(url);
-  }
-  if (dataset.spatial.length > 0) {
-    output[DCTERMS.spatial] = dataset.spatial.map(
-      (spatial) => ({"@id": spatial.url}));
-  }
-  if (isNotEmpty(dataset.documentation)) {
-    output[FOAF.page] = asIri(dataset.documentation);
+    output["periodicita_aktualizace"] = updateIris(dataset.accrual_periodicity);
   }
 
-  const themes = [
-    ...dataset.dataset_themes,
-    ...dataset.themes,
-    ...dataset.dataset_custom_themes,
+  if (isNotEmpty(dataset.documentation)) {
+    output["dokumentace"] = dataset.documentation;
+  }
+
+  output["koncept_euroVoc"] = [
+    ...updateIris(dataset.dataset_themes),
+    ...updateIris(dataset.themes),
+    ...updateIris(dataset.dataset_custom_themes),
   ];
-  output[DCATAP.theme] = themes.map((t) => asIri(t));
 
   if (dataset.ofn.length > 0) {
-    output[DCTERMS.conformsTo] = dataset.ofn.map((t) => asIri(t));
-  }
-
-  const temporal = exportTemporal(dataset);
-  if (isNotEmpty(temporal)) {
-    output[DCTERMS.temporal] = temporal;
+    output["specifikace"] = dataset.ofn;
   }
 
   if (isNotEmpty(dataset.temporal_resolution)) {
-    output[DCATAP.temporalResolution] = {
-      "@value": dataset.temporal_resolution,
-      "@type": "http://www.w3.org/2001/XMLSchema#duration",
-    };
+    output["časové_rozlišení"] = updateIris(dataset.temporal_resolution);
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
-    output[DCATAP.spatialResolutionInMeters] =
-      asXsdDecimal(dataset.spatial_resolution_meters);
+    output["prostorové_rozlišení_v_metrech"] =
+      dataset.spatial_resolution_meters;
   }
 
   const contactPoint = exportContactPoint(dataset);
   if (isNotEmpty(contactPoint)) {
-    output[DCATAP.contactPoint] = contactPoint;
+    output["kontaktní_bod"] = contactPoint;
   }
-  return output;
-}
 
-function isNotEmpty(value) {
-  return !isEmpty(value);
+  output["distribuce"] = distributions.map(
+    (distribution) => exportDistribution(distribution, dataset.iri));
+
+  return output;
 }
 
 function isEmpty(value) {
   return value === undefined || value === null || value === "";
 }
 
-function asLangString(value, lang) {
-  return {
-    "@language": lang,
-    "@value": value,
-  };
+
+function isNotEmpty(value) {
+  return !isEmpty(value);
 }
 
-function asIri(value) {
-  return {
-    "@id": value,
-  };
+
+function asLangMap(value_cs, value_en) {
+  const result = {};
+  if (isNotEmpty(value_cs)) {
+    result["cs"] = value_cs;
+  }
+  if (isNotEmpty(value_en)) {
+    result["en"] = value_en;
+  }
+  return result;
 }
 
-function asXsdDecimal(value) {
-  return {
-    "@value": value,
-    "@type": "http://www.w3.org/2001/XMLSchema#decimal",
-  };
+function exportSpatial(dataset) {
+  const ruian = [];
+  const geo_area = [];
+  const custom = [];
+
+  dataset.spatial.map((spatial) => {
+    const url = updateIris(spatial.url);
+    switch (spatial.type) {
+    case SPATIAL_RUIAN:
+      ruian.push(url);
+      break;
+    case SPATIAL_CONTINENT:
+    case SPATIAL_COUNTRY:
+    case SPATIAL_PLACE:
+      geo_area.push(url);
+      break;
+    case SPATIAL_URL:
+      custom.push(url);
+      break;
+    default:
+      console.warn("Unknown spatial type for", spatial);
+      custom.push(url);
+      break;
+    }
+  });
+
+  const result = {};
+  if (ruian.length > 0) {
+    result["prvek_rúian"] = ruian;
+  }
+  if (ruian.length > 0) {
+    result["geografické_území"] = geo_area;
+  }
+  if (ruian.length > 0) {
+    result["prostorové_pokrytí"] = custom;
+  }
+
+  return result;
 }
+
+function updateIris(value) {
+
+  function updateIri(iri) {
+    for (const [prefix, short] of Object.entries(prefixes)) {
+      if (iri.startsWith(prefix)) {
+        return short + ":" + iri.substr(prefix.length);
+      }
+    }
+    return iri;
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(updateIri);
+  }
+  return updateIri(value);
+}
+
 
 function exportTemporal(dataset) {
   if (!containsValidDate(dataset.temporal_start) &&
     !containsValidDate(dataset.temporal_end)) {
-    return undefined;
+    return {};
   }
   const output = {
-    "@type": [DCTERMS.PeriodOfTime],
+    "typ": "Časový interval",
   };
   if (containsValidDate(dataset.temporal_start)) {
-    output[DCATAP.startDate] = {
-      "@type": "http://www.w3.org/2001/XMLSchema#date",
-      "@value": dataset.temporal_start,
-    };
+    output["začátek"] = dataset.temporal_start;
   }
   if (containsValidDate(dataset.temporal_end)) {
-    output[DCATAP.endDate] = {
-      "@type": "http://www.w3.org/2001/XMLSchema#date",
-      "@value": dataset.temporal_end,
-    };
+    output["konec"] = dataset.temporal_end;
   }
-  return output;
+  return {
+    "časové_pokrytí": output,
+  };
 }
 
 function containsValidDate(value) {
   return isNotEmpty(value);
 }
 
-function exportContactPoint(dataset) {
+function exportContactPoint(catalog) {
+  if (isEmpty(catalog.contact_point_name) &&
+    isEmpty(catalog.contact_point_email)) {
+    return {};
+  }
   const output = {
-    "@type": [VCARD.Organization],
+    "typ": "Organizace",
   };
-  if (isEmpty(dataset.contact_point_name) &&
-    isEmpty(dataset.contact_point_email)) {
-    return undefined;
+  if (isNotEmpty(catalog.contact_point_name)) {
+    output["jméno"] = asLangMap(catalog.contact_point_name);
   }
-  if (isNotEmpty(dataset.contact_point_name)) {
-    output[VCARD.fn] = asLangString(dataset.contact_point_name, "cs");
-  }
-  if (isNotEmpty(dataset.contact_point_email)) {
-    output[VCARD.hasEmail] = dataset.contact_point_email;
+  if (isNotEmpty(catalog.contact_point_email)) {
+    output["e-mail"] = catalog.contact_point_email;
   }
   return output;
 }
@@ -182,80 +217,74 @@ function exportContactPoint(dataset) {
 function exportDistribution(distribution, datasetIri) {
 
   const result = {
-    "@type": DCATAP.Distribution,
+    "typ": "Distribuce",
   };
 
-  let titles = [];
-  if (isNotEmpty(distribution.title_cs)) {
-    titles.push(asLangString(distribution.title_cs, "cs"));
-  }
-  if (isNotEmpty(distribution.title_en)) {
-    titles.push(asLangString(distribution.title_en, "en"));
-  }
-  if (titles.length > 0) {
-    result[DCTERMS.title] = titles;
+  let title = asLangMap(distribution.title_cs, distribution.title_en);
+  if (title["cs"] || title["en"]) {
+    result["název"] = title;
   }
 
   if (distribution.type === DIST_TYPE_FILE) {
-    result[DCATAP.downloadURL] = asIri(distribution.url);
+    result["soubor_ke_stažení"] = distribution.url;
 
     if (isNotEmpty(distribution.media_type)) {
-      result[DCATAP.mediaType] = asIri(distribution.media_type);
+      result["mediaType"] = updateIris(distribution.media_type);
     }
 
     if (isNotEmpty(distribution.format)) {
-      result[DCTERMS.format] = asIri(distribution.format);
+      result["formát"] = updateIris(distribution.format);
     }
 
     if (isNotEmpty(distribution.schema)) {
-      result[DCTERMS.conformsTo] = asIri(distribution.schema);
+      result["schéma"] = updateIris(distribution.schema);
     }
 
     if (isNotEmpty(distribution.packageFormat)) {
-      result[DCATAP.packageFormat] = asIri(distribution.packageFormat);
+      result["mediaType_balíčku"] = updateIris(distribution.packageFormat);
     }
 
     if (isNotEmpty(distribution.compressFormat)) {
-      result[DCATAP.compressFormat] = asIri(distribution.compressFormat);
+      result["mediaType_komprese"] = updateIris(distribution.compressFormat);
     }
+
   } else if (distribution.type === DIST_TYPE_SERVICE) {
-    result[DCATAP.accessURL] = asIri(distribution.service_endpoint_url);
-    result[DCATAP.accessService] = {
-      "@type": DCATAP.DataService,
-      [DCATAP.endpointURL]: asIri(distribution.service_endpoint_url),
-      [DCATAP.endpointDescription]: asIri(distribution.service_description),
+    result["přístupové_url"] = distribution.service_endpoint_url;
+    result["přístupová_služba"] = {
+      "typ": "Datová služba",
+      "endpoint": distribution.service_endpoint_url,
+      "popis_endpointu": distribution.service_description,
     };
-    if (titles.length > 0) {
-      result[DCATAP.accessService][DCTERMS.title] = titles;
+    if (title["cs"] || title["en"]) {
+      result["přístupová_služba"]["název"] = title;
     }
     if (isNotEmpty(datasetIri)) {
-      result[DCATAP.accessService][DCATAP.servesDataset] = asIri(datasetIri);
+      result["přístupová_služba"][DCATAP.servesDataset] = datasetIri;
     }
   } else {
     console.error("Distribution must be either FILE or SERVICE.", distribution);
   }
-  result[PU.specifikace] = exportLicense(distribution);
+  result["podmínky_užití"] = exportLicense(distribution);
   return result;
 }
 
 function exportLicense(distribution) {
   const result = {
-    "@type": PU.Specifikace,
+    "typ": "Specifikace podmínek užití",
   };
-
   switch (distribution.license_author_type) {
   case "MULTI":
-    result[PU.autorskeDilo] = asIri(PU.obsahujeViceAutorskychDel);
+    result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
     break;
   case "CC BY":
-    result[PU.autorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
+    result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
     result[PU.autor] = asLangString(distribution.license_author_name, "cs");
     break;
   case "NO":
-    result[PU.autorskeDilo] = asIri(PU.neobsahujeAutorskaDila);
+    result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
     break;
   case "CUSTOM":
-    result[PU.autorskeDilo] = asIri(distribution.license_author_custom);
+    result["autorské_dílo"] = distribution.license_author_custom;
     break;
   default:
     console.error("Unexpected license_author_type value:",
@@ -265,16 +294,16 @@ function exportLicense(distribution) {
 
   switch (distribution.license_db_type) {
   case "CC BY":
-    result[PU.databazeJakoAutorskeDilo] = asIri(CREATIVE_COMMONS.BY_40);
+    result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
     result[PU.autorDatabaze] = asLangString(distribution.license_db_name, "cs");
     break;
   case "NO":
-    result[PU.databazeJakoAutorskeDilo] =
-      asIri(PU.neniAutorskopravneChranenouDatabazi);
+    result["databáze_jako_autorské_dílo"] =
+      PU.neniAutorskopravneChranenouDatabazi;
     break;
   case "CUSTOM":
-    result[PU.databazeJakoAutorskeDilo] =
-      asIri(distribution.license_db_custom);
+    result["databáze_jako_autorské_dílo"] =
+      distribution.license_db_custom;
     break;
   default:
     console.error("Unexpected license_db_type value:",
@@ -284,16 +313,16 @@ function exportLicense(distribution) {
 
   switch (distribution.license_specialdb_type) {
   case "CC0":
-    result[PU.databazeChranenaZvlastnimiPravy] =
-      asIri(CREATIVE_COMMONS.PUBLIC_ZERO_10);
+    result["databáze_chráněná_zvláštními_právy"] =
+      CREATIVE_COMMONS.PUBLIC_ZERO_10;
     break;
   case "NO":
-    result[PU.databazeChranenaZvlastnimiPravy] =
-      asIri(PU.neniChranenazvlastnimPravemPorizovateleDatabaze);
+    result["databáze_chráněná_zvláštními_právy"] =
+      PU.neniChranenazvlastnimPravemPorizovateleDatabaze;
     break;
   case "CUSTOM":
-    result[PU.databazeChranenaZvlastnimiPravy] =
-      asIri(distribution.license_specialdb_custom);
+    result["databáze_chráněná_zvláštními_právy"] =
+      distribution.license_specialdb_custom;
     break;
   default:
     console.error("Unexpected license_specialdb_type value:",
@@ -303,10 +332,10 @@ function exportLicense(distribution) {
 
   switch (distribution.license_personal_type) {
   case "YES":
-    result[PU.osobniUdaje] = asIri(PU.obsahujeOsobniUdaje);
+    result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
     break;
   case "NO":
-    result[PU.osobniUdaje] = asIri(PU.neobsahujeOsobniUdaje);
+    result["osobní_údaje"] = PU.neobsahujeOsobniUdaje;
     break;
   default:
     console.error("Unexpected license_personal_type value:",
@@ -315,4 +344,11 @@ function exportLicense(distribution) {
   }
 
   return result;
+}
+
+function asLangString(value) {
+  return {
+    "@language": "cs",
+    "@value": value,
+  };
 }

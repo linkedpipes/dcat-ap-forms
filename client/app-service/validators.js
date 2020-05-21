@@ -44,14 +44,12 @@ export function applyEach(selector, property, rule, message) {
     if (!shouldValidate(value, validators, property)) {
       return [];
     }
-    let bundle = {"isValid": true};
-    value.forEach((item) => {
-      this.isValid = this.isValid & rule(item);
-    }, bundle);
-    if (bundle.isValid) {
-      return [];
+    for (const item of value) {
+      if (!rule(item)) {
+        return [this.$t(message)];
+      }
     }
-    return [this.$t(message)];
+    return [];
   };
 }
 

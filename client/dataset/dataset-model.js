@@ -107,11 +107,7 @@ export function createDatasetValidators() {
       url, "dataset_theme_invalid_url"),
     "err_dataset_ofn": applyEach(
       (t) => t.dataset, "ofn",
-      //url,
-      (text) => {
-        console.log("validate", text);
-        return false;
-      },
+      url,
       "dataset_ofn_invalid_url"
     ),
     "err_temporal": apply(

@@ -105,6 +105,15 @@ export function createDatasetValidators() {
     "err_dataset_theme_custom": applyEach(
       (t) => t.dataset, "dataset_custom_themes",
       url, "dataset_theme_invalid_url"),
+    "err_dataset_ofn": applyEach(
+      (t) => t.dataset, "ofn",
+      //url,
+      (text) => {
+        console.log("validate", text);
+        return false;
+      },
+      "dataset_ofn_invalid_url"
+    ),
     "err_temporal": apply(
       (t) => t.dataset, "temporal_resolution",
       temporal,

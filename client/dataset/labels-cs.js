@@ -125,6 +125,7 @@ export default {
   "dataset_ofn": "Specifikace",
   "dataset_theme_invalid": "Téma datové sady je povinné.",
   "dataset_theme_invalid_url": "Nevalidní HTTPS URL.",
+  "dataset_ofn_invalid_url": "Nevalidní HTTPS URL.",
   "hint_dataset_title": "Měl by být krátký, věcný a výstižný.",
   "help_dataset_title": "<h3>Název datové sady</h3><p>Zadejte název publikované datové sady. Měl by být krátký, věcný a výstižný. Jde o jedno z hlavních vyhledávacích kritérií, podle kterých budou uživatelé vaše data hledat. Zvažte například, zda slova jako &quot;seznam&quot; nejsou v názvu nadbytečná vzhledem k tomu, že většina datových sad bývají seznamy.</p>",
   "hint_dataset_description": "Napište co datová sada obsahuje, jak se dá použít a také na co si případně při jejím používání dávat pozor.",

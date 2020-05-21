@@ -6,7 +6,8 @@ import {
   selectByType,
   unpackLangStringToProp,
   selectStrings,
-  selectByIri, getValues,
+  selectByIri,
+  getValues,
 } from "../app-service/import-utilities";
 import {
   CREATIVE_COMMONS,
@@ -64,6 +65,7 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
         datasetEntity, DCTERMS.spatialResolutionInMeters) || "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
+      "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
       //
       ...loadTemporal(flatJsonLd, datasetEntity),
       ...loadContactPoint(flatJsonLd, datasetEntity),

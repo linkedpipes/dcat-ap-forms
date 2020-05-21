@@ -124,6 +124,7 @@ export default {
   "dataset_ofn": "Specification",
   "dataset_theme_invalid": "Dataset theme is mandatory.",
   "dataset_theme_invalid_url": "Invalid HTTPS URL.",
+  "dataset_ofn_invalid_url": "Invalid HTTPS URL.",
   "hint_dataset_title": "It should be concise and descriptive.",
   "help_dataset_title": "<h3>Dataset title</h3><p>Enter the title for the registered dataset. It should by concise and descriptive. It is one of the main search criteria used by your data consumers. For instance, think about whether words like &quot;list&quot; are not superfluous given that most of the datasets are lists of something.</p>",
   "hint_dataset_description": "Describe what is in the dataset, how it can be used and also possible pitfalls to look out for.",

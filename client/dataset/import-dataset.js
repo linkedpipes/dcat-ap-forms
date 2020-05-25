@@ -16,7 +16,6 @@ import {
   FOAF,
   PU,
   VCARD,
-  SCHEMA,
 } from "../app-service/vocabulary";
 import {
   createDataset,
@@ -60,9 +59,9 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
       "accrual_periodicity": getValue(
         datasetEntity, DCTERMS.accrualPeriodicity) || "",
       "temporal_resolution": getValue(
-        datasetEntity, DCTERMS.temporalResolution) || "",
+        datasetEntity, DCATAP.temporalResolution) || "",
       "spatial_resolution_meters": getValue(
-        datasetEntity, DCTERMS.spatialResolutionInMeters) || "",
+        datasetEntity, DCATAP.spatialResolutionInMeters) || "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
       "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
@@ -108,8 +107,8 @@ function loadTemporal(flatJsonLd, datasetEntity) {
   }
   const temporal = entities[0];
   return {
-    "temporal_start": getValue(temporal, SCHEMA.startDate) || "",
-    "temporal_end": getValue(temporal, SCHEMA.endDate) || "",
+    "temporal_start": getValue(temporal, DCATAP.startDate) || "",
+    "temporal_end": getValue(temporal, DCATAP.endDate) || "",
   };
 }
 
@@ -192,6 +191,7 @@ function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
 function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
   const service = getService(flatJsonLd, distributionEntity);
   const endpointUrl = getEndpointUrl(service);
+  console.log("distro", distributionEntity);
   return {
     ...createDistribution(),
     ...unpackLangStringToProp(
@@ -204,9 +204,9 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
     "media_type": getValue(distributionEntity, DCATAP.mediaType) || "",
     "schema": getValue(distributionEntity, DCTERMS.conformsTo) || "",
     "package_format":
-      getValue(distributionEntity, DCTERMS.packageFormat) || "",
+      getValue(distributionEntity, DCATAP.packageFormat) || "",
     "compress_format":
-      getValue(distributionEntity, DCTERMS.compressFormat) || "",
+      getValue(distributionEntity, DCATAP.compressFormat) || "",
     "service_endpoint_url": endpointUrl || "",
     "service_description": service
       ? (getValue(service, DCATAP.endpointDescription) || "")

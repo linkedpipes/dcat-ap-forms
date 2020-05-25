@@ -49,11 +49,6 @@ export const VCARD = {
   "Organization": "http://www.w3.org/2006/vcard/ns#Organization",
 };
 
-export const SCHEMA = {
-  "endDate": "http://schema.org/endDate",
-  "startDate": "http://schema.org/startDate",
-};
-
 const PU_PREFIX = "https://data.gov.cz/podmínky-užití/";
 const PU_VOCAB_PREFIX = "https://data.gov.cz/slovník/podmínky-užití/";
 export const PU = {

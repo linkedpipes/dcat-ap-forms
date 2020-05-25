@@ -65,8 +65,9 @@ export function exportToJsonLd(dataset, distributions) {
     output["dokumentace"] = dataset.documentation;
   }
 
+  output["téma"] = updateIris(dataset.dataset_themes);
+
   output["koncept_euroVoc"] = [
-    ...updateIris(dataset.dataset_themes),
     ...updateIris(dataset.themes),
     ...updateIris(dataset.dataset_custom_themes),
   ];

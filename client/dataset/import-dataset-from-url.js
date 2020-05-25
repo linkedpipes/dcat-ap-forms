@@ -1,7 +1,16 @@
 import {importFromJsonLd} from "./import-dataset";
 import {getRemoteJson} from "../app-service/http";
-import {SPATIAL_RUIAN} from "./dataset-model";
+import {
+  SPATIAL_RUIAN,
+  SPATIAL_CONTINENT,
+  SPATIAL_COUNTRY,
+} from "./dataset-model";
 import {fetchLabelFromCodeList} from "./edit/codelists/local-storage";
+import {
+  RUIAN,
+  CONTINENTS,
+  COUNTRIES,
+} from "./edit/codelists/server-codelists";
 
 /**
  * Used when importing dataset for edit for example from SPARQL endpoint.
@@ -50,13 +59,17 @@ export function fetchCodelistLabels(dataset, distributions, lang) {
     fetchLabelFromCodeList("media-types", iri, lang);
   });
   //
-  const ruian = new Set();
   for (let spatial of dataset.spatial) {
-    if (spatial.type === SPATIAL_RUIAN) {
-      ruian.add(spatial.url);
+    switch (spatial.type) {
+    case SPATIAL_COUNTRY:
+      fetchLabelFromCodeList(COUNTRIES, spatial.url, lang);
+      break;
+    case SPATIAL_CONTINENT:
+      fetchLabelFromCodeList(CONTINENTS, spatial.url, lang);
+      break;
+    case SPATIAL_RUIAN:
+      fetchLabelFromCodeList(RUIAN, spatial.url, lang);
+      break;
     }
   }
-  ruian.forEach((iri) => {
-    fetchLabelFromCodeList("ruian", iri, lang);
-  });
 }

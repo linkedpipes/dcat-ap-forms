@@ -403,6 +403,7 @@ import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import ExportTypeDialog from "./components/export-type-dialog";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
+import {getDatasetEditDownloadFile} from "./dataset-edit-service";
 
 export default {
   "name": "app-export-summary",
@@ -438,10 +439,10 @@ export default {
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onDownload": function () {
-      const jsonld = exportToJsonLd(this.dataset, this.distributions);
-      console.log(jsonld);
-      // this.dataset, this.exportOptions.type
-      downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld);
+      const fileName = getDatasetEditDownloadFile(
+        this.dataset, this.exportOptions.type);
+      const content = exportToJsonLd(this.dataset, this.distributions);
+      downloadAsJsonLd(fileName, content);
     },
     "openDocumentation": function () {
       openUrl(this.dataset.documentation);

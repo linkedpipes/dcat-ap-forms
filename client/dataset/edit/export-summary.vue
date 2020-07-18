@@ -395,13 +395,13 @@
 <script>
 import {exportToJsonLd} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
-import DistributionCard from "./ui/distribution-card";
+import DistributionCard from "./components/distribution-card";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
 import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
-import ExportTypeDialog from "./ui/export-type-dialog";
+import ExportTypeDialog from "./components/export-type-dialog";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 
 export default {
@@ -440,6 +440,7 @@ export default {
     "onDownload": function () {
       const jsonld = exportToJsonLd(this.dataset, this.distributions);
       console.log(jsonld);
+      // this.dataset, this.exportOptions.type
       downloadAsJsonLd("nkod-registrace.jsonld.txt", jsonld);
     },
     "openDocumentation": function () {

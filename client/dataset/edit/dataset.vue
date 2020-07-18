@@ -106,9 +106,9 @@ import {
   createDistribution,
   isDistributionValid,
 } from "../distribution-model";
-import DistributionSelector from "./ui/distribution-selector";
-import StepperNavigationMobile from "./ui/step-navigation-mobile";
-import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+import DistributionSelector from "./components/distribution-selector";
+import StepperNavigationMobile from "./components/step-navigation-mobile";
+import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import ExportSummary from "./export-summary";
 import {
   importFromJsonLd,
@@ -120,7 +120,7 @@ import {
 } from "../import-dataset-from-url";
 import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
-import UploadFailedDialog from "./ui/upload-failed-dialog";
+import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
 
 export default {

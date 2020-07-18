@@ -453,14 +453,14 @@
 
 <script>
 import {createDatasetValidators} from "../dataset-model";
-import DatePicker from "./ui/date-picker";
-import SolrAutocomplete from "./ui/solr-autocomplete";
-import SolrChipsAutocomplete from "./ui/solr-chips-autocomplete";
+import DatePicker from "./components/date-picker";
+import SolrAutocomplete from "./components/solr-autocomplete";
+import SolrChipsAutocomplete from "./components/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 import FrequenciesCodeList from "./codelists/frequencies";
-import SpatialDialog from "./ui/spatial-dialog";
-import UploadFileDialog from "./ui/upload-file-dialog";
-import UploadUrlDialog from "./ui/upload-url-dialog";
+import SpatialDialog from "./components/spatial-dialog";
+import UploadFileDialog from "./components/upload-file-dialog";
+import UploadUrlDialog from "./components/upload-url-dialog";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EUROVOC} from "./codelists/server-codelists";
 

@@ -443,8 +443,8 @@ import {
   dbSpecialLicenseTypes,
   personalDataTypes,
 } from "./codelists/license";
-import DatePicker from "./ui/date-picker";
-import SolrAutocomplete from "./ui/solr-autocomplete";
+import DatePicker from "./components/date-picker";
+import SolrAutocomplete from "./components/solr-autocomplete";
 import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
 
 export default {

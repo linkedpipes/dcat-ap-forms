@@ -56,8 +56,8 @@
 import {createCatalog, isCatalogValid} from "../catalog-model";
 import CatalogEdit from "./catalog-edit-record";
 import ExportSummary from "./export-summary";
-import StepperNavigationMobile from "./ui/step-navigation-mobile";
-import StepperNavigationDesktop from "./ui/step-navigation-desktop";
+import StepperNavigationMobile from "./components/step-navigation-mobile";
+import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import setPageTitle from "../../app-service/page-title";
 
 export default {

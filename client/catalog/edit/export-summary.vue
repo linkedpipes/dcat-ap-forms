@@ -198,7 +198,7 @@
 </template>
 
 <script>
-import {exportToJsonLd} from "../export-catalog";
+import {exportCatalogToJsonLd} from "../export-catalog";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {getCatalogTypeLabel} from "./codelists/catalog-type";
 
@@ -215,7 +215,7 @@ export default {
   },
   "methods": {
     "onDownload": function () {
-      const jsonld = exportToJsonLd(this.catalog);
+      const jsonld = exportCatalogToJsonLd(this.catalog);
       downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld);
     },
     "openCatalog": function () {

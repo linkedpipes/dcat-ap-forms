@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import {exportToJsonLdForDelete} from "../export-dataset";
+import {exportDatasetToJsonLdForDelete} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
@@ -79,7 +79,7 @@ export default {
   },
   "methods": {
     "onExport": function () {
-      const jsonld = exportToJsonLdForDelete(this.dataset);
+      const jsonld = exportDatasetToJsonLdForDelete(this.dataset);
       downloadAsJsonLd(
         "nkod-odstranění-datové-sady.jsonld.txt",jsonld);
     },

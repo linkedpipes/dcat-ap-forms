@@ -393,7 +393,10 @@
 </template>
 
 <script>
-import {exportToJsonLd} from "../export-dataset";
+import {
+  exportDatasetToJsonLdForLocal,
+  exportDatasetToJsonLdForNational,
+} from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
 import DistributionCard from "./components/distribution-card";
 import {getStoreLabel} from "./codelists/local-storage";
@@ -403,7 +406,10 @@ import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import ExportTypeDialog from "./components/export-type-dialog";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
-import {getDatasetEditDownloadFile} from "./dataset-edit-service";
+import {
+  isExportForNkod,
+  getDatasetEditDownloadFile,
+} from "./dataset-edit-service";
 
 export default {
   "name": "app-export-summary",
@@ -441,7 +447,14 @@ export default {
     "onDownload": function () {
       const fileName = getDatasetEditDownloadFile(
         this.dataset, this.exportOptions.type);
-      const content = exportToJsonLd(this.dataset, this.distributions);
+      let content;
+      if (isExportForNkod(this.dataset, this.exportOptions.type)) {
+        content = exportDatasetToJsonLdForNational(
+          this.dataset, this.distributions);
+      } else {
+        content = exportDatasetToJsonLdForLocal(
+          this.dataset, this.distributions);
+      }
       downloadAsJsonLd(fileName, content);
     },
     "openDocumentation": function () {

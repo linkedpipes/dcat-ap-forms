@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import {exportToJsonLdForDelete} from "../export-catalog";
+import {exportCatalogToJsonLdForDelete} from "../export-catalog";
 import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
@@ -99,7 +99,7 @@ export default {
   },
   "methods": {
     "onExport": function () {
-      const jsonld = exportToJsonLdForDelete(this.catalog);
+      const jsonld = exportCatalogToJsonLdForDelete(this.catalog);
       downloadAsJsonLd("nkod-odstranění-katalogu.jsonld.txt", jsonld);
     },
     "openUrlInNewWindow": function (url) {

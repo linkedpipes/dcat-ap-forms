@@ -16,7 +16,7 @@ import {
 const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
   "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
-export function exportToJsonLdForDelete(dataset) {
+export function exportDatasetToJsonLdForDelete(dataset) {
   return {
     "@context": context,
     "typ": "Datová sada",
@@ -25,10 +25,27 @@ export function exportToJsonLdForDelete(dataset) {
   };
 }
 
-export function exportToJsonLd(dataset, distributions) {
+export function exportDatasetToJsonLdForLocal(dataset, distributions) {
+  // Add IRIs to distributions nad data services.
+  const prefix = dataset.iri + "/distribuce/";
+  distributions = distributions.map((distribution, index) => ({
+    ...distribution,
+    "iri": prefix + (index + 1),
+  }));
+  return exportDatasetToJsonLd(dataset, distributions);
+}
+
+export function exportDatasetToJsonLdForNational(dataset, distributions) {
   if (isEmpty(dataset.iri)) {
-    dataset.iri = "_:ds";
+    dataset = {
+      ...dataset,
+      "iri": "_:ds",
+    };
   }
+  return exportDatasetToJsonLd(dataset, distributions);
+}
+
+function exportDatasetToJsonLd(dataset, distributions) {
   const output = {
     "@context": context,
     "iri": dataset.iri,
@@ -91,11 +108,9 @@ function isEmpty(value) {
   return value === undefined || value === null || value === "";
 }
 
-
 function isNotEmpty(value) {
   return !isEmpty(value);
 }
-
 
 function asLangMap(value_cs, value_en) {
   const result = {};
@@ -198,6 +213,10 @@ function exportDistribution(distribution, datasetIri) {
     "typ": "Distribuce",
   };
 
+  if (isNotEmpty(distribution.iri)) {
+    result["iri"] = distribution.iri;
+  }
+
   let title = asLangMap(distribution.title_cs, distribution.title_en);
   if (title["cs"] || title["en"]) {
     result["název"] = title;
@@ -234,6 +253,10 @@ function exportDistribution(distribution, datasetIri) {
       "přístupový_bod": distribution.service_endpoint_url,
       "popis_přístupového_bodu": distribution.service_description,
     };
+    if (isNotEmpty(distribution.iri)) {
+      result["přístupová_služba"]["iri"] =
+        distribution.iri + "/přístupová-služba";
+    }
     if (title["cs"] || title["en"]) {
       result["přístupová_služba"]["název"] = title;
     }

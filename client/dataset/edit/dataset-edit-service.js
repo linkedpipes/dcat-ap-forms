@@ -1,9 +1,13 @@
 import {EXPORT_NKOD, EXPORT_EDIT} from "../dataset-model";
 
-export function getDatasetEditDownloadFile(dataset, exportType) {
-  const exportNkod = exportType === EXPORT_NKOD ||
+export function isExportForNkod(dataset, exportType) {
+  return exportType === EXPORT_NKOD ||
     (exportType === EXPORT_EDIT &&
       (!dataset.iri || dataset.iri.startsWith("https://data.gov.cz")));
+}
+
+export function getDatasetEditDownloadFile(dataset, exportType) {
+  const exportNkod = isExportForNkod(dataset, exportType);
   if (exportNkod) {
     return "nkod-registrace.jsonld.txt";
   } else {

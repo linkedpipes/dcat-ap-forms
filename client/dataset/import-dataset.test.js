@@ -1,7 +1,10 @@
 /* eslint max-len: 0 */
 
 import {importFromJsonLd} from "./import-dataset";
-import {exportToJsonLd} from "./export-dataset";
+import {
+  exportDatasetToJsonLdForLocal,
+  exportDatasetToJsonLdForNational,
+} from "./export-dataset";
 
 const BYLANY = {
   "@graph": [
@@ -147,7 +150,7 @@ const BYLANY_EXPECTED = {
 
 test("Bylany from json-ld and back.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
-    const actual = exportToJsonLd(data.dataset, data.distributions);
+    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
     expect(actual).toEqual(BYLANY_EXPECTED);
   });
 });
@@ -272,7 +275,7 @@ const ISS94 = {
 
 const ISS94_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-  "iri": "_:b0",
+  "iri": "https://local-publisher",
   "typ": "Datová sada",
   "název": {
     "cs": "aaabbb",
@@ -307,6 +310,7 @@ const ISS94_EXPECTED = {
   },
   "distribuce": [
     {
+      "iri": "https://local-publisher/distribuce/1",
       "typ": "Distribuce",
       "název": {
         "cs": "Moje webservica",
@@ -314,6 +318,7 @@ const ISS94_EXPECTED = {
       },
       "přístupové_url": "https://url.cz",
       "přístupová_služba": {
+        "iri": "https://local-publisher/distribuce/1/přístupová-služba",
         "typ": "Datová služba",
         "přístupový_bod": "https://url.cz",
         "popis_přístupového_bodu": "https://popis.url",
@@ -321,7 +326,7 @@ const ISS94_EXPECTED = {
           "cs": "Moje webservica",
           "en": "my webservice",
         },
-        "poskytuje_datovou_sadu": "_:b0",
+        "poskytuje_datovou_sadu": "https://local-publisher",
       },
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
@@ -339,7 +344,9 @@ const ISS94_EXPECTED = {
 
 test("ISS94 from json-ld and back.", () => {
   return importFromJsonLd(ISS94, "cs").then(data => {
-    const actual = exportToJsonLd(data.dataset, data.distributions);
+    // We set it here to simulate set by application.
+    data.dataset.iri = "https://local-publisher";
+    const actual = exportDatasetToJsonLdForLocal(data.dataset, data.distributions);
     expect(actual).toEqual(ISS94_EXPECTED);
   });
 });
@@ -466,7 +473,7 @@ const ISS95_EXPECTED = {
 
 test("ISS95 from json-ld and back.", () => {
   return importFromJsonLd(ISS95, "cs").then(data => {
-    const actual = exportToJsonLd(data.dataset, data.distributions);
+    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
     expect(actual).toEqual(ISS95_EXPECTED);
   });
 });
@@ -534,7 +541,7 @@ test("ISS97a from json-ld and back.", () => {
   return importFromJsonLd(ISS97a, "cs").then(data => {
     // We need to add this manually as it is not part of the import.
     data.dataset.publisher = "https://data.gov.cz/zdroj/ovm/66003008";
-    const actual = exportToJsonLd(data.dataset, data.distributions);
+    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
     expect(actual).toEqual(ISS97a_EXPECTED);
   });
 });

@@ -7,7 +7,7 @@ import {
 const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
   "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
-export function exportToJsonLdForDelete(catalog) {
+export function exportCatalogToJsonLdForDelete(catalog) {
   return {
     "@context": context,
     "typ": "Katalog",
@@ -16,7 +16,7 @@ export function exportToJsonLdForDelete(catalog) {
   };
 }
 
-export function exportToJsonLd(catalog) {
+export function exportCatalogToJsonLd(catalog) {
   const output = {
     "@context": context,
     "@type": ["Katalog", catalog.type],

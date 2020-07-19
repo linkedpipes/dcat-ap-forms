@@ -1,6 +1,6 @@
 import {createCatalog} from "./catalog-model";
 import {importCatalogFromJsonLd} from "./import-catalog";
-import {exportToJsonLd} from "./export-catalog";
+import {exportCatalogToJsonLd} from "./export-catalog";
 
 test("Import catalog from JSON-LD object with cs default.", () => {
   const input = {
@@ -102,7 +102,7 @@ const T000_EXPECTED = {
 
 test("T000 from json-ld and back.", () => {
   return importCatalogFromJsonLd(T000, "cs").then(catalog => {
-    const actual = exportToJsonLd(catalog);
+    const actual = exportCatalogToJsonLd(catalog);
     expect(actual).toEqual(T000_EXPECTED);
   });
 });

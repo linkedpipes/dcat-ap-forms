@@ -1,5 +1,4 @@
 import {
-  DCATAP,
   NKOD,
   ADMS,
   STATUS,

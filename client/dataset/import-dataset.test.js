@@ -98,7 +98,7 @@ const BYLANY_EXPECTED = {
   "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670",
   "typ": [
     "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
   ],
   "název": {
     "cs": "Obec Bylany",
@@ -107,28 +107,28 @@ const BYLANY_EXPECTED = {
     "cs": "Oprava kuchyně v MŠ-III.etapa",
   },
   "prvek_rúian": [
-    "https://linked.cuzk.cz/resource/ruian/stat/1"
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "časové_pokrytí": {
     "typ": "Časový interval",
     "začátek": "2017-06-01",
-    "konec": "2017-08-31"
+    "konec": "2017-08-31",
   },
   "klíčové_slovo": {
     "cs": [
       "obec Bylany",
     ],
-    "en": []
+    "en": [],
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT",
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {
-      "cs": "Jan Málek,starosta"
+      "cs": "Jan Málek,starosta",
     },
-    "e-mail": "mailto:ou.bylany@worldonline.cz"
+    "e-mail": "mailto:ou.bylany@worldonline.cz",
   },
   "koncept_euroVoc": [],
   "téma": [],
@@ -141,9 +141,9 @@ const BYLANY_EXPECTED = {
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
         "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
-      }
-    }
+        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+      },
+    },
   ],
 };
 
@@ -262,7 +262,7 @@ const ISS94 = {
   "http://www.w3.org/ns/dcat#contactPoint": {
     "@id": "_:kontaktní-bod",
     "@type": ["http://www.w3.org/2006/vcard/ns#Kind",
-    "http://www.w3.org/2006/vcard/ns#Individual"],
+      "http://www.w3.org/2006/vcard/ns#Individual"],
     "http://www.w3.org/2006/vcard/ns#fn": "Pavel",
     "http://www.w3.org/2006/vcard/ns#hasEmail": "mailto:pavel@email.cz",
   },
@@ -273,7 +273,7 @@ const ISS94_EXPECTED = {
   "iri": "_:b0",
   "typ": [
     "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
   ],
   "název": {
     "cs": "aaabbb",
@@ -286,32 +286,32 @@ const ISS94_EXPECTED = {
       "cccs",
     ],
     "en": [
-      "en"
-    ]
+      "en",
+    ],
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
-    "https://linked.cuzk.cz/resource/ruian/stat/1"
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "téma": [
-    "http://publications.europa.eu/resource/authority/data-theme/ENER"
+    "http://publications.europa.eu/resource/authority/data-theme/ENER",
   ],
   "koncept_euroVoc": [],
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {
-      "cs": "Pavel"
+      "cs": "Pavel",
     },
-    "e-mail": "mailto:pavel@email.cz"
+    "e-mail": "mailto:pavel@email.cz",
   },
   "distribuce": [
     {
       "typ": "Distribuce",
       "název": {
         "cs": "Moje webservica",
-        "en": "my webservice"
+        "en": "my webservice",
       },
       "přístupové_url": "https://url.cz",
       "přístupová_služba": {
@@ -320,7 +320,7 @@ const ISS94_EXPECTED = {
         "popis_přístupového_bodu": "https://popis.url",
         "název": {
           "cs": "Moje webservica",
-          "en": "my webservice"
+          "en": "my webservice",
         },
         "poskytuje_datovou_sadu": "_:b0",
       },
@@ -329,9 +329,9 @@ const ISS94_EXPECTED = {
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
         "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
-      }
-    }
+        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+      },
+    },
   ],
 };
 
@@ -418,7 +418,7 @@ const ISS95_EXPECTED = {
   "iri": "_:b0",
   "typ": [
     "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
   ],
   "název": {
     "cs": "Aktuality",
@@ -438,12 +438,12 @@ const ISS95_EXPECTED = {
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
-    "https://linked.cuzk.cz/resource/ruian/stat/1"
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "téma": [
-    "http://publications.europa.eu/resource/authority/data-theme/SOCI"
+    "http://publications.europa.eu/resource/authority/data-theme/SOCI",
   ],
   "koncept_euroVoc": [],
   "kontaktní_bod": {},
@@ -458,9 +458,9 @@ const ISS95_EXPECTED = {
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
         "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/"
-      }
-    }
+        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+      },
+    },
   ],
 };
 
@@ -506,7 +506,7 @@ const ISS97a_EXPECTED = {
   "iri": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471",
   "typ": [
     "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář"
+    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
   ],
   "název": {
     "cs": "Faktury CENDIS 2016",
@@ -522,7 +522,7 @@ const ISS97a_EXPECTED = {
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
-    "https://linked.cuzk.cz/resource/ruian/stat/1"
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],

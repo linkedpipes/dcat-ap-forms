@@ -66,6 +66,6 @@ function exportContactPoint(catalog) {
     result["e-mail"] = "mailto:" + catalog.contact_point_email;
   }
   return {
-    "kontaktní_bod": result
+    "kontaktní_bod": result,
   };
 }

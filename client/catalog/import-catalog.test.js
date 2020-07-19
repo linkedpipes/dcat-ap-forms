@@ -10,7 +10,7 @@ test("Import catalog from JSON-LD object with cs default.", () => {
       "@language": "cs",
       "@value": "Title",
     },
-      "Empty language",
+    "Empty language",
     ],
     "http://www.w3.org/ns/dcat#endpointURL": "urn:endpoint",
   };
@@ -37,7 +37,7 @@ test("Import catalog from @graph JSON-LD object with en default", () => {
           "@language": "cs",
           "@value": "Title",
         },
-          "Empty language",
+        "Empty language",
         ],
         "http://www.w3.org/ns/dcat#endpointURL": "urn:endpoint",
       },
@@ -61,7 +61,7 @@ const T000 = {
   "@id": "urn:Catalog",
   "@type": [
     "http://www.w3.org/ns/dcat#Catalog",
-    "https://data.gov.cz/slovník/nkod/DcatApLkod"
+    "https://data.gov.cz/slovník/nkod/DcatApLkod",
   ],
   "http://purl.org/dc/terms/title": [
     {
@@ -85,7 +85,7 @@ const T000_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "@type": [
     "Katalog",
-    "https://data.gov.cz/slovník/nkod/DcatApLkod"
+    "https://data.gov.cz/slovník/nkod/DcatApLkod",
   ],
   "endpoint": "urn:endpoint",
   "název": {
@@ -96,7 +96,7 @@ const T000_EXPECTED = {
     "jméno": {
       "cs": "Pavel",
     },
-    "e-mail": "mailto:pavel@email.cz"
+    "e-mail": "mailto:pavel@email.cz",
   },
 };
 

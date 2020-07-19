@@ -17,11 +17,12 @@ function sanitizeTitleAsFileName(title) {
   // https://github.com/parshap/node-sanitize-filename/blob/master/index.js
   const replacement = " ";
   let result = title
-    .replace(/[\/\?<>\\:\*\|"]/g, replacement)
+    .replace(/[/?<>\\:*|"]/g, replacement)
+    /* eslint-disable no-control-regex */
     .replace(/[\x00-\x1f\x80-\x9f]/g, replacement)
     .replace(/^\.+$/, replacement)
     .replace(/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(\..*)?$/i, replacement)
-    .replace(/[\. ]+$/, replacement);
+    .replace(/[. ]+$/, replacement);
   if (result.length > 255) {
     result = result.substring(0, 255);
   }

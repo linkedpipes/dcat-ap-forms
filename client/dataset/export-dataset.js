@@ -15,17 +15,6 @@ import {
   SPATIAL_URL,
 } from "./dataset-model";
 
-const prefixes = {
-  "http://publications.europa.eu/resource/authority/file-type/": "format",
-  "http://publications.europa.eu/resource/authority/frequency/": "frequency",
-  "http://publications.europa.eu/resource/authority/country/": "country",
-  "http://publications.europa.eu/resource/authority/continent/": "continent",
-  "http://publications.europa.eu/resource/authority/place/": "place",
-  "http://publications.europa.eu/resource/authority/data-theme/": "theme",
-  "http://eurovoc.europa.eu/": "euroVoc",
-  "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/": "ovm",
-};
-
 const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
   "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
@@ -157,23 +146,9 @@ function exportSpatial(dataset) {
   return result;
 }
 
-function updateIris(value) {
-
-  function updateIri(iri) {
-    for (const [prefix, short] of Object.entries(prefixes)) {
-      if (iri.startsWith(prefix)) {
-        return short + ":" + iri.substr(prefix.length);
-      }
-    }
-    return iri;
-  }
-
-  if (Array.isArray(value)) {
-    return value.map(updateIri);
-  }
-  return updateIri(value);
+function updateIris(values) {
+  return values;
 }
-
 
 function exportTemporal(dataset) {
   if (!containsValidDate(dataset.temporal_start) &&

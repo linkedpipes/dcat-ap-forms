@@ -122,7 +122,7 @@ const BYLANY_EXPECTED = {
     ],
     "en": []
   },
-  "periodicita_aktualizace": "frequency:UPDATE_CONT",
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT",
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {
@@ -289,14 +289,14 @@ const ISS94_EXPECTED = {
       "en"
     ]
   },
-  "periodicita_aktualizace": "frequency:MONTHLY",
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1"
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "téma": [
-    "theme:ENER"
+    "http://publications.europa.eu/resource/authority/data-theme/ENER"
   ],
   "koncept_euroVoc": [],
   "kontaktní_bod": {
@@ -436,14 +436,14 @@ const ISS95_EXPECTED = {
 
     ],
   },
-  "periodicita_aktualizace": "frequency:MONTHLY",
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1"
   ],
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "téma": [
-    "theme:SOCI"
+    "http://publications.europa.eu/resource/authority/data-theme/SOCI"
   ],
   "koncept_euroVoc": [],
   "kontaktní_bod": {},
@@ -452,7 +452,7 @@ const ISS95_EXPECTED = {
       "typ": "Distribuce",
       "soubor_ke_stažení": "http://nesmysl.cz",
       "typ_média": "http://www.iana.org/assignments/media-types/application/json",
-      "formát": "format:JSON",
+      "formát": "http://publications.europa.eu/resource/authority/file-type/JSON",
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
@@ -520,7 +520,7 @@ const ISS97a_EXPECTED = {
     ],
     "en": [],
   },
-  "periodicita_aktualizace": "frequency:MONTHLY",
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1"
   ],

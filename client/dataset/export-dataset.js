@@ -260,7 +260,7 @@ function exportDistribution(distribution, datasetIri) {
       result["přístupová_služba"]["název"] = title;
     }
     if (isNotEmpty(datasetIri)) {
-      result["přístupová_služba"][DCATAP.servesDataset] = datasetIri;
+      result["přístupová_služba"]["poskytuje_datovou_sadu"] = datasetIri;
     }
   } else {
     console.error("Distribution must be either FILE or SERVICE.", distribution);

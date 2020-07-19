@@ -322,7 +322,7 @@ const ISS94_EXPECTED = {
           "cs": "Moje webservica",
           "en": "my webservice"
         },
-        "http://www.w3.org/ns/dcat#servesDataset": "_:b0",
+        "poskytuje_datovou_sadu": "_:b0",
       },
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",

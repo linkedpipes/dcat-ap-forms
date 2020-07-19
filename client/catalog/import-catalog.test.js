@@ -102,7 +102,6 @@ const T000_EXPECTED = {
 
 test("T000 from json-ld and back.", () => {
   return importCatalogFromJsonLd(T000, "cs").then(catalog => {
-    console.log("CATALOG",JSON.stringify(catalog, null, 2));
     const actual = exportToJsonLd(catalog);
     expect(actual).toEqual(T000_EXPECTED);
   });

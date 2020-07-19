@@ -96,10 +96,7 @@ const BYLANY = {
 const BYLANY_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670",
-  "typ": [
-    "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
-  ],
+  "typ": "Datová sada",
   "název": {
     "cs": "Obec Bylany",
   },
@@ -275,10 +272,7 @@ const ISS94 = {
 const ISS94_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "_:b0",
-  "typ": [
-    "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
-  ],
+  "typ": "Datová sada",
   "název": {
     "cs": "aaabbb",
   },
@@ -423,10 +417,7 @@ const ISS95 = {
 const ISS95_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "_:b0",
-  "typ": [
-    "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
-  ],
+  "typ": "Datová sada",
   "název": {
     "cs": "Aktuality",
   },
@@ -511,10 +502,7 @@ const ISS97a = {
 const ISS97a_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471",
-  "typ": [
-    "Datová sada",
-    "https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář",
-  ],
+  "typ": "Datová sada",
   "název": {
     "cs": "Faktury CENDIS 2016",
   },

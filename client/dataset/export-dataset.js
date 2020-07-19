@@ -20,7 +20,7 @@ const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/"
 export function exportToJsonLdForDelete(dataset) {
   return {
     "@context": context,
-    "typ": ["Datová sada", NKOD.Formular],
+    "typ": "Datová sada",
     "iri": dataset.iri,
     [ADMS.status]: {"@id": STATUS.Withdrawn},
   };
@@ -33,7 +33,7 @@ export function exportToJsonLd(dataset, distributions) {
   const output = {
     "@context": context,
     "iri": dataset.iri,
-    "typ": ["Datová sada", NKOD.Formular],
+    "typ": "Datová sada",
     "název": asLangMap(dataset.title_cs, dataset.title_en),
     "popis": asLangMap(dataset.description_cs, dataset.description_en),
     ...exportSpatial(dataset),

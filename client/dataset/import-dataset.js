@@ -126,8 +126,16 @@ function loadContactPoint(flatJsonLd, datasetEntity) {
   const contact = entities[0];
   return {
     "contact_point_name": getValue(contact, VCARD.fn) || "",
-    "contact_point_email": getValue(contact, VCARD.hasEmail) || "",
+    "contact_point_email": getEmail(contact),
   };
+}
+
+function getEmail(contact) {
+  let email = getValue(contact, VCARD.hasEmail) || "";
+  if (email.toLowerCase().startsWith("mailto:")) {
+    email = email.substr("mailto:".length);
+  }
+  return email;
 }
 
 function loadThemes(datasetEntity) {

@@ -128,7 +128,7 @@ const BYLANY_EXPECTED = {
     "jméno": {
       "cs": "Jan Málek,starosta"
     },
-    "e-mail": "ou.bylany@worldonline.cz"
+    "e-mail": "mailto:ou.bylany@worldonline.cz"
   },
   "koncept_euroVoc": [],
   "téma": [],
@@ -259,6 +259,13 @@ const ISS94 = {
     },
   ],
   "http://purl.org/dc/terms/conformsTo": [],
+  "http://www.w3.org/ns/dcat#contactPoint": {
+    "@id": "_:kontaktní-bod",
+    "@type": ["http://www.w3.org/2006/vcard/ns#Kind",
+    "http://www.w3.org/2006/vcard/ns#Individual"],
+    "http://www.w3.org/2006/vcard/ns#fn": "Pavel",
+    "http://www.w3.org/2006/vcard/ns#hasEmail": "mailto:pavel@email.cz",
+  },
 };
 
 const ISS94_EXPECTED = {
@@ -292,7 +299,13 @@ const ISS94_EXPECTED = {
     "theme:ENER"
   ],
   "koncept_euroVoc": [],
-  "kontaktní_bod": {},
+  "kontaktní_bod": {
+    "typ": "Organizace",
+    "jméno": {
+      "cs": "Pavel"
+    },
+    "e-mail": "mailto:pavel@email.cz"
+  },
   "distribuce": [
     {
       "typ": "Distribuce",

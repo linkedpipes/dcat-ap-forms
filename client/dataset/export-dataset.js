@@ -210,7 +210,7 @@ function exportContactPoint(catalog) {
     output["jméno"] = asLangMap(catalog.contact_point_name);
   }
   if (isNotEmpty(catalog.contact_point_email)) {
-    output["e-mail"] = catalog.contact_point_email;
+    output["e-mail"] = "mailto:" + catalog.contact_point_email;
   }
   return output;
 }

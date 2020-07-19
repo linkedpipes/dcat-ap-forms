@@ -11,6 +11,7 @@ export const DCTERMS = {
   "format": "http://purl.org/dc/terms/format",
   "conformsTo": "http://purl.org/dc/terms/conformsTo",
   "PeriodOfTime": "http://purl.org/dc/terms/PeriodOfTime",
+  "publisher": "http://purl.org/dc/terms/publisher",
 };
 
 export const DCATAP = {

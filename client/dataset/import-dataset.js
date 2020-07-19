@@ -55,6 +55,7 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
         "description", defaultLanguage,
         getMultiLangString(datasetEntity, DCTERMS.description)),
       "iri": getId(datasetEntity),
+      "publisher": getValue(datasetEntity, DCTERMS.publisher),
       //
       "accrual_periodicity": getValue(
         datasetEntity, DCTERMS.accrualPeriodicity) || "",

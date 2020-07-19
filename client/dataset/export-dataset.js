@@ -32,6 +32,7 @@ export function exportDatasetToJsonLdForLocal(dataset, distributions) {
     ...distribution,
     "iri": prefix + (index + 1),
   }));
+  console.log(dataset);
   return exportDatasetToJsonLd(dataset, distributions);
 }
 
@@ -42,6 +43,8 @@ export function exportDatasetToJsonLdForNational(dataset, distributions) {
       "iri": "_:ds",
     };
   }
+  // Never export publisher for NKOD.
+  dataset.publisher = undefined;
   return exportDatasetToJsonLd(dataset, distributions);
 }
 

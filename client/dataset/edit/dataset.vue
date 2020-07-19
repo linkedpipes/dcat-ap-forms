@@ -191,6 +191,7 @@ export default {
       if (this.data.distributions.length === 0) {
         this.data.distributions.push(createDistribution());
       }
+      this.exportOptions.publisher = this.data.dataset.publisher;
       this.updateDataset();
       // Try to Load labels.
       fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);

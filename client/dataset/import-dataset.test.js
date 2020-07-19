@@ -271,6 +271,7 @@ const ISS94 = {
     "http://www.w3.org/2006/vcard/ns#fn": "Pavel",
     "http://www.w3.org/2006/vcard/ns#hasEmail": "mailto:pavel@email.cz",
   },
+  "http://purl.org/dc/terms/publisher": [{"@id": "https://data.gov.cz/zdroj/ovm/66003008"}],
 };
 
 const ISS94_EXPECTED = {
@@ -301,6 +302,7 @@ const ISS94_EXPECTED = {
     "http://publications.europa.eu/resource/authority/data-theme/ENER",
   ],
   "koncept_euroVoc": [],
+  "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008",
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {
@@ -534,13 +536,10 @@ const ISS97a_EXPECTED = {
   "koncept_euroVoc": [],
   "kontaktní_bod": {},
   "distribuce": [],
-  "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008"
 };
 
 test("ISS97a from json-ld and back.", () => {
   return importFromJsonLd(ISS97a, "cs").then(data => {
-    // We need to add this manually as it is not part of the import.
-    data.dataset.publisher = "https://data.gov.cz/zdroj/ovm/66003008";
     const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
     expect(actual).toEqual(ISS97a_EXPECTED);
   });

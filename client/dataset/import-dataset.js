@@ -99,10 +99,12 @@ function loadKeywords(datasetEntity, defaultLanguage) {
 function loadTemporal(flatJsonLd, datasetEntity) {
   const temporalIri = getValue(datasetEntity, DCTERMS.temporal);
   if (temporalIri === null) {
+    console.log("Temporal IRI null.");
     return {};
   }
   const entities = selectByIri(flatJsonLd, temporalIri);
   if (entities.length < 1) {
+    console.log("No temporal object for:", temporalIri);
     return {};
   }
   const temporal = entities[0];
@@ -191,7 +193,6 @@ function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
 function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
   const service = getService(flatJsonLd, distributionEntity);
   const endpointUrl = getEndpointUrl(service);
-  console.log("distro", distributionEntity);
   return {
     ...createDistribution(),
     ...unpackLangStringToProp(

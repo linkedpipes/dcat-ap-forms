@@ -230,7 +230,7 @@ function exportDistribution(distribution, datasetIri) {
     result["soubor_ke_stažení"] = distribution.url;
 
     if (isNotEmpty(distribution.media_type)) {
-      result["mediaType"] = updateIris(distribution.media_type);
+      result["typ_média"] = updateIris(distribution.media_type);
     }
 
     if (isNotEmpty(distribution.format)) {
@@ -253,8 +253,8 @@ function exportDistribution(distribution, datasetIri) {
     result["přístupové_url"] = distribution.service_endpoint_url;
     result["přístupová_služba"] = {
       "typ": "Datová služba",
-      "endpoint": distribution.service_endpoint_url,
-      "popis_endpointu": distribution.service_description,
+      "přístupový_bod": distribution.service_endpoint_url,
+      "popis_přístupového_bodu": distribution.service_description,
     };
     if (title["cs"] || title["en"]) {
       result["přístupová_služba"]["název"] = title;

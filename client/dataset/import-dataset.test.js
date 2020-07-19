@@ -225,7 +225,11 @@ const ISS94 = {
       "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
         "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
         "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
-          "@id": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+          "@id": "https://creativecommons.org/licenses/by/4.0/",
+        },
+        "https://data.gov.cz/slovník/podmínky-užití/autor": {
+          "@language": "cs",
+          "@value": "Zelenka"
         },
         "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
           "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
@@ -326,7 +330,10 @@ const ISS94_EXPECTED = {
       },
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
-        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+        "autorské_dílo": "https://creativecommons.org/licenses/by/4.0/",
+        "autor": {
+          "cs": "Zelenka"
+        },
         "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",

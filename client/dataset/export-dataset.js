@@ -257,7 +257,7 @@ function exportLicense(distribution) {
     break;
   case "CC BY":
     result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-    result[PU.autor] = asLangString(distribution.license_author_name, "cs");
+    result["autor"] = asLangMap(distribution.license_author_name);
     break;
   case "NO":
     result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
@@ -274,7 +274,7 @@ function exportLicense(distribution) {
   switch (distribution.license_db_type) {
   case "CC BY":
     result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-    result[PU.autorDatabaze] = asLangString(distribution.license_db_name, "cs");
+    result["autor_databáze"] = asLangMap(distribution.license_db_name);
     break;
   case "NO":
     result["databáze_jako_autorské_dílo"] =
@@ -323,11 +323,4 @@ function exportLicense(distribution) {
   }
 
   return result;
-}
-
-function asLangString(value) {
-  return {
-    "@language": "cs",
-    "@value": value,
-  };
 }

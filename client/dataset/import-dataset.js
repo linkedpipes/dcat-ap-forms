@@ -98,8 +98,7 @@ function loadKeywords(datasetEntity, defaultLanguage) {
 
 function loadTemporal(flatJsonLd, datasetEntity) {
   const temporalIri = getValue(datasetEntity, DCTERMS.temporal);
-  if (temporalIri === null) {
-    console.log("Temporal IRI null.");
+  if (temporalIri === null || temporalIri === undefined) {
     return {};
   }
   const entities = selectByIri(flatJsonLd, temporalIri);
@@ -240,15 +239,17 @@ function getEndpointUrl(service) {
 }
 
 function parseTermsOfUse(flatJsonLd, distribution) {
-  const iri = getValue(distribution, PU.Specifikace);
+
+  const iri = getValue(distribution, PU.specifikace);
   if (iri === undefined) {
     return {};
   }
-  const entities = getByIri(flatJsonLd, iri);
-  if (entities === undefined || entities.length < 1) {
+
+  const termsOfUse = getByIri(flatJsonLd, iri);
+  if (termsOfUse === undefined) {
+    console.log("No terms of use object for:", iri);
     return {};
   }
-  const termsOfUse = entities[0];
 
   const author = getValue(termsOfUse, PU.autorskeDilo);
   const authorName = getValue(termsOfUse, PU.autor);

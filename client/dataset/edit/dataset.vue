@@ -149,6 +149,7 @@ export default {
       "editIri": "",
       "lkodIri": "",
       "allowImport": true,
+      "publisher": "",
     },
     "ui": {
       "step": 1,
@@ -190,7 +191,7 @@ export default {
       if (this.data.distributions.length === 0) {
         this.data.distributions.push(createDistribution());
       }
-      this.updateDatasetIri();
+      this.updateDataset();
       // Try to Load labels.
       fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);
     },
@@ -278,22 +279,27 @@ export default {
         });
     },
     "updateExport": function (event) {
-      this.exportOptions.type = event.type;
-      this.exportOptions.lkodIri = event.lkodIri;
-      this.updateDatasetIri();
+      this.exportOptions = {
+        ...this.exportOptions,
+        ...event,
+      };
+      this.updateDataset();
       setPageTitle(this.$t(
         getPageTitle(this.data.dataset, this.exportOptions.type)));
     },
-    "updateDatasetIri": function() {
+    "updateDataset": function() {
       switch (this.exportOptions.type) {
       case EXPORT_NKOD:
         this.data.dataset.iri = undefined;
+        this.data.dataset.publisher = undefined;
         break;
       case EXPORT_EDIT:
         this.data.dataset.iri = this.exportOptions.editIri;
+        this.data.dataset.publisher = undefined;
         break;
       case EXPORT_LKOD:
         this.data.dataset.iri = this.exportOptions.lkodIri;
+        this.data.dataset.publisher = this.exportOptions.publisher;
         break;
       }
     },

@@ -234,4 +234,7 @@ export default {
   "dataset_url_invalid": "Invalid HTTPS URL.",
   "import_dialog_failed_title": "Dataset import failed.",
   "import_dialog_failed_close": "Close",
+  "publisher": "TODO",
+  "hint_publisher": "TODO",
+  "dataset_publisher_invalid": "TODO",
 };

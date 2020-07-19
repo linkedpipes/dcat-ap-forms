@@ -233,4 +233,7 @@ export default {
   "dataset_url_invalid": "Nevalidní HTTPS URL.",
   "import_dialog_failed_title": "Nepodařilo se importovat datovou sadu.",
   "import_dialog_failed_close": "Zavřít",
+  "publisher": "TODO",
+  "hint_publisher": "TODO",
+  "dataset_publisher_invalid": "TODO",
 };

@@ -60,6 +60,7 @@ export function createDataset() {
     "url_to_load_from": "",
     "ruian": "",
     "ruian_type": "",
+    "publisher": undefined,
   });
 }
 

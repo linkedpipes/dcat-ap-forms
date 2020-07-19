@@ -52,6 +52,15 @@
           :error-messages="errUrl"
           clearable
         />
+        <v-text-field
+          v-if="type === EXPORT_LKOD"
+          id="publisher"
+          v-model="publisher"
+          :label="$t('publisher')"
+          :hint="$t('hint_publisher')"
+          :error-messages="errPublisher"
+          clearable
+        />
       </v-card-text>
       <v-divider />
       <v-card-actions>
@@ -89,6 +98,7 @@ export default {
   "data": () => ({
     "visible": false,
     "lkodIri": "",
+    "publisher": "",
     "type": "nkod",
     //
     "EXPORT_NKOD": EXPORT_NKOD,
@@ -114,6 +124,16 @@ export default {
         return [this.$t("dataset_url_invalid")];
       }
     },
+    "errPublisher": function () {
+      if (this.type !== EXPORT_LKOD) {
+        return [];
+      }
+      if (provided(this.publisher) && url(this.publisher)) {
+        return [];
+      } else {
+        return [this.$t("dataset_publisher_invalid")];
+      }
+    },
     "saveDisabled": function () {
       return this.errUrl.length > 0;
     },
@@ -122,6 +142,7 @@ export default {
     "onOpen": function () {
       this.type = this.exportOptions.type;
       this.lkodIri = this.exportOptions.lkodIri;
+      this.publisher = this.exportOptions.publisher;
     },
     "close": function () {
       this.visible = false;
@@ -129,6 +150,7 @@ export default {
     "save": function () {
       this.$emit("save", {
         "lkodIri": this.lkodIri,
+        "publisher": this.publisher,
         "type": this.type,
       });
       this.visible = false;

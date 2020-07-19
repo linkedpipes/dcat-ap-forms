@@ -78,6 +78,10 @@ export function exportToJsonLd(dataset, distributions) {
     output["kontaktní_bod"] = contactPoint;
   }
 
+  if (isNotEmpty(dataset.publisher)) {
+    output["poskytovatel"] = dataset.publisher;
+  }
+
   output["distribuce"] = distributions.map(
     (distribution) => exportDistribution(distribution, dataset.iri));
 

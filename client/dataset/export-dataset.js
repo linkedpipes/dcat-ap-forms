@@ -1,5 +1,4 @@
 import {
-  NKOD,
   ADMS,
   STATUS,
   PU,

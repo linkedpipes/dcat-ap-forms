@@ -206,6 +206,7 @@ function exportDistribution(distribution, datasetIri) {
 
   if (distribution.type === DIST_TYPE_FILE) {
     result["soubor_ke_stažení"] = distribution.url;
+    result["přístupové_url"] = distribution.url;
 
     if (isNotEmpty(distribution.media_type)) {
       result["typ_média"] = updateIris(distribution.media_type);

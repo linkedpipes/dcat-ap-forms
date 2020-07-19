@@ -133,6 +133,7 @@ const BYLANY_EXPECTED = {
     {
       "typ": "Distribuce",
       "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+      "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
@@ -449,6 +450,7 @@ const ISS95_EXPECTED = {
     {
       "typ": "Distribuce",
       "soubor_ke_stažení": "http://nesmysl.cz",
+      "přístupové_url": "http://nesmysl.cz",
       "typ_média": "http://www.iana.org/assignments/media-types/application/json",
       "formát": "http://publications.europa.eu/resource/authority/file-type/JSON",
       "podmínky_užití": {

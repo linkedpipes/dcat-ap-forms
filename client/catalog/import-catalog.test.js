@@ -1,5 +1,6 @@
 import {createCatalog} from "./catalog-model";
 import {importCatalogFromJsonLd} from "./import-catalog";
+import {exportToJsonLd} from "./export-catalog";
 
 test("Import catalog from JSON-LD object with cs default.", () => {
   const input = {
@@ -9,7 +10,7 @@ test("Import catalog from JSON-LD object with cs default.", () => {
       "@language": "cs",
       "@value": "Title",
     },
-    "Empty language",
+      "Empty language",
     ],
     "http://www.w3.org/ns/dcat#endpointURL": "urn:endpoint",
   };
@@ -19,7 +20,7 @@ test("Import catalog from JSON-LD object with cs default.", () => {
     "title_cs": "Title",
     "title_en": "",
     "endpoint": "urn:endpoint",
-    "types": ["http://www.w3.org/ns/dcat#Catalog", "urn:type"],
+    "type": "urn:type",
   };
   return importCatalogFromJsonLd(input, "cs").then(actual => {
     expect(actual).toEqual(expected);
@@ -36,7 +37,7 @@ test("Import catalog from @graph JSON-LD object with en default", () => {
           "@language": "cs",
           "@value": "Title",
         },
-        "Empty language",
+          "Empty language",
         ],
         "http://www.w3.org/ns/dcat#endpointURL": "urn:endpoint",
       },
@@ -49,9 +50,60 @@ test("Import catalog from @graph JSON-LD object with en default", () => {
     "title_cs": "Title",
     "title_en": "Empty language",
     "endpoint": "urn:endpoint",
-    "types": ["http://www.w3.org/ns/dcat#Catalog", "urn:type"],
+    "type": "urn:type",
   };
   return importCatalogFromJsonLd(input, "en").then(actual => {
     expect(actual).toEqual(expected);
+  });
+});
+
+const T000 = {
+  "@id": "urn:Catalog",
+  "@type": [
+    "http://www.w3.org/ns/dcat#Catalog",
+    "https://data.gov.cz/slovník/nkod/DcatApLkod"
+  ],
+  "http://purl.org/dc/terms/title": [
+    {
+      "@language": "cs",
+      "@value": "Title",
+    },
+    "Empty language",
+  ],
+  "http://xmlns.com/foaf/0.1/homepage": "urn:home-page",
+  "http://www.w3.org/ns/dcat#endpointURL": "urn:endpoint",
+  "http://www.w3.org/ns/dcat#contactPoint": {
+    "@id": "_:kontaktní-bod",
+    "@type": ["http://www.w3.org/2006/vcard/ns#Kind",
+      "http://www.w3.org/2006/vcard/ns#Individual"],
+    "http://www.w3.org/2006/vcard/ns#fn": "Pavel",
+    "http://www.w3.org/2006/vcard/ns#hasEmail": "mailto:pavel@email.cz",
+  },
+};
+
+const T000_EXPECTED = {
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@type": [
+    "Katalog",
+    "https://data.gov.cz/slovník/nkod/DcatApLkod"
+  ],
+  "endpoint": "urn:endpoint",
+  "název": {
+    "cs": "Title",
+  },
+  "kontaktní_bod": {
+    "typ": "Organizace",
+    "jméno": {
+      "cs": "Pavel",
+    },
+    "e-mail": "mailto:pavel@email.cz"
+  },
+};
+
+test("T000 from json-ld and back.", () => {
+  return importCatalogFromJsonLd(T000, "cs").then(catalog => {
+    console.log("CATALOG",JSON.stringify(catalog, null, 2));
+    const actual = exportToJsonLd(catalog);
+    expect(actual).toEqual(T000_EXPECTED);
   });
 });

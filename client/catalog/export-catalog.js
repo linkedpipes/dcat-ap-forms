@@ -56,14 +56,16 @@ function exportContactPoint(catalog) {
     isEmpty(catalog.contact_point_email)) {
     return {};
   }
-  const output = {
+  const result = {
     "typ": "Organizace",
   };
   if (isNotEmpty(catalog.contact_point_name)) {
-    output["jméno"] = asLangMap(catalog.contact_point_name);
+    result["jméno"] = asLangMap(catalog.contact_point_name);
   }
   if (isNotEmpty(catalog.contact_point_email)) {
-    output["e-mail"] = catalog.contact_point_email;
+    result["e-mail"] = "mailto:" + catalog.contact_point_email;
   }
-  return output;
+  return {
+    "kontaktní_bod": result
+  };
 }

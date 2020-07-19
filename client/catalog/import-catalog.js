@@ -4,9 +4,9 @@ import {
   getTypes,
   getValue,
   getMultiLangString,
-  unpackLangStringToProp,
+  unpackLangStringToProp, selectByIri,
 } from "../app-service/import-utilities";
-import {DCATAP, DCTERMS} from "../app-service/vocabulary";
+import {DCATAP, DCTERMS, VCARD} from "../app-service/vocabulary";
 import jsonld from "jsonld";
 import {createCatalog} from "./catalog-model";
 
@@ -25,9 +25,45 @@ export function importCatalogFromJsonLd(jsonLdContent, defaultLanguage) {
     return {
       ...createCatalog(),
       ...unpackLangStringToProp("title", defaultLanguage, title),
+      ...loadContactPoint(flatJsonLd, catalogEntity),
       "iri": getId(catalogEntity),
       "endpoint": getValue(catalogEntity, DCATAP.endpointURL),
-      "types": getTypes(catalogEntity),
+      "type": loadType(catalogEntity),
     };
   });
+}
+
+function loadContactPoint(flatJsonLd, catalogEntity) {
+  const contactIri = getValue(catalogEntity, DCATAP.contactPoint);
+  if (contactIri === undefined) {
+    return {};
+  }
+  const entities = selectByIri(flatJsonLd, contactIri);
+  if (entities.length < 1) {
+    return {};
+  }
+  const contact = entities[0];
+  return {
+    "contact_point_name": getValue(contact, VCARD.fn) || "",
+    "contact_point_email": getEmail(contact),
+  };
+}
+
+function getEmail(contact) {
+  let email = getValue(contact, VCARD.hasEmail) || "";
+  if (email.toLowerCase().startsWith("mailto:")) {
+    email = email.substr("mailto:".length);
+  }
+  return email;
+}
+
+function loadType(catalogEntity) {
+  const types = getTypes(catalogEntity) || [];
+  for (const type of types) {
+    if (type === DCATAP.Catalog) {
+      continue;
+    }
+    return type;
+  }
+  return undefined;
 }

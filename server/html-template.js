@@ -9,6 +9,7 @@ function create(javascript, css, options) {
   ${generateHead(css)}
 </head>
 <body>
+  ${generateDataPlaceholder(options)}
   <div id="app"></div>
   ${generateBody(javascript)}
 </body>
@@ -26,6 +27,15 @@ function generateHead(css) {
   ).join("\n  ") + css.map((file) =>
     `<link href="${file}" rel="stylesheet"/>`
   ).join("\n  ");
+}
+
+function generateDataPlaceholder(options) {
+  if (!options["data"]) {
+    return "";
+  }
+  return `<script type="text/javascript">
+    window.serverPostData = ${JSON.stringify(options["data"])} ;
+  </script>`;
 }
 
 function generateBody(javascript) {

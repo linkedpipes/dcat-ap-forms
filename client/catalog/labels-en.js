@@ -47,4 +47,3 @@ export default {
   "ofn": "Also make sure that the catalog interface complies with the ",
   "ofn_link_label": "open formal norm for the interface of open data catalogs",
 };
-

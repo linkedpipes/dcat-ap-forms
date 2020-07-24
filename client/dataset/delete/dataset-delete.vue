@@ -5,16 +5,13 @@
   <v-content v-else-if="status === 'error'">
     <app-import-failed :message="$t('cant_import_dataset')" />
   </v-content>
-  <v-content v-else>
-    <!-- No content. -->
-  </v-content>
 </template>
 
 <script>
-import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
 import DatasetDeleteSummary from "./dataset-delete-summary";
-import setPageTitle from "../../app-service/page-title";
 import ImportFailed from "../../app-service/import-failed";
+import setPageTitle from "../../app-service/page-title";
+import {onDatasetDeleteMounted} from "./dataset-delete-service";
 
 export default {
   "name": "app-dataset-delete",
@@ -26,23 +23,17 @@ export default {
     "status": "loading",
     "dataset": undefined,
   }),
-  "mounted": function () {
+  "mounted": async function () {
     setPageTitle(this.$t("delete_page_title"));
-
-    const url = this.$route.query.dataset;
-    if (url === undefined) {
-      this.status = "error";
-      return;
-    }
-
-    const lang = this.$vuetify.lang.current;
-    importDatasetFromUrlWithProxy(url, lang).then((result) => {
-      this.dataset = result.dataset;
+    try {
+      this.dataset = await onDatasetDeleteMounted(
+        this.$route.query.dataset,
+        this.$vuetify.lang.current);
       this.status = "ready";
-    }).catch((error) => {
+    } catch(ex) {
       this.status = "error";
-      console.error("Can't import dataset.", error);
-    });
+      console.error("Can't import dataset.", ex);
+    }
   },
 };
 

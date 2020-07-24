@@ -41,7 +41,7 @@
         </div>
       </div>
       <v-card-actions>
-        <div>
+        <div v-if="commitByDownload">
           {{ $t("dataset_delete_summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </div>
@@ -56,7 +56,7 @@
           <v-icon left>
             file_download
           </v-icon>
-          <span>{{ $t("button_download") }}</span>
+          <span>{{ submitButtonTitle }}</span>
         </v-btn>
       </v-card-actions>
     </v-container>
@@ -64,8 +64,11 @@
 </template>
 
 <script>
-import {exportDatasetToJsonLdForDelete} from "../export-dataset";
-import {downloadAsJsonLd} from "../../app-service/download";
+import {
+  postOnSubmit,
+  submitDatasetDelete,
+  downloadDatasetDelete,
+} from "./dataset-delete-service";
 
 export default {
   "name": "app-export-summary",
@@ -76,12 +79,24 @@ export default {
     "nkodDatabox": function() {
       return NKOD_ISDS;
     },
+    "commitByDownload": function () {
+      return !postOnSubmit(this.$route);
+    },
+    "submitButtonTitle": function () {
+      if (this.commitByDownload) {
+        return this.$t("button_download");
+      } else {
+        return this.$t("button_post");
+      }
+    },
   },
   "methods": {
     "onExport": function () {
-      const jsonld = exportDatasetToJsonLdForDelete(this.dataset);
-      downloadAsJsonLd(
-        "nkod-odstranění-datové-sady.jsonld.txt",jsonld);
+      if (this.commitByDownload) {
+        downloadDatasetDelete(this.dataset);
+      } else {
+        submitDatasetDelete(this.dataset, this.$route);
+      }
     },
   },
 };

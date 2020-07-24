@@ -84,9 +84,9 @@ export default {
     },
     "submitButtonTitle": function () {
       if (this.commitByDownload) {
-        return this.$t("button_download");
+        return this.$t("button_download_dataset_delete");
       } else {
-        return this.$t("button_post");
+        return this.$t("button_post_dataset_delete");
       }
     },
   },

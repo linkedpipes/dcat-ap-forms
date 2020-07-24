@@ -32,7 +32,6 @@ export function exportDatasetToJsonLdForLocal(dataset, distributions) {
     ...distribution,
     "iri": prefix + (index + 1),
   }));
-  console.log(dataset);
   return exportDatasetToJsonLd(dataset, distributions);
 }
 
@@ -48,7 +47,7 @@ export function exportDatasetToJsonLdForNational(dataset, distributions) {
   return exportDatasetToJsonLd(dataset, distributions);
 }
 
-function exportDatasetToJsonLd(dataset, distributions) {
+export function exportDatasetToJsonLd(dataset, distributions) {
   const output = {
     "@context": context,
     "iri": dataset.iri,

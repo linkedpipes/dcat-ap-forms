@@ -13,6 +13,13 @@
           {{ $t("summary_error") }}
         </v-alert>
         <v-alert
+          v-else-if="exportOptions.postData"
+          outlined
+          type="success"
+        >
+          {{ $t("summary_post_export") }}
+        </v-alert>
+        <v-alert
           v-else-if="exportOptions.type === EXPORT_LKOD"
           outlined
           type="success"
@@ -41,7 +48,7 @@
         rounded
         outlined
         color="success"
-        @click="onDownload"
+        @click="onSubmit"
       >
         <v-icon left>
           file_download
@@ -49,6 +56,7 @@
         <span>{{ downloadLabel }}</span>
       </v-btn>
       <export-type-dialog
+        v-if="!exportOptions.postData"
         :dataset-iri="dataset.iri"
         :export-options="exportOptions"
         @save="updateExport"
@@ -367,7 +375,7 @@
             color="success"
             outlined
             v-on="on"
-            @click="onDownload"
+            @click="onSubmit"
           >
             <v-icon left>
               file_download
@@ -384,6 +392,7 @@
         </span>
       </v-tooltip>
       <export-type-dialog
+        v-if="!exportOptions.postData"
         :dataset-iri="dataset.iri"
         :export-options="exportOptions"
         @save="updateExport"
@@ -393,11 +402,6 @@
 </template>
 
 <script>
-import {
-  exportDatasetToJsonLdForLocal,
-  exportDatasetToJsonLdForNational,
-} from "../export-dataset";
-import {downloadAsJsonLd} from "../../app-service/download";
 import DistributionCard from "./components/distribution-card";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
@@ -407,8 +411,9 @@ import {getSpatialLabel} from "./codelists/spatial";
 import ExportTypeDialog from "./components/export-type-dialog";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 import {
-  isExportForNkod,
-  getDatasetEditDownloadFile,
+  postOnSubmit,
+  submitDatasetEdit,
+  downloadDatasetEdit,
 } from "./dataset-edit-service";
 
 export default {
@@ -436,7 +441,9 @@ export default {
     },
     "downloadLabel": function () {
       return this.$t(exportButtonLabel(
-        this.dataset.iri, this.exportOptions.type));
+        this.dataset.iri,
+        this.exportOptions.type,
+        this.exportOptions.postData));
     },
   },
   "methods": {
@@ -444,18 +451,13 @@ export default {
       return getStoreLabel(
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
-    "onDownload": function () {
-      const fileName = getDatasetEditDownloadFile(
-        this.dataset, this.exportOptions.type);
-      let content;
-      if (isExportForNkod(this.dataset, this.exportOptions.type)) {
-        content = exportDatasetToJsonLdForNational(
-          this.dataset, this.distributions);
+    "onSubmit": function () {
+      if (postOnSubmit(this.$route)) {
+        submitDatasetEdit(this.dataset, this.distributions, this.$route);
       } else {
-        content = exportDatasetToJsonLdForLocal(
-          this.dataset, this.distributions);
+        downloadDatasetEdit(
+          this.dataset, this.distributions, this.exportOptions);
       }
-      downloadAsJsonLd(fileName, content);
     },
     "openDocumentation": function () {
       openUrl(this.dataset.documentation);
@@ -485,7 +487,10 @@ function openUrl(uri) {
   window.open(uri);
 }
 
-function exportButtonLabel(iri, exportType) {
+function exportButtonLabel(iri, exportType, postData) {
+  if (postData) {
+    return "button_export_dataset_post";
+  }
   switch (exportType) {
   default:
   case EXPORT_NKOD:

@@ -88,7 +88,7 @@
     <app-import-failed :message="$t('cant_import_dataset')" />
   </v-content>
   <v-content v-else>
-    <!-- No content. -->
+    <!-- No loading indicator. -->
   </v-content>
 </template>
 
@@ -96,7 +96,6 @@
 import DatasetEdit from "./dataset-record-edit";
 import DistributionEdit from "./distribution-record-edit";
 import {
-  createDataset,
   isDatasetValid,
   EXPORT_NKOD,
   EXPORT_EDIT,
@@ -114,7 +113,6 @@ import {
   importFromJsonLd,
 } from "../import-dataset";
 import {
-  importDatasetFromUrlWithProxy,
   importDatasetFromUrl,
   fetchCodelistLabels,
 } from "../import-dataset-from-url";
@@ -122,6 +120,7 @@ import setPageTitle from "../../app-service/page-title";
 import {getStore} from "./codelists/local-storage";
 import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
+import {onDatasetEditMounted, postOnSubmit} from "./dataset-edit-service";
 
 export default {
   "name": "app-dataset-edit",
@@ -150,6 +149,7 @@ export default {
       "lkodIri": "",
       "allowImport": true,
       "publisher": "",
+      "postData": false,
     },
     "ui": {
       "step": 1,
@@ -170,16 +170,26 @@ export default {
       }
     },
   },
-  "mounted": function () {
-    const url = this.$route.query.url;
-    const dataset = this.$route.query.dataset;
-    const copyMode = isCopyMode(this.$route);
-    if (dataset) {
-      importDataset.call(this, dataset, copyMode);
-    } else if (url) {
-      importFromUrl.call(this, url);
-    } else {
-      createNewDataset.call(this);
+  "mounted": async function () {
+    try {
+      const result = await onDatasetEditMounted(
+        this.$route.query.url,
+        this.$route.query.dataset,
+        this.$vuetify.lang.current,
+        isCopyMode(this.$route)
+      );
+      this.exportOptions = {
+        ...this.exportOptions,
+        ...result.exportOptions,
+        "postData": postOnSubmit(this.$route),
+      };
+      this.dataset = result.dataset;
+      this.setData(result.dataset, result.distributions);
+      initializeStepAndTitle.call(this);
+      this.data.status = "ready";
+    } catch (ex) {
+      this.data.status = "error";
+      console.error("Can't import dataset.", ex);
     }
   },
   "methods": {
@@ -310,33 +320,6 @@ export default {
   },
 };
 
-/**
- * For importing dataset we use the proxy.
- */
-function importDataset(url, copyMode) {
-  if (copyMode) {
-    this.exportOptions.type = EXPORT_NKOD;
-    this.exportOptions.editIri = "";
-  } else {
-    this.exportOptions.type = EXPORT_EDIT;
-    this.exportOptions.editIri = url;
-  }
-  //
-  this.exportOptions.allowImport = false;
-  this.exportOptions.allowEdit = true;
-  importDatasetFromUrlWithProxy(url, this.$vuetify.lang.current)
-    .then((result) => {
-      this.setData(result.dataset, result.distributions);
-      this.data.status = "ready";
-      initializeStepAndTitle.call(this);
-    })
-    .catch((error) => {
-      console.error("Can't import dataset.", error);
-      this.data.status = "error";
-      this.data.error = error;
-    });
-}
-
 function initializeStepAndTitle() {
   setPageTitle(this.$t(
     getPageTitle(this.data.dataset, this.exportOptions.type)));
@@ -345,35 +328,6 @@ function initializeStepAndTitle() {
     this.ui.step = step;
     this.onStepperInput(step);
   }
-}
-
-function importFromUrl(url) {
-  this.exportOptions.type = EXPORT_NKOD;
-  this.exportOptions.editIri = "";
-  this.exportOptions.allowImport = true;
-  this.exportOptions.allowEdit = false;
-  //
-  importDatasetFromUrl(url, this.$vuetify.lang.current)
-    .then((result) => {
-      this.setData(result.dataset, result.distributions);
-      this.data.status = "ready";
-      initializeStepAndTitle.call(this);
-    })
-    .catch((error) => {
-      console.error("Can't import from URL.", error);
-      this.data.status = "error";
-      this.data.error = error;
-    });
-}
-
-function createNewDataset() {
-  this.data.dataset = createDataset();
-  this.data.distributions.push(createDistribution());
-  this.data.status = "ready";
-  this.exportOptions.type = EXPORT_NKOD;
-  this.exportOptions.allowEdit = false;
-  //
-  initializeStepAndTitle.call(this);
 }
 
 function isCopyMode($route) {

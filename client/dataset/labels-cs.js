@@ -236,4 +236,8 @@ export default {
   "publisher": "TODO",
   "hint_publisher": "TODO",
   "dataset_publisher_invalid": "TODO",
+  "summary_post_export": "TODO",
+  "button_download_dataset_delete": "TODO",
+  "button_post_dataset_delete": "TODO",
+  "button_export_dataset_post": "TODO",
 };

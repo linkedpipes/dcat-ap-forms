@@ -47,17 +47,7 @@ function initializeEntryPoints(app) {
 
 function createEntryPointGetHandler(route) {
   return (req, res) => {
-    respondWithEntryPoint(getEntryJavascriptFiles(route),
-      {
-        ...route,
-        "data": {
-          "formData": DATASET,
-          "userData": {
-            "token": "123456",
-          },
-        },
-      },
-      res);
+    respondWithEntryPoint(getEntryJavascriptFiles(route), route, res);
   }
 }
 

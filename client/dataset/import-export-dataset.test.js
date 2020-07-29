@@ -230,7 +230,7 @@ const ISS94 = {
         },
         "https://data.gov.cz/slovník/podmínky-užití/autor": {
           "@language": "cs",
-          "@value": "Zelenka"
+          "@value": "Zelenka",
         },
         "https://data.gov.cz/slovník/podmínky-užití/databáze-jako-autorské-dílo": {
           "@id": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
@@ -334,7 +334,7 @@ const ISS94_EXPECTED = {
         "typ": "Specifikace podmínek užití",
         "autorské_dílo": "https://creativecommons.org/licenses/by/4.0/",
         "autor": {
-          "cs": "Zelenka"
+          "cs": "Zelenka",
         },
         "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",

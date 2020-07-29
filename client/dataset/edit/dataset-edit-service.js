@@ -102,10 +102,14 @@ export async function submitDatasetEdit(dataset, distributions, $route) {
   const url = getReturnUrl($route);
   const jsonld = exportDatasetToJsonLd(dataset, distributions);
   try {
-    await axios.post(url, {
+    const response = await axios.post(url, {
       "formData": jsonld,
       "userData": getUserData(),
     });
+    if (response.status >= 300 && response.status <= 399
+      && response.headers["location"]) {
+      window.location.href = response.headers["location"];
+    }
   } catch (ex) {
     // TODO Show error notification.
     console.error("Can't POST data", ex);

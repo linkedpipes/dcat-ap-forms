@@ -64,20 +64,7 @@ export default {
     "ignoreNextSearch": false,
   }),
   "mounted": function () {
-    this.value.forEach((value) => {
-      const url = createTitleQueryUrl(
-        this.codeList, value, this.$vuetify.lang.current);
-      getLocalJson(url).then((response) => {
-        if (response.json.response.docs.length === 0) {
-          this.items = [...this.items, createNonLabeledItem(value)];
-        } else {
-          addStoreItems(this.codeList, response.json.response.docs);
-          this.items = [
-            ...this.items, ...response.json.response.docs,
-          ];
-        }
-      });
-    });
+    this.updateFromValue(this.value);
   },
   "watch": {
     "search": function (value) {
@@ -89,8 +76,27 @@ export default {
         this.querySelections(value);
       }
     },
+    "value": function (value){
+      this.updateFromValue(value);
+    },
   },
   "methods": {
+    "updateFromValue": function (value) {
+      value.forEach((value) => {
+        const url = createTitleQueryUrl(
+          this.codeList, value, this.$vuetify.lang.current);
+        getLocalJson(url).then((response) => {
+          if (response.json.response.docs.length === 0) {
+            this.items = [...this.items, createNonLabeledItem(value)];
+          } else {
+            addStoreItems(this.codeList, response.json.response.docs);
+            this.items = [
+              ...this.items, ...response.json.response.docs,
+            ];
+          }
+        });
+      });
+    },
     "querySelections": function (query) {
       this.loading = true;
       const url = createQueryUrl(

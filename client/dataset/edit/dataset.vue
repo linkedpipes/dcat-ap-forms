@@ -202,6 +202,7 @@ export default {
         this.data.distributions.push(createDistribution());
       }
       this.exportOptions.publisher = this.data.dataset.publisher;
+      this.exportOptions.lkodIri = this.data.dataset.iri;
       this.updateDataset();
       // Try to Load labels.
       fetchCodelistLabels(dataset, distributions, this.$vuetify.lang.current);

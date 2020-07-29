@@ -131,7 +131,7 @@ export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   downloadAsJsonLd(fileName, content);
 }
 
-function getDatasetEditDownloadFileName(dataset, exportType) {
+export function getDatasetEditDownloadFileName(dataset, exportType) {
   const exportNkod = isExportForNkod(dataset, exportType);
   if (exportNkod) {
     return "nkod-registrace.jsonld.txt";

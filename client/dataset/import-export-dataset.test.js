@@ -512,6 +512,13 @@ const ISS97a = {
     "@value": "2017-01-24T00:00:00",
     "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
   }],
+  "http://www.w3.org/ns/dcat#theme": [
+    {
+      "@id": "http://eurovoc.europa.eu/2175"
+    }, {
+      "@id": "http://eurovoc.europa.eu/4304"
+    }
+  ],
   "http://purl.org/dc/terms/spatial": [{"@id": "https://linked.cuzk.cz/resource/ruian/stat/1"}],
   "http://purl.org/dc/terms/accrualPeriodicity": [{"@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"}],
   "http://www.w3.org/ns/dcat#distribution": [{"@id": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471/distribuce/6d24ab88c1e4a0432a2a6e1cd383c0c7"}],
@@ -541,7 +548,10 @@ const ISS97a_EXPECTED = {
   "geografické_území": [],
   "prostorové_pokrytí": [],
   "téma": [],
-  "koncept_euroVoc": [],
+  "koncept_euroVoc": [
+    "http://eurovoc.europa.eu/2175",
+    "http://eurovoc.europa.eu/4304"
+  ],
   "kontaktní_bod": {},
   "distribuce": [],
 };

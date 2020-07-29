@@ -98,6 +98,7 @@ const T000_EXPECTED = {
     },
     "e-mail": "mailto:pavel@email.cz",
   },
+  "domovská_stránka": "urn:home-page",
 };
 
 test("T000 from json-ld and back.", () => {

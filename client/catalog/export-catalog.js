@@ -1,5 +1,4 @@
 import {
-  FOAF,
   ADMS,
   STATUS,
 } from "../app-service/vocabulary";
@@ -25,9 +24,7 @@ export function exportCatalogToJsonLd(catalog) {
     ...exportContactPoint(catalog),
   };
   if (isNotEmpty(catalog.homepage)) {
-    output[FOAF.homepage] = {
-      "@id": catalog.homepage,
-    };
+    output["domovská_stránka"] = catalog.homepage;
   }
   return output;
 }

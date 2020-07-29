@@ -4,9 +4,10 @@ import {
   getTypes,
   getValue,
   getMultiLangString,
-  unpackLangStringToProp, selectByIri,
+  unpackLangStringToProp,
+  selectByIri,
 } from "../app-service/import-utilities";
-import {DCATAP, DCTERMS, VCARD} from "../app-service/vocabulary";
+import {DCATAP, DCTERMS, VCARD, FOAF} from "../app-service/vocabulary";
 import jsonld from "jsonld";
 import {createCatalog} from "./catalog-model";
 
@@ -29,6 +30,7 @@ export function importCatalogFromJsonLd(jsonLdContent, defaultLanguage) {
       "iri": getId(catalogEntity),
       "endpoint": getValue(catalogEntity, DCATAP.endpointURL),
       "type": loadType(catalogEntity),
+      "homepage": getValue(catalogEntity, FOAF.homepage) || "",
     };
   });
 }

@@ -394,6 +394,12 @@ const ISS95 = {
       "http://purl.org/dc/terms/format": {
         "@id": "http://publications.europa.eu/resource/authority/file-type/JSON",
       },
+      "http://www.w3.org/ns/dcat#packageFormat": {
+        "@id": "http://www.iana.org/assignments/media-types/application/json-lines",
+      },
+      "http://www.w3.org/ns/dcat#compressFormat": {
+        "@id": "http://www.iana.org/assignments/media-types/application/json",
+      },
       "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
         "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
         "https://data.gov.cz/slovník/podmínky-užití/autorské-dílo": {
@@ -462,6 +468,8 @@ const ISS95_EXPECTED = {
       "přístupové_url": "http://nesmysl.cz",
       "typ_média": "http://www.iana.org/assignments/media-types/application/json",
       "formát": "http://publications.europa.eu/resource/authority/file-type/JSON",
+      "typ_média_balíčku": "http://www.iana.org/assignments/media-types/application/json-lines",
+      "typ_média_komprese": "http://www.iana.org/assignments/media-types/application/json",
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
         "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",

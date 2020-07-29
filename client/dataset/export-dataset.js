@@ -240,12 +240,12 @@ function exportDistribution(distribution, datasetIri) {
       result["schéma"] = updateIris(distribution.schema);
     }
 
-    if (isNotEmpty(distribution.packageFormat)) {
-      result["typ_média_balíčku"] = updateIris(distribution.packageFormat);
+    if (isNotEmpty(distribution.package_format)) {
+      result["typ_média_balíčku"] = updateIris(distribution.package_format);
     }
 
-    if (isNotEmpty(distribution.compressFormat)) {
-      result["typ_média_komprese"] = updateIris(distribution.compressFormat);
+    if (isNotEmpty(distribution.compress_format)) {
+      result["typ_média_komprese"] = updateIris(distribution.compress_format);
     }
 
   } else if (distribution.type === DIST_TYPE_SERVICE) {

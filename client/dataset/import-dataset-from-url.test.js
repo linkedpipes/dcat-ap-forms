@@ -145,6 +145,7 @@ const A86_EXPECTED_DATASET = {
     "městská doprava",
     "CIS JŘ",
   ],
+  "publisher": "https://data.gov.cz/zdroj/ovm/MDopravy",
   "keywords_en": [],
   "temporal_start": "",
   "temporal_end": "",

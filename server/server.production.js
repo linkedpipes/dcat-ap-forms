@@ -25,14 +25,14 @@ function initializeEntryPoints(app) {
   routes.forEach((route) => {
     const files =
       distFiles.filter((file) => isFileUsedForRoute(route, file));
-    const javaScriptFiles = files.filter((file) => file.endsWith(".js"));
+    const javascriptFiles = files.filter((file) => file.endsWith(".js"));
     const cssFiles = files.filter((file) => file.endsWith(".css"));
     app.get(
       route.path,
-      createEntryPointGetHandler(route, javaScriptFiles, cssFiles));
-    app.get(
+      createEntryPointGetHandler(route, javascriptFiles, cssFiles));
+    app.post(
       route.path,
-      createEntryPointPostHandler(route, javaScriptFiles, cssFiles));
+      createEntryPointPostHandler(route, javascriptFiles, cssFiles));
   });
   console.log("Preparing entry points ... done");
 }
@@ -60,10 +60,10 @@ function respondWithEntryPoint(javaScriptFiles, cssFiles, options, response) {
   response.end(html);
 }
 
-function createEntryPointPostHandler(route) {
+function createEntryPointPostHandler(route, javascriptFiles, cssFiles) {
   return (req, res) => {
     respondWithEntryPoint(
-      getEntryJavascriptFiles(route),
+      javascriptFiles, cssFiles,
       {"lang:": route["lang"], "data": req.body},
       res
     );

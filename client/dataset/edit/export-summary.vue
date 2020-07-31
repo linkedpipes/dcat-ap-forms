@@ -367,7 +367,9 @@
     <v-divider class="my-2" />
     <v-layout row>
       <v-spacer />
-      <v-tooltip bottom>
+      <v-tooltip
+          bottom
+          :disabled="exportOptions.postData">
         <template v-slot:activator="{ on }">
           <v-btn
             :disabled="!isValid"

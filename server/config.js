@@ -10,4 +10,5 @@ module.exports = {
   "solr_countries": configuration["solr_countries"],
   "solr_places": configuration["solr_places"],
   "html_head": configuration["head"],
+  "resources_url_prefix": configuration["resources_url_prefix"],
 };

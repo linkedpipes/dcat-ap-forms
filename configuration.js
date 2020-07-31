@@ -65,6 +65,7 @@ const defaultConfiguration = {
       "rel": "stylesheet",
     },
   ],
+  "resources_url_prefix": "./"
 };
 
 (function initialize() {

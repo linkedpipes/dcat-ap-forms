@@ -18,15 +18,21 @@ function create(javascript, css, options) {
 }
 
 function generateHead(css) {
-  return config.html_head.map((item) =>
+  const head = config.html_head.map((item) =>
     "<" + item["$type"] + " " +
-        Object.keys(item)
-          .filter((key) => !key.startsWith("$"))
-          .map((key) => key + "=" + item[key]).join(" ")
-        + " />"
-  ).join("\n  ") + css.map((file) =>
-    `<link href="${file}" rel="stylesheet"/>`
+    Object.keys(item)
+      .filter((key) => !key.startsWith("$"))
+      .map((key) => key + "=" + item[key]).join(" ")
+    + " />"
   ).join("\n  ");
+  const styleFiles = css.map((file) =>
+    `<link href="${fileUrl(file)}" rel="stylesheet"/>`
+  ).join("\n  ");
+  return head + "\n  " + styleFiles;
+}
+
+function fileUrl(file) {
+  return config.resources_url_prefix + file;
 }
 
 function generateDataPlaceholder(options) {
@@ -40,7 +46,7 @@ function generateDataPlaceholder(options) {
 
 function generateBody(javascript) {
   return javascript.map((file) =>
-    `<script type="text/javascript" src="${file}"></script>`
+    `<script type="text/javascript" src="${fileUrl(file)}"></script>`
   ).join("\n  ");
 }
 

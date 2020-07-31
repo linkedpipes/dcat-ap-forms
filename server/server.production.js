@@ -8,6 +8,7 @@ const fs = require("fs");
   const express = require("express");
   const app = express();
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
   const server = require("./server.common");
   server.initialize(app);
   initializeStatic(app, express);
@@ -62,12 +63,22 @@ function respondWithEntryPoint(javaScriptFiles, cssFiles, options, response) {
 
 function createEntryPointPostHandler(route, javascriptFiles, cssFiles) {
   return (req, res) => {
+    let body = req.body;
+    if (req.headers["content-type"] === "application/x-www-form-urlencoded") {
+      body = decodeBodyFields(req.body);
+    }
     respondWithEntryPoint(
       javascriptFiles, cssFiles,
-      {"lang:": route["lang"], "data": req.body},
+      {"lang:": route["lang"], "data": body},
       res
     );
   };
 }
 
-
+function decodeBodyFields(body) {
+  const result = {};
+  Object.keys(body).forEach((key) => {
+    result[key] = JSON.parse(body[key]);
+  })
+  return result;
+}

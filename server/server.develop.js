@@ -6,6 +6,7 @@ const routes = require("./routes-map");
   const express = require("express");
   const app = express();
   app.use(bodyParser.json());
+  app.use(bodyParser.urlencoded({ extended: false }));
   const server = require("./server.common");
   server.initialize(app);
   initializeWebpack(app);
@@ -68,10 +69,22 @@ function respondWithEntryPoint(javaScriptFiles, options, response) {
 
 function createEntryPointPostHandler(route) {
   return (req, res) => {
+    let body = req.body;
+    if (req.headers["content-type"] === "application/x-www-form-urlencoded") {
+      body = decodeBodyFields(req.body);
+    }
     respondWithEntryPoint(
       getEntryJavascriptFiles(route),
-      {...route, "data": req.body},
+      {...route, "data": body},
       res
     );
   };
+}
+
+function decodeBodyFields(body) {
+  const result = {};
+  Object.keys(body).forEach((key) => {
+    result[key] = JSON.parse(body[key]);
+  })
+  return result;
 }

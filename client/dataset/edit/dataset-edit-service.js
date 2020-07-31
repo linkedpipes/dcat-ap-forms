@@ -13,7 +13,6 @@ import {
   exportDatasetToJsonLd,
 } from "../export-dataset";
 import {downloadAsJsonLd} from "../../app-service/download";
-import axios from "axios";
 
 export function postOnSubmit($route) {
   const url = getReturnUrl($route);
@@ -99,21 +98,43 @@ function createNewDataset() {
 }
 
 export async function submitDatasetEdit(dataset, distributions, $route) {
-  const url = getReturnUrl($route);
-  const jsonld = exportDatasetToJsonLd(dataset, distributions);
-  try {
-    const response = await axios.post(url, {
-      "formData": jsonld,
-      "userData": getUserData(),
-    });
-    if (response.status >= 300 && response.status <= 399
-      && response.headers["location"]) {
-      window.location.href = response.headers["location"];
-    }
-  } catch (ex) {
-    // TODO Show error notification.
-    console.error("Can't POST data", ex);
+
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  form.method = "post";
+  form.action = getReturnUrl($route);
+
+  const formData = exportDatasetToJsonLd(dataset, distributions);
+  const formDataInput = document.createElement("input");
+  formDataInput.type = "hidden";
+  formDataInput.name = "formData";
+  formDataInput.value = JSON.stringify(formData);
+  form.appendChild(formDataInput);
+
+  const userData = getUserData();
+  if (userData) {
+    const userDataInput = document.createElement("input");
+    userDataInput.type = "hidden";
+    userDataInput.name = "userData";
+    userDataInput.value = JSON.stringify(userData);
+    form.appendChild(userDataInput);
   }
+
+  form.submit();
+
+  // try {
+  //   const response = await axios.post(url, {
+  //     "formData": jsonld,
+  //
+  //   });
+  //   if (response.status >= 300 && response.status <= 399
+  //     && response.headers["location"]) {
+  //     window.location.href = response.headers["location"];
+  //   }
+  // } catch (ex) {
+  //   // TODO Show error notification.
+  //   console.error("Can't POST data", ex);
+  // }
 }
 
 function getUserData() {

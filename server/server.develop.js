@@ -54,9 +54,9 @@ function createEntryPointGetHandler(route) {
 
 function getEntryJavascriptFiles(route) {
   return [
-    "./webpack-hot-middleware.js",
-    "./commons.js",
-    "./" + route.name + ".js",
+    "webpack-hot-middleware.js",
+    "commons.js",
+    route.name + ".js",
   ];
 }
 

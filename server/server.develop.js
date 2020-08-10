@@ -1,5 +1,5 @@
 const bodyParser = require("body-parser");
-const htmlTemplateFactory = require("./html-template");
+const {respondWithEntryPoint} = require("./server.common");
 const routes = require("./routes-map");
 
 (function initialize() {
@@ -47,9 +47,8 @@ function initializeEntryPoints(app) {
 }
 
 function createEntryPointGetHandler(route) {
-  const options = {"lang": route["lang"]};
   return (req, res) => {
-    respondWithEntryPoint(getEntryJavascriptFiles(route), options, res);
+    respondWithEntryPoint(getEntryJavascriptFiles(route), [], route, res);
   };
 }
 
@@ -61,12 +60,6 @@ function getEntryJavascriptFiles(route) {
   ];
 }
 
-function respondWithEntryPoint(javaScriptFiles, options, response) {
-  const html = htmlTemplateFactory.create(javaScriptFiles, [], options);
-  response.writeHead(200, {"Content-Type": "text/html"});
-  response.end(html);
-}
-
 function createEntryPointPostHandler(route) {
   return (req, res) => {
     let body = req.body;
@@ -75,6 +68,7 @@ function createEntryPointPostHandler(route) {
     }
     respondWithEntryPoint(
       getEntryJavascriptFiles(route),
+      [],
       {...route, "data": body},
       res
     );

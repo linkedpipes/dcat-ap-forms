@@ -3,7 +3,7 @@ const config = require("./config");
 function create(javascript, css, options) {
   return `
 <!DOCTYPE html>
-<html${options["lang"] ? " lang=\"" + options["lang"] + "\"" : ""}>
+<html${options.lang ? " lang=\"" + options.lang + "\"" : ""}>
 <head>
   <title>${options.title}</title>
   ${generateHead(css)}

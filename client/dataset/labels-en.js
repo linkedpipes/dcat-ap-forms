@@ -241,4 +241,5 @@ export default {
   "button_download_dataset_delete": "Download dataset deletion record",
   "button_post_dataset_delete": "Delete the dataset record",
   "button_export_dataset_post": "Confirm dataset record",
+  "download_invalid": "Download incomplete record",
 };

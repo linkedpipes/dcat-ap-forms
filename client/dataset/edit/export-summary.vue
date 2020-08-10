@@ -43,11 +43,10 @@
       </h2>
       <v-spacer />
       <v-btn
-        :disabled="!isValid"
         class="hidden-xs-only"
         rounded
         outlined
-        color="success"
+        :color="downloadColor"
         @click="onSubmit"
       >
         <v-icon left>
@@ -372,9 +371,8 @@
           :disabled="exportOptions.postData">
         <template v-slot:activator="{ on }">
           <v-btn
-            :disabled="!isValid"
             rounded
-            color="success"
+            :color="downloadColor"
             outlined
             v-on="on"
             @click="onSubmit"
@@ -441,7 +439,17 @@ export default {
     "keywords": function() {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
     },
+    "downloadColor": function () {
+      if (this.isValid) {
+        return "success";
+      } else {
+        return "error";
+      }
+    },
     "downloadLabel": function () {
+      if (!this.isValid) {
+        return this.$t("download_invalid");
+      }
       return this.$t(exportButtonLabel(
         this.dataset.iri,
         this.exportOptions.type,

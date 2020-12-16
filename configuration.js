@@ -65,13 +65,13 @@ const defaultConfiguration = {
       "rel": "stylesheet",
     },
   ],
-  "resources_url_prefix": "./"
+  "resources_url_prefix": "./",
 };
 
 (function initialize() {
 
   const configurationPath = readProperty(
-    "env.configFileLocation", "dcatApFormsConfig");
+    "configFileLocation", "dcatApFormsConfig");
   let userConfiguration = {};
   if (configurationPath) {
     console.log("Loading configuration from: ", configurationPath);
@@ -85,7 +85,7 @@ const defaultConfiguration = {
 })();
 
 function readProperty(argName, envName) {
-  const argument = readProgramArgument("-" + argName);
+  const argument = readProgramArgument(argName);
   if (argument !== undefined) {
     return argument;
   } else if (process.env[envName] !== undefined) {
@@ -108,3 +108,4 @@ function readProgramArgument(name) {
   });
   return output;
 }
+

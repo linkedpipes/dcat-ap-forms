@@ -3,24 +3,22 @@ module.exports = (api) => {
   api.cache.using(() => process.env.NODE_ENV);
 
   const presets = [
-    [
-      "@babel/preset-env",
-      {
-        "targets": {
-          "chrome": 41,
-        },
-        "useBuiltIns": "usage",
-        "corejs": {
-          "version": 3,
-          "proposals": true,
-        },
+    ["@babel/preset-env", {
+      "targets": {
+        "chrome": 41,
       },
-    ],
+    }],
   ];
 
-  const plugins = [];
+  const plugins = [
+    ["@babel/plugin-transform-runtime", {
 
-  const ignore = [];
+    }],
+  ];
+
+  const ignore = [
+    "node_modules",
+  ];
 
   return {
     "presets": presets,

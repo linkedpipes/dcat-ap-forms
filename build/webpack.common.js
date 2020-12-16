@@ -8,21 +8,21 @@ const entryPath = path.join(__dirname, "..", "client", "app-entry");
 module.exports = {
   "entry": {
     "catalog-registration-cs":
-            path.join(entryPath, "catalog-registration-cs.js"),
+      path.join(entryPath, "catalog-registration-cs.js"),
     "catalog-registration-en":
-            path.join(entryPath, "catalog-registration-en.js"),
+      path.join(entryPath, "catalog-registration-en.js"),
     "catalog-withdrawn-cs":
-            path.join(entryPath, "catalog-withdrawn-cs.js"),
+      path.join(entryPath, "catalog-withdrawn-cs.js"),
     "catalog-withdrawn-en":
-            path.join(entryPath, "catalog-withdrawn-en.js"),
+      path.join(entryPath, "catalog-withdrawn-en.js"),
     "dataset-registration-cs":
-            path.join(entryPath, "dataset-registration-cs.js"),
+      path.join(entryPath, "dataset-registration-cs.js"),
     "dataset-registration-en":
-            path.join(entryPath, "dataset-registration-en.js"),
+      path.join(entryPath, "dataset-registration-en.js"),
     "dataset-withdrawn-cs":
-            path.join(entryPath, "dataset-withdrawn-cs.js"),
+      path.join(entryPath, "dataset-withdrawn-cs.js"),
     "dataset-withdrawn-en":
-            path.join(entryPath, "dataset-withdrawn-en.js"),
+      path.join(entryPath, "dataset-withdrawn-en.js"),
     "home": path.join(entryPath, "home.js"),
   },
   "output": {
@@ -38,24 +38,22 @@ module.exports = {
       {
         "test": /\.vue$/,
         "use": "vue-loader",
-      }, {
-        "test": /\.js$/,
-        "use": "babel-loader",
-        "include": [
-          path.resolve(__dirname, "..", "client"),
-        ],
       },
       {
-        test: /\.s(c|a)s$/,
-        use: [
-          "vue-style-loader",
-          "css-loader",
-          "sass-loader",
-        ],
-      }, {
+        "test": /\.js$/,
+        "use": "babel-loader",
+      },
+      {
         //see: https://github.com/webpack-contrib/css-loader/issues/38#issuecomment-72287584
         "test": /\.(png|woff|woff2|eot|ttf|svg)$/,
-        "loader": "url-loader?limit=100000",
+        "use": [
+          {
+            "loader": "url-loader",
+            "options": {
+              "limit": 8192,
+            },
+          },
+        ],
       },
     ],
   },

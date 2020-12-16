@@ -1,3 +1,4 @@
+const config = require("./config");
 const htmlTemplateFactory = require("./html-template");
 
 function initialize(app) {
@@ -5,7 +6,6 @@ function initialize(app) {
 }
 
 function start(app) {
-  const config = require("./config");
   const port = config.port;
   app.listen(port, function onStart(error) {
     if (error) {

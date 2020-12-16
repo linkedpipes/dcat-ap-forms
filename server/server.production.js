@@ -1,15 +1,15 @@
+const fs = require("fs");
 const path = require("path");
 const bodyParser = require("body-parser");
-const {respondWithEntryPoint} = require("./server.common");
+const express = require("express");
+
+const server = require("./server.common");
 const routes = require("./routes-map");
-const fs = require("fs");
 
 (function initialize() {
-  const express = require("express");
   const app = express();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  const server = require("./server.common");
   server.initialize(app);
   initializeStatic(app, express);
   initializeEntryPoints(app);
@@ -50,7 +50,7 @@ function isFileUsedForRoute(route, file) {
 
 function createEntryPointGetHandler(route, javascriptFiles, cssFiles) {
   return (req, res) => {
-    respondWithEntryPoint(javascriptFiles, cssFiles, route, res);
+    server.respondWithEntryPoint(javascriptFiles, cssFiles, route, res);
   };
 }
 
@@ -60,7 +60,7 @@ function createEntryPointPostHandler(route, javascriptFiles, cssFiles) {
     if (req.headers["content-type"] === "application/x-www-form-urlencoded") {
       body = decodeBodyFields(req.body);
     }
-    respondWithEntryPoint(
+    server.respondWithEntryPoint(
       javascriptFiles, cssFiles,
       {...route, "data": body},
       res
@@ -72,6 +72,6 @@ function decodeBodyFields(body) {
   const result = {};
   Object.keys(body).forEach((key) => {
     result[key] = JSON.parse(body[key]);
-  })
+  });
   return result;
 }

@@ -1,8 +1,8 @@
 const webpack = require("webpack");
-const merge = require("webpack-merge");
+const {merge} = require("webpack-merge");
 const common = Object.assign({}, require("./webpack.common"));
 
-module.exports = merge(common, {
+module.exports = merge({
   "mode": "development",
   "devtool": "eval",
   "entry": {
@@ -10,19 +10,6 @@ module.exports = merge(common, {
   },
   "output": {
     "filename": "[name].js",
-  },
-  "optimization": {
-    "splitChunks": {
-      "cacheGroups": {
-        "commons": {
-          "test": /[\\/]node_modules[\\/]/,
-          "name": "commons",
-          "chunks": "all",
-          "filename": "[name].js",
-        },
-      },
-    },
-    "occurrenceOrder": true,
   },
   "devServer": {
     "hot": true,
@@ -33,9 +20,16 @@ module.exports = merge(common, {
         "test": /\.css$/,
         "use": [
           "vue-style-loader",
-          "css-loader",
+          // https://github.com/vuejs/vue-style-loader/issues/46
+          {
+            "loader": "css-loader",
+            "options": {
+              "esModule": false,
+            },
+          },
         ],
-      }, {
+      },
+      {
         "enforce": "pre",
         "test": /\.(js|vue)$/,
         "loader": "eslint-loader",
@@ -46,4 +40,4 @@ module.exports = merge(common, {
   "plugins": [
     new webpack.HotModuleReplacementPlugin(),
   ],
-});
+}, common);

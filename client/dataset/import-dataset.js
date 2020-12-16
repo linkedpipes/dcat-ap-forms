@@ -201,7 +201,7 @@ function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
 function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
   const service = getService(flatJsonLd, distributionEntity);
   const endpointUrl = getEndpointUrl(service);
-  return {
+  const distribution = {
     ...createDistribution(),
     ...unpackLangStringToProp(
       "title", defaultLanguage,
@@ -222,6 +222,11 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
       : "",
     "type": endpointUrl ? DIST_TYPE_SERVICE : DIST_TYPE_FILE,
   };
+  const iri = getId(distributionEntity);
+  if (iri !== undefined && iri !== null && iri !== "" && !iri.startsWith("_")) {
+    distribution["iri"] = iri;
+  }
+  return distribution;
 }
 
 function getService(flatJsonLd, distributionEntity) {

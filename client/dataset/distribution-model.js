@@ -12,6 +12,8 @@ export const DIST_TYPE_SERVICE = "SERVICE";
 
 export function createDistribution() {
   return decorateDistribution({
+    "iri": "",
+    //
     "license_author_type": "NO",
     "license_author_name": "",
     "license_author_custom": "",

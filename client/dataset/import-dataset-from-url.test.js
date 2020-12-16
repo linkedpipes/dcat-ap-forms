@@ -159,6 +159,7 @@ const A86_EXPECTED_DATASET = {
 
 const A86_EXPECTED_DISTRIBUTION = {
   ...createDistribution(),
+  "iri": "https://katalog-mdcr/a86/distribuce/25",
   "license_author_type": "NO",
   "license_author_name": "",
   "license_author_custom": "",

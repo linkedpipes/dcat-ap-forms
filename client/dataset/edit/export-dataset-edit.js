@@ -92,8 +92,6 @@ export function exportDatasetToJsonLd(dataset, distributions) {
   output["distribuce"] = distributions.map(
     (distribution) => exportDistribution(distribution, dataset.iri));
 
-  console.log("export", output);
-
   return output;
 }
 

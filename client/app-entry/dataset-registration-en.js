@@ -1,5 +1,5 @@
 import App from "./dataset-registration.vue";
-import AppLabels from "../app/labels-en";
+import AppLabels from "./labels-en";
 import DatasetLabels from "../dataset/labels-en";
 import {initializeApplication} from "./entry-point";
 

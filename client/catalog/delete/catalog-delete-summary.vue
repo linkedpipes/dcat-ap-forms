@@ -79,7 +79,7 @@ import {exportCatalogToJsonLdForDelete} from "../export-catalog";
 import {downloadAsJsonLd} from "../../app-service/download";
 
 export default {
-  "name": "app-export-summary",
+  "name": "AppExportSummary",
   "props": {
     "catalog": {"type": Object, "required": true},
   },

@@ -19,7 +19,7 @@
 import {getData} from "./help-service";
 
 export default {
-  "name": "app-help",
+  "name": "AppHelp",
   "data": getData,
   "watch": {
     "$route": function () {

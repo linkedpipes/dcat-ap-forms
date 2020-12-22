@@ -3,7 +3,7 @@
     v-model="visible"
     width="500"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn
         icon
         v-on="on"
@@ -90,7 +90,7 @@ import {provided, url} from "../../../app-service/validators";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../../dataset-model";
 
 export default {
-  "name": "export-type-dialog",
+  "name": "ExportTypeDialog",
   "props": {
     "datasetIri": {"type": String},
     "exportOptions": {"type": Object, "required": true},
@@ -105,14 +105,6 @@ export default {
     "EXPORT_EDIT": EXPORT_EDIT,
     "EXPORT_LKOD": EXPORT_LKOD,
   }),
-  "watch": {
-    "visible": function (newVisible) {
-      if (!newVisible) {
-        return;
-      }
-      this.onOpen();
-    },
-  },
   "computed": {
     "errUrl": function () {
       if (this.type !== EXPORT_LKOD) {
@@ -136,6 +128,14 @@ export default {
     },
     "saveDisabled": function () {
       return this.errUrl.length > 0;
+    },
+  },
+  "watch": {
+    "visible": function (newVisible) {
+      if (!newVisible) {
+        return;
+      }
+      this.onOpen();
     },
   },
   "methods": {

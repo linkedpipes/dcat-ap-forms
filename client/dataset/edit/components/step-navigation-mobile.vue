@@ -34,7 +34,7 @@
 
 <script>
 export default {
-  "name": "app-step-navigation-mobile",
+  "name": "AppStepNavigationMobile",
   "props": {
     "value": {"required": true, "type": Number},
   },

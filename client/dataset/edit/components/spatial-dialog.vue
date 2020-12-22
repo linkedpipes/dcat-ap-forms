@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="visible">
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn
         color="primary"
         dark
@@ -145,7 +145,7 @@ import {provided, url} from "../../../app-service/validators";
 import {CONTINENTS, COUNTRIES, PLACES} from "../codelists/server-codelists";
 
 export default {
-  "name": "spatial-dialog",
+  "name": "SpatialDialog",
   "components": {
     "app-solr-autocomplete": SolrAutocomplete,
     "app-ruian-autocomplete": RuianAutocomplete,

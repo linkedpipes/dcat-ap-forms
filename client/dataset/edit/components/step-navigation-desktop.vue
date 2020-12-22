@@ -27,7 +27,7 @@
 
 <script>
 export default {
-  "name": "app-step-navigation-desktop",
+  "name": "AppStepNavigationDesktop",
   "props": {
     "value": {"required": true, "type": Number},
   },

@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  "name": "import-failed",
+  "name": "ImportFailed",
   "props": {
     "message": { "type": String, "required": true },
   },

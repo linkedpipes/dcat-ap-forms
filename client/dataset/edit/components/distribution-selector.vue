@@ -45,7 +45,7 @@
 import {isDistributionValid} from "./../../distribution-model";
 
 export default {
-  "name": "app-item-selector",
+  "name": "AppItemSelector",
   "props": {
     "value": {"type": Number, "required": true},
     "distributions": {"type": Array, "required": true},

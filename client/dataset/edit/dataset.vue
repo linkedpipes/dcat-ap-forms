@@ -123,7 +123,7 @@ import ImportFailed from "../../app-service/import-failed";
 import {onDatasetEditMounted, postOnSubmit} from "./dataset-edit-service";
 
 export default {
-  "name": "app-dataset-edit",
+  "name": "AppDatasetEdit",
   "components": {
     "app-dataset": DatasetEdit,
     "app-distribution": DistributionEdit,

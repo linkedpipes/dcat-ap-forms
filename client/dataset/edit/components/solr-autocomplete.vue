@@ -34,7 +34,7 @@ import {
 } from "../codelists/local-storage";
 
 export default {
-  "name": "app-solr-autocomplete",
+  "name": "AppSolrAutocomplete",
   "props": {
     "id": {"type": String},
     "value": {"type": String, "required": true},
@@ -51,9 +51,6 @@ export default {
     "ignoreNextSearch": false,
     "lastFetchFor": undefined,
   }),
-  "mounted": function () {
-    fetchTitle(this, this.value);
-  },
   "watch": {
     "search": function (value) {
       if (this.ignoreNextSearch) {
@@ -71,6 +68,9 @@ export default {
         fetchTitle(this, value);
       }
     },
+  },
+  "mounted": function () {
+    fetchTitle(this, this.value);
   },
   "methods": {
     "querySelections": function (query) {

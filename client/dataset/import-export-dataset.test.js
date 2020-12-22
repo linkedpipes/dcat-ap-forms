@@ -515,10 +515,10 @@ const ISS97a = {
   }],
   "http://www.w3.org/ns/dcat#theme": [
     {
-      "@id": "http://eurovoc.europa.eu/2175"
+      "@id": "http://eurovoc.europa.eu/2175",
     }, {
-      "@id": "http://eurovoc.europa.eu/4304"
-    }
+      "@id": "http://eurovoc.europa.eu/4304",
+    },
   ],
   "http://purl.org/dc/terms/spatial": [{"@id": "https://linked.cuzk.cz/resource/ruian/stat/1"}],
   "http://purl.org/dc/terms/accrualPeriodicity": [{"@id": "http://publications.europa.eu/resource/authority/frequency/MONTHLY"}],
@@ -551,7 +551,7 @@ const ISS97a_EXPECTED = {
   "téma": [],
   "koncept_euroVoc": [
     "http://eurovoc.europa.eu/2175",
-    "http://eurovoc.europa.eu/4304"
+    "http://eurovoc.europa.eu/4304",
   ],
   "kontaktní_bod": {},
   "distribuce": [],

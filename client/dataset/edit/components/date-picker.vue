@@ -10,7 +10,7 @@
     min-width="15rem"
     offset-y
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-text-field
         :value="value"
         :label="label"
@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  "name": "app-date-picker",
+  "name": "AppDatePicker",
   "props": {
     "id": {"required": true},
     "value": {"required": true},

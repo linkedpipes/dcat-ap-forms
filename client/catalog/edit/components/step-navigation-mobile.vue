@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  "name": "app-catalog-step-navigation-mobile",
+  "name": "AppCatalogStepNavigationMobile",
   "props": {
     "value": {"required": true, "type": Number},
   },

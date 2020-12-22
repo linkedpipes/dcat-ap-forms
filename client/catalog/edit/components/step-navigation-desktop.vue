@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  "name": "app-catalog-step-navigation-desktop",
+  "name": "AppCatalogStepNavigationDesktop",
   "props": {
     "value": {"required": true, "type": Number},
   },

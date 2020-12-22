@@ -367,9 +367,10 @@
     <v-layout row>
       <v-spacer />
       <v-tooltip
-          bottom
-          :disabled="exportOptions.postData">
-        <template v-slot:activator="{ on }">
+        bottom
+        :disabled="exportOptions.postData"
+      >
+        <template #activator="{ on }">
           <v-btn
             rounded
             :color="downloadColor"
@@ -417,7 +418,7 @@ import {
 } from "./dataset-edit-service";
 
 export default {
-  "name": "app-export-summary",
+  "name": "AppExportSummary",
   "components": {
     "app-distribution-card": DistributionCard,
     "export-type-dialog": ExportTypeDialog,

@@ -465,7 +465,7 @@ import {getSpatialLabel} from "./codelists/spatial";
 import {EUROVOC} from "./codelists/server-codelists";
 
 export default {
-  "name": "app-dataset-record-edit",
+  "name": "AppDatasetRecordEdit",
   "components": {
     "app-date-picker": DatePicker,
     "app-solr-autocomplete": SolrAutocomplete,

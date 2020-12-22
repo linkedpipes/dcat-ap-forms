@@ -17,7 +17,7 @@ import setPageTitle from "../../app-service/page-title";
 import ImportFailed from "../../app-service/import-failed";
 
 export default {
-  "name": "app-dataset-delete",
+  "name": "AppDatasetDelete",
   "components": {
     "app-summary": CatalogDeleteSummary,
     "app-import-failed": ImportFailed,

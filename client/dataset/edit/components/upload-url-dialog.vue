@@ -3,7 +3,7 @@
     v-model="visible"
     width="500"
   >
-    <template v-slot:activator="{ on }">
+    <template #activator="{ on }">
       <v-btn
         color="primary"
         text
@@ -59,7 +59,7 @@
 
 <script>
 export default {
-  "name": "upload-url-dialog",
+  "name": "UploadUrlDialog",
   "data":  () => ({
     "visible" : false,
     "url": "",

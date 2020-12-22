@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  "name": "upload-failed-dialog",
+  "name": "UploadFailedDialog",
   "props": {
     "visible": { "type": Boolean, "required": true },
   },

@@ -44,7 +44,7 @@ import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
 
 export default {
-  "name": "app-ruian-autocomplete",
+  "name": "AppRuianAutocomplete",
   "props": {
     "value": {"type": String, "required": true},
     "label": {"type": String, "required": false},
@@ -59,14 +59,6 @@ export default {
     "search": null,
     "ignoreNextSearch": false,
   }),
-  "mounted": function () {
-    // Fetch label for the initial value.
-    const url = createQueryUrlForIri(this.value, this.$vuetify.lang.current);
-    getLocalJson(url).then((response) => {
-      addStoreItems("ruian", response.json.response.docs);
-      this.items = response.json.response.docs;
-    });
-  },
   "watch": {
     "search": function (value) {
       if (this.ignoreNextSearch) {
@@ -86,6 +78,14 @@ export default {
       // And clear items in suggestions.
       this.items = [];
     },
+  },
+  "mounted": function () {
+    // Fetch label for the initial value.
+    const url = createQueryUrlForIri(this.value, this.$vuetify.lang.current);
+    getLocalJson(url).then((response) => {
+      addStoreItems("ruian", response.json.response.docs);
+      this.items = response.json.response.docs;
+    });
   },
   "methods": {
     "fetchItems": function (query) {

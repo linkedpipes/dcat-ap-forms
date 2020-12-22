@@ -47,7 +47,7 @@ import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
 
 export default {
-  "name": "app-solr-chips-autocomplete",
+  "name": "AppSolrChipsAutocomplete",
   "props": {
     "id": {"type": String, "required": true},
     "value": {"type": Array, "required": true},
@@ -63,9 +63,6 @@ export default {
     "search": null,
     "ignoreNextSearch": false,
   }),
-  "mounted": function () {
-    this.updateFromValue(this.value);
-  },
   "watch": {
     "search": function (value) {
       if (this.ignoreNextSearch) {
@@ -79,6 +76,9 @@ export default {
     "value": function (value){
       this.updateFromValue(value);
     },
+  },
+  "mounted": function () {
+    this.updateFromValue(this.value);
   },
   "methods": {
     "updateFromValue": function (value) {

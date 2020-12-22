@@ -14,7 +14,7 @@ import setPageTitle from "../../app-service/page-title";
 import {onDatasetDeleteMounted} from "./dataset-delete-service";
 
 export default {
-  "name": "app-dataset-delete",
+  "name": "AppDatasetDelete",
   "components": {
     "app-summary": DatasetDeleteSummary,
     "app-import-failed": ImportFailed,

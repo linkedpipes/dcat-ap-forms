@@ -71,7 +71,7 @@ import {
 } from "./dataset-delete-service";
 
 export default {
-  "name": "app-export-summary",
+  "name": "AppExportSummary",
   "props": {
     "dataset": {"type": Object, "required": true},
   },

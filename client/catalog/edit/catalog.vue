@@ -61,7 +61,7 @@ import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import setPageTitle from "../../app-service/page-title";
 
 export default {
-  "name": "app-catalog-edit",
+  "name": "AppCatalogEdit",
   "components": {
     "app-step-navigation-mobile": StepperNavigationMobile,
     "app-step-navigation-desktop": StepperNavigationDesktop,

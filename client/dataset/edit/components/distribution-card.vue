@@ -675,7 +675,7 @@ import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
 import {MEDIA_TYPES, FILE_TYPE} from "../codelists/server-codelists";
 
 export default {
-  "name": "app-distribution-card",
+  "name": "AppDistributionCard",
   "props": {
     "distribution": {"type": Object, "required": true},
     "codelist": {"type": Object, "required": true},

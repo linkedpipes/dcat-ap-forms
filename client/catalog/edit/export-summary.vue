@@ -170,7 +170,7 @@
       class="mb-2"
     >
       <v-spacer />
-      <template v-slot:activator="{ on }">
+      <template #activator="{ on }">
         <v-tooltip bottom>
           <v-btn
             slot="activator"
@@ -203,7 +203,7 @@ import {downloadAsJsonLd} from "../../app-service/download";
 import {getCatalogTypeLabel} from "./codelists/catalog-type";
 
 export default {
-  "name": "app-catalog-export-summary",
+  "name": "AppCatalogExportSummary",
   "props": {
     "catalog": {"type": Object, "required": true},
     "isValid": {"type": Boolean, "required": true},

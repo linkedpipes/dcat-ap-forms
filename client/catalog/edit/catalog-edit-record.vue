@@ -141,7 +141,7 @@ import {createCatalogValidators} from "../catalog-model";
 import CatalogTypeCodeList from "./codelists/catalog-type";
 
 export default {
-  "name": "app-dataset-record-edit",
+  "name": "AppDatasetRecordEdit",
   "components": {},
   "props": {
     "catalog": {"type": Object, "required": true},

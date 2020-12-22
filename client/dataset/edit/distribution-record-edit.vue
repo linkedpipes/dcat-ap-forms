@@ -448,7 +448,7 @@ import SolrAutocomplete from "./components/solr-autocomplete";
 import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
 
 export default {
-  "name": "app-distribution-record-edit",
+  "name": "AppDistributionRecordEdit",
   "components": {
     "app-date-picker": DatePicker,
     "app-solr-autocomplete": SolrAutocomplete,

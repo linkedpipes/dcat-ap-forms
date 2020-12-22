@@ -4,7 +4,7 @@ import {importFromJsonLd} from "./import-dataset";
 import {
   exportDatasetToJsonLdForLocal,
   exportDatasetToJsonLdForNational,
-} from "./export-dataset";
+} from "./edit/export-dataset-edit";
 
 const BYLANY = {
   "@graph": [
@@ -223,6 +223,9 @@ const ISS94 = {
         "http://www.w3.org/ns/dcat#servesDataset": {
           "@id": "_:ds",
         },
+        "http://purl.org/dc/terms/conformsTo": {
+          "@id": "https://ofn.gov.cz/kontakty/2020-07-01/",
+        },
       },
       "https://data.gov.cz/slovník/podmínky-užití/specifikace": {
         "@type": "https://data.gov.cz/slovník/podmínky-užití/Specifikace",
@@ -330,6 +333,7 @@ const ISS94_EXPECTED = {
           "en": "my webservice",
         },
         "poskytuje_datovou_sadu": "https://local-publisher",
+        "specifikace": "https://ofn.gov.cz/kontakty/2020-07-01/",
       },
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",

@@ -35,6 +35,7 @@ export function createDistribution() {
     //
     "service_endpoint_url": "",
     "service_description": "",
+    "service_conforms_to": "",
     // type -> type
     "type": DIST_TYPE_FILE,
   });
@@ -92,14 +93,13 @@ function createFileDistributionValidators() {
       provided, "media_type_missing"),
     "err_schema": apply(
       (t) => t.distribution, "schema",
-      url,
-      "distribution_schema_invalid"),
+      url, "distribution_schema_invalid"),
   };
 }
 
 function createServiceDistributionValidators() {
   return {
-    "err_service": applyArray(
+    "err_description": applyArray(
       (t) => t.distribution, "service_description",
       [
         [provided, "endpoint_description_missing"],
@@ -114,6 +114,9 @@ function createServiceDistributionValidators() {
     "err_title": apply(
       (t) => t.distribution, "title_cs",
       provided, "title_missing"),
+    "err_conforms_to": apply(
+      (t) => t.distribution, "service_conforms_to",
+      url, "service_conforms_to_invalid"),
   };
 }
 

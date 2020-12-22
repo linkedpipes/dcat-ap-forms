@@ -246,6 +246,10 @@ function exportDistribution(distribution, datasetIri) {
     if (isNotEmpty(datasetIri)) {
       result["přístupová_služba"]["poskytuje_datovou_sadu"] = datasetIri;
     }
+    if (isNotEmpty(distribution.service_conforms_to)) {
+      result["přístupová_služba"]["specifikace"] =
+        distribution.service_conforms_to;
+    }
   } else {
     console.error("Distribution must be either FILE or SERVICE.", distribution);
   }

@@ -221,7 +221,6 @@
         @click:append-outer="$h('file_or_service')"
       />
     </div>
-
     <div v-if="isFileDistribution">
       <v-text-field
         id="distribution_url"
@@ -350,7 +349,6 @@
         </v-flex>
       </v-layout>
     </div>
-
     <div v-else>
       <v-text-field
         id="endpoint_url"
@@ -365,19 +363,46 @@
         clearable
         @click:append-outer="$h('endpoint_url')"
       />
-      <v-text-field
-        id="endpoint_description"
-        v-model="distribution.service_description"
-        :label="$t('service_endpoint_description')"
-        :hint="$t('hint_endpoint_description')"
-        :error-messages="err_service"
-        prepend-icon="link"
-        append-outer-icon="help_outline"
-        required
-        type="url"
-        clearable
-        @click:append-outer="$h('endpoint_description')"
-      />
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          md6
+        >
+          <v-text-field
+            id="endpoint_description"
+            v-model="distribution.service_description"
+            :label="$t('service_endpoint_description')"
+            :hint="$t('hint_endpoint_description')"
+            :error-messages="err_description"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            required
+            type="url"
+            clearable
+            @click:append-outer="$h('endpoint_description')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md6
+        >
+          <v-text-field
+            id="service_conforms_to"
+            v-model="distribution.service_conforms_to"
+            :label="$t('service_conforms_to') + $t('optional')"
+            :hint="$t('hint_service_conforms_to')"
+            :error-messages="err_conforms_to"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            type="url"
+            clearable
+            @click:append-outer="$h('service_conforms_to')"
+          />
+        </v-flex>
+      </v-layout>
       <v-layout
         row
         wrap
@@ -416,7 +441,6 @@
         </v-flex>
       </v-layout>
     </div>
-
     <div v-if="canBeDeleted">
       <v-btn
         text

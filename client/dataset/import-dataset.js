@@ -220,6 +220,9 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
     "service_description": service
       ? (getValue(service, DCATAP.endpointDescription) || "")
       : "",
+    "service_conforms_to": service
+      ? (getValue(service, DCTERMS.conformsTo) || "")
+      : "",
     "type": endpointUrl ? DIST_TYPE_SERVICE : DIST_TYPE_FILE,
   };
   const iri = getId(distributionEntity);

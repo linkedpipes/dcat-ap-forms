@@ -92,6 +92,8 @@ export function exportDatasetToJsonLd(dataset, distributions) {
   output["distribuce"] = distributions.map(
     (distribution) => exportDistribution(distribution, dataset.iri));
 
+  console.log("export", output);
+
   return output;
 }
 
@@ -144,10 +146,10 @@ function exportSpatial(dataset) {
   if (ruian.length > 0) {
     result["prvek_rúian"] = ruian;
   }
-  if (ruian.length > 0) {
+  if (geo_area.length > 0) {
     result["geografické_území"] = geo_area;
   }
-  if (ruian.length > 0) {
+  if (custom.length > 0) {
     result["prostorové_pokrytí"] = custom;
   }
 

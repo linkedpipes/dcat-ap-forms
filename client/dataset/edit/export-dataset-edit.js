@@ -141,18 +141,10 @@ function exportSpatial(dataset) {
       break;
     }
   });
-
   const result = {};
-  if (ruian.length > 0) {
-    result["prvek_rúian"] = ruian;
-  }
-  if (geo_area.length > 0) {
-    result["geografické_území"] = geo_area;
-  }
-  if (custom.length > 0) {
-    result["prostorové_pokrytí"] = custom;
-  }
-
+  result["prvek_rúian"] = ruian;
+  result["geografické_území"] = geo_area;
+  result["prostorové_pokrytí"] = custom;
   return result;
 }
 

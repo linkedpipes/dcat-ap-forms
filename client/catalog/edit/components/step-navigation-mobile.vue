@@ -30,13 +30,12 @@ export default {
   },
   "methods": {
     "onChange": function(value) {
+      // We need to use onChange as onClick on buttons does not work.
       this.$emit("input", value);
     },
     "getColor": function(value) {
       if (this.value === value) {
         return "blue";
-      } else {
-        return "red";
       }
     },
   },

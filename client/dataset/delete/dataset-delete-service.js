@@ -1,20 +1,49 @@
 import {importFromJsonLd} from "../import-dataset";
 import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
-import {exportDatasetToJsonLdForDelete} from "../export-dataset";
+import {exportDatasetToJsonLdForDelete} from "./export-dataset-delete";
 import {downloadAsJsonLd} from "../../app-service/download";
 import axios from "axios";
 
-export async function onDatasetDeleteMounted(datasetUrl, language) {
-  if (window.serverPostData && window.serverPostData.formData) {
-    const data = await importFromJsonLd(
-      window.serverPostData.formData, language);
-    return data.dataset;
+export async function onDatasetDeleteMounted(component) {
+  document.title = component.$t("delete_page_title");
+  await loadDataset(component);
+}
+
+async function loadDataset(component) {
+  const serverFormData = getFormData();
+  if (serverFormData !== undefined) {
+    await loadDatasetFromServerData(component, serverFormData);
+    return;
   }
+  const datasetUrl = component.$route.query.dataset;
   if (datasetUrl === undefined) {
-    throw new Error("Missing dataset URL.");
+    console.error("Missing dataset URL.");
+    component.status = "error";
+    return;
   }
-  const data = await importDatasetFromUrlWithProxy(datasetUrl, language);
-  return data.dataset;
+  try {
+    const data = await importDatasetFromUrlWithProxy(
+      component.$route.query.dataset,
+      component.$vuetify.lang.current);
+    component.dataset = data.dataset;
+    component.status = "ready";
+  } catch(ex) {
+    console.error("Can't import dataset from URL.", ex);
+    component.status = "error";
+  }
+}
+
+function getFormData() {
+  if (window.serverPostData && window.serverPostData.formData) {
+    return window.serverPostData.formData;
+  }
+  return undefined;
+}
+
+async function loadDatasetFromServerData(component, serverFormData) {
+  const language = component.$vuetify.lang.current;
+  const data = await importFromJsonLd(serverFormData, language);
+  component.dataset = data.dataset;
 }
 
 export function postOnSubmit($route) {
@@ -38,9 +67,9 @@ export async function submitDatasetDelete(dataset, $route) {
       && response.headers["location"]) {
       window.location.href = response.headers["location"];
     }
-  } catch (ex) {
+  } catch (error) {
     // TODO Show error notification.
-    console.error("Can't POST data", ex);
+    console.error("Can't POST data", error);
   }
 }
 
@@ -53,6 +82,5 @@ function getUserData() {
 
 export function downloadDatasetDelete(dataset) {
   const jsonld = exportDatasetToJsonLdForDelete(dataset);
-  downloadAsJsonLd(
-    "nkod-odstranění-datové-sady.jsonld.txt", jsonld);
+  downloadAsJsonLd("nkod-odstranění-datové-sady.jsonld.txt", jsonld);
 }

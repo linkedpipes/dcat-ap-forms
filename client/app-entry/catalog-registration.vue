@@ -7,7 +7,7 @@
 
 <script>
 import Help from "../app-service/help";
-import CatalogRegistration from "../catalog/edit/catalog";
+import CatalogRegistration from "../catalog/edit/catalog-edit";
 
 export default {
   "name": "CatalogRegistration",

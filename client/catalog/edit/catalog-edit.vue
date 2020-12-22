@@ -53,12 +53,16 @@
 </template>
 
 <script>
-import {createCatalog, isCatalogValid} from "../catalog-model";
 import CatalogEdit from "./catalog-edit-record";
 import ExportSummary from "./export-summary";
 import StepperNavigationMobile from "./components/step-navigation-mobile";
 import StepperNavigationDesktop from "./components/step-navigation-desktop";
-import setPageTitle from "../../app-service/page-title";
+import {createCatalog, isCatalogValid} from "../catalog-model";
+import {
+  onRouteChange,
+  onCatalogEditMounted,
+  onStepperInput,
+} from "./catalog-edit-service";
 
 export default {
   "name": "AppCatalogEdit",
@@ -73,44 +77,26 @@ export default {
       "catalog": createCatalog(),
     },
     "step": 1,
+    // True if the given entity should be validated. Used to skip validation
+    // at the start.
     "validation": {
       "catalog": false,
     },
   }),
   "watch": {
     "$route" : function(location) {
-      if (location.query.krok === undefined) {
-        this.step = 1;
-      } else if (location.query.krok !== this.step) {
-        this.step = location.query.krok;
-      }
+      onRouteChange(this, location);
     },
   },
-  "mounted": function() {
-    setPageTitle(this.$t("catalog_edit_page_title"));
+  "mounted": async function() {
+    await onCatalogEditMounted(this);
   },
   "methods": {
     "isCatalogValid": function () {
-      if (!this.validation.catalog) {
-        return true;
-      }
-      return isCatalogValid(this.data.catalog);
+      return !this.validation.catalog || isCatalogValid(this.data.catalog);
     },
     "onStepperInput": function (value) {
-      this.step = value;
-      if (!this.validation.catalog && value > 1) {
-        this.validation.catalog = true;
-        this.data.catalog.$validators.force = true;
-      }
-      if (this.$route.query.krok === undefined && value === 1) {
-        // Prevent redirect after the initial page is shown.
-        return;
-      }
-      this.$router.push({
-        "query": {
-          "krok": value,
-        },
-      });
+      onStepperInput(this, value);
     },
   },
 };

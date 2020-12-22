@@ -8,7 +8,7 @@ import {
   selectStrings,
   selectByIri,
   getValues,
-} from "../app-service/import-utilities";
+} from "../app-service/jsonld/properties";
 import {
   CREATIVE_COMMONS,
   DCATAP,
@@ -43,7 +43,7 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
     const datasetEntities = selectByType(flatJsonLd, DCATAP.Dataset);
     if (datasetEntities.length !== 1) {
       throw new Error(
-        "Invalid number of catalog records (" + datasetEntities.length + ")");
+        "Invalid number of dataset records (" + datasetEntities.length + ")");
     }
     const datasetEntity = datasetEntities[0];
     const dataset = {

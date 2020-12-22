@@ -432,6 +432,8 @@
 </template>
 
 <script>
+import DatePicker from "./components/date-picker";
+import SolrAutocomplete from "./components/solr-autocomplete";
 import {
   createDistributionValidators,
   DIST_TYPE_FILE,
@@ -443,8 +445,6 @@ import {
   dbSpecialLicenseTypes,
   personalDataTypes,
 } from "./codelists/license";
-import DatePicker from "./components/date-picker";
-import SolrAutocomplete from "./components/solr-autocomplete";
 import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
 
 export default {

@@ -1,29 +1,18 @@
 import {
-  ADMS,
-  STATUS,
   PU,
   CREATIVE_COMMONS,
-} from "../app-service/vocabulary";
-import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "./distribution-model";
+} from "../../app-service/vocabulary";
+import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../distribution-model";
 import {
   SPATIAL_CONTINENT,
   SPATIAL_COUNTRY,
   SPATIAL_PLACE,
   SPATIAL_RUIAN,
   SPATIAL_URL,
-} from "./dataset-model";
+} from "../dataset-model";
 
-const context = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
+const CONTEXT = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
   "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
-
-export function exportDatasetToJsonLdForDelete(dataset) {
-  return {
-    "@context": context,
-    "typ": "Datová sada",
-    "iri": dataset.iri,
-    [ADMS.status]: {"@id": STATUS.Withdrawn},
-  };
-}
 
 export function exportDatasetToJsonLdForLocal(dataset, distributions) {
   // Add IRIs to distributions nad data services.
@@ -49,7 +38,7 @@ export function exportDatasetToJsonLdForNational(dataset, distributions) {
 
 export function exportDatasetToJsonLd(dataset, distributions) {
   const output = {
-    "@context": context,
+    "@context": CONTEXT,
     "iri": dataset.iri,
     "typ": "Datová sada",
     "název": asLangMap(dataset.title_cs, dataset.title_en),

@@ -71,3 +71,99 @@ function getStringForValue(value) {
   const text = value["@value"] || value;
   return [language, text];
 }
+
+/**
+ * Select a string for given language.
+ */
+export function selectString(languageString, language) {
+  if (languageString[language]) {
+    return languageString[language][0];
+  } else {
+    return undefined;
+  }
+}
+
+export function selectStrings(languageString, language) {
+  if (languageString[language]) {
+    return languageString[language];
+  } else {
+    return [];
+  }
+}
+
+export function getMultiLangString(entity, predicate) {
+  const value = entity[predicate];
+  if (value === undefined || value === null) {
+    return {};
+  }
+  if (!Array.isArray(value)) {
+    // A single string.
+    const [lang, text] = getStringForValue(value);
+    return {
+      [lang]: [text],
+    };
+  }
+  const result = {};
+  for (let item of value) {
+    const [lang, text] = getStringForValue(item);
+    if (result[lang]) {
+      result[lang].push(text);
+    } else {
+      result[lang] = [text];
+    }
+  }
+  return result;
+}
+
+export function selectByType(flatJsonLd, type) {
+  const result = [];
+  flatJsonLd.forEach((entity) => {
+    if (entity["@graph"]) {
+      result.push(...selectByType(entity["@graph"], type));
+      return;
+    }
+    const entityType = getTypes(entity);
+    if (entityType.includes(type)) {
+      result.push(entity);
+    }
+  });
+  return result;
+}
+
+export function selectByIri(flatJsonLd, iri) {
+  const result = [];
+  flatJsonLd.forEach((entity) => {
+    if (entity["@graph"]) {
+      result.push(...selectByIri(entity["@graph"], iri));
+      return;
+    }
+    if (iri === getId(entity)) {
+      result.push(entity);
+    }
+  });
+  return result;
+}
+
+export function unpackLangStringToProp(
+  targetProperty, defaultLanguage, langString) {
+  if (langString === undefined) {
+    return {
+      [targetProperty + "_cs"]: "",
+      [targetProperty + "_en"]: "",
+    };
+  }
+  const stringCs = selectString(langString, "cs");
+  const stringEn = selectString(langString, "en");
+  const stringEmpty = selectString(langString, "");
+  const result = {
+    [targetProperty + "_cs"]: stringCs || "",
+    [targetProperty + "_en"]: stringEn || "",
+  };
+  // If there is string without language we can use it for
+  // defaultLanguage language value.
+  const defaultLanguageProp = targetProperty + "_" + defaultLanguage;
+  if (stringEmpty && result[defaultLanguageProp] === "") {
+    result[defaultLanguageProp] = stringEmpty;
+  }
+  return result;
+}

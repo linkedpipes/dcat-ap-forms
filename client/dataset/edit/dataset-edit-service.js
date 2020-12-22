@@ -3,6 +3,7 @@ import {
   createDataset,
 } from "../dataset-model";
 import {
+  fetchCodelistLabels,
   importDatasetFromUrl,
   importDatasetFromUrlWithProxy,
 } from "../import-dataset-from-url";
@@ -11,29 +12,70 @@ import {
   exportDatasetToJsonLdForLocal,
   exportDatasetToJsonLdForNational,
   exportDatasetToJsonLd,
-} from "../export-dataset";
+} from "./export-dataset-edit";
 import {downloadAsJsonLd} from "../../app-service/download";
+import {createDistribution, isDistributionValid} from "../distribution-model";
 
-export function postOnSubmit($route) {
+export function onRouteChange(component, location) {
+  if (location.query.krok === undefined) {
+    component.step = 1;
+  }
+  if (parseInt(location.query.krok) !== component.step) {
+    component.step = location.query.krok;
+  }
+}
+
+export async function onDatasetEditMounted(component) {
+  try {
+    const result = await loadDataset(
+      component.$route.query.url,
+      component.$route.query.dataset,
+      component.$vuetify.lang.current,
+      isCopyMode(component.$route)
+    );
+    component.exportOptions = {
+      ...this.exportOptions,
+      ...result.exportOptions,
+      "postData": isPostOnSubmit(component.$route),
+    };
+    setData(component, result.dataset, result.distributions);
+    document.title = component.$t(getPageTitle(
+      component.data.dataset, component.exportOptions.type));
+    initializeStep(component);
+    component.data.status = "ready";
+  } catch (ex) {
+    console.error("Can't import dataset.", ex);
+    component.data.status = "error";
+  }
+}
+
+function isCopyMode($route) {
+  return $route.query.kopie !== undefined;
+}
+
+export function isPostOnSubmit($route) {
   const url = getReturnUrl($route);
   return url !== undefined && url !== null && url.length > 0;
 }
 
-function getReturnUrl($route) {
-  return $route.query.returnUrl;
-}
-
-export async function onDatasetEditMounted(
-  importUrl, datasetUrl, language, copyMode) {
+async function loadDataset(importUrl, datasetUrl, language, copyMode) {
+  const serverFormData = getFormData();
   if (importUrl) {
     return await importFromUrl(importUrl, language);
   } else if (datasetUrl) {
-    return await importDataset(datasetUrl, language, copyMode);
-  } else if (window.serverPostData && window.serverPostData.formData) {
-    return await importFromPostData(language);
+    return await importFromDataset(datasetUrl, language, copyMode);
+  } else if (serverFormData) {
+    return await importFromPostData(language, serverFormData);
   } else {
-    return createNewDataset();
+    return importNew();
   }
+}
+
+function getFormData() {
+  if (window.serverPostData && window.serverPostData.formData) {
+    return window.serverPostData.formData;
+  }
+  return undefined;
 }
 
 async function importFromUrl(url, language) {
@@ -50,8 +92,8 @@ async function importFromUrl(url, language) {
   };
 }
 
-async function importDataset(url, language, copyMode) {
-  const data = importDatasetFromUrlWithProxy(url, language);
+async function importFromDataset(url, language, copyMode) {
+  const data = await importDatasetFromUrlWithProxy(url, language);
   const exportOptions = {
     "allowImport": false,
     "allowEdit": true,
@@ -70,8 +112,8 @@ async function importDataset(url, language, copyMode) {
   };
 }
 
-async function importFromPostData(language) {
-  const data = await importFromJsonLd(window.serverPostData.formData, language);
+async function importFromPostData(language, serverFormData) {
+  const data = await importFromJsonLd(serverFormData, language);
   return {
     "exportOptions": {
       "type": EXPORT_LKOD,
@@ -84,7 +126,7 @@ async function importFromPostData(language) {
   };
 }
 
-function createNewDataset() {
+function importNew() {
   return {
     "exportOptions": {
       "type": EXPORT_NKOD,
@@ -96,6 +138,174 @@ function createNewDataset() {
     "distributions": [],
   };
 }
+
+function setData(component, dataset, distributions) {
+  component.data.dataset = dataset;
+  component.data.distributions = distributions;
+  component.ui.distribution = 0;
+  // We need at least one distribution.
+  if (component.data.distributions.length === 0) {
+    component.data.distributions.push(createDistribution());
+  }
+  component.exportOptions.publisher = component.data.dataset.publisher;
+  component.exportOptions.lkodIri = component.data.dataset.iri;
+  onUpdateDataset(component);
+  fetchCodelistLabels(dataset, distributions, component.$vuetify.lang.current);
+}
+
+export function onUpdateDataset(component) {
+  switch (component.exportOptions.type) {
+  case EXPORT_NKOD:
+    component.data.dataset.iri = undefined;
+    component.data.dataset.publisher = undefined;
+    break;
+  case EXPORT_EDIT:
+    component.data.dataset.iri = component.exportOptions.editIri;
+    component.data.dataset.publisher = undefined;
+    break;
+  case EXPORT_LKOD:
+    component.data.dataset.iri = component.exportOptions.lkodIri;
+    component.data.dataset.publisher = component.exportOptions.publisher;
+    break;
+  }
+}
+
+function getPageTitle(dataset, exportType) {
+  const iri = dataset.iri;
+  switch (exportType) {
+  case EXPORT_NKOD:
+    return "edit_page_title_new";
+  case EXPORT_EDIT:
+    if (!iri || iri.startsWith("https://data.gov.cz")) {
+      return  "edit_page_title_nkod";
+    } else {
+      return "edit_page_title_lkod";
+    }
+  case EXPORT_LKOD:
+    return "edit_page_title_new_lkod";
+  }
+}
+
+function initializeStep(component) {
+  if(component.$route.query.krok) {
+    const step = parseInt(component.$route.query.krok, 10);
+    component.ui.step = step;
+    onStepperInput(component, step);
+  }
+}
+
+export function onStepperInput(component, value) {
+  component.ui.step = value;
+  if (!component.validation.dataset && value > 1) {
+    component.validation.dataset = true;
+    component.data.dataset.$validators.force = true;
+  }
+  if (!component.validation.distributions && value > 2) {
+    component.validation.distributions = true;
+    component.data.distributions.forEach((distribution) => {
+      distribution.$validators.force = true;
+    });
+  }
+  if (parseInt(component.$route.query.krok) !== value) {
+    component.$router.push({
+      "query": {
+        ...component.$route.query,
+        "krok": value,
+      },
+    });
+  }
+}
+
+export function areDistributionsValid(component) {
+  if (!component.validation.distributions) {
+    return true;
+  }
+  for (let distribution of component.data.distributions) {
+    if (!distribution.$validators.force) {
+      // Newly added distribution. User does not
+      // visited last step after adding this one.
+      continue;
+    }
+    if (!isDistributionValid(distribution)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export function onAddDistribution(component) {
+  component.data.distributions = [
+    ...component.data.distributions,
+    createDistribution(),
+  ];
+  component.ui.distribution = component.data.distributions.length - 1;
+}
+
+export function onDeleteDistribution(component) {
+  const index = component.ui.distribution;
+  component.data.distributions = [
+    ...component.data.distributions.slice(0, index),
+    ...component.data.distributions.slice(index + 1),
+  ];
+  component.ui.distribution = Math.min(
+    component.ui.distribution,
+    component.data.distributions.length - 1);
+}
+
+export async function onLoadFromFile(component, file) {
+  try {
+    const content = await loadFile(file);
+    const data = await importFromJsonLd(
+      content, component.$vuetify.lang.current);
+    setData(component, data.dataset, data.distributions);
+  } catch(error) {
+    console.error("Can't import file.", error);
+    component.ui.uploadFailedVisible = true;
+  }
+}
+
+function loadFile(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      try {
+        const content = JSON.parse(reader.result);
+        resolve(content);
+      } catch(ex) {
+        reject(ex);
+      }
+    };
+    reader.readAsText(file);
+  });
+}
+
+export async function onLoadFromUrl(component, url) {
+  try {
+    const data = await importDatasetFromUrl(url, this.$vuetify.lang.current);
+    setData(component, data.dataset, data.distributions);
+  } catch(error) {
+    console.error("Can't import url.", error);
+    component.ui.uploadFailedVisible = true;
+  }
+}
+
+export function onUpdateExport(component, event) {
+  component.exportOptions = {
+    ...component.exportOptions,
+    ...event,
+  };
+  onUpdateDataset(component);
+  document.title = component.$t(getPageTitle(
+    component.data.dataset, component.exportOptions.type));
+}
+
+function getReturnUrl($route) {
+  return $route.query.returnUrl;
+}
+
+//
+//
+//
 
 export async function submitDatasetEdit(dataset, distributions, $route) {
 
@@ -121,20 +331,6 @@ export async function submitDatasetEdit(dataset, distributions, $route) {
   }
 
   form.submit();
-
-  // try {
-  //   const response = await axios.post(url, {
-  //     "formData": jsonld,
-  //
-  //   });
-  //   if (response.status >= 300 && response.status <= 399
-  //     && response.headers["location"]) {
-  //     window.location.href = response.headers["location"];
-  //   }
-  // } catch (ex) {
-  //   // TODO Show error notification.
-  //   console.error("Can't POST data", ex);
-  // }
 }
 
 function getUserData() {
@@ -143,7 +339,6 @@ function getUserData() {
   }
   return undefined;
 }
-
 
 export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);

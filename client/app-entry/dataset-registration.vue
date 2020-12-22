@@ -7,7 +7,7 @@
 
 <script>
 import Help from "../app-service/help";
-import DatasetRegistration from "../dataset/edit/dataset";
+import DatasetRegistration from "../dataset/edit/dataset-edit";
 
 export default {
   "name": "DatasetRegistration",

@@ -1,30 +1,28 @@
 <template>
   <v-bottom-navigation
-    v-model="value"
+    :value="value"
+    @change="onChange"
   >
     <v-btn
-      :value="1" 
-      color="blue" 
+      :value="1"
+      :color="getColor(1)"
       text
-      @click="onClick(1)"
     >
       <span>{{ $t('nav_dataset') }}</span>
       <v-icon>note</v-icon>
     </v-btn>
     <v-btn 
-      :value="2" 
-      color="blue" 
+      :value="2"
+      :color="getColor(2)"
       text
-      @click="onClick(2)"
     >
       <span>{{ $t('nav_distributions') }}</span>
       <v-icon>attach_file</v-icon>
     </v-btn>
     <v-btn 
-      :value="3" 
-      color="blue" 
+      :value="3"
+      :color="getColor(3)"
       text
-      @click="onClick(3)"
     >
       <span>{{ $t('nav_download') }}</span>
       <v-icon>cloud_download</v-icon>
@@ -39,8 +37,13 @@ export default {
     "value": {"required": true, "type": Number},
   },
   "methods": {
-    "onClick": function (value) {
+    "onChange": function (value) {
       this.$emit("input", value);
+    },
+    "getColor": function(value) {
+      if (this.value === value) {
+        return "blue";
+      }
     },
   },
 };

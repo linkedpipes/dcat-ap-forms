@@ -1,16 +1,18 @@
 <template>
-  <v-content v-if="status === 'ready'">
+  <v-main v-if="status === 'ready'">
     <app-summary :dataset="dataset" />
-  </v-content>
-  <v-content v-else-if="status === 'error'">
+  </v-main>
+  <v-main v-else-if="status === 'error'">
     <app-import-failed :message="$t('cant_import_dataset')" />
-  </v-content>
+  </v-main>
+  <v-main v-else>
+    <!-- No loading indicator. -->
+  </v-main>
 </template>
 
 <script>
 import DatasetDeleteSummary from "./dataset-delete-summary";
 import ImportFailed from "../../app-service/import-failed";
-import setPageTitle from "../../app-service/page-title";
 import {onDatasetDeleteMounted} from "./dataset-delete-service";
 
 export default {
@@ -24,16 +26,7 @@ export default {
     "dataset": undefined,
   }),
   "mounted": async function () {
-    setPageTitle(this.$t("delete_page_title"));
-    try {
-      this.dataset = await onDatasetDeleteMounted(
-        this.$route.query.dataset,
-        this.$vuetify.lang.current);
-      this.status = "ready";
-    } catch(ex) {
-      this.status = "error";
-      console.error("Can't import dataset.", ex);
-    }
+    await onDatasetDeleteMounted(this);
   },
 };
 

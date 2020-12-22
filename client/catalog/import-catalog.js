@@ -6,7 +6,7 @@ import {
   getMultiLangString,
   unpackLangStringToProp,
   selectByIri,
-} from "../app-service/import-utilities";
+} from "../app-service/jsonld/properties";
 import {DCATAP, DCTERMS, VCARD, FOAF} from "../app-service/vocabulary";
 import jsonld from "jsonld";
 import {createCatalog} from "./catalog-model";

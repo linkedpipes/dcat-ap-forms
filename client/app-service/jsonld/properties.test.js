@@ -2,7 +2,7 @@ import {
   getMultiLangString,
   selectString,
   unpackLangStringToProp,
-} from "./import-utilities";
+} from "./properties";
 
 test("Load empty string array.", () => {
   const data = {

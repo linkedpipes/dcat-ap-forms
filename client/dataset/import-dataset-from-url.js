@@ -58,8 +58,7 @@ export function fetchCodelistLabels(dataset, distributions, lang) {
   mediaTypes.forEach((iri) => {
     fetchLabelFromCodeList("media-types", iri, lang);
   });
-  //
-  for (let spatial of dataset.spatial) {
+  dataset.spatial.forEach((spatial) => {
     switch (spatial.type) {
     case SPATIAL_COUNTRY:
       fetchLabelFromCodeList(COUNTRIES, spatial.url, lang);
@@ -71,5 +70,5 @@ export function fetchCodelistLabels(dataset, distributions, lang) {
       fetchLabelFromCodeList(RUIAN, spatial.url, lang);
       break;
     }
-  }
+  });
 }

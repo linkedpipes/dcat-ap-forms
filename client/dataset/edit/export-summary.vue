@@ -404,15 +404,15 @@
 
 <script>
 import DistributionCard from "./components/distribution-card";
+import ExportTypeDialog from "./components/export-type-dialog";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
 import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
-import ExportTypeDialog from "./components/export-type-dialog";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 import {
-  postOnSubmit,
+  isPostOnSubmit,
   submitDatasetEdit,
   downloadDatasetEdit,
 } from "./dataset-edit-service";
@@ -463,7 +463,7 @@ export default {
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onSubmit": function () {
-      if (postOnSubmit(this.$route)) {
+      if (isPostOnSubmit(this.$route)) {
         submitDatasetEdit(this.dataset, this.distributions, this.$route);
       } else {
         downloadDatasetEdit(

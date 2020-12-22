@@ -8,6 +8,7 @@ import {createDistribution} from "./distribution-model";
 let REMOTE_SOURCE = {};
 
 (function mockHttpService() {
+  // eslint-disable-next-line no-import-assign
   http.getRemoteJson = (url) => {
     for (let key of Object.keys(REMOTE_SOURCE)) {
       if (!Object.prototype.hasOwnProperty.call(REMOTE_SOURCE, key)) {
@@ -173,20 +174,6 @@ const A86_EXPECTED_DISTRIBUTION = {
   "format": "http://publications.europa.eu/resource/authority/file-type/CSV",
   "media_type": "http://www.iana.org/assignments/media-types/text/csv",
 };
-
-// As of now we do not support dereference. It is not needed
-// for Czech environment as we can get all data in a single graph.
-//
-// test("Load A86 by dereference.", () => {
-//   REMOTE_SOURCE = A86;
-//   const promise = importDatasetFromUrl("https://katalog-mdcr/a86");
-//   return promise.then((actual) => {
-//     expect(actual.dataset).toEqual(A86_EXPECTED_DATASET);
-//     const distributions = Object.values(actual.distributions);
-//     expect(distributions.length).toBe(1);
-//     expect(distributions[0]).toEqual(A86_EXPECTED_DISTRIBUTION);
-//   });
-// });
 
 test("Load A86 by single request.", () => {
   // We get all data in a single request.

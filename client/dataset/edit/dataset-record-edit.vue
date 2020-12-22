@@ -452,7 +452,6 @@
 </template>
 
 <script>
-import {createDatasetValidators} from "../dataset-model";
 import DatePicker from "./components/date-picker";
 import SolrAutocomplete from "./components/solr-autocomplete";
 import SolrChipsAutocomplete from "./components/solr-chips-autocomplete";
@@ -461,6 +460,7 @@ import FrequenciesCodeList from "./codelists/frequencies";
 import SpatialDialog from "./components/spatial-dialog";
 import UploadFileDialog from "./components/upload-file-dialog";
 import UploadUrlDialog from "./components/upload-url-dialog";
+import {createDatasetValidators} from "../dataset-model";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EUROVOC} from "./codelists/server-codelists";
 

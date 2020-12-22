@@ -136,7 +136,6 @@
       <v-divider v-if="catalog.homepage" />
       <v-list-item
         v-if="catalog.homepage"
-        avatar
       >
         <v-list-item-avatar>
           <v-icon class="blue white--text">
@@ -198,9 +197,8 @@
 </template>
 
 <script>
-import {exportCatalogToJsonLd} from "../export-catalog";
-import {downloadAsJsonLd} from "../../app-service/download";
 import {getCatalogTypeLabel} from "./codelists/catalog-type";
+import {onExport} from "./catalog-edit-service";
 
 export default {
   "name": "AppCatalogExportSummary",
@@ -215,8 +213,7 @@ export default {
   },
   "methods": {
     "onDownload": function () {
-      const jsonld = exportCatalogToJsonLd(this.catalog);
-      downloadAsJsonLd("nkod-registrace-katalogu.jsonld.txt", jsonld);
+      onExport(this.catalog);
     },
     "openCatalog": function () {
       window.open(this.catalog.iri);

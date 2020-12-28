@@ -241,8 +241,8 @@ export default {
   "button_post_dataset_delete": "Smazat datovou sadu.",
   "button_export_dataset_post": "Potvrdit registrační záznam",
   "download_invalid": "Stažení neúplného záznamu",
-  "service_conforms_to": "",
+  "service_conforms_to": "Odkaz na specifikaci služby",
   "service_conforms_to_invalid": "Nevalidní HTTPS IRI.",
-  "hint_service_conforms_to": "",
-  "help_service_conforms_to": "",
+  "hint_service_conforms_to": "https://www.w3.org/TR/sparql11-protocol/",
+  "help_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba.",
 };

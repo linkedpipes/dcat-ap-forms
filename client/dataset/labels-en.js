@@ -242,8 +242,8 @@ export default {
   "button_post_dataset_delete": "Delete the dataset record",
   "button_export_dataset_post": "Confirm dataset record",
   "download_invalid": "Download incomplete record",
-  "service_conforms_to": "",
+  "service_conforms_to": "Link to data service specification",
   "service_conforms_to_invalid": "Invalid HTTPS IRI.",
-  "hint_service_conforms_to": "",
-  "help_service_conforms_to": "",
+  "hint_service_conforms_to": "https://www.w3.org/TR/sparql11-protocol/",
+  "help_service_conforms_to": "Link specification with which the data service is compliant.",
 };

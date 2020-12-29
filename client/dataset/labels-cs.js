@@ -243,6 +243,6 @@ export default {
   "download_invalid": "Stažení neúplného záznamu",
   "service_conforms_to": "Odkaz na specifikaci služby",
   "service_conforms_to_invalid": "Nevalidní HTTPS IRI.",
-  "hint_service_conforms_to": "https://www.w3.org/TR/sparql11-protocol/",
-  "help_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba.",
+  "hint_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba.",
+  "help_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba. Například pro SPARQL endpointy je to https://www.w3.org/TR/sparql11-protocol/",
 };

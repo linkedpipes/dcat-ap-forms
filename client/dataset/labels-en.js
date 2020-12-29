@@ -244,6 +244,6 @@ export default {
   "download_invalid": "Download incomplete record",
   "service_conforms_to": "Link to data service specification",
   "service_conforms_to_invalid": "Invalid HTTPS IRI.",
-  "hint_service_conforms_to": "https://www.w3.org/TR/sparql11-protocol/",
-  "help_service_conforms_to": "Link specification with which the data service is compliant.",
+  "hint_service_conforms_to": "Link specification with which the data service is compliant.",
+  "help_service_conforms_to": "Link specification with which the data service is compliant. For example, for SPARQL endpoints, this is https://www.w3.org/TR/sparql11-protocol/",
 };

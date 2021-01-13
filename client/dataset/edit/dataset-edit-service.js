@@ -34,7 +34,7 @@ export async function onDatasetEditMounted(component) {
       isCopyMode(component.$route)
     );
     component.exportOptions = {
-      ...this.exportOptions,
+      ...component.exportOptions,
       ...result.exportOptions,
       "postData": isPostOnSubmit(component.$route),
     };
@@ -281,7 +281,8 @@ function loadFile(file) {
 
 export async function onLoadFromUrl(component, url) {
   try {
-    const data = await importDatasetFromUrl(url, this.$vuetify.lang.current);
+    const data = await importDatasetFromUrl(
+      url, component.$vuetify.lang.current);
     setData(component, data.dataset, data.distributions);
   } catch(error) {
     console.error("Can't import url.", error);

@@ -11,8 +11,8 @@ import {
   SPATIAL_URL,
 } from "../dataset-model";
 
-const CONTEXT = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/" +
-  "kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
+const CONTEXT = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/"
+  + "2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
 export function exportDatasetToJsonLdForLocal(dataset, distributions) {
   // Add IRIs to distributions nad data services.

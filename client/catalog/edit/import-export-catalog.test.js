@@ -1,6 +1,6 @@
-import {createCatalog} from "./catalog-model";
-import {importCatalogFromJsonLd} from "./import-catalog";
-import {exportCatalogToJsonLd} from "./export-catalog";
+import {createCatalog} from "../catalog-model";
+import {importCatalogFromJsonLd} from "../import-catalog";
+import {exportCatalogToJsonLd} from "./export-catalog-edit";
 
 test("Import catalog from JSON-LD object with cs default.", () => {
   const input = {
@@ -82,7 +82,7 @@ const T000 = {
 };
 
 const T000_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "@type": [
     "Katalog",
     "https://data.gov.cz/slovník/nkod/DcatApLkod",

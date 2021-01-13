@@ -1,10 +1,10 @@
 /* eslint max-len: 0 */
 
-import {importFromJsonLd} from "./import-dataset";
+import {importFromJsonLd} from "../import-dataset";
 import {
   exportDatasetToJsonLdForLocal,
   exportDatasetToJsonLdForNational,
-} from "./edit/export-dataset-edit";
+} from "./export-dataset-edit";
 
 const BYLANY = {
   "@graph": [
@@ -97,7 +97,7 @@ const BYLANY = {
 };
 
 const BYLANY_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670",
   "typ": "Datová sada",
   "název": {
@@ -279,7 +279,7 @@ const ISS94 = {
 };
 
 const ISS94_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://local-publisher",
   "typ": "Datová sada",
   "název": {
@@ -436,7 +436,7 @@ const ISS95 = {
 };
 
 const ISS95_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "_:b0",
   "typ": "Datová sada",
   "název": {
@@ -531,7 +531,7 @@ const ISS97a = {
 };
 
 const ISS97a_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/draft/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471",
   "typ": "Datová sada",
   "název": {

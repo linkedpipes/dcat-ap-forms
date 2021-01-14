@@ -108,6 +108,7 @@ export default {
   "nav_dataset": "Datová sada",
   "nav_distributions": "Distribuce",
   "summary_nkod_download": "Registrační záznam stáhněte a zašlete jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
+  "summary_nkod_download_tail": "Přijaté záznamy jsou zpracovávány dávkově, typicky přes noc.",
   "summary_lkod_download": "Registrační záznam uložte do svého lokálního katalogu otevřených dat.",
   "download_new_nkod": "Stáhnout nový záznam pro NKOD",
   "download_edit_nkod": "Stáhnout editační záznam pro NKOD",

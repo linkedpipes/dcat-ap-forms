@@ -106,6 +106,7 @@ export default {
   "nav_dataset": "Dataset",
   "nav_distributions": "Distribution",
   "summary_nkod_download": "Download the registration record and send it as an only attachment of a data message with \".txt\" extension and the subject \"NKOD\" to the databox ",
+  "summary_nkod_download_tail": "Received records are processed in batches, typically over night.",
   "summary_lkod_download": "Save the catalog record to your local open data catalog.",
   "button_download": "Download",
   "download_new_nkod": "Download new NODC record",

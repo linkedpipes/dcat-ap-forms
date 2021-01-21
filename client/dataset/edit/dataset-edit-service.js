@@ -9,9 +9,9 @@ import {
 } from "../import-dataset-from-url";
 import {importFromJsonLd} from "../import-dataset";
 import {
-  exportDatasetToJsonLdForLocal,
-  exportDatasetToJsonLdForNational,
-  exportDatasetToJsonLd,
+  exportDatasetForLkod,
+  exportDatasetForNkod,
+  exportDatasetForPost,
 } from "./export-dataset-edit";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {createDistribution, isDistributionValid} from "../distribution-model";
@@ -83,7 +83,6 @@ async function importFromUrl(url, language) {
   return {
     "exportOptions": {
       "type": EXPORT_NKOD,
-      "editIri": "",
       "allowImport": true,
       "allowEdit": false,
     },
@@ -98,13 +97,8 @@ async function importFromDataset(url, language, copyMode) {
     "allowImport": false,
     "allowEdit": true,
   };
-  if (copyMode) {
-    exportOptions.type = EXPORT_NKOD;
-    exportOptions.editIri = "";
-  } else {
-    exportOptions.type = EXPORT_EDIT;
-    exportOptions.editIri = url;
-  }
+  // For copy mode we create a new dataset.
+  exportOptions.type = copyMode ? EXPORT_NKOD : EXPORT_EDIT;
   return {
     "exportOptions": exportOptions,
     "dataset": data.dataset,
@@ -117,7 +111,6 @@ async function importFromPostData(language, serverFormData) {
   return {
     "exportOptions": {
       "type": EXPORT_LKOD,
-      "editIri": data.dataset.iri,
       "allowImport": false,
       "allowEdit": false,
     },
@@ -130,7 +123,6 @@ function importNew() {
   return {
     "exportOptions": {
       "type": EXPORT_NKOD,
-      "editIri": "",
       "allowImport": true,
       "allowEdit": false,
     },
@@ -149,25 +141,7 @@ function setData(component, dataset, distributions) {
   }
   component.exportOptions.publisher = component.data.dataset.publisher;
   component.exportOptions.lkodIri = component.data.dataset.iri;
-  onUpdateDataset(component);
   fetchCodelistLabels(dataset, distributions, component.$vuetify.lang.current);
-}
-
-export function onUpdateDataset(component) {
-  switch (component.exportOptions.type) {
-  case EXPORT_NKOD:
-    component.data.dataset.iri = undefined;
-    component.data.dataset.publisher = undefined;
-    break;
-  case EXPORT_EDIT:
-    component.data.dataset.iri = component.exportOptions.editIri;
-    component.data.dataset.publisher = undefined;
-    break;
-  case EXPORT_LKOD:
-    component.data.dataset.iri = component.exportOptions.lkodIri;
-    component.data.dataset.publisher = component.exportOptions.publisher;
-    break;
-  }
 }
 
 function getPageTitle(dataset, exportType) {
@@ -295,7 +269,6 @@ export function onUpdateExport(component, event) {
     ...component.exportOptions,
     ...event,
   };
-  onUpdateDataset(component);
   document.title = component.$t(getPageTitle(
     component.data.dataset, component.exportOptions.type));
 }
@@ -304,10 +277,6 @@ function getReturnUrl($route) {
   return $route.query.returnUrl;
 }
 
-//
-//
-//
-
 export async function submitDatasetEdit(dataset, distributions, $route) {
 
   const form = document.createElement("form");
@@ -315,7 +284,8 @@ export async function submitDatasetEdit(dataset, distributions, $route) {
   form.method = "post";
   form.action = getReturnUrl($route);
 
-  const formData = exportDatasetToJsonLd(dataset, distributions);
+  const formData = exportDatasetForPost(dataset, distributions);
+
   const formDataInput = document.createElement("input");
   formDataInput.type = "hidden";
   formDataInput.name = "formData";
@@ -345,9 +315,13 @@ export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);
   let content;
   if (isExportForNkod(dataset, exportOptions.type)) {
-    content = exportDatasetToJsonLdForNational(dataset, distributions);
+    content = exportDatasetForNkod(dataset, distributions);
   } else {
-    content = exportDatasetToJsonLdForLocal(dataset, distributions);
+    content = exportDatasetForLkod(
+      dataset, distributions, {
+        "lkodIri": exportOptions.lkodIri,
+        "publisher": exportOptions.publisher,
+      });
   }
   downloadAsJsonLd(fileName, content);
 }

@@ -14,29 +14,79 @@ import {
 const CONTEXT = "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/"
   + "2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
 
-export function exportDatasetToJsonLdForLocal(dataset, distributions) {
-  // Add IRIs to distributions nad data services.
-  const prefix = dataset.iri + "/distribuce/";
-  distributions = distributions.map((distribution, index) => ({
-    ...distribution,
-    "iri": prefix + (index + 1),
-  }));
-  return exportDatasetToJsonLd(dataset, distributions);
-}
-
-export function exportDatasetToJsonLdForNational(dataset, distributions) {
-  if (isEmpty(dataset.iri)) {
-    dataset = {
-      ...dataset,
-      "iri": "_:ds",
-    };
-  }
-  // Never export publisher for NKOD.
+/**
+ * Set all nodes as blank nodes and remove publisher.
+ */
+export function exportDatasetForNkod(dataset, distributions) {
+  // Create a copy so we do not modify the inputs.
+  dataset = {...dataset};
+  // There is no IRI and no publisher.
+  dataset.iri = "_:ds";
   dataset.publisher = undefined;
-  return exportDatasetToJsonLd(dataset, distributions);
+  //
+  return exportDatasetToJsonLd(
+    dataset, distributions, selectBlankNodeAsIri, selectBlankNodeAsIri);
 }
 
-export function exportDatasetToJsonLd(dataset, distributions) {
+function selectBlankNodeAsIri() {
+  return undefined;
+}
+
+/**
+ * Use IRIs from export options or try to preserve IRIs from the dataset.
+ */
+export function exportDatasetForLkod(
+  dataset, distributions, exportOptions) {
+  // Create a copy so we do not modify the inputs.
+  dataset = {...dataset};
+  // Apply export options.
+  if (isNotEmpty(exportOptions.lkodIri)) {
+    dataset.iri = exportOptions.lkodIri;
+  }
+  if (isNotEmpty(exportOptions.publisher)) {
+    dataset.publisher = exportOptions.publisher;
+  }
+
+  // Generate new IRIs.
+  let selectDistributionIri =
+    (dist, distIndex) => dataset.iri + "/distribuce/" + distIndex;
+  let selectServiceIri =
+    (dist, distIri) => distIri + "/přístupová-služba";
+
+  return exportDatasetToJsonLd(
+    dataset, distributions, selectDistributionIri, selectServiceIri);
+}
+
+/**
+ * Export data for POST, in this case we want to preserve IRIs where possible.
+ */
+export function exportDatasetForPost(dataset, distributions) {
+  // Create a copy so we do not modify the inputs.
+  dataset = {...dataset};
+
+  // Use existing or create new as a fallback.
+  let selectDistributionIri =
+    createSelectExistingOr((dist) => dist.iri, undefined);
+  let selectServiceIri =
+    createSelectExistingOr( (dist) => dist.service_iri, undefined);
+
+  return exportDatasetToJsonLd(
+    dataset, distributions, selectDistributionIri, selectServiceIri);
+}
+
+function createSelectExistingOr(selector, selectAlternative) {
+  return (distribution, ...args) => {
+    const iri = selector(distribution);
+    if (isNotEmpty(iri)) {
+      return iri;
+    }
+    return selectAlternative(distribution, ...args);
+  };
+}
+
+
+function exportDatasetToJsonLd(
+  dataset, distributions, selectDistributionIri, selectServiceIri) {
   const output = {
     "@context": CONTEXT,
     "iri": dataset.iri,
@@ -90,7 +140,9 @@ export function exportDatasetToJsonLd(dataset, distributions) {
   }
 
   output["distribuce"] = distributions.map(
-    (distribution) => exportDistribution(distribution, dataset.iri));
+    (distribution, index) => exportDistribution(
+      dataset.iri, distribution, index,
+      selectDistributionIri, selectServiceIri));
 
   return output;
 }
@@ -190,14 +242,17 @@ function exportContactPoint(catalog) {
   return output;
 }
 
-function exportDistribution(distribution, datasetIri) {
+function exportDistribution(
+  datasetIri, distribution, distributionIndex,
+  selectDistributionIri, selectServiceIri) {
 
   const result = {
     "typ": "Distribuce",
   };
 
-  if (isNotEmpty(distribution.iri)) {
-    result["iri"] = distribution.iri;
+  const iri = selectDistributionIri(distribution, distributionIndex);
+  if (isNotEmpty(iri)) {
+    result["iri"] = iri;
   }
 
   let title = asLangMap(distribution.title_cs, distribution.title_en);
@@ -205,56 +260,72 @@ function exportDistribution(distribution, datasetIri) {
     result["název"] = title;
   }
 
+  result["podmínky_užití"] = exportLicense(distribution);
+
   if (distribution.type === DIST_TYPE_FILE) {
-    result["soubor_ke_stažení"] = distribution.url;
-    result["přístupové_url"] = distribution.url;
-
-    if (isNotEmpty(distribution.media_type)) {
-      result["typ_média"] = updateIris(distribution.media_type);
-    }
-
-    if (isNotEmpty(distribution.format)) {
-      result["formát"] = updateIris(distribution.format);
-    }
-
-    if (isNotEmpty(distribution.schema)) {
-      result["schéma"] = updateIris(distribution.schema);
-    }
-
-    if (isNotEmpty(distribution.package_format)) {
-      result["typ_média_balíčku"] = updateIris(distribution.package_format);
-    }
-
-    if (isNotEmpty(distribution.compress_format)) {
-      result["typ_média_komprese"] = updateIris(distribution.compress_format);
-    }
-
+    addDistributionFile(distribution, result);
   } else if (distribution.type === DIST_TYPE_SERVICE) {
-    result["přístupové_url"] = distribution.service_endpoint_url;
-    result["přístupová_služba"] = {
-      "typ": "Datová služba",
-      "přístupový_bod": distribution.service_endpoint_url,
-      "popis_přístupového_bodu": distribution.service_description,
-    };
-    if (isNotEmpty(distribution.iri)) {
-      result["přístupová_služba"]["iri"] =
-        distribution.iri + "/přístupová-služba";
-    }
-    if (title["cs"] || title["en"]) {
-      result["přístupová_služba"]["název"] = title;
-    }
-    if (isNotEmpty(datasetIri)) {
-      result["přístupová_služba"]["poskytuje_datovou_sadu"] = datasetIri;
-    }
-    if (isNotEmpty(distribution.service_conforms_to)) {
-      result["přístupová_služba"]["specifikace"] =
-        distribution.service_conforms_to;
-    }
+    addDistributionService(datasetIri, distribution, selectServiceIri, result);
   } else {
     console.error("Distribution must be either FILE or SERVICE.", distribution);
   }
-  result["podmínky_užití"] = exportLicense(distribution);
+
   return result;
+}
+
+function addDistributionFile(distribution, result) {
+  result["soubor_ke_stažení"] = distribution.url;
+  result["přístupové_url"] = distribution.url;
+
+  if (isNotEmpty(distribution.media_type)) {
+    result["typ_média"] = updateIris(distribution.media_type);
+  }
+
+  if (isNotEmpty(distribution.format)) {
+    result["formát"] = updateIris(distribution.format);
+  }
+
+  if (isNotEmpty(distribution.schema)) {
+    result["schéma"] = updateIris(distribution.schema);
+  }
+
+  if (isNotEmpty(distribution.package_format)) {
+    result["typ_média_balíčku"] = updateIris(distribution.package_format);
+  }
+
+  if (isNotEmpty(distribution.compress_format)) {
+    result["typ_média_komprese"] = updateIris(distribution.compress_format);
+  }
+}
+
+function addDistributionService(
+  datasetIri, distribution, selectServiceIri, result
+) {
+  result["přístupové_url"] = distribution.service_endpoint_url;
+  result["přístupová_služba"] = {
+    "typ": "Datová služba",
+    "přístupový_bod": distribution.service_endpoint_url,
+    "popis_přístupového_bodu": distribution.service_description,
+  };
+
+  const iri = selectServiceIri(distribution, result["iri"]);
+  if (isNotEmpty(iri)) {
+    result["přístupová_služba"]["iri"] = iri;
+  }
+
+  const title = result["název"];
+  if (title["cs"] || title["en"]) {
+    result["přístupová_služba"]["název"] = title;
+  }
+
+  if (isNotEmpty(datasetIri)) {
+    result["přístupová_služba"]["poskytuje_datovou_sadu"] = datasetIri;
+  }
+
+  if (isNotEmpty(distribution.service_conforms_to)) {
+    result["přístupová_služba"]["specifikace"] =
+      distribution.service_conforms_to;
+  }
 }
 
 function exportLicense(distribution) {
@@ -262,6 +333,9 @@ function exportLicense(distribution) {
     "typ": "Specifikace podmínek užití",
   };
   switch (distribution.license_author_type) {
+  case undefined:
+    // For download of partial data.
+    break;
   case "MULTI":
     result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
     break;
@@ -282,6 +356,9 @@ function exportLicense(distribution) {
   }
 
   switch (distribution.license_db_type) {
+  case undefined:
+    // For download of partial data.
+    break;
   case "CC BY":
     result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
     result["autor_databáze"] = asLangMap(distribution.license_db_name);
@@ -301,6 +378,9 @@ function exportLicense(distribution) {
   }
 
   switch (distribution.license_specialdb_type) {
+  case undefined:
+    // For download of partial data.
+    break;
   case "CC0":
     result["databáze_chráněná_zvláštními_právy"] =
       CREATIVE_COMMONS.PUBLIC_ZERO_10;
@@ -320,6 +400,9 @@ function exportLicense(distribution) {
   }
 
   switch (distribution.license_personal_type) {
+  case undefined:
+    // For download of partial data.
+    break;
   case "YES":
     result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
     break;

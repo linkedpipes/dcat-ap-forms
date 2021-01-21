@@ -2,8 +2,9 @@
 
 import {importFromJsonLd} from "../import-dataset";
 import {
-  exportDatasetToJsonLdForLocal,
-  exportDatasetToJsonLdForNational,
+  exportDatasetForNkod,
+  exportDatasetForLkod,
+  exportDatasetForPost,
 } from "./export-dataset-edit";
 
 const BYLANY = {
@@ -96,7 +97,131 @@ const BYLANY = {
   ],
 };
 
-const BYLANY_EXPECTED = {
+const BYLANY_EXPECTED_NKOD = {
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "iri": "_:ds",
+  "typ": "Datová sada",
+  "název": {
+    "cs": "Obec Bylany",
+  },
+  "popis": {
+    "cs": "Oprava kuchyně v MŠ-III.etapa",
+  },
+  "prvek_rúian": [
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
+  ],
+  "geografické_území": [],
+  "prostorové_pokrytí": [],
+  "časové_pokrytí": {
+    "typ": "Časový interval",
+    "začátek": "2017-06-01",
+    "konec": "2017-08-31",
+  },
+  "klíčové_slovo": {
+    "cs": [
+      "obec Bylany",
+    ],
+    "en": [],
+  },
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT",
+  "kontaktní_bod": {
+    "typ": "Organizace",
+    "jméno": {
+      "cs": "Jan Málek,starosta",
+    },
+    "e-mail": "mailto:ou.bylany@worldonline.cz",
+  },
+  "koncept_euroVoc": [],
+  "téma": [],
+  "distribuce": [
+    {
+      "typ": "Distribuce",
+      "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+      "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+      "podmínky_užití": {
+        "typ": "Specifikace podmínek užití",
+        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+      },
+    },
+  ],
+};
+
+test("Bylany from json-ld and back for NKOD.", () => {
+  return importFromJsonLd(BYLANY, "cs").then(data => {
+    const actual = exportDatasetForNkod(data.dataset, data.distributions);
+    expect(actual).toEqual(BYLANY_EXPECTED_NKOD);
+  });
+});
+
+const BYLANY_EXPECTED_LKOD = {
+  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "iri": "https://data.gov.cz/datové-sady",
+  "typ": "Datová sada",
+  "název": {
+    "cs": "Obec Bylany",
+  },
+  "popis": {
+    "cs": "Oprava kuchyně v MŠ-III.etapa",
+  },
+  "prvek_rúian": [
+    "https://linked.cuzk.cz/resource/ruian/stat/1",
+  ],
+  "geografické_území": [],
+  "poskytovatel": "https://data.gov.cz/zdroj/ovm",
+  "prostorové_pokrytí": [],
+  "časové_pokrytí": {
+    "typ": "Časový interval",
+    "začátek": "2017-06-01",
+    "konec": "2017-08-31",
+  },
+  "klíčové_slovo": {
+    "cs": [
+      "obec Bylany",
+    ],
+    "en": [],
+  },
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT",
+  "kontaktní_bod": {
+    "typ": "Organizace",
+    "jméno": {
+      "cs": "Jan Málek,starosta",
+    },
+    "e-mail": "mailto:ou.bylany@worldonline.cz",
+  },
+  "koncept_euroVoc": [],
+  "téma": [],
+  "distribuce": [
+    {
+      "iri": "https://data.gov.cz/datové-sady/distribuce/0",
+      "typ": "Distribuce",
+      "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+      "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+      "podmínky_užití": {
+        "typ": "Specifikace podmínek užití",
+        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+      },
+    },
+  ],
+};
+
+test("Bylany from json-ld and back for LKOD.", () => {
+  return importFromJsonLd(BYLANY, "cs").then(data => {
+    const actual = exportDatasetForLkod(
+      data.dataset, data.distributions, {
+        "lkodIri": "https://data.gov.cz/datové-sady",
+        "publisher": "https://data.gov.cz/zdroj/ovm",
+      });
+    expect(actual).toEqual(BYLANY_EXPECTED_LKOD);
+  });
+});
+
+const BYLANY_EXPECTED_POST = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670",
   "typ": "Datová sada",
@@ -110,6 +235,7 @@ const BYLANY_EXPECTED = {
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
+  "poskytovatel": "https://data.gov.cz/zdroj/ovm/00269905",
   "prostorové_pokrytí": [],
   "časové_pokrytí": {
     "typ": "Časový interval",
@@ -149,10 +275,10 @@ const BYLANY_EXPECTED = {
   ],
 };
 
-test("Bylany from json-ld and back.", () => {
+test("Bylany from json-ld and back for POST.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
-    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
-    expect(actual).toEqual(BYLANY_EXPECTED);
+    const actual = exportDatasetForPost(data.dataset, data.distributions);
+    expect(actual).toEqual(BYLANY_EXPECTED_POST);
   });
 });
 
@@ -316,7 +442,7 @@ const ISS94_EXPECTED = {
   },
   "distribuce": [
     {
-      "iri": "https://local-publisher/distribuce/1",
+      "iri": "https://local-publisher/distribuce/0",
       "typ": "Distribuce",
       "název": {
         "cs": "Moje webservica",
@@ -324,7 +450,7 @@ const ISS94_EXPECTED = {
       },
       "přístupové_url": "https://url.cz",
       "přístupová_služba": {
-        "iri": "https://local-publisher/distribuce/1/přístupová-služba",
+        "iri": "https://local-publisher/distribuce/0/přístupová-služba",
         "typ": "Datová služba",
         "přístupový_bod": "https://url.cz",
         "popis_přístupového_bodu": "https://popis.url",
@@ -349,11 +475,12 @@ const ISS94_EXPECTED = {
   ],
 };
 
-test("ISS94 from json-ld and back.", () => {
+test("ISS94 from json-ld and back for LKOD.", () => {
   return importFromJsonLd(ISS94, "cs").then(data => {
-    // We set it here to simulate set by application.
-    data.dataset.iri = "https://local-publisher";
-    const actual = exportDatasetToJsonLdForLocal(data.dataset, data.distributions);
+    const actual = exportDatasetForLkod(
+      data.dataset, data.distributions, {
+        "lkodIri": "https://local-publisher",
+      });
     expect(actual).toEqual(ISS94_EXPECTED);
   });
 });
@@ -437,7 +564,7 @@ const ISS95 = {
 
 const ISS95_EXPECTED = {
   "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
-  "iri": "_:b0",
+  "iri": "_:ds",
   "typ": "Datová sada",
   "název": {
     "cs": "Aktuality",
@@ -451,9 +578,7 @@ const ISS95_EXPECTED = {
       "Novinky",
       "Informace",
     ],
-    "en" :[
-
-    ],
+    "en": [],
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
   "prvek_rúian": [
@@ -486,9 +611,9 @@ const ISS95_EXPECTED = {
   ],
 };
 
-test("ISS95 from json-ld and back.", () => {
+test("ISS95 from json-ld and back for NKOD.", () => {
   return importFromJsonLd(ISS95, "cs").then(data => {
-    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
+    const actual = exportDatasetForNkod(data.dataset, data.distributions);
     expect(actual).toEqual(ISS95_EXPECTED);
   });
 });
@@ -551,6 +676,7 @@ const ISS97a_EXPECTED = {
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
   "geografické_území": [],
+  "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008",
   "prostorové_pokrytí": [],
   "téma": [],
   "koncept_euroVoc": [
@@ -561,9 +687,9 @@ const ISS97a_EXPECTED = {
   "distribuce": [],
 };
 
-test("ISS97a from json-ld and back.", () => {
+test("ISS97a from json-ld and back for POST.", () => {
   return importFromJsonLd(ISS97a, "cs").then(data => {
-    const actual = exportDatasetToJsonLdForNational(data.dataset, data.distributions);
+    const actual = exportDatasetForPost(data.dataset, data.distributions);
     expect(actual).toEqual(ISS97a_EXPECTED);
   });
 });

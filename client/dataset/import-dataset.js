@@ -216,6 +216,7 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
       getValue(distributionEntity, DCATAP.packageFormat) || "",
     "compress_format":
       getValue(distributionEntity, DCATAP.compressFormat) || "",
+    "service_iri": service ? getId(service) : "",
     "service_endpoint_url": endpointUrl || "",
     "service_description": service
       ? (getValue(service, DCATAP.endpointDescription) || "")

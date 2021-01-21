@@ -127,11 +127,15 @@ export default {
     },
     "exportOptions": {
       "type": EXPORT_NKOD,
+      // If true allows EXPORT_EDIT option in export dialog.
       "allowEdit": false,
-      "editIri": "",
+      // Dataset IRI set by the export dialog for EXPORT_LKOD.
       "lkodIri": "",
+      // If true import buttons, file and url, are visible.
       "allowImport": true,
+      // Publisher set in the export dialog.
       "publisher": "",
+      // True if we post on submit action and disable export dialog.
       "postData": false,
     },
     "ui": {
@@ -176,9 +180,6 @@ export default {
     },
     "updateExport": function (event) {
       service.onUpdateExport(this, event);
-    },
-    "updateDataset": function() {
-      service.onUpdateDataset(this);
     },
     "uploadFailedClose": function() {
       this.ui.uploadFailedVisible = false;

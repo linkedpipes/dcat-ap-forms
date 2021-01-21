@@ -33,6 +33,7 @@ export function createDistribution() {
     "package_format": "",
     "compress_format": "",
     //
+    "service_iri": "",
     "service_endpoint_url": "",
     "service_description": "",
     "service_conforms_to": "",

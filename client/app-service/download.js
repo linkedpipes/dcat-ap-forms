@@ -1,4 +1,5 @@
 export function downloadAsJsonLd(fileName, content) {
+  console.log("downloadAsJsonLd", content);
   download(fileName, JSON.stringify(content, null, 2), "application/ld+json");
 }
 

@@ -33,6 +33,7 @@
         >
           {{ $t("summary_nkod_download") }}
           <code>{{ nkodDatabox }}</code>.
+          {{ $t("summary_nkod_download_tail") }}
         </v-alert>
       </v-flex>
     </v-layout>

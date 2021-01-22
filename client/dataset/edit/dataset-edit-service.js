@@ -174,8 +174,13 @@ export function onStepperInput(component, value) {
     component.validation.dataset = true;
     component.data.dataset.$validators.force = true;
   }
-  if (!component.validation.distributions && value > 2) {
-    component.validation.distributions = true;
+  if (value > 2) {
+    if (!component.validation.distributions) {
+      component.validation.distributions = true;
+    }
+    // We need to update distributions validations every time, as
+    // user may moved back from the summary view to the distribution view
+    // and add new distribution.
     component.data.distributions.forEach((distribution) => {
       distribution.$validators.force = true;
     });
@@ -195,6 +200,11 @@ export function areDistributionsValid(component) {
     return true;
   }
   for (let distribution of component.data.distributions) {
+    if (!distribution.$validators.force) {
+      // Newly added distribution. User does not
+      // visited last step after adding this one, so we ignore it.
+      continue;
+    }
     if (!isDistributionValid(distribution)) {
       return false;
     }

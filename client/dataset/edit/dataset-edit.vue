@@ -144,7 +144,11 @@ export default {
       "uploadFailedVisible": false,
     },
     "validation": {
+      // If true then show dataset validation, else dataset validation
+      // errors are ignored.
       "dataset": false,
+      // If true then show distributions validation, else distributions
+      // validation errors are ignored.
       "distributions": false,
     },
   }),

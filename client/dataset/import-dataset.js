@@ -38,21 +38,22 @@ import {
   DIST_TYPE_SERVICE,
 } from "./distribution-model";
 
-export function importFromJsonLd(jsonLdContent, defaultLanguage) {
+export function importFromJsonLd(jsonLdContent) {
   return jsonld().flatten(jsonLdContent).then(flatJsonLd => {
     const datasetEntities = selectByType(flatJsonLd, DCATAP.Dataset);
     if (datasetEntities.length !== 1) {
       throw new Error(
         "Invalid number of dataset records (" + datasetEntities.length + ")");
     }
+    const language = selectLanguage(flatJsonLd);
     const datasetEntity = datasetEntities[0];
     const dataset = {
       ...createDataset(),
       ...unpackLangStringToProp(
-        "title", defaultLanguage,
+        "title", language,
         getMultiLangString(datasetEntity, DCTERMS.title)),
       ...unpackLangStringToProp(
-        "description", defaultLanguage,
+        "description", language,
         getMultiLangString(datasetEntity, DCTERMS.description)),
       "iri": getId(datasetEntity),
       "publisher": getValue(datasetEntity, DCTERMS.publisher),
@@ -65,15 +66,15 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
         datasetEntity, DCATAP.spatialResolutionInMeters) || "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
-      "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
+      "language": language,
       //
       ...loadTemporal(flatJsonLd, datasetEntity),
       ...loadContactPoint(flatJsonLd, datasetEntity),
       ...loadThemes(datasetEntity),
-      ...loadKeywords(datasetEntity, defaultLanguage),
+      ...loadKeywords(datasetEntity, language),
     };
     const distributions = loadDistributions(
-      flatJsonLd, datasetEntity, defaultLanguage);
+      flatJsonLd, datasetEntity, language);
     return {
       "dataset": dataset,
       "distributions": distributions,
@@ -81,19 +82,14 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
   });
 }
 
-function loadKeywords(datasetEntity, defaultLanguage) {
+function loadKeywords(datasetEntity, language) {
   const values = getMultiLangString(datasetEntity, DCATAP.keyword);
   //
-  const stringCs = selectStrings(values, "cs");
-  const stringEn = selectStrings(values, "en");
-  if (defaultLanguage === "cs") {
-    stringCs.push(...selectStrings(values, ""));
-  } else if (defaultLanguage === "en") {
-    stringEn.push(...selectStrings(values, ""));
-  }
+  const stringPrimary = selectStrings(values, "en");
+  const stringSecondary = selectStrings(values, language);
   return {
-    "keywords_cs": stringCs,
-    "keywords_en": stringEn,
+    "keywords_cs": stringPrimary,
+    "keywords_en": stringSecondary,
   };
 }
 
@@ -191,20 +187,20 @@ function loadSpatial(flatJsonLd, datasetEntity) {
   return result;
 }
 
-function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
+function loadDistributions(flatJsonLd, datasetEntity, language) {
   return getValues(datasetEntity, DCATAP.distribution)
     .map(iri => getByIri(flatJsonLd, iri))
     .filter(entity => entity !== undefined)
-    .map(entity => loadDistribution(flatJsonLd, entity, defaultLanguage));
+    .map(entity => loadDistribution(flatJsonLd, entity, language));
 }
 
-function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
+function loadDistribution(flatJsonLd, distributionEntity, language) {
   const service = getService(flatJsonLd, distributionEntity);
   const endpointUrl = getEndpointUrl(service);
   const distribution = {
     ...createDistribution(),
     ...unpackLangStringToProp(
-      "title", defaultLanguage,
+      "title", language,
       getMultiLangString(distributionEntity, DCTERMS.title)),
     ...parseTermsOfUse(flatJsonLd, distributionEntity),
     //
@@ -314,4 +310,51 @@ function parsePersonalData(termsOfUse) {
   } else {
     return "UNKNOWN";
   }
+}
+
+/**
+ * Scan given flat JSON-LD document and search for all languages and
+ * return the one most common.
+ */
+function selectLanguage(flatJsonLd) {
+  const languages = [...new Set(collectLanguages(flatJsonLd))];
+  if (languages.length > 1) {
+    alert(
+      "Multiple languages detected: " + JSON.stringify(languages)
+      + " Only 'en' and one language expected.");
+  }
+  if (languages.length === 0) {
+    return "";
+  }
+  return languages[0];
+}
+
+function collectLanguages(value, ignore = "en") {
+  let result = [];
+  if (Array.isArray(value)) {
+    for (const item of value) {
+      result = [
+        ...result,
+        ...collectLanguages(item),
+      ];
+    }
+  }
+  if (typeof value === "object" && value !== null) {
+    if (value["@language"]) {
+      const language = value["@language"].toLowerCase();
+      if (language === ignore) {
+        return [];
+      } else {
+        return [language];
+      }
+    } else {
+      for (let item of Object.values(value)) {
+        result = [
+          ...result,
+          ...collectLanguages(item),
+        ];
+      }
+    }
+  }
+  return result;
 }

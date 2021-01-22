@@ -125,10 +125,11 @@ const A86 = {
 const A86_EXPECTED_DATASET = {
   ...createDataset(),
   "iri": "https://katalog-mdcr/a86",
-  "title_cs": "Seznam dopravců veřejné osobní dopravy obsažených v CIS JŘ",
-  "title_en": "",
-  "description_cs": "Obsahem datové sady je ....",
-  "description_en": "",
+  "language": "cs",
+  "title_cs": "",
+  "title_en": "Seznam dopravců veřejné osobní dopravy obsažených v CIS JŘ",
+  "description_cs": "",
+  "description_en": "Obsahem datové sady je ....",
   "accrual_periodicity": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_3",
   "spatial": [{
     "url": "http://publications.europa.eu/resource/authority/country/CZE",
@@ -138,7 +139,7 @@ const A86_EXPECTED_DATASET = {
     "type": SPATIAL_RUIAN,
   }],
   "documentation": "https://www.mdcr.cz/Dokumenty/Verejna-doprava/Jizdni-rady,-kalendare-pro-jizdni-rady,-metodi-(1)/Jizdni-rady-verejne-dopravy",
-  "keywords_cs": [
+  "keywords_en": [
     "dopravce",
     "jízdní řády",
     "drážní doprava",
@@ -147,7 +148,7 @@ const A86_EXPECTED_DATASET = {
     "CIS JŘ",
   ],
   "publisher": "https://data.gov.cz/zdroj/ovm/MDopravy",
-  "keywords_en": [],
+  "keywords_cs": [],
   "temporal_start": "",
   "temporal_end": "",
   "contact_point_name": "Ministerstvo dopravy, Odbor veřejné dopravy",

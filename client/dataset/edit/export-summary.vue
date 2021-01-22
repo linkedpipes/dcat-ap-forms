@@ -55,12 +55,6 @@
         </v-icon>
         <span>{{ downloadLabel }}</span>
       </v-btn>
-      <export-type-dialog
-        v-if="!exportOptions.postData"
-        :dataset-iri="dataset.iri"
-        :export-options="exportOptions"
-        @save="updateExport"
-      />
     </v-layout>
     <p class="subheading multiline">
       {{ dataset.description_cs }}
@@ -393,19 +387,12 @@
           <code>{{ nkodDatabox }}</code>.
         </span>
       </v-tooltip>
-      <export-type-dialog
-        v-if="!exportOptions.postData"
-        :dataset-iri="dataset.iri"
-        :export-options="exportOptions"
-        @save="updateExport"
-      />
     </v-layout>
   </v-container>
 </template>
 
 <script>
 import DistributionCard from "./components/distribution-card";
-import ExportTypeDialog from "./components/export-type-dialog";
 import {getStoreLabel} from "./codelists/local-storage";
 import {getDatasetThemeLabel} from "./codelists/dataset-theme";
 import {getFrequencyLabel} from "./codelists/frequencies.js";
@@ -422,7 +409,6 @@ export default {
   "name": "AppExportSummary",
   "components": {
     "app-distribution-card": DistributionCard,
-    "export-type-dialog": ExportTypeDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},

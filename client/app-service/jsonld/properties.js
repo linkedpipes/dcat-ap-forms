@@ -144,26 +144,23 @@ export function selectByIri(flatJsonLd, iri) {
   return result;
 }
 
+/**
+ * We need to store EN into CS as we use it as a primary language.
+ * The other value is then stored to EN as a secondary language.
+ */
 export function unpackLangStringToProp(
-  targetProperty, defaultLanguage, langString) {
+  targetProperty, language, langString) {
   if (langString === undefined) {
     return {
       [targetProperty + "_cs"]: "",
       [targetProperty + "_en"]: "",
     };
   }
-  const stringCs = selectString(langString, "cs");
-  const stringEn = selectString(langString, "en");
-  const stringEmpty = selectString(langString, "");
-  const result = {
-    [targetProperty + "_cs"]: stringCs || "",
-    [targetProperty + "_en"]: stringEn || "",
+  //
+  const stringPrimary = selectString(langString, "en");
+  const stringSecondary = selectString(langString, language);
+  return {
+    [targetProperty + "_cs"]: stringPrimary || "",
+    [targetProperty + "_en"]: stringSecondary || "",
   };
-  // If there is string without language we can use it for
-  // defaultLanguage language value.
-  const defaultLanguageProp = targetProperty + "_" + defaultLanguage;
-  if (stringEmpty && result[defaultLanguageProp] === "") {
-    result[defaultLanguageProp] = stringEmpty;
-  }
-  return result;
 }

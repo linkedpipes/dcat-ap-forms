@@ -29,34 +29,18 @@
         v-model="activeTab"
         vertical
       >
-        <v-tab>{{ $t('dataset_spatial_ruian') }}</v-tab>
-        <v-tab>{{ $t('dataset_spatial_continent') }}</v-tab>
         <v-tab>{{ $t('dataset_spatial_country') }}</v-tab>
+        <v-tab>{{ $t('dataset_spatial_continent') }}</v-tab>
         <v-tab>{{ $t('dataset_spatial_place') }}</v-tab>
         <v-tab>{{ $t('dataset_spatial_arbitrary') }}</v-tab>
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <v-autocomplete
-                id="dataset_ruian_type"
-                v-model="ruianType"
-                :items="ruinTypeCodelist"
-                :label="$t('ruian_type')"
-                :item-text="$vuetify.lang.current"
-                prepend-icon="place"
-                item-value="value"
-                append-outer-icon="help_outline"
-                required
-                @click:append-outer="$h('ruian_type')"
-              />
-              <app-ruian-autocomplete
-                id="dataset_ruian"
-                v-model="ruian"
-                :label="$t('ruian')"
-                :type="ruianType"
-                :disabled="ruianType === ''"
-                prepend-icon="place"
-                @update:label="dataset.$labels.ruian = $event"
+              <app-solr-autocomplete
+                v-model="country"
+                :code-list="COUNTRIES"
+                :label="$t('countries')"
+                :no-data-prompt="$t('countries_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -69,18 +53,6 @@
                 :code-list="CONTINENTS"
                 :label="$t('continents')"
                 :no-data-prompt="$t('continents_no_data')"
-              />
-            </v-card-text>
-          </v-card>
-        </v-tab-item>
-        <v-tab-item>
-          <v-card flat>
-            <v-card-text>
-              <app-solr-autocomplete
-                v-model="country"
-                :code-list="COUNTRIES"
-                :label="$t('countries')"
-                :no-data-prompt="$t('countries_no_data')"
               />
             </v-card-text>
           </v-card>
@@ -175,8 +147,6 @@ export default {
     },
     "confirmDisabled": function () {
       switch (this.activeTab) {
-      case 0:
-        return this.ruian.length === 0;
       case 1:
         return this.continent.length === 0;
       case 2:

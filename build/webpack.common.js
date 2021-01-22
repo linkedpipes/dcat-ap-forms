@@ -7,23 +7,8 @@ const entryPath = path.join(__dirname, "..", "client", "app-entry");
 
 module.exports = {
   "entry": {
-    "catalog-registration-cs":
-      path.join(entryPath, "catalog-registration-cs.js"),
-    "catalog-registration-en":
-      path.join(entryPath, "catalog-registration-en.js"),
-    "catalog-withdrawn-cs":
-      path.join(entryPath, "catalog-withdrawn-cs.js"),
-    "catalog-withdrawn-en":
-      path.join(entryPath, "catalog-withdrawn-en.js"),
-    "dataset-registration-cs":
-      path.join(entryPath, "dataset-registration-cs.js"),
     "dataset-registration-en":
       path.join(entryPath, "dataset-registration-en.js"),
-    "dataset-withdrawn-cs":
-      path.join(entryPath, "dataset-withdrawn-cs.js"),
-    "dataset-withdrawn-en":
-      path.join(entryPath, "dataset-withdrawn-en.js"),
-    "home": path.join(entryPath, "home.js"),
   },
   "output": {
     "path": path.join(__dirname, "..", "dist"),

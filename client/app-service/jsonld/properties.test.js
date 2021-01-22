@@ -75,7 +75,7 @@ test("Unpack language string with empty language tag.", () => {
   const actual = unpackLangStringToProp(
     "description", "cs", data);
   const expected = {
-    "description_cs": "Oprava kuchyně v MŠ-III.etapa",
+    "description_cs": "",
     "description_en": "",
   };
   expect(actual).toEqual(expected);

@@ -1,5 +1,6 @@
 import {
   apply,
+  applyArray,
   applyEach,
   decimal,
   email,
@@ -61,6 +62,8 @@ export function createDataset() {
     "ruian": "",
     "ruian_type": "",
     "publisher": undefined,
+    // Store real language used for "cs" values.
+    "language": "cs",
   });
 }
 
@@ -123,6 +126,22 @@ export function createDatasetValidators() {
       (t) => t.dataset, "url_to_load_from",
       url, "load_invalid_url"
     ),
+    //
+    "err_iri": applyArray(
+      (t) => t.dataset, "iri",
+      [
+        [provided, "iri_missing"],
+        [url, "iri_invalid"],
+      ]),
+    "err_publisher": applyArray(
+      (t) => t.dataset, "publisher",
+      [
+        [provided, "publisher_missing"],
+        [url, "publisher_invalid"],
+      ]),
+    "err_language": apply(
+      (t) => t.dataset, "language",
+      provided, "language_missing"),
   };
 }
 

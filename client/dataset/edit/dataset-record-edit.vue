@@ -4,17 +4,58 @@
     grid-list-lg
     pa-0
   >
-    <v-alert
-      outlined
-      type="warning"
-      dismissible
+    <v-layout
+      row
+      wrap
     >
-      {{ $t('common_errors_description') }}
-      <a
-        target="_blank"
-        href="https://opendata.gov.cz/špatná-praxe:start"
-      >{{ $t('common_errors_link_label') }}</a>!
-    </v-alert>
+      <v-flex
+        xs12
+        md5
+      >
+        <v-text-field
+          id="dataset_iri"
+          v-model="dataset.iri"
+          :label="$t('dataset_iri')"
+          :error-messages="err_iri"
+          :hint="$t('hint_dataset_iri')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          required
+          clearable
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md5
+      >
+        <v-text-field
+          id="dataset_publisher"
+          v-model="dataset.publisher"
+          :label="$t('dataset_publisher')"
+          :error-messages="err_publisher"
+          :hint="$t('hint_dataset_publisher')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md2
+      >
+        <v-text-field
+          id="dataset_language"
+          v-model="dataset.language"
+          :label="$t('dataset_language')"
+          :error-messages="err_language"
+          :hint="$t('hint_dataset_language')"
+          prepend-icon="label"
+          append-outer-icon="help_outline"
+          clearable
+        />
+      </v-flex>
+    </v-layout>
+
     <v-layout
       row
       wrap
@@ -205,42 +246,6 @@
             <v-chip
               close
               @click:close="removeTheme(data.index)"
-            >
-              <strong>{{ data.item }}</strong>
-            </v-chip>
-          </template>
-        </v-combobox>
-      </v-flex>
-    </v-layout>
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        md6
-      >
-        <v-combobox
-          id="dataset_ofn"
-          v-model="dataset.ofn"
-          :label="$t('dataset_ofn') + $t('optional')"
-          :error-messages="err_dataset_ofn"
-          :hint="$t('hint_dataset_ofn')"
-          item-value="value"
-          prepend-icon="short_text"
-          append-outer-icon="help_outline"
-          append-icon=""
-          chips
-          multiple
-          @click:append-outer="$h('dataset_ofn')"
-        >
-          <template
-            slot="selection"
-            slot-scope="data"
-          >
-            <v-chip
-              close
-              @click:close="removeOfn(data.index)"
             >
               <strong>{{ data.item }}</strong>
             </v-chip>

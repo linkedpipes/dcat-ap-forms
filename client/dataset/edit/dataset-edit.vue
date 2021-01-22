@@ -101,7 +101,7 @@ import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import ExportSummary from "./export-summary";
 import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
-import {EXPORT_NKOD, isDatasetValid} from "../dataset-model";
+import {EXPORT_LKOD, isDatasetValid} from "../dataset-model";
 import * as service from "./dataset-edit-service";
 import {getStore} from "./codelists/local-storage";
 
@@ -126,7 +126,7 @@ export default {
       "error": undefined,
     },
     "exportOptions": {
-      "type": EXPORT_NKOD,
+      "type": EXPORT_LKOD,
       // If true allows EXPORT_EDIT option in export dialog.
       "allowEdit": false,
       // Dataset IRI set by the export dialog for EXPORT_LKOD.
@@ -137,6 +137,9 @@ export default {
       "publisher": "",
       // True if we post on submit action and disable export dialog.
       "postData": false,
+      // We support english and other language, this defines language
+      // tag for the other language.
+      "language": "cs",
     },
     "ui": {
       "step": 1,

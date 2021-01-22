@@ -7,10 +7,11 @@ import {
   importDatasetFromUrl,
   importDatasetFromUrlWithProxy,
 } from "../import-dataset-from-url";
+import {
+  exportDatasetForStirData,
+} from "./export-dataset-edit-stirdata";
 import {importFromJsonLd} from "../import-dataset";
 import {
-  exportDatasetForLkod,
-  exportDatasetForNkod,
   exportDatasetForPost,
 } from "./export-dataset-edit";
 import {downloadAsJsonLd} from "../../app-service/download";
@@ -313,16 +314,7 @@ function getUserData() {
 
 export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);
-  let content;
-  if (isExportForNkod(dataset, exportOptions.type)) {
-    content = exportDatasetForNkod(dataset, distributions);
-  } else {
-    content = exportDatasetForLkod(
-      dataset, distributions, {
-        "lkodIri": exportOptions.lkodIri,
-        "publisher": exportOptions.publisher,
-      });
-  }
+  const content = exportDatasetForStirData(dataset, distributions);
   downloadAsJsonLd(fileName, content);
 }
 

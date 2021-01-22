@@ -3,7 +3,6 @@ import {
   provided,
   url,
   applyArray,
-  shouldValidate,
 } from "../app-service/validators";
 
 export const DIST_TYPE_FILE = "FILE";
@@ -14,15 +13,7 @@ export function createDistribution() {
   return decorateDistribution({
     "iri": "",
     //
-    "license_author_type": "NO",
-    "license_author_name": "",
-    "license_author_custom": "",
-    "license_db_type": "NO",
-    "license_db_name": "",
-    "license_db_custom": "",
-    "license_specialdb_type": "NO",
-    "license_specialdb_custom": "",
-    "license_personal_type": "NO",
+    "license_dcatap": "",
     //
     "url": "",
     "format": "",
@@ -53,26 +44,12 @@ export function decorateDistribution(distribution) {
 
 export function createDistributionValidators() {
   return {
-    "err_license_author_name": validateAuthor(
-      "license_author_type", "license_author_name"),
-    "err_license_author_custom": validateCustom(
-      "license_author_type",
-      "license_author_custom",
-      "license_author_custom_invalid"
-    ),
-    "err_license_db_name": validateAuthor(
-      "license_db_type", "license_db_name"),
-    "err_license_db_custom": validateCustom(
-      "license_db_type",
-      "license_db_custom",
-      "license_db_custom_invalid"
-    ),
-    "err_license_specialdb_custom": validateCustom(
-      "license_specialdb_type",
-      "license_specialdb_custom",
-      "license_specialdb_custom_invalid"
-    ),
-    "err_personal": validatePersonal(),
+    "err_license_dcatap": applyArray(
+      (t) => t.distribution, "license_dcatap",
+      [
+        [provided, "license_dcatap_missing"],
+        [url, "license_dcatap_invalid"],
+      ]),
     ...createFileDistributionValidators(),
     ...createServiceDistributionValidators(),
   };
@@ -118,55 +95,6 @@ function createServiceDistributionValidators() {
     "err_conforms_to": apply(
       (t) => t.distribution, "service_conforms_to",
       url, "service_conforms_to_invalid"),
-  };
-}
-
-function validateAuthor(licence_prop, name_prop) {
-  return function () {
-    const licence = this.distribution[licence_prop];
-    const value = this.distribution[name_prop];
-    const validators = this.distribution["$validators"];
-    if (!shouldValidate(value, validators, name_prop)) {
-      return [];
-    }
-    if (isAuthorValid(licence, value)) {
-      return [];
-    } else {
-      return [this.$t("author_name_missing")];
-    }
-  };
-}
-
-function validateCustom(licence_prop, custom_prop, invalid_prop) {
-  return function () {
-    const licence = this.distribution[licence_prop];
-    const value = this.distribution[custom_prop];
-    const validators = this.distribution["$validators"];
-    if (!shouldValidate(value, validators, custom_prop)) {
-      return [];
-    }
-    if (licence !== "CUSTOM") {
-      return [];
-    }
-    if (!provided(value)) {
-      return [this.$t("custom_license_missing")];
-    }
-    if (url(value)) {
-      return [];
-    } else {
-      return [this.$t(invalid_prop)];
-    }
-  };
-}
-
-function validatePersonal() {
-  return function () {
-    const value = this.distribution["license_personal_type"];
-    if (value === "UNKNOWN") {
-      return [this.$t("personal_invalid")];
-    } else {
-      return [];
-    }
   };
 }
 

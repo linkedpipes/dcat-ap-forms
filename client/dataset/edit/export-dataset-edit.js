@@ -64,26 +64,13 @@ export function exportDatasetForPost(dataset, distributions) {
   // Create a copy so we do not modify the inputs.
   dataset = {...dataset};
 
-  // Use existing or create new as a fallback.
-  let selectDistributionIri =
-    createSelectExistingOr((dist) => dist.iri, undefined);
-  let selectServiceIri =
-    createSelectExistingOr( (dist) => dist.service_iri, undefined);
+  // Use existing or nothing (blank nodes).
+  let selectDistributionIri = (dist) => dist.iri || undefined;
+  let selectServiceIri = (dist) => dist.service_iri || undefined;
 
   return exportDatasetToJsonLd(
     dataset, distributions, selectDistributionIri, selectServiceIri);
 }
-
-function createSelectExistingOr(selector, selectAlternative) {
-  return (distribution, ...args) => {
-    const iri = selector(distribution);
-    if (isNotEmpty(iri)) {
-      return iri;
-    }
-    return selectAlternative(distribution, ...args);
-  };
-}
-
 
 function exportDatasetToJsonLd(
   dataset, distributions, selectDistributionIri, selectServiceIri) {

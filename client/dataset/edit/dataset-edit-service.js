@@ -195,11 +195,6 @@ export function areDistributionsValid(component) {
     return true;
   }
   for (let distribution of component.data.distributions) {
-    if (!distribution.$validators.force) {
-      // Newly added distribution. User does not
-      // visited last step after adding this one.
-      continue;
-    }
     if (!isDistributionValid(distribution)) {
       return false;
     }

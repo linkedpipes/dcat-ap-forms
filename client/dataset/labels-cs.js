@@ -241,6 +241,7 @@ export default {
   "button_download_dataset_delete": "Stáhnout záznam pro smazání datové sady.",
   "button_post_dataset_delete": "Smazat datovou sadu.",
   "button_export_dataset_post": "Potvrdit registrační záznam",
+  "button_export_dataset_post_invalid": "Potvrzení neúplného záznamu",
   "download_invalid": "Stažení neúplného záznamu",
   "service_conforms_to": "Odkaz na specifikaci služby",
   "service_conforms_to_invalid": "Nevalidní HTTPS IRI.",

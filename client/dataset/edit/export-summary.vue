@@ -449,13 +449,11 @@ export default {
       }
     },
     "downloadLabel": function () {
-      if (!this.isValid) {
-        return this.$t("download_invalid");
-      }
       return this.$t(exportButtonLabel(
         this.dataset.iri,
         this.exportOptions.type,
-        this.exportOptions.postData));
+        this.exportOptions.postData,
+        this.isValid));
     },
   },
   "methods": {
@@ -499,9 +497,16 @@ function openUrl(uri) {
   window.open(uri);
 }
 
-function exportButtonLabel(iri, exportType, postData) {
+function exportButtonLabel(iri, exportType, postData, isValid) {
   if (postData) {
-    return "button_export_dataset_post";
+    if (isValid) {
+      return "button_export_dataset_post";
+    } else {
+      return "button_export_dataset_post_invalid";
+    }
+  }
+  if (!isValid) {
+    return "download_invalid";
   }
   switch (exportType) {
   default:

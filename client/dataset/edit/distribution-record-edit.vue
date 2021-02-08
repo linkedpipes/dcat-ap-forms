@@ -6,19 +6,6 @@
   >
     <h2 class="headline">
       {{ $t('headline_distribution_license') }}
-      <a
-        href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti"
-        target="_blank"
-        class="info_link"
-      >
-        <v-icon
-          color="blue"
-          size="1.5rem"
-          class="info_icon"
-        >
-          help_outline
-        </v-icon>
-      </a>
     </h2>
     <div>
       <v-layout

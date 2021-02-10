@@ -166,10 +166,16 @@ function exportTemporal(dataset) {
     "@type": DCTERMS.PeriodOfTime,
   };
   if (containsValidDate(dataset.temporal_start)) {
-    output[DCATAP.startDate] = dataset.temporal_start;
+    output[DCATAP.startDate] = {
+      "@value": dataset.temporal_start,
+      "@type": "http://www.w3.org/2001/XMLSchema#",
+    };
   }
   if (containsValidDate(dataset.temporal_end)) {
-    output[DCATAP.endDate] = dataset.temporal_end;
+    output[DCATAP.endDate] = {
+      "@value": dataset.temporal_end,
+      "@type": "http://www.w3.org/2001/XMLSchema#",
+    };
   }
   return {
     [DCTERMS.temporal]: output,
@@ -233,8 +239,12 @@ function exportDistribution(
 }
 
 function addDistributionFile(distribution, result) {
-  result[DCATAP.downloadURL] = distribution.url;
-  result[DCATAP.accessURL] = distribution.url;
+  result[DCATAP.downloadURL] = {
+    "@id": distribution.url,
+  };
+  result[DCATAP.accessURL] = {
+    "@id": distribution.url,
+  };
 
   if (isNotEmpty(distribution.media_type)) {
     result[DCATAP.mediaType] = updateIri(distribution.media_type);

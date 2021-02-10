@@ -453,8 +453,7 @@ export default {
       if (isPostOnSubmit(this.$route)) {
         submitDatasetEdit(this.dataset, this.distributions, this.$route);
       } else {
-        downloadDatasetEdit(
-          this.dataset, this.distributions, this.exportOptions);
+        downloadDatasetEdit(this.dataset, this.distributions);
       }
     },
     "openDocumentation": function () {

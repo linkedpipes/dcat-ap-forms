@@ -55,7 +55,7 @@ function exportDatasetToJsonLd(
   }
 
   if (isNotEmpty(dataset.documentation)) {
-    output[FOAF.page] = dataset.documentation;
+    output[FOAF.page] = updateIri(dataset.documentation);
   }
 
   output[DCATAP.theme] = [
@@ -218,7 +218,7 @@ function exportDistribution(
   }
 
   if (isNotEmpty(distribution.license_dcatap)) {
-    result[DCTERMS.license] = distribution.license_dcatap;
+    result[DCTERMS.license] = updateIri(distribution.license_dcatap);
   }
 
   if (distribution.type === DIST_TYPE_FILE) {

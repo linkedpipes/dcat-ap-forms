@@ -100,18 +100,8 @@ function createServiceDistributionValidators() {
 
 export function isDistributionValid(dist) {
   return isAccessValid(dist)
-    && isAuthorValid(
-      dist.license_author_type, dist.license_author_name)
-    && isCustomValid(
-      dist.license_author_type, dist.license_author_custom)
-    && isAuthorValid(
-      dist.license_db_type, dist.license_db_name)
-    && isCustomValid(
-      dist.license_db_type, dist.license_db_custom)
-    && isCustomValid(
-      dist.license_specialdb_type, dist.license_specialdb_custom)
-    && isPersonalValid(
-      dist.license_personal_type);
+    && provided(dist.license_dcatap)
+    && url(dist.license_dcatap);
 }
 
 const fileValidators = createFileDistributionValidators();
@@ -138,22 +128,4 @@ function isAccessValid(dist) {
     }
   }
   return true;
-}
-
-function isAuthorValid(licence, value) {
-  if (licence !== "CC BY") {
-    return true;
-  }
-  return provided(value);
-}
-
-function isCustomValid(licence, value) {
-  if (licence !== "CUSTOM") {
-    return true;
-  }
-  return provided(value) && url(value);
-}
-
-function isPersonalValid(value) {
-  return value !== "UNKNOWN";
 }

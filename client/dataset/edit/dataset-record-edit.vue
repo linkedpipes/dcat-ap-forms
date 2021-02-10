@@ -21,6 +21,7 @@
           prepend-icon="label"
           append-outer-icon="help_outline"
           required
+          @click:append-outer="$h('dataset_iri')"
           clearable
         />
       </v-flex>
@@ -36,6 +37,7 @@
           :hint="$t('hint_dataset_publisher')"
           prepend-icon="label"
           append-outer-icon="help_outline"
+          @click:append-outer="$h('dataset_publisher')"
           clearable
         />
       </v-flex>
@@ -51,6 +53,7 @@
           :hint="$t('hint_dataset_language')"
           prepend-icon="label"
           append-outer-icon="help_outline"
+          @click:append-outer="$h('dataset_language')"
           clearable
         />
       </v-flex>

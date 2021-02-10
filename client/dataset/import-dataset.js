@@ -204,6 +204,7 @@ function loadDistribution(flatJsonLd, distributionEntity, language) {
       getMultiLangString(distributionEntity, DCTERMS.title)),
     ...parseTermsOfUse(flatJsonLd, distributionEntity),
     //
+    "license_dcatap": getValue(distributionEntity, DCTERMS.license) || "",
     "url": getValue(distributionEntity, DCATAP.downloadURL) || "",
     "format": getValue(distributionEntity, DCTERMS.format) || "",
     "media_type": getValue(distributionEntity, DCATAP.mediaType) || "",

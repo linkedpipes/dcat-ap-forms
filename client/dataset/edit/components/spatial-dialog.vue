@@ -107,7 +107,6 @@ import RuianAutocomplete from "./ruian-autocomplete";
 import SolrAutocomplete from "./solr-autocomplete";
 import {ruianTypeCodelist} from "../codelists/ruian-type";
 import {
-  SPATIAL_RUIAN,
   SPATIAL_CONTINENT,
   SPATIAL_COUNTRY,
   SPATIAL_PLACE,

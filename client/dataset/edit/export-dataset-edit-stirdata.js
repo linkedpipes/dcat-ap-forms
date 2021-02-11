@@ -65,12 +65,17 @@ function exportDatasetToJsonLd(
   ];
 
   if (isNotEmpty(dataset.temporal_resolution)) {
-    output[DCATAP.temporalResolution] = updateIri(dataset.temporal_resolution);
+    output[DCATAP.temporalResolution] = {
+      "@value": dataset.temporal_resolution,
+      "@type": "http://www.w3.org/2001/XMLSchema#integer",
+    };
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
-    output[DCATAP.spatialResolutionInMeters] =
-      dataset.spatial_resolution_meters;
+    output[DCATAP.spatialResolutionInMeters] = {
+      "@value": dataset.spatial_resolution_meters,
+      "@type": "http://www.w3.org/2001/XMLSchema#integer",
+    };
   }
 
   const contactPoint = exportContactPoint(dataset);
@@ -168,13 +173,13 @@ function exportTemporal(dataset) {
   if (containsValidDate(dataset.temporal_start)) {
     output[DCATAP.startDate] = {
       "@value": dataset.temporal_start,
-      "@type": "http://www.w3.org/2001/XMLSchema#",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
     };
   }
   if (containsValidDate(dataset.temporal_end)) {
     output[DCATAP.endDate] = {
       "@value": dataset.temporal_end,
-      "@type": "http://www.w3.org/2001/XMLSchema#",
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
     };
   }
   return {

@@ -67,7 +67,7 @@ function exportDatasetToJsonLd(
   if (isNotEmpty(dataset.temporal_resolution)) {
     output[DCATAP.temporalResolution] = {
       "@value": dataset.temporal_resolution,
-      "@type": "http://www.w3.org/2001/XMLSchema#integer",
+      "@type": "http://www.w3.org/2001/XMLSchema#duration",
     };
   }
 

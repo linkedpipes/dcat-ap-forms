@@ -319,7 +319,7 @@ function getUserData() {
 export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);
   let content;
-  if (isExportForNkod(dataset, exportOptions.type)) {
+  if (exportOptions.type === EXPORT_NKOD) {
     content = exportDatasetForNkod(dataset, distributions);
   } else {
     content = exportDatasetForLkod(

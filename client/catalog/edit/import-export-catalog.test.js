@@ -87,7 +87,7 @@ const T000_EXPECTED = {
     "Katalog",
     "https://data.gov.cz/slovník/nkod/DcatApLkod",
   ],
-  "endpoint": "urn:endpoint",
+  "přístupový_bod": "urn:endpoint",
   "název": {
     "cs": "Title",
   },

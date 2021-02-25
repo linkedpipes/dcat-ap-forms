@@ -1,14 +1,15 @@
 # LinkedPipes DCAT-AP Forms
-[DCAT-AP v2.0](https://joinup.ec.europa.eu/solution/dcat-application-profile-data-portals-europe/release/200) compatible web form producing JSON-LD, primarily intended for the [Czech National Open Data](https://data.gov.cz) catalog.
+[DCAT-AP v2.0.1](https://joinup.ec.europa.eu/collection/semantic-interoperability-community-semic/solution/dcat-application-profile-data-portals-europe/release/201-0) compatible web form producing JSON-LD, primarily intended for the [Czech National Open Data](https://data.gov.cz) catalog.
 
 ## Requirements
- * [Node.js] and npm
- * [Apache Solr] 8
+ * [Node.js] (tested on 15) and npm
+ * [Apache Solr] (tested on 8.7)
 
 ## Installation
 
 ### Solr
-[Install Solr](https://lucene.apache.org/solr/guide/7_3/installing-solr.html). It is expected that Solr runs on localhost, port 8983.
+[Install Solr](https://lucene.apache.org/solr/guide/8_7/installing-solr.html).
+It is expected that Solr runs on localhost, port 8983.
 
 Create cores:
 ```

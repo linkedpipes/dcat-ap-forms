@@ -208,14 +208,16 @@ export function onStepperInput(component, value) {
       distribution.$validators.force = true;
     });
   }
-  if (parseInt(component.$route.query.krok) !== value) {
-    component.$router.push({
-      "query": {
-        ...component.$route.query,
-        "krok": value,
-      },
-    });
+  if (parseInt(component.$route.query.krok) === value) {
+    // Prevent navigation to the same location.
+    return;
   }
+  component.$router.push({
+    "query": {
+      ...component.$route.query,
+      "krok": value,
+    },
+  });
 }
 
 export function areDistributionsValid(component) {

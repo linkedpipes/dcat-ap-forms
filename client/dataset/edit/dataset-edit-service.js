@@ -21,24 +21,24 @@ export function onRouteChange(component, location) {
     component.ui.step = 1;
     return;
   }
-  const value =  parseInt(location.query.krok);
+  const value = parseInt(location.query.krok);
   if (value !== component.ui.step) {
     component.ui.step = value;
   }
 }
 
 export async function onDatasetEditMounted(component) {
+  const language = component.$vuetify.lang.current;
+  const query = loadQueryArguments(component.$route.query);
+
+
   try {
-    const result = await loadDataset(
-      component.$route.query.url,
-      component.$route.query.dataset,
-      component.$vuetify.lang.current,
-      isCopyMode(component.$route)
-    );
+    const result = await loadDataset(language, query);
     component.exportOptions = {
       ...component.exportOptions,
       ...result.exportOptions,
-      "postData": isPostOnSubmit(component.$route),
+      "shouldPost": isNotEmpty(query.postUrl),
+      "postUrl": query.postUrl,
     };
     setData(component, result.dataset, result.distributions);
     document.title = component.$t(getPageTitle(
@@ -51,22 +51,28 @@ export async function onDatasetEditMounted(component) {
   }
 }
 
-function isCopyMode($route) {
-  return $route.query.kopie !== undefined;
+function loadQueryArguments(query) {
+  return {
+    "dataset":
+      query["dataset"] || query["datová-sada"],
+    "copyFromDataset":
+      query["copy-from-dataset"] || query["kopírovat-z-datové-sady"],
+    "file":
+      query["file"] || query["soubor"],
+    "postUrl":
+      query["returnUrl"],
+  };
 }
 
-export function isPostOnSubmit($route) {
-  const url = getReturnUrl($route);
-  return url !== undefined && url !== null && url.length > 0;
-}
-
-async function loadDataset(importUrl, datasetUrl, language, copyMode) {
+async function loadDataset(language, query) {
   const serverFormData = getFormData();
-  if (importUrl) {
-    return await importFromUrl(importUrl, language);
-  } else if (datasetUrl) {
-    return await importFromDataset(datasetUrl, language, copyMode);
-  } else if (serverFormData) {
+  if (isNotEmpty(query.dataset)) {
+    return importDatasetByUrl(query.dataset, language);
+  } else if (isNotEmpty(query.copyFromDataset)) {
+    return copyDatasetByUrl(query.copyFromDataset, language);
+  } else if (isNotEmpty(query.file)) {
+    return importFromFile(query.file, language);
+  } else if (serverFormData !== undefined) {
     return await importFromPostData(language, serverFormData);
   } else {
     return importNew();
@@ -80,7 +86,37 @@ function getFormData() {
   return undefined;
 }
 
-async function importFromUrl(url, language) {
+function isNotEmpty(value) {
+  return value !== undefined && value !== null && value.length > 0;
+}
+
+async function importDatasetByUrl(url, language) {
+  const data = await importDatasetFromUrlWithProxy(url, language);
+  return {
+    "exportOptions": {
+      "allowImport": false,
+      "allowEdit": true,
+      "type": EXPORT_EDIT,
+    },
+    "dataset": data.dataset,
+    "distributions": data.distributions,
+  };
+}
+
+async function copyDatasetByUrl(url, language) {
+  const data = await importDatasetFromUrlWithProxy(url, language);
+  return {
+    "exportOptions": {
+      "allowImport": false,
+      "allowEdit": true,
+      "type": EXPORT_NKOD,
+    },
+    "dataset": data.dataset,
+    "distributions": data.distributions,
+  };
+}
+
+async function importFromFile(url, language) {
   const data = await importDatasetFromUrl(url, language);
   return {
     "exportOptions": {
@@ -88,21 +124,6 @@ async function importFromUrl(url, language) {
       "allowImport": true,
       "allowEdit": false,
     },
-    "dataset": data.dataset,
-    "distributions": data.distributions,
-  };
-}
-
-async function importFromDataset(url, language, copyMode) {
-  const data = await importDatasetFromUrlWithProxy(url, language);
-  const exportOptions = {
-    "allowImport": false,
-    "allowEdit": true,
-  };
-  // For copy mode we create a new dataset.
-  exportOptions.type = copyMode ? EXPORT_NKOD : EXPORT_EDIT;
-  return {
-    "exportOptions": exportOptions,
     "dataset": data.dataset,
     "distributions": data.distributions,
   };
@@ -153,7 +174,7 @@ function getPageTitle(dataset, exportType) {
     return "edit_page_title_new";
   case EXPORT_EDIT:
     if (!iri || iri.startsWith("https://data.gov.cz")) {
-      return  "edit_page_title_nkod";
+      return "edit_page_title_nkod";
     } else {
       return "edit_page_title_lkod";
     }
@@ -163,7 +184,7 @@ function getPageTitle(dataset, exportType) {
 }
 
 function initializeStep(component) {
-  if(component.$route.query.krok) {
+  if (component.$route.query.krok) {
     const step = parseInt(component.$route.query.krok, 10);
     component.ui.step = step;
     onStepperInput(component, step);
@@ -239,7 +260,7 @@ export async function onLoadFromFile(component, file) {
     const data = await importFromJsonLd(
       content, component.$vuetify.lang.current);
     setData(component, data.dataset, data.distributions);
-  } catch(error) {
+  } catch (error) {
     console.error("Can't import file.", error);
     component.ui.uploadFailedVisible = true;
   }
@@ -252,7 +273,7 @@ function loadFile(file) {
       try {
         const content = JSON.parse(reader.result);
         resolve(content);
-      } catch(ex) {
+      } catch (ex) {
         reject(ex);
       }
     };
@@ -265,7 +286,7 @@ export async function onLoadFromUrl(component, url) {
     const data = await importDatasetFromUrl(
       url, component.$vuetify.lang.current);
     setData(component, data.dataset, data.distributions);
-  } catch(error) {
+  } catch (error) {
     console.error("Can't import url.", error);
     component.ui.uploadFailedVisible = true;
   }
@@ -280,16 +301,12 @@ export function onUpdateExport(component, event) {
     component.data.dataset, component.exportOptions.type));
 }
 
-function getReturnUrl($route) {
-  return $route.query.returnUrl;
-}
-
-export async function submitDatasetEdit(dataset, distributions, $route) {
+export async function submitDatasetEdit(dataset, distributions, postUrl) {
 
   const form = document.createElement("form");
   document.body.appendChild(form);
   form.method = "post";
-  form.action = getReturnUrl($route);
+  form.action = postUrl;
 
   const formData = exportDatasetForPost(dataset, distributions);
 
@@ -365,4 +382,3 @@ export function isExportForNkod(dataset, exportType) {
     (exportType === EXPORT_EDIT &&
       (!dataset.iri || dataset.iri.startsWith("https://data.gov.cz")));
 }
-

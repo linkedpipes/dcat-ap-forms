@@ -13,7 +13,7 @@
           {{ $t("summary_error") }}
         </v-alert>
         <v-alert
-          v-else-if="exportOptions.postData"
+          v-else-if="exportOptions.shouldPost"
           outlined
           type="success"
         >
@@ -56,7 +56,7 @@
         <span>{{ downloadLabel }}</span>
       </v-btn>
       <export-type-dialog
-        v-if="!exportOptions.postData"
+        v-if="!exportOptions.shouldPost"
         :dataset-iri="dataset.iri"
         :export-options="exportOptions"
         @save="updateExport"
@@ -369,7 +369,7 @@
       <v-spacer />
       <v-tooltip
         bottom
-        :disabled="exportOptions.postData"
+        :disabled="exportOptions.shouldPost"
       >
         <template #activator="{ on }">
           <v-btn
@@ -394,7 +394,7 @@
         </span>
       </v-tooltip>
       <export-type-dialog
-        v-if="!exportOptions.postData"
+        v-if="!exportOptions.shouldPost"
         :dataset-iri="dataset.iri"
         :export-options="exportOptions"
         @save="updateExport"
@@ -413,7 +413,6 @@ import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 import {
-  isPostOnSubmit,
   submitDatasetEdit,
   downloadDatasetEdit,
 } from "./dataset-edit-service";
@@ -452,7 +451,7 @@ export default {
       return this.$t(exportButtonLabel(
         this.dataset.iri,
         this.exportOptions.type,
-        this.exportOptions.postData,
+        this.exportOptions.shouldPost,
         this.isValid));
     },
   },
@@ -462,8 +461,9 @@ export default {
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onSubmit": function () {
-      if (isPostOnSubmit(this.$route)) {
-        submitDatasetEdit(this.dataset, this.distributions, this.$route);
+      if (this.exportOptions.shouldPost) {
+        submitDatasetEdit(
+          this.dataset, this.distributions, this.exportOptions.postUrl);
       } else {
         downloadDatasetEdit(
           this.dataset, this.distributions, this.exportOptions);

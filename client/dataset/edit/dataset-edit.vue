@@ -137,6 +137,8 @@ export default {
       "publisher": "",
       // True if we post on submit action and disable export dialog.
       "postData": false,
+      // If postData is true, then this specify the URL to post data to.
+      "postUrl": undefined,
     },
     "ui": {
       "step": 1,

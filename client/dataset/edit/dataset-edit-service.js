@@ -18,10 +18,12 @@ import {createDistribution, isDistributionValid} from "../distribution-model";
 
 export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
-    component.step = 1;
+    component.ui.step = 1;
+    return;
   }
-  if (parseInt(location.query.krok) !== component.step) {
-    component.step = location.query.krok;
+  const value =  parseInt(location.query.krok)
+  if (value !== component.ui.step) {
+    component.ui.step = value;
   }
 }
 

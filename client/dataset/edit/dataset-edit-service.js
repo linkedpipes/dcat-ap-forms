@@ -21,7 +21,7 @@ export function onRouteChange(component, location) {
     component.ui.step = 1;
     return;
   }
-  const value =  parseInt(location.query.krok)
+  const value =  parseInt(location.query.krok);
   if (value !== component.ui.step) {
     component.ui.step = value;
   }

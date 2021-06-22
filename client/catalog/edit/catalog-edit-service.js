@@ -9,8 +9,9 @@ export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
     component.step = 1;
   }
-  if (parseInt(location.query.krok) !== component.step) {
-    component.step = location.query.krok;
+  const value = parseInt(location.query.krok);
+  if (value !== component.step) {
+    component.step = value;
   }
 }
 

@@ -119,6 +119,8 @@ async function copyDatasetByUrl(url, language, lkod) {
 
 async function importFromFile(url, language, lkod) {
   const data = await importDatasetFromUrl(url, language);
+  // As we create new item we can get rid of the dataset IRI.
+  data.dataset.iri = "";
   return {
     "exportOptions": {
       "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,

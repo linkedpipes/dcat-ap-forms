@@ -58,7 +58,8 @@
         <v-stepper-content :step="3">
           <app-export-summary
             :dataset="data.dataset"
-            :is-valid="isDatasetValid() && areDistributionsValid()"
+            :are-data-valid="isDatasetValid() && areDistributionsValid()"
+            :are-options-valid="areOptionsValid()"
             :distributions="data.distributions"
             :codelist="data.codelist"
             :export-options="exportOptions"
@@ -104,6 +105,7 @@ import ImportFailed from "../../app-service/import-failed";
 import {EXPORT_NKOD, isDatasetValid} from "../dataset-model";
 import * as service from "./dataset-edit-service";
 import {getStore} from "./codelists/local-storage";
+import {areExportOptionsValid} from "./dataset-edit-service";
 
 export default {
   "name": "AppDatasetEdit",
@@ -163,6 +165,9 @@ export default {
     await service.onDatasetEditMounted(this);
   },
   "methods": {
+    "areOptionsValid": function () {
+      return areExportOptionsValid(this.exportOptions);
+    },
     "isDatasetValid": function () {
       return !this.validation.dataset ||  isDatasetValid(this.data.dataset);
     },

@@ -15,6 +15,7 @@ import {
 } from "./export-dataset-edit";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {createDistribution, isDistributionValid} from "../distribution-model";
+import {provided, url} from "../../app-service/validators";
 
 export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
@@ -30,8 +31,6 @@ export function onRouteChange(component, location) {
 export async function onDatasetEditMounted(component) {
   const language = component.$vuetify.lang.current;
   const query = loadQueryArguments(component.$route.query);
-
-
   try {
     const result = await loadDataset(language, query);
     component.exportOptions = {
@@ -61,6 +60,8 @@ function loadQueryArguments(query) {
       query["file"] || query["soubor"],
     "postUrl":
       query["returnUrl"],
+    "lkod":
+      query["lkod"] === null,
   };
 }
 
@@ -69,13 +70,13 @@ async function loadDataset(language, query) {
   if (isNotEmpty(query.dataset)) {
     return importDatasetByUrl(query.dataset, language);
   } else if (isNotEmpty(query.copyFromDataset)) {
-    return copyDatasetByUrl(query.copyFromDataset, language);
+    return copyDatasetByUrl(query.copyFromDataset, language, query.lkod);
   } else if (isNotEmpty(query.file)) {
-    return importFromFile(query.file, language);
+    return importFromFile(query.file, language, query.lkod);
   } else if (serverFormData !== undefined) {
     return await importFromPostData(language, serverFormData);
   } else {
-    return importNew();
+    return importNew(query.lkod);
   }
 }
 
@@ -103,24 +104,24 @@ async function importDatasetByUrl(url, language) {
   };
 }
 
-async function copyDatasetByUrl(url, language) {
+async function copyDatasetByUrl(url, language, lkod) {
   const data = await importDatasetFromUrlWithProxy(url, language);
   return {
     "exportOptions": {
       "allowImport": false,
       "allowEdit": true,
-      "type": EXPORT_NKOD,
+      "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
     },
     "dataset": data.dataset,
     "distributions": data.distributions,
   };
 }
 
-async function importFromFile(url, language) {
+async function importFromFile(url, language, lkod) {
   const data = await importDatasetFromUrl(url, language);
   return {
     "exportOptions": {
-      "type": EXPORT_NKOD,
+      "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
       "allowImport": true,
       "allowEdit": false,
     },
@@ -142,10 +143,10 @@ async function importFromPostData(language, serverFormData) {
   };
 }
 
-function importNew() {
+function importNew(lkod) {
   return {
     "exportOptions": {
-      "type": EXPORT_NKOD,
+      "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
       "allowImport": true,
       "allowEdit": false,
     },
@@ -383,4 +384,14 @@ export function isExportForNkod(dataset, exportType) {
   return exportType === EXPORT_NKOD ||
     (exportType === EXPORT_EDIT &&
       (!dataset.iri || dataset.iri.startsWith("https://data.gov.cz")));
+}
+
+export function areExportOptionsValid(exportOptions) {
+  if (exportOptions.type !== EXPORT_LKOD) {
+    // There is no additional validation.
+    return true;
+  }
+  const iri = exportOptions.lkodIri;
+  const publisher = exportOptions.publisher;
+  return provided(iri) && url(iri) && provided(publisher) && url(publisher);
 }

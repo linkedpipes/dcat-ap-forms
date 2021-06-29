@@ -3,16 +3,6 @@
     v-model="visible"
     width="500"
   >
-    <template #activator="{ on }">
-      <v-btn
-        icon
-        v-on="on"
-      >
-        <v-icon>
-          settings
-        </v-icon>
-      </v-btn>
-    </template>
     <v-card>
       <v-toolbar
         dark
@@ -92,11 +82,12 @@ import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../../dataset-model";
 export default {
   "name": "ExportTypeDialog",
   "props": {
+    "visible": {"type": Boolean, "required": true},
     "datasetIri": {"type": String},
     "exportOptions": {"type": Object, "required": true},
   },
   "data": () => ({
-    "visible": false,
+
     "lkodIri": "",
     "publisher": "",
     "type": "nkod",
@@ -145,7 +136,7 @@ export default {
       this.publisher = this.exportOptions.publisher;
     },
     "close": function () {
-      this.visible = false;
+      this.$emit("close");
     },
     "save": function () {
       this.$emit("save", {
@@ -153,7 +144,6 @@ export default {
         "publisher": this.publisher,
         "type": this.type,
       });
-      this.visible = false;
     },
   },
 };

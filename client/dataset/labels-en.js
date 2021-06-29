@@ -248,4 +248,5 @@ export default {
   "service_conforms_to_invalid": "Invalid HTTPS IRI.",
   "hint_service_conforms_to": "Link specification with which the data service is compliant.",
   "help_service_conforms_to": "Link specification with which the data service is compliant. For example, for SPARQL endpoints, this is https://www.w3.org/TR/sparql11-protocol/",
+  "export_options_error": "Missing dataset or publisher IRI.",
 };

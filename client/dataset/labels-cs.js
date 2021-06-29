@@ -247,4 +247,5 @@ export default {
   "service_conforms_to_invalid": "Nevalidní HTTPS IRI.",
   "hint_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba.",
   "help_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba. Například pro SPARQL endpointy je to https://www.w3.org/TR/sparql11-protocol/",
+  "export_options_error": "Chybí IRI datové sady nebo poskytovatele.",
 };

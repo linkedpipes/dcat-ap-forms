@@ -64,3 +64,9 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+  .v-card .v-card__title a {
+    word-break: break-word;
+  }
+</style>

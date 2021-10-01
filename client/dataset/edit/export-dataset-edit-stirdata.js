@@ -55,7 +55,7 @@ function exportDatasetToJsonLd(
   }
 
   if (isNotEmpty(dataset.documentation)) {
-    output[FOAF.page] = dataset.documentation;
+    output[FOAF.page] = updateIri(dataset.documentation);
   }
 
   output[DCATAP.theme] = [
@@ -69,12 +69,17 @@ function exportDatasetToJsonLd(
   }
 
   if (isNotEmpty(dataset.temporal_resolution)) {
-    output[DCATAP.temporalResolution] = updateIri(dataset.temporal_resolution);
+    output[DCATAP.temporalResolution] = {
+      "@value": dataset.temporal_resolution,
+      "@type": "http://www.w3.org/2001/XMLSchema#duration",
+    };
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
-    output[DCATAP.spatialResolutionInMeters] =
-      dataset.spatial_resolution_meters;
+    output[DCATAP.spatialResolutionInMeters] = {
+      "@value": dataset.spatial_resolution_meters,
+      "@type": "http://www.w3.org/2001/XMLSchema#integer",
+    };
   }
 
   const contactPoint = exportContactPoint(dataset);
@@ -170,10 +175,16 @@ function exportTemporal(dataset) {
     "@type": DCTERMS.PeriodOfTime,
   };
   if (containsValidDate(dataset.temporal_start)) {
-    output[DCATAP.startDate] = dataset.temporal_start;
+    output[DCATAP.startDate] = {
+      "@value": dataset.temporal_start,
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+    };
   }
   if (containsValidDate(dataset.temporal_end)) {
-    output[DCATAP.endDate] = dataset.temporal_end;
+    output[DCATAP.endDate] = {
+      "@value": dataset.temporal_end,
+      "@type": "http://www.w3.org/2001/XMLSchema#dateTime",
+    };
   }
   return {
     [DCTERMS.temporal]: output,
@@ -222,7 +233,7 @@ function exportDistribution(
   }
 
   if (isNotEmpty(distribution.license_dcatap)) {
-    result[DCTERMS.license] = distribution.license_dcatap;
+    result[DCTERMS.license] = updateIri(distribution.license_dcatap);
   }
 
   if (distribution.type === DIST_TYPE_FILE) {
@@ -237,8 +248,12 @@ function exportDistribution(
 }
 
 function addDistributionFile(distribution, result) {
-  result[DCATAP.downloadURL] = distribution.url;
-  result[DCATAP.accessURL] = distribution.url;
+  result[DCATAP.downloadURL] = {
+    "@id": distribution.url,
+  };
+  result[DCATAP.accessURL] = {
+    "@id": distribution.url,
+  };
 
   if (isNotEmpty(distribution.media_type)) {
     result[DCATAP.mediaType] = updateIri(distribution.media_type);

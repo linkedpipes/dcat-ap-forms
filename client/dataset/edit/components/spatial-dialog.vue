@@ -107,7 +107,6 @@ import RuianAutocomplete from "./ruian-autocomplete";
 import SolrAutocomplete from "./solr-autocomplete";
 import {ruianTypeCodelist} from "../codelists/ruian-type";
 import {
-  SPATIAL_RUIAN,
   SPATIAL_CONTINENT,
   SPATIAL_COUNTRY,
   SPATIAL_PLACE,
@@ -147,13 +146,13 @@ export default {
     },
     "confirmDisabled": function () {
       switch (this.activeTab) {
+      case 0:
+        return this.country.length === 0;
       case 1:
         return this.continent.length === 0;
       case 2:
-        return this.country.length === 0;
-      case 3:
         return this.place.length === 0;
-      case 4:
+      case 3:
         return this.customUrl.length === 0 || this.errCustomUrl.length > 0;
       default:
         return false;
@@ -179,8 +178,8 @@ export default {
       switch (this.activeTab) {
       case 0:
         this.$emit(actionEvent, {
-          "url": this.ruian,
-          "type": SPATIAL_RUIAN,
+          "url": this.country,
+          "type": SPATIAL_COUNTRY,
         });
         this.close();
         break;
@@ -193,19 +192,12 @@ export default {
         break;
       case 2:
         this.$emit(actionEvent, {
-          "url": this.country,
-          "type": SPATIAL_COUNTRY,
-        });
-        this.close();
-        break;
-      case 3:
-        this.$emit(actionEvent, {
           "url": this.place,
           "type": SPATIAL_PLACE,
         });
         this.close();
         break;
-      case 4:
+      case 3:
         this.$emit(actionEvent, {
           "url": this.customUrl,
           "type": SPATIAL_URL,

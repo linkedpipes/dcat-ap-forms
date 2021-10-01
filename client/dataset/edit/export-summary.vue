@@ -499,8 +499,7 @@ export default {
         submitDatasetEdit(
           this.dataset, this.distributions, this.exportOptions.postUrl);
       } else {
-        downloadDatasetEdit(
-          this.dataset, this.distributions, this.exportOptions);
+        downloadDatasetEdit(this.dataset, this.distributions);
       }
     },
     "openDocumentation": function () {

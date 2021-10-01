@@ -341,20 +341,15 @@ function getUserData() {
   return undefined;
 }
 
-export function downloadDatasetEdit(dataset, distributions, exportOptions) {
-  const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);
+export function downloadDatasetEdit(dataset, distributions) {
+  const fileName = getDatasetEditDownloadFileName(dataset);
   const content = exportDatasetForStirData(dataset, distributions);
   downloadAsJsonLd(fileName, content);
 }
 
-export function getDatasetEditDownloadFileName(dataset, exportType) {
-  const exportNkod = isExportForNkod(dataset, exportType);
-  if (exportNkod) {
-    return "nkod-registrace.jsonld.txt";
-  } else {
-    const title = dataset.title_cs;
-    return sanitizeTitleAsFileName(title) + ".jsonld";
-  }
+export function getDatasetEditDownloadFileName(dataset) {
+  const title = dataset.title_cs;
+  return sanitizeTitleAsFileName(title) + ".jsonld";
 }
 
 function sanitizeTitleAsFileName(title) {
@@ -370,6 +365,8 @@ function sanitizeTitleAsFileName(title) {
     .replace(/[. ]+$/, replacement);
   if (result.length > 255) {
     result = result.substring(0, 255);
+  } else if (result.length === 0) {
+    result = "dataset";
   }
   return result;
 }

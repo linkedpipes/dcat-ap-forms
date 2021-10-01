@@ -261,6 +261,42 @@
         xs12
         md6
       >
+        <v-combobox
+          id="dataset_ofn"
+          v-model="dataset.ofn"
+          :label="$t('dataset_ofn') + $t('optional')"
+          :error-messages="err_dataset_ofn"
+          :hint="$t('hint_dataset_ofn')"
+          item-value="value"
+          prepend-icon="short_text"
+          append-outer-icon="help_outline"
+          append-icon=""
+          chips
+          multiple
+          @click:append-outer="$h('dataset_ofn')"
+        >
+          <template
+            slot="selection"
+            slot-scope="data"
+          >
+            <v-chip
+              close
+              @click:close="removeOfn(data.index)"
+            >
+              <strong>{{ data.item }}</strong>
+            </v-chip>
+          </template>
+        </v-combobox>
+      </v-flex>
+    </v-layout>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
         <v-autocomplete
           id="dataset_accrual_periodicity"
           v-model="dataset.accrual_periodicity"

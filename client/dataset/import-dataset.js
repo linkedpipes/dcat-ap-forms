@@ -66,6 +66,7 @@ export function importFromJsonLd(jsonLdContent) {
         datasetEntity, DCATAP.spatialResolutionInMeters) || "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
+      "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
       "language": language,
       //
       ...loadTemporal(flatJsonLd, datasetEntity),

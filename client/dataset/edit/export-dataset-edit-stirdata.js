@@ -64,6 +64,10 @@ function exportDatasetToJsonLd(
     ...updateIris(dataset.dataset_custom_themes),
   ];
 
+  if (dataset.ofn.length > 0) {
+    output[DCTERMS.conformsTo] = dataset.ofn;
+  }
+
   if (isNotEmpty(dataset.temporal_resolution)) {
     output[DCATAP.temporalResolution] = updateIri(dataset.temporal_resolution);
   }

@@ -1,28 +1,33 @@
 <template>
   <v-app>
+    <v-container style="text-align: center">
+      <h1>Registrační formuláře katalogů otevřených dat</h1>
+      <hr>
+    </v-container>
     <v-container>
-      <v-layout justify-left>
-        <ul>
-          <li>
-            <a href="./registrace-datové-sady">
-              Registrace datové sady
-            </a>
-            &nbsp;/&nbsp;
-            <a href="./dataset-registration">
-              Dataset registration
-            </a>
-          </li>
-          <li>
-            <a href="./registrace-lokálního-katalogu">
-              Registrace lokálního katalogu
-            </a>
-            &nbsp;/&nbsp;
-            <a href="./local-catalog-registration">
-              Local catalog registration
-            </a>
-          </li>
-        </ul>
-      </v-layout>
+      <v-row
+        v-for="(row, index) in rows"
+        :key="index"
+        justify="center"
+      >
+        <v-col
+          v-for="card in row"
+          :key="card.link"
+          cols="12"
+          md="6"
+          lg="3"
+        >
+          <v-card outlined>
+            <v-card-title style="text-align: center">
+              <v-layout justify-center>
+                <a :href="card.link">
+                  {{ card.title }}
+                </a>
+              </v-layout>
+            </v-card-title>
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
   </v-app>
 </template>
@@ -30,5 +35,38 @@
 <script>
 export default {
   "name": "Home",
+  "data": () => ({
+    "rows": [
+      [
+        {
+          "title": "Registrace datové sady",
+          "link": "./registrace-datové-sady",
+        }, {
+          "title": "Registrace lokálního katalogu",
+          "link": "./registrace-lokálního-katalogu",
+        }, {
+          "title": "Registrace datové sady LKOD",
+          "link": "./registrace-datové-sady?lkod",
+        },
+      ], [
+        {
+          "title": "Dataset registration",
+          "link": "./dataset-registration",
+        }, {
+          "title": "Local catalog registration",
+          "link": "./local-catalog-registration",
+        }, {
+          "title": "Dataset registration LODC",
+          "link": "./dataset-registration?lkod",
+        },
+      ],
+    ],
+  }),
 };
 </script>
+
+<style scoped>
+  .v-card .v-card__title a {
+    word-break: break-word;
+  }
+</style>

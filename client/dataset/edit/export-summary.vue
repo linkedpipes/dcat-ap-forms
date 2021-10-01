@@ -6,14 +6,19 @@
     <v-layout row>
       <v-flex>
         <v-alert
-          v-if="!isValid"
+          v-if="!areDataValid || !areOptionsValid"
           outlined
           type="error"
         >
-          {{ $t("summary_error") }}
+          <div v-if="!areDataValid">
+            {{ $t("summary_error") }}
+          </div>
+          <div v-if="!areOptionsValid">
+            {{ $t("export_options_error") }}
+          </div>
         </v-alert>
         <v-alert
-          v-else-if="exportOptions.postData"
+          v-else-if="exportOptions.shouldPost"
           outlined
           type="success"
         >
@@ -54,6 +59,16 @@
           file_download
         </v-icon>
         <span>{{ downloadLabel }}</span>
+      </v-btn>
+      <v-btn
+        v-if="!exportOptions.shouldPost"
+        :color="optionsColor"
+        icon
+        @click="openOptions"
+      >
+        <v-icon>
+          settings
+        </v-icon>
       </v-btn>
     </v-layout>
     <p class="subheading multiline">
@@ -363,7 +378,7 @@
       <v-spacer />
       <v-tooltip
         bottom
-        :disabled="exportOptions.postData"
+        :disabled="exportOptions.shouldPost"
       >
         <template #activator="{ on }">
           <v-btn
@@ -379,7 +394,14 @@
             <span>{{ downloadLabel }}</span>
           </v-btn>
         </template>
-        <span v-if="!isValid">{{ $t("summary_error") }}</span>
+        <span v-if="!areDataValid || !areOptionsValid">
+          <div v-show="!areDataValid">
+            {{ $t("summary_error") }}
+          </div>
+          <div v-show="!areOptionsValid">
+            {{ $t("export_options_error") }}
+          </div>
+        </span>
         <span v-else-if="exportOptions.type === EXPORT_LKOD">
           {{ $t("summary_lkod_download") }}
         </span>
@@ -387,7 +409,24 @@
           <code>{{ nkodDatabox }}</code>.
         </span>
       </v-tooltip>
+      <v-btn
+        v-if="!exportOptions.shouldPost"
+        :color="optionsColor"
+        icon
+        @click="openOptions"
+      >
+        <v-icon>
+          settings
+        </v-icon>
+      </v-btn>
     </v-layout>
+    <export-type-dialog
+      :visible="optionsDialogOpen"
+      :dataset-iri="dataset.iri"
+      :export-options="exportOptions"
+      @close="closeOptions"
+      @save="updateExport"
+    />
   </v-container>
 </template>
 
@@ -400,7 +439,6 @@ import {RUIAN, EUROVOC} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 import {
-  isPostOnSubmit,
   submitDatasetEdit,
   downloadDatasetEdit,
 } from "./dataset-edit-service";
@@ -413,12 +451,14 @@ export default {
   "props": {
     "dataset": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
-    "isValid": {"type": Boolean, "required": true},
+    "areDataValid": {"type": Boolean, "required": true},
+    "areOptionsValid": {"type": Boolean, "required": true},
     "codelist": {"type": Object, "required": true},
     "exportOptions": {"type": Object, "required": true},
   },
   "data": () => ({
     "EXPORT_LKOD": EXPORT_LKOD,
+    "optionsDialogOpen": false,
   }),
   "computed": {
     "nkodDatabox": function () {
@@ -428,20 +468,25 @@ export default {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
     },
     "downloadColor": function () {
-      if (this.isValid) {
+      if (this.areDataValid && this.areOptionsValid) {
         return "success";
       } else {
         return "error";
       }
     },
-    "downloadLabel": function () {
-      if (!this.isValid) {
-        return this.$t("download_invalid");
+    "optionsColor" : function () {
+      if (this.areOptionsValid) {
+        return "";
+      } else {
+        return "error";
       }
+    },
+    "downloadLabel": function () {
       return this.$t(exportButtonLabel(
         this.dataset.iri,
         this.exportOptions.type,
-        this.exportOptions.postData));
+        this.exportOptions.shouldPost,
+        this.areDataValid && this.areOptionsValid));
     },
   },
   "methods": {
@@ -450,8 +495,9 @@ export default {
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onSubmit": function () {
-      if (isPostOnSubmit(this.$route)) {
-        submitDatasetEdit(this.dataset, this.distributions, this.$route);
+      if (this.exportOptions.shouldPost) {
+        submitDatasetEdit(
+          this.dataset, this.distributions, this.exportOptions.postUrl);
       } else {
         downloadDatasetEdit(
           this.dataset, this.distributions, this.exportOptions);
@@ -475,8 +521,15 @@ export default {
     "openUrl": function (url) {
       openUrl(url);
     },
+    "openOptions": function() {
+      this.optionsDialogOpen = true;
+    },
     "updateExport": function (event) {
       this.$emit("update-export", event);
+      this.optionsDialogOpen = false;
+    },
+    "closeOptions": function() {
+      this.optionsDialogOpen = false;
     },
   },
 };
@@ -485,9 +538,16 @@ function openUrl(uri) {
   window.open(uri);
 }
 
-function exportButtonLabel(iri, exportType, postData) {
+function exportButtonLabel(iri, exportType, postData, isDataValid) {
   if (postData) {
-    return "button_export_dataset_post";
+    if (isDataValid) {
+      return "button_export_dataset_post";
+    } else {
+      return "button_export_dataset_post_invalid";
+    }
+  }
+  if (!isDataValid) {
+    return "download_invalid";
   }
   switch (exportType) {
   default:

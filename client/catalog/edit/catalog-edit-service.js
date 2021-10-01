@@ -8,9 +8,11 @@ export function onCatalogEditMounted(component) {
 export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
     component.step = 1;
+    return;
   }
-  if (parseInt(location.query.krok) !== component.step) {
-    component.step = location.query.krok;
+  const value = parseInt(location.query.krok);
+  if (value !== component.step) {
+    component.step = value;
   }
 }
 
@@ -21,11 +23,12 @@ export function onStepperInput(component, value) {
     component.data.catalog.$validators.force = true;
   }
   if (parseInt(component.$route.query.krok) === value) {
-    // Prevent to same location we are now.
+    // Prevent navigation to the same location.
     return;
   }
   component.$router.push({
     "query": {
+      ...component.$route.query,
       "krok": value,
     },
   });

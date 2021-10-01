@@ -6,7 +6,7 @@ export function exportCatalogToJsonLd(catalog) {
   const output = {
     "@context": CONTEXT,
     "@type": ["Katalog", catalog.type],
-    "endpoint": catalog.endpoint,
+    "přístupový_bod": catalog.endpoint,
     "název": asLangMap(catalog.title_cs, catalog.title_en),
     ...exportContactPoint(catalog),
   };

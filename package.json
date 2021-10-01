@@ -22,7 +22,7 @@
     "@babel/preset-env": "^7.12.11",
     "@mdi/font": "^5.8.55",
     "@vue/test-utils": "^1.1.2",
-    "axios": "^0.21.0",
+    "axios": "^0.21.1",
     "babel-core": "^6.26.3",
     "babel-jest": "^26.6.3",
     "babel-loader": "^8.2.2",

@@ -65,7 +65,7 @@ function exportDatasetToJsonLd(
   ];
 
   if (dataset.ofn.length > 0) {
-    output[DCTERMS.conformsTo] = dataset.ofn;
+    output[DCTERMS.conformsTo] = updateIris(dataset.ofn);
   }
 
   if (isNotEmpty(dataset.temporal_resolution)) {

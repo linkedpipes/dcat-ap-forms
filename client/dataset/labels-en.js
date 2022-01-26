@@ -201,7 +201,7 @@ export default {
   "license_personal_yes_short": "Contains",
   "license_personal_unknown_full": "May contain personal data (not specified)",
   "license_personal_unknown_short": "Not specified",
-  "cant_import_dataset": "Unable to load requested dataset.",
+  "cant_import_dataset": "Unable to load requested record. Does the webserver provide CORS? Does the record comply with the Formal Open Standard?",
   "edit_page_title_nkod": "Edit of an NODC registered dataset",
   "edit_page_title_lcod": "Edit of an LODC registered dataset",
   "edit_page_title_new": "Register a new dataset",

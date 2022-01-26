@@ -202,7 +202,7 @@ export default {
   "license_personal_yes_short": "Obsahuje",
   "license_personal_unknown_full": "Může obsahovat osobní údaje (nespecifikováno)",
   "license_personal_unknown_short": "Nespecifikováno",
-  "cant_import_dataset": "Nepodařilo se importovat datovou sadu.",
+  "cant_import_dataset": "Nepodařilo se importovat záznam. Splňuje otevřenou formální normu? Poskytuje webový server CORS?",
   "edit_page_title_nkod": "Editace datové sady v NKOD",
   "edit_page_title_lkod": "Editace datové sady v LKOD",
   "edit_page_title_new":  "Vytvoření datové sady",

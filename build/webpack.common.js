@@ -32,6 +32,11 @@ module.exports = {
   "resolve": {
     "modules": ["node_modules"],
     "extensions": [".js", ".vue"],
+    // https://github.com/vuetifyjs/vuetify/discussions/4068#discussioncomment-24984
+    // Solves: [Vuetify] Multiple instances of Vue detected in web console.
+    "alias": {
+      "vue$": "vue/dist/vue.runtime.esm.js",
+    },
   },
   "module": {
     "rules": [

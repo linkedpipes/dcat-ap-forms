@@ -4,12 +4,9 @@ const common = Object.assign({}, require("./webpack.common"));
 
 module.exports = merge({
   "mode": "development",
-  "devtool": "eval",
+  "devtool": "eval-cheap-source-map",
   "entry": {
     "webpack-hot-middleware": "webpack-hot-middleware/client",
-  },
-  "output": {
-    "filename": "[name].js",
   },
   "devServer": {
     "hot": true,
@@ -20,20 +17,8 @@ module.exports = merge({
         "test": /\.css$/,
         "use": [
           "vue-style-loader",
-          // https://github.com/vuejs/vue-style-loader/issues/46
-          {
-            "loader": "css-loader",
-            "options": {
-              "esModule": false,
-            },
-          },
+          "css-loader",
         ],
-      },
-      {
-        "enforce": "pre",
-        "test": /\.(js|vue)$/,
-        "loader": "eslint-loader",
-        "exclude": /node_modules/,
       },
     ],
   },

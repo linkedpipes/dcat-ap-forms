@@ -2,7 +2,6 @@
   <v-bottom-sheet
     v-if="isOpen"
     v-model="isOpen"
-    lazy
   >
     <v-card>
       <v-card-title>

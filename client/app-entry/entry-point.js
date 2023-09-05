@@ -1,21 +1,26 @@
 import Vue from "vue";
 import Vuetify from "vuetify";
+import "vuetify/dist/vuetify.min.css";
+
 import VueRouter from "vue-router";
 
 import {prepareLabels, LabelsPlugin} from "../app-service/labels";
 import {HelpPlugin} from "../app-service/help-service";
 import {initializeTheme, registerListener} from "../app-service/theme";
 
-import "vuetify/dist/vuetify.min.css";
+// Some updates for dark mode.
 import "../dark-mode-fix.css";
+
+// Fonts used by Vuetify instead of CDN.
 import "@mdi/font/css/materialdesignicons.css";
 
 export function initializeApplication(application, language, labels) {
-  Vue.config.productionTip = false;
+  // Vue.config.productionTip = false;
   Vue.use(VueRouter);
-  Vue.use(Vuetify);
   Vue.use(LabelsPlugin);
   Vue.use(HelpPlugin);
+
+  Vue.use(Vuetify);
 
   const options = {
     "lang": {
@@ -28,6 +33,7 @@ export function initializeApplication(application, language, labels) {
   };
 
   const vuetify = new Vuetify(options);
+
   /* eslint-disable no-new */
   new Vue({
     "vuetify": vuetify,
@@ -35,5 +41,6 @@ export function initializeApplication(application, language, labels) {
     "router": new VueRouter({"mode": "history"}),
     "render": (h) => h(application),
   });
+
   registerListener(vuetify);
 }

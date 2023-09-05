@@ -453,7 +453,6 @@
 
 <script>
 import DatePicker from "./components/date-picker";
-import SolrAutocomplete from "./components/solr-autocomplete";
 import SolrChipsAutocomplete from "./components/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
 import FrequenciesCodeList from "./codelists/frequencies";
@@ -468,7 +467,6 @@ export default {
   "name": "AppDatasetRecordEdit",
   "components": {
     "app-date-picker": DatePicker,
-    "app-solr-autocomplete": SolrAutocomplete,
     "app-solr-chips-autocomplete": SolrChipsAutocomplete,
     "spatial-dialog": SpatialDialog,
     "upload-file-dialog": UploadFileDialog,

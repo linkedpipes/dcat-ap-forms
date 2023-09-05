@@ -47,11 +47,11 @@ export default {
   "name": "AppRuianAutocomplete",
   "props": {
     "value": {"type": String, "required": true},
-    "label": {"type": String, "required": false},
+    "label": {"type": String, "required": false, "default": undefined},
     "errorMessages": {"required": false},
     "disabled": {"type": Boolean, "default": false},
     "type": {"type": String},
-    "prependIcon": {"type": String},
+    "prependIcon": {"type": String, "default": undefined},
   },
   "data": () => ({
     "loading": false,

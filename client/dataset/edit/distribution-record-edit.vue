@@ -456,7 +456,6 @@
 </template>
 
 <script>
-import DatePicker from "./components/date-picker";
 import SolrAutocomplete from "./components/solr-autocomplete";
 import {
   createDistributionValidators,
@@ -474,7 +473,6 @@ import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
 export default {
   "name": "AppDistributionRecordEdit",
   "components": {
-    "app-date-picker": DatePicker,
     "app-solr-autocomplete": SolrAutocomplete,
   },
   "props": {

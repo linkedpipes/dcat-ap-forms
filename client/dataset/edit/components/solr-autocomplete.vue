@@ -36,13 +36,13 @@ import {
 export default {
   "name": "AppSolrAutocomplete",
   "props": {
-    "id": {"type": String},
+    "id": {"type": String, "required": true},
     "value": {"type": String, "required": true},
-    "label": {"type": String },
+    "label": {"type": String, "required": false, "default": undefined},
     "codeList": {"type": String, "required": true},
     "errorMessages": {"type": Array},
-    "noDataPrompt": {"type": String},
-    "prependIcon": {"type": String},
+    "noDataPrompt": {"type": String, "required": true},
+    "prependIcon": {"type": String, "default": undefined},
   },
   "data": () => ({
     "loading": false,

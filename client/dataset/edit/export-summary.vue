@@ -420,9 +420,8 @@
         </v-icon>
       </v-btn>
     </v-layout>
-    <export-type-dialog
+    <app-export-type-dialog
       :visible="optionsDialogOpen"
-      :dataset-iri="dataset.iri"
       :export-options="exportOptions"
       @close="closeOptions"
       @save="updateExport"
@@ -448,7 +447,7 @@ export default {
   "name": "AppExportSummary",
   "components": {
     "app-distribution-card": DistributionCard,
-    "export-type-dialog": ExportTypeDialog,
+    "app-export-type-dialog": ExportTypeDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},

@@ -2,8 +2,8 @@
 [DCAT-AP v2.0.1](https://joinup.ec.europa.eu/collection/semantic-interoperability-community-semic/solution/dcat-application-profile-data-portals-europe/release/201-0) compatible web form producing JSON-LD, primarily intended for the [Czech National Open Data](https://data.gov.cz) catalog.
 
 ## Requirements
- * [Node.js] (tested on 15) and npm
- * [Apache Solr] (tested on 8.7)
+ * [Node.js] (tested on 20.5.1) and npm
+ * [Apache Solr] (tested on 8.11.1)
 
 ## Installation
 

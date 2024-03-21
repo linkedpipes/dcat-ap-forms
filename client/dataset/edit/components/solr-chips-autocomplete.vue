@@ -51,11 +51,11 @@ export default {
   "props": {
     "id": {"type": String, "required": true},
     "value": {"type": Array, "required": true},
-    "label": {"type": String, "required": false},
+    "label": {"type": String, "required": false, "default": undefined},
     "codeList": {"type": String, "required": true},
     "errorMessages": {"required": false},
     "noDataPrompt": {"type": String, "required": true},
-    "prependIcon": {"type": String},
+    "prependIcon": {"type": String, "default": undefined},
   },
   "data": () => ({
     "loading": false,
@@ -105,6 +105,8 @@ export default {
         addStoreItems(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
+      }).catch(() => {
+        this.loading = false;
       });
     },
     "onInput": function (value) {
@@ -132,6 +134,8 @@ export default {
               ...this.items, ...response.json.response.docs,
             ];
           }
+        }).catch(() => {
+          this.loading = false;
         });
       });
     },

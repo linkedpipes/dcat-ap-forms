@@ -142,7 +142,6 @@ import CatalogTypeCodeList from "./codelists/catalog-type";
 
 export default {
   "name": "AppDatasetRecordEdit",
-  "components": {},
   "props": {
     "catalog": {"type": Object, "required": true},
   },

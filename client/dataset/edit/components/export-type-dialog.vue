@@ -83,7 +83,6 @@ export default {
   "name": "ExportTypeDialog",
   "props": {
     "visible": {"type": Boolean, "required": true},
-    "datasetIri": {"type": String},
     "exportOptions": {"type": Object, "required": true},
   },
   "data": () => ({

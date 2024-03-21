@@ -38,6 +38,8 @@ export default {
         return this.$t("nav_dataset");
       case 3:
         return this.$t("nav_distributions");
+      default:
+        return undefined;
       }
     },
     "nextLabel": function() {
@@ -46,6 +48,8 @@ export default {
         return this.$t("nav_distributions");
       case 2:
         return this.$t("nav_download");
+      default:
+        return undefined;
       }
     },
   },

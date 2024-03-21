@@ -1,7 +1,7 @@
 const path = require("path");
 const {merge} = require("webpack-merge");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
@@ -24,7 +24,7 @@ module.exports = merge({
       },
     },
     "minimizer": [
-      new OptimizeCSSAssetsPlugin({}),
+      new CssMinimizerPlugin(),
       new TerserPlugin({
         "terserOptions": {
           "compress": {
@@ -46,9 +46,7 @@ module.exports = merge({
     ],
   },
   "plugins": [
-    new CleanWebpackPlugin({
-      "cleanAfterEveryBuildPatterns": ["dist"],
-    }),
+    new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       "filename": "[name].[chunkhash].css",
     }),

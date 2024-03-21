@@ -38,11 +38,11 @@
 export default {
   "name": "AppDatePicker",
   "props": {
-    "id": {"required": true},
-    "value": {"required": true},
+    "id": {"type": String, "required": true},
+    "value": {"type": String, "required": true},
     "label": {"type": String, "required": true},
-    "hint": {"type": String, "required": false},
-    "persistentHint": {"type": Boolean, "required": false},
+    "hint": {"type": String, "required": false, "default": undefined},
+    "persistentHint": {"type": Boolean, "required": false, "default": false},
   },
   "data": () => ({
     "menu": false,

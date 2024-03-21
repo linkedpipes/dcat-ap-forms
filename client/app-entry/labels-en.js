@@ -3,4 +3,7 @@
 export default {
   "noDataText": "No data found.",
   "optional": " (optional)",
+  "input.appendAction": "append",
+  "input.clear": "clear",
+  "close": "close",
 };

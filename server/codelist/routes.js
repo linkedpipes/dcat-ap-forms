@@ -35,7 +35,7 @@ function createCodelistGet(baseUrl, sorted) {
 
 function getSolrQuery(req) {
   if (req.query.search) {
-    return req.query.lang + ":" + encodeURIComponent(req.query.search);
+    return req.query.lang + ":(" + encodeURIComponent(req.query.search) + ")";
   } else if (req.query.iri) {
     return "code:" + encodeURIComponent(req.query.iri);
   }

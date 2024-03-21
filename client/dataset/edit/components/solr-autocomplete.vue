@@ -82,6 +82,8 @@ export default {
         addStoreItems(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
+      }).catch(() => {
+        this.loading = false;
       });
     },
     "onInput": function (value) {

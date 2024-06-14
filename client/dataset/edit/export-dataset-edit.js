@@ -100,6 +100,10 @@ function exportDatasetToJsonLd(
 
   output["téma"] = updateIris(dataset.dataset_themes);
 
+  output["právní_předpis"] = dataset.legislation;
+
+  output["kategorie_hvd"] = dataset.hvd_categories;
+
   output["koncept_euroVoc"] = [
     ...updateIris(dataset.themes),
     ...updateIris(dataset.dataset_custom_themes),
@@ -249,6 +253,8 @@ function exportDistribution(
   }
 
   result["podmínky_užití"] = exportLicense(distribution);
+
+  result["právní_předpis"] = distribution.legislation;
 
   if (distribution.type === DIST_TYPE_FILE) {
     addDistributionFile(distribution, result);

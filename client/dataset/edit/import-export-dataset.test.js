@@ -22,6 +22,7 @@ const BYLANY = {
       "https://data.gov.cz/slovník/podmínky-užití/specifikace": {"@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/distribuce/95ef5f639b386aa769c3e38125c116e2/podmínky-užití"},
       "http://www.w3.org/ns/dcat#downloadURL": {"@id": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20M\u0160%20III%20etapa.pdf"},
       "http://www.w3.org/ns/dcat#accessURL": {"@id": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20M\u0160%20III%20etapa.pdf"},
+      "http://www.w3.org/ns/dcat#applicableLegislation": {"@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj"},
     },
     {
       "@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/kontaktní-bod",
@@ -93,6 +94,12 @@ const BYLANY = {
       "http://purl.org/dc/terms/accrualPeriodicity": {"@id": "http://publications.europa.eu/resource/authority/frequency/UPDATE_CONT"},
       "http://purl.org/dc/terms/temporal": {"@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/\u010Dasové-pokrytí"},
       "http://www.w3.org/ns/dcat#keyword": "obec Bylany",
+      "http://www.w3.org/ns/dcat#applicableLegislation": [{
+        "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+      }, {
+        "@id": "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
+      }],
+      "http://www.w3.org/ns/dcat#hvdCategory": {"@id": "http://data.europa.eu/bna/c_b151a0ba"},
     },
   ],
 };
@@ -133,6 +140,8 @@ const BYLANY_EXPECTED_NKOD = {
   },
   "koncept_euroVoc": [],
   "téma": [],
+  "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj", "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6"],
+  "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
   "distribuce": [
     {
       "typ": "Distribuce",
@@ -145,6 +154,7 @@ const BYLANY_EXPECTED_NKOD = {
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
       },
+      "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
     },
   ],
 };
@@ -193,6 +203,8 @@ const BYLANY_EXPECTED_LKOD = {
   },
   "koncept_euroVoc": [],
   "téma": [],
+  "právní_předpis": [],
+  "kategorie_hvd": [],
   "distribuce": [
     {
       "iri": "https://data.gov.cz/datové-sady/distribuce/0",
@@ -206,6 +218,7 @@ const BYLANY_EXPECTED_LKOD = {
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
       },
+      "právní_předpis": [],
     },
   ],
 };
@@ -258,6 +271,8 @@ const BYLANY_EXPECTED_POST = {
   },
   "koncept_euroVoc": [],
   "téma": [],
+  "právní_předpis": [],
+  "kategorie_hvd": [],
   "distribuce": [
     {
       "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/distribuce/95ef5f639b386aa769c3e38125c116e2",
@@ -271,6 +286,7 @@ const BYLANY_EXPECTED_POST = {
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
       },
+      "právní_předpis": [],
     },
   ],
 };
@@ -440,6 +456,8 @@ const ISS94_EXPECTED = {
     },
     "e-mail": "mailto:pavel@email.cz",
   },
+  "právní_předpis": [],
+  "kategorie_hvd": [],
   "distribuce": [
     {
       "iri": "https://local-publisher/distribuce/0",
@@ -471,6 +489,7 @@ const ISS94_EXPECTED = {
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
       },
+      "právní_předpis": [],
     },
   ],
 };
@@ -591,6 +610,8 @@ const ISS95_EXPECTED = {
   ],
   "koncept_euroVoc": [],
   "kontaktní_bod": {},
+  "právní_předpis": [],
+  "kategorie_hvd": [],
   "distribuce": [
     {
       "typ": "Distribuce",
@@ -607,6 +628,7 @@ const ISS95_EXPECTED = {
         "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
         "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
       },
+      "právní_předpis": [],
     },
   ],
 };
@@ -684,6 +706,8 @@ const ISS97a_EXPECTED = {
     "http://eurovoc.europa.eu/4304",
   ],
   "kontaktní_bod": {},
+  "právní_předpis": [],
+  "kategorie_hvd": [],
   "distribuce": [],
 };
 

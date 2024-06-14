@@ -17,6 +17,7 @@ const configuration = require("../config");
   router.get("/places", createCodelistGet(
     configuration.solr_places));
   router.get("/ruian", createRuianCodelistGet());
+  router.get("/hvd-categories", createHvdCategoriesCodelistGet());
   module.exports = router;
 })();
 
@@ -51,6 +52,18 @@ function handleError(res, error) {
 function createRuianCodelistGet() {
   return (req, res) => {
     let url = configuration.solr_ruian + "/query?q=" + getSolrQuery(req);
+    if (req.query.type !== undefined) {
+      url += "&fq=type:\"" + encodeURIComponent(req.query.type) + "\"";
+    }
+    request.get({"url": url}).on("error", (error) => {
+      handleError(res, error);
+    }).pipe(res);
+  };
+}
+
+function createHvdCategoriesCodelistGet() {
+  return (req, res) => {
+    let url = configuration.solr_hvd_categories + "/query?q=" + getSolrQuery(req);
     if (req.query.type !== undefined) {
       url += "&fq=type:\"" + encodeURIComponent(req.query.type) + "\"";
     }

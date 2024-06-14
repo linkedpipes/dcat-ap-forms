@@ -8,6 +8,7 @@ const defaultConfiguration = {
   "solr_continents": "http://localhost:8983/solr/continents",
   "solr_countries": "http://localhost:8983/solr/countries",
   "solr_places": "http://localhost:8983/solr/places",
+  "solr_hvd_categories": "http://localhost:8983/solr/hvd-categories",
   "dereference_proxy": "",
   "head": [
     {

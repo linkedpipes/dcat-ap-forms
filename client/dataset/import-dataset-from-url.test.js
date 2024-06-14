@@ -156,6 +156,8 @@ const A86_EXPECTED_DATASET = {
     "http://publications.europa.eu/resource/authority/data-theme/TRAN",
   ],
   "themes": ["http://eurovoc.europa.eu/4512"],
+  "legislation": [""],
+  "hvd_categories": [],
 };
 
 const A86_EXPECTED_DISTRIBUTION = {
@@ -173,6 +175,7 @@ const A86_EXPECTED_DISTRIBUTION = {
   "url": "ftp://ftp.cisjr.cz/seznamy/dopravci.csv",
   "format": "http://publications.europa.eu/resource/authority/file-type/CSV",
   "media_type": "http://www.iana.org/assignments/media-types/text/csv",
+  "legislation": [],
 };
 
 test("Load A86 by single request.", () => {

@@ -248,4 +248,10 @@ export default {
   "hint_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba.",
   "help_service_conforms_to": "Odkaz na specifikaci, kterou se řídí datová služba. Například pro SPARQL endpointy je to https://www.w3.org/TR/sparql11-protocol/",
   "export_options_error": "Chybí IRI datové sady nebo poskytovatele.",
+  "dataset_legislation": "MISSING dataset_legislation",
+  "hvd_categories": "MISSING hvd_categories",
+  "hvd_categories_autocomplete_no_data": "MISSING hvd_categories_autocomplete_no_data",
+  "distribution_legislation": "MISSING distribution_legislation",
+  "missing_distribution_with_hvd": "MISSING missing_distribution_with_hvd",
+  "missing_hvd_categories": "MISSING missing_hvd_categories",
 };

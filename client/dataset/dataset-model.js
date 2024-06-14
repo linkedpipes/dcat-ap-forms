@@ -7,6 +7,7 @@ import {
   temporal,
   url,
 } from "../app-service/validators";
+import {includesHvd} from "./edit/codelists/legislation";
 
 export const SPATIAL_RUIAN = "RUIAN";
 
@@ -50,6 +51,7 @@ export function createDataset() {
     "spatial_resolution_meters": "",
     "documentation": "",
     "dataset_themes": [],
+    "legislation": [],
     "dataset_custom_themes": [],
     "themes": [],
     "ofn": [],
@@ -61,6 +63,7 @@ export function createDataset() {
     "ruian": "",
     "ruian_type": "",
     "publisher": undefined,
+    "hvd_categories": [],
   });
 }
 
@@ -123,7 +126,45 @@ export function createDatasetValidators() {
       (t) => t.dataset, "url_to_load_from",
       url, "load_invalid_url"
     ),
+    "err_legislation": function () {
+      if (shouldSkipDatasetValidation(this.dataset)) {
+        return [];
+      }
+      const {dataset, distributions} = this;
+      if (!includesHvd(dataset.legislation)) {
+        console.log("err_legislation: not HVD");
+        return [];
+      }
+      for (const distribution of distributions) {
+        if (includesHvd(distribution.legislation)) {
+          return [];
+        }
+      }
+      return ["missing_distribution_with_hvd"];
+    },
+    "err_hvd_categories": function () {
+      if (shouldSkipDatasetValidation(this.dataset)) {
+        return [];
+      }
+      const {dataset} = this;
+      if (includesHvd(dataset.legislation) && dataset.hvd_categories.length === 0) {
+        return ["missing_hvd_categories"];
+      }
+      return [];
+    },
   };
+}
+
+/**
+ * Return true when validation is forced, this happens when we navigate
+ * from dataset to distribution detail. In other words we do not validate
+ * until user fills in the form.
+ *
+ * Similar functionality is implemented by shouldValidate function
+ * in validators.js file.
+ */
+function shouldSkipDatasetValidation(dataset) {
+  return dataset.$validators.force;
 }
 
 const validators = createDatasetValidators();

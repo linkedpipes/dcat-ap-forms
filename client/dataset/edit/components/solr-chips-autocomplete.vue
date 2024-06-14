@@ -10,6 +10,7 @@
     :append-icon="null"
     :item-text="$vuetify.lang.current"
     :prepend-icon="prependIcon"
+    :disabled="disabled"
     item-value="code"
     append-outer-icon="help_outline"
     flat
@@ -56,6 +57,7 @@ export default {
     "errorMessages": {"required": false},
     "noDataPrompt": {"type": String, "required": true},
     "prependIcon": {"type": String, "default": undefined},
+    "disabled": {"type": Boolean, "default": false},
   },
   "data": () => ({
     "loading": false,

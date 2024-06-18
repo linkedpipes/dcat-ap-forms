@@ -140,7 +140,7 @@ export function createDatasetValidators() {
           return [];
         }
       }
-      return ["missing_distribution_with_hvd"];
+      return [this.$t("missing_distribution_with_hvd")];
     },
     "err_hvd_categories": function () {
       if (shouldSkipDatasetValidation(this.dataset)) {
@@ -148,7 +148,7 @@ export function createDatasetValidators() {
       }
       const {dataset} = this;
       if (includesHvd(dataset.legislation) && dataset.hvd_categories.length === 0) {
-        return ["missing_hvd_categories"];
+        return [this.$t("missing_hvd_categories")];
       }
       return [];
     },
@@ -164,7 +164,7 @@ export function createDatasetValidators() {
  * in validators.js file.
  */
 function shouldSkipDatasetValidation(dataset) {
-  return dataset.$validators.force;
+  return !dataset.$validators.force;
 }
 
 const validators = createDatasetValidators();

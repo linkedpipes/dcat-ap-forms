@@ -249,4 +249,13 @@ export default {
   "hint_service_conforms_to": "Link specification with which the data service is compliant.",
   "help_service_conforms_to": "Link specification with which the data service is compliant. For example, for SPARQL endpoints, this is https://www.w3.org/TR/sparql11-protocol/",
   "export_options_error": "Missing dataset or publisher IRI.",
+  "dataset_legislation": "Applicable legislation",
+  "hvd_categories": "High Value Dataset (HVD) categories",
+  "hvd_categories_autocomplete_no_data": "No HVD categories found for auto-complete",
+  "distribution_legislation": "Legislation applicable to distribution",
+  "missing_distribution_with_hvd": "At least one distribution needs to be marked with High Value Dataset (HVD) legislation",
+  "missing_hvd_categories": "It is necessary to select High Value Dataset (HVD) categories",
+  "help_distribution_legislation": "Select legislation, that mandates the creation or management of the distribution. For High Value Datasets, all distributions within the scope of the implementing regulation need to be marked as High Value Dataset. Each HVD must have at least one such distribution.",
+  "help_dataset_legislation": "Select legislation, that mandates the creation or management of the dataset.",
+  "help_hvd_categories": "Select at least one HVD category. Choose the most specific one for the dataset according to the HVD implementing regulation (https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138)."
 };

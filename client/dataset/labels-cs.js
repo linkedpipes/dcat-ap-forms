@@ -250,11 +250,11 @@ export default {
   "export_options_error": "Chybí IRI datové sady nebo poskytovatele.",
   "dataset_legislation": "Příslušné právní předpisy",
   "hvd_categories": "Kategorie HVD",
-  "hvd_categories_autocomplete_no_data": "Chybí kategorie HVD k našeptání",
+  "hvd_categories_autocomplete_no_data": "Začněte psát název kategorie HVD",
   "distribution_legislation": "Příslušné právní předpisy distribuce",
   "missing_distribution_with_hvd": "Alespoň jedna distribuce musí míst příslušný právní předpis High Value Datasets",
   "missing_hvd_categories": "Je třeba vybrat kategorie High Value Datasets",
-  "help_distribution_legislation": "Vyberte právní předpisy, dle kterých tato distribuce datové sady vznikla. Pro High Value Datasets musí být všechny distribuce spadající pod prováděcí nařízení označeny jako High Value Dataset. Každá HVD datová sada musí mít alespoň jednu takovou distribuci.",
-  "help_dataset_legislation": "Vyberte právní předpisy, dle kterých tato datová sada vznikla.",
-  "help_hvd_categories": "Vyberte alespoň jednu z kategorií HVD. Měli byste vybrat tu nejspecifičtější, do které datová sada spadá dle prováděcího nařízení (https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:32023R0138)."
+  "help_distribution_legislation": "<h3>Příslušné právní předpisy distribuce</h3><p>Vyberte právní předpisy, dle kterých tato distribuce datové sady vznikla. Pro High Value Datasets musí být všechny distribuce spadající pod prováděcí nařízení označeny jako High Value Dataset. Každá HVD datová sada musí mít alespoň jednu takovou distribuci.</p>",
+  "help_dataset_legislation": "<h3>Příslušné právní předpisy</h3><p>Vyberte právní předpisy, dle kterých tato datová sada vznikla.</p>",
+  "help_hvd_categories": "<h3>Kategorie HVD</h3><p>Vyberte alespoň jednu z kategorií HVD. Měli byste vybrat tu nejspecifičtější, do které datová sada spadá dle <a href=\"https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">prováděcího nařízení</a>.</p>"
 };

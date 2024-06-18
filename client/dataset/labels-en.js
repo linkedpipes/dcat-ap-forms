@@ -251,11 +251,11 @@ export default {
   "export_options_error": "Missing dataset or publisher IRI.",
   "dataset_legislation": "Applicable legislation",
   "hvd_categories": "High Value Dataset (HVD) categories",
-  "hvd_categories_autocomplete_no_data": "No HVD categories found for auto-complete",
+  "hvd_categories_autocomplete_no_data": "Start typing the name of the HVD category",
   "distribution_legislation": "Legislation applicable to distribution",
   "missing_distribution_with_hvd": "At least one distribution needs to be marked with High Value Dataset (HVD) legislation",
   "missing_hvd_categories": "It is necessary to select High Value Dataset (HVD) categories",
-  "help_distribution_legislation": "Select legislation, that mandates the creation or management of the distribution. For High Value Datasets, all distributions within the scope of the implementing regulation need to be marked as High Value Dataset. Each HVD must have at least one such distribution.",
-  "help_dataset_legislation": "Select legislation, that mandates the creation or management of the dataset.",
-  "help_hvd_categories": "Select at least one HVD category. Choose the most specific one for the dataset according to the HVD implementing regulation (https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138)."
+  "help_distribution_legislation": "<h3>Legislation applicable to distribution</h3><p>Select legislation, that mandates the creation or management of the distribution. For High Value Datasets, all distributions within the scope of the implementing regulation need to be marked as High Value Dataset. Each HVD must have at least one such distribution.</p>",
+  "help_dataset_legislation": "<h3>Applicable legislation</h3><p>Select legislation, that mandates the creation or management of the dataset.</p>",
+  "help_hvd_categories": "<h3>High Value Dataset (HVD) categories</h3><p>Select at least one HVD category. Choose the most specific one for the dataset according to the <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">HVD implementing regulation</a>.</p>"
 };

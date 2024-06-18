@@ -253,7 +253,7 @@ export default {
   "hvd_categories": "High Value Dataset (HVD) categories",
   "hvd_categories_autocomplete_no_data": "Start typing the name of the HVD category",
   "distribution_legislation": "Legislation applicable to distribution",
-  "missing_distribution_with_hvd": "At least one distribution needs to be marked with High Value Dataset (HVD) legislation",
+  "missing_distribution_with_hvd": "At least one distribution needs to be marked with High Value Dataset (HVD) legislation, if the dataset itself is to be HVD.",
   "missing_hvd_categories": "It is necessary to select High Value Dataset (HVD) categories",
   "help_distribution_legislation": "<h3>Legislation applicable to distribution</h3><p>Select legislation, that mandates the creation or management of the distribution. For High Value Datasets, all distributions within the scope of the implementing regulation need to be marked as High Value Dataset. Each HVD must have at least one such distribution.</p>",
   "help_dataset_legislation": "<h3>Applicable legislation</h3><p>Select legislation, that mandates the creation or management of the dataset.</p>",

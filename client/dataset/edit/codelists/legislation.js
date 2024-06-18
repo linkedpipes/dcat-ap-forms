@@ -4,8 +4,8 @@ const HVD = "http://data.europa.eu/eli/reg_impl/2023/138/oj";
 const legislationCodelist = [
   {
     "value": HVD,
-    "cs": "HVD",
-    "en": "High-Value dataset",
+    "cs": "High Value Dataset (HVD)",
+    "en": "High Value Dataset (HVD)",
   }, {
     "value": "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
     "cs": "Dynamická data",

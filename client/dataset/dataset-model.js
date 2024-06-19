@@ -72,6 +72,7 @@ export function decorateDataset(dataset) {
     ...dataset,
     "$validators": {
       "force": false,
+      "forceHvd": false,
     },
   };
 }
@@ -127,12 +128,15 @@ export function createDatasetValidators() {
       url, "load_invalid_url"
     ),
     "err_legislation": function () {
-      if (shouldSkipDatasetValidation(this.dataset)) {
+      // We validate HDF only when datasets and distributions are valid.
+      // Here we use `validation` object directly, we are not using it
+      // anywhere else as it was not originally passed around.
+      const shouldSkipValidation = shouldSkipDatasetValidation(this.dataset) || !this.dataset.$validators.forceHvd;
+      if (shouldSkipValidation) {
         return [];
       }
       const {dataset, distributions} = this;
       if (!includesHvd(dataset.legislation)) {
-        console.log("err_legislation: not HVD");
         return [];
       }
       for (const distribution of distributions) {
@@ -169,11 +173,12 @@ function shouldSkipDatasetValidation(dataset) {
 
 const validators = createDatasetValidators();
 
-export function isDatasetValid(dataset) {
+export function isDatasetValid(dataset, distributions) {
   // We need to mock the UI entity, to provide all
   // functions the validators need.
   const wrappedDistribution = {
     "dataset": dataset,
+    "distributions": distributions,
     "$t": (message) => message,
   };
   for (let validator of Object.values(validators)) {

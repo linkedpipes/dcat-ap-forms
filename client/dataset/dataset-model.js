@@ -131,7 +131,9 @@ export function createDatasetValidators() {
       // We validate HDF only when datasets and distributions are valid.
       // Here we use `validation` object directly, we are not using it
       // anywhere else as it was not originally passed around.
-      const shouldSkipValidation = shouldSkipDatasetValidation(this.dataset) || !this.dataset.$validators.forceHvd;
+      const shouldSkipValidation =
+        shouldSkipDatasetValidation(this.dataset)
+        || !this.dataset.$validators.forceHvd;
       if (shouldSkipValidation) {
         return [];
       }
@@ -151,7 +153,8 @@ export function createDatasetValidators() {
         return [];
       }
       const {dataset} = this;
-      if (includesHvd(dataset.legislation) && dataset.hvd_categories.length === 0) {
+      if (includesHvd(dataset.legislation)
+        && dataset.hvd_categories.length === 0) {
         return [this.$t("missing_hvd_categories")];
       }
       return [];

@@ -16,6 +16,7 @@ import {
   FOAF,
   PU,
   VCARD,
+  EUROPE,
 } from "../app-service/vocabulary";
 import {
   createDataset,
@@ -31,7 +32,7 @@ import {
   isCountry,
   isPlace,
 } from "./edit/codelists/server-codelists";
-import {getByIri} from "../app-service/jsonld";
+import { getByIri } from "../app-service/jsonld";
 import {
   createDistribution,
   DIST_TYPE_FILE,
@@ -66,6 +67,8 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
       "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
+      "legislation": getValues(datasetEntity, EUROPE.applicableLegislation),
+      "hvd_categories": getValues(datasetEntity, EUROPE.hvdCategory),
       //
       ...loadTemporal(flatJsonLd, datasetEntity),
       ...loadContactPoint(flatJsonLd, datasetEntity),
@@ -216,16 +219,23 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
       getValue(distributionEntity, DCATAP.packageFormat) || "",
     "compress_format":
       getValue(distributionEntity, DCATAP.compressFormat) || "",
-    "service_iri": service ? getId(service) : "",
+    "legislation": getValues(distributionEntity, EUROPE.applicableLegislation),
     "service_endpoint_url": endpointUrl || "",
+    "type": endpointUrl ? DIST_TYPE_SERVICE : DIST_TYPE_FILE,
+    // Service section
+    "service_iri": service ? getId(service) : "",
     "service_description": service
       ? (getValue(service, DCATAP.endpointDescription) || "")
       : "",
     "service_conforms_to": service
       ? (getValue(service, DCTERMS.conformsTo) || "")
       : "",
-    "type": endpointUrl ? DIST_TYPE_SERVICE : DIST_TYPE_FILE,
+
   };
+
+  // We do not load legislation and hvd_categories from
+  // data service as we load them from the dataset directly.
+
   const iri = getId(distributionEntity);
   if (iri !== undefined && iri !== null && iri !== "" && !iri.startsWith("_")) {
     distribution["iri"] = iri;

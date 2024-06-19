@@ -2,7 +2,7 @@ import {
   PU,
   CREATIVE_COMMONS,
 } from "../../app-service/vocabulary";
-import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../distribution-model";
+import { DIST_TYPE_FILE, DIST_TYPE_SERVICE } from "../distribution-model";
 import {
   SPATIAL_CONTINENT,
   SPATIAL_COUNTRY,
@@ -10,6 +10,7 @@ import {
   SPATIAL_RUIAN,
   SPATIAL_URL,
 } from "../dataset-model";
+import { includesHvd } from "./codelists/legislation";
 
 const CONTEXT =
   "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/"
@@ -20,7 +21,7 @@ const CONTEXT =
  */
 export function exportDatasetForNkod(dataset, distributions) {
   // Create a copy so we do not modify the inputs.
-  dataset = {...dataset};
+  dataset = { ...dataset };
   // There is no IRI and no publisher.
   dataset.iri = "_:ds";
   dataset.publisher = undefined;
@@ -39,7 +40,7 @@ function selectBlankNodeAsIri() {
 export function exportDatasetForLkod(
   dataset, distributions, exportOptions) {
   // Create a copy so we do not modify the inputs.
-  dataset = {...dataset};
+  dataset = { ...dataset };
   // Apply export options.
   if (isNotEmpty(exportOptions.lkodIri)) {
     dataset.iri = exportOptions.lkodIri;
@@ -63,7 +64,7 @@ export function exportDatasetForLkod(
  */
 export function exportDatasetForPost(dataset, distributions) {
   // Create a copy so we do not modify the inputs.
-  dataset = {...dataset};
+  dataset = { ...dataset };
 
   // Use existing or nothing (blank nodes).
   let selectDistributionIri = (dist) => dist.iri || undefined;
@@ -100,9 +101,13 @@ function exportDatasetToJsonLd(
 
   output["téma"] = updateIris(dataset.dataset_themes);
 
-  output["právní_předpis"] = dataset.legislation;
+  if (dataset.legislation.length > 0) {
+    output["právní_předpis"] = dataset.legislation;
+  }
 
-  output["kategorie_hvd"] = dataset.hvd_categories;
+  if (dataset.hvd_categories.length > 0) {
+    output["kategorie_hvd"] = dataset.hvd_categories;
+  }
 
   output["koncept_euroVoc"] = [
     ...updateIris(dataset.themes),
@@ -114,7 +119,7 @@ function exportDatasetToJsonLd(
   }
 
   if (isNotEmpty(dataset.temporal_resolution)) {
-    output["časové_rozlišení"] = updateIris(dataset.temporal_resolution);
+    output["časové_rozlišení"] = dataset.temporal_resolution;
   }
 
   if (isNotEmpty(dataset.spatial_resolution_meters)) {
@@ -133,7 +138,7 @@ function exportDatasetToJsonLd(
 
   output["distribuce"] = distributions.map(
     (distribution, index) => exportDistribution(
-      dataset.iri, distribution, index,
+      dataset, distribution, index,
       selectDistributionIri, selectServiceIri));
 
   return output;
@@ -235,7 +240,7 @@ function exportContactPoint(catalog) {
 }
 
 function exportDistribution(
-  datasetIri, distribution, distributionIndex,
+  dataset, distribution, distributionIndex,
   selectDistributionIri, selectServiceIri) {
 
   const result = {
@@ -254,12 +259,14 @@ function exportDistribution(
 
   result["podmínky_užití"] = exportLicense(distribution);
 
-  result["právní_předpis"] = distribution.legislation;
+  if (distribution.legislation.length > 0) {
+    result["právní_předpis"] = distribution.legislation;
+  }
 
   if (distribution.type === DIST_TYPE_FILE) {
     addDistributionFile(distribution, result);
   } else if (distribution.type === DIST_TYPE_SERVICE) {
-    addDistributionService(datasetIri, distribution, selectServiceIri, result);
+    addDistributionService(dataset, distribution, selectServiceIri, result);
   } else {
     console.error("Distribution must be either FILE or SERVICE.", distribution);
   }
@@ -293,32 +300,43 @@ function addDistributionFile(distribution, result) {
 }
 
 function addDistributionService(
-  datasetIri, distribution, selectServiceIri, result
+  dataset, distribution, selectServiceIri, result
 ) {
   result["přístupové_url"] = distribution.service_endpoint_url;
-  result["přístupová_služba"] = {
+
+  const dataService = {
     "typ": "Datová služba",
     "přístupový_bod": distribution.service_endpoint_url,
     "popis_přístupového_bodu": distribution.service_description,
   };
+  result["přístupová_služba"] = dataService;
 
   const iri = selectServiceIri(distribution, result["iri"]);
   if (isNotEmpty(iri)) {
-    result["přístupová_služba"]["iri"] = iri;
+    dataService["iri"] = iri;
   }
 
   const title = result["název"];
   if (title["cs"] || title["en"]) {
-    result["přístupová_služba"]["název"] = title;
+    dataService["název"] = title;
   }
 
-  if (isNotEmpty(datasetIri)) {
-    result["přístupová_služba"]["poskytuje_datovou_sadu"] = datasetIri;
+  if (isNotEmpty(dataset.iri)) {
+    dataService["poskytuje_datovou_sadu"] = dataset.iri;
   }
 
   if (isNotEmpty(distribution.service_conforms_to)) {
-    result["přístupová_služba"]["specifikace"] =
-      distribution.service_conforms_to;
+    dataService["specifikace"] = distribution.service_conforms_to;
+  }
+
+  // Copy legislation from distribution.
+  if (distribution.legislation.length > 0) {
+    dataService["právní_předpis"] = distribution.legislation;
+  }
+
+  // Copy HVD categories from a dataset.
+  if (dataset.hvd_categories.length > 0 && includesHvd(distribution.legislation)) {
+    dataService["kategorie_hvd"] = dataset.hvd_categories;
   }
 }
 
@@ -359,11 +377,11 @@ function exportLicense(distribution) {
     break;
   case "NO":
     result["databáze_jako_autorské_dílo"] =
-      PU.neniAutorskopravneChranenouDatabazi;
+        PU.neniAutorskopravneChranenouDatabazi;
     break;
   case "CUSTOM":
     result["databáze_jako_autorské_dílo"] =
-      distribution.license_db_custom;
+        distribution.license_db_custom;
     break;
   default:
     console.error("Unexpected license_db_type value:",
@@ -377,15 +395,15 @@ function exportLicense(distribution) {
     break;
   case "CC0":
     result["databáze_chráněná_zvláštními_právy"] =
-      CREATIVE_COMMONS.PUBLIC_ZERO_10;
+        CREATIVE_COMMONS.PUBLIC_ZERO_10;
     break;
   case "NO":
     result["databáze_chráněná_zvláštními_právy"] =
-      PU.neniChranenazvlastnimPravemPorizovateleDatabaze;
+        PU.neniChranenazvlastnimPravemPorizovateleDatabaze;
     break;
   case "CUSTOM":
     result["databáze_chráněná_zvláštními_právy"] =
-      distribution.license_specialdb_custom;
+        distribution.license_specialdb_custom;
     break;
   default:
     console.error("Unexpected license_specialdb_type value:",

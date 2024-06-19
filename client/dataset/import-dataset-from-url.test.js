@@ -156,7 +156,7 @@ const A86_EXPECTED_DATASET = {
     "http://publications.europa.eu/resource/authority/data-theme/TRAN",
   ],
   "themes": ["http://eurovoc.europa.eu/4512"],
-  "legislation": [""],
+  "legislation": [],
   "hvd_categories": [],
 };
 

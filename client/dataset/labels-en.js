@@ -257,5 +257,5 @@ export default {
   "missing_hvd_categories": "It is necessary to select High Value Dataset (HVD) categories",
   "help_distribution_legislation": "<h3>Legislation applicable to distribution</h3><p>Select legislation, that mandates the creation or management of the distribution. For High Value Datasets, all distributions within the scope of the implementing regulation need to be marked as High Value Dataset. Each HVD must have at least one such distribution.</p>",
   "help_dataset_legislation": "<h3>Applicable legislation</h3><p>Select legislation, that mandates the creation or management of the dataset.</p>",
-  "help_hvd_categories": "<h3>High Value Dataset (HVD) categories</h3><p>Select at least one HVD category. Choose the most specific one for the dataset according to the <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">HVD implementing regulation</a>.</p>"
+  "help_hvd_categories": "<h3>High Value Dataset (HVD) categories</h3><p>Select at least one HVD category. Choose the most specific one for the dataset according to the <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">HVD implementing regulation</a>.</p>",
 };

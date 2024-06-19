@@ -82,7 +82,7 @@ const T000 = {
 };
 
 const T000_EXPECTED = {
-  "@context": "https://ofn.gov.cz/rozhraní-katalogů-otevřených-dat/2021-01-11/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
   "@type": [
     "Katalog",
     "https://data.gov.cz/slovník/nkod/DcatApLkod",

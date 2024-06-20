@@ -316,10 +316,8 @@ function addDistributionService(
     dataService["iri"] = iri;
   }
 
-  const title = result["název"];
-  if (title["cs"] || title["en"]) {
-    dataService["název"] = title;
-  }
+  // Just copy from the distribution.
+  dataService["název"] = result["název"];
 
   if (isNotEmpty(dataset.iri)) {
     dataService["poskytuje_datovou_sadu"] = dataset.iri;

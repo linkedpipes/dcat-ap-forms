@@ -62,8 +62,10 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
         datasetEntity, DCTERMS.accrualPeriodicity) || "",
       "temporal_resolution": getValue(
         datasetEntity, DCATAP.temporalResolution) || "",
-      "spatial_resolution_meters": getValue(
-        datasetEntity, DCATAP.spatialResolutionInMeters) || "",
+      // https://github.com/linkedpipes/dcat-ap-forms/issues/195
+      // We just change the value to the string.
+      "spatial_resolution_meters": (getValue(
+        datasetEntity, DCATAP.spatialResolutionInMeters) || "") + "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
       "spatial": loadSpatial(flatJsonLd, datasetEntity),
       "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],

@@ -167,7 +167,7 @@
         <v-autocomplete
           id="dataset_themes"
           v-model="dataset.dataset_themes"
-          :items="datasetThemeCodelist"
+          :items="datasetThemes"
           :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
           :item-text="$vuetify.lang.current"
@@ -439,6 +439,40 @@
       :code-list="EUROVOC"
     />
     <v-layout
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
+        <v-autocomplete
+          id="legislation"
+          v-model="dataset.legislation"
+          :items="legislations"
+          :label="$t('dataset_legislation')"
+          :item-text="$vuetify.lang.current"
+          prepend-icon="gavel"
+          item-value="value"
+          append-outer-icon="help_outline"
+          :error-messages="err_legislation"
+          chips
+          multiple
+          @click:append-outer="$h('dataset_legislation')"
+        />
+        <app-solr-chips-autocomplete
+          id="hvd_categories"
+          v-model="dataset.hvd_categories"
+          :label="$t('hvd_categories')"
+          :no-data-prompt="$t('hvd_categories_autocomplete_no_data')"
+          prepend-icon="gavel"
+          :code-list="HVD_CATEGORIES"
+          :disabled="isHvdDisabled"
+          :error-messages="err_hvd_categories"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout
       v-if="allowImport"
       row
       wrap
@@ -455,13 +489,14 @@
 import DatePicker from "./components/date-picker";
 import SolrChipsAutocomplete from "./components/solr-chips-autocomplete";
 import DatasetThemes from "./codelists/dataset-theme";
-import FrequenciesCodeList from "./codelists/frequencies";
+import FrequencyCodes from "./codelists/frequencies";
 import SpatialDialog from "./components/spatial-dialog";
 import UploadFileDialog from "./components/upload-file-dialog";
 import UploadUrlDialog from "./components/upload-url-dialog";
 import {createDatasetValidators} from "../dataset-model";
 import {getSpatialLabel} from "./codelists/spatial";
-import {EUROVOC} from "./codelists/server-codelists";
+import {EUROVOC, HVD_CATEGORIES} from "./codelists/server-codelists";
+import legislationTypes, { includesHvd } from "./codelists/legislation";
 
 export default {
   "name": "AppDatasetRecordEdit",
@@ -479,15 +514,20 @@ export default {
     "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
-    "frequencies": FrequenciesCodeList,
-    "datasetThemeCodelist": DatasetThemes,
+    "frequencies": FrequencyCodes,
+    "datasetThemes": DatasetThemes,
+    "legislations": legislationTypes,
     "dialog": false,
     "dialog_keyword": false,
     "dialog_url": false,
     "EUROVOC": EUROVOC,
+    "HVD_CATEGORIES": HVD_CATEGORIES,
   }),
   "computed": {
     ...createDatasetValidators(),
+    "isHvdDisabled": function() {
+      return !includesHvd(this.dataset.legislation);
+    },
   },
   "methods": {
     "addSpatial": function(value) {

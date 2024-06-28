@@ -155,7 +155,7 @@
               <v-list-item-title>
                 <span
                   v-for="(keyword, index) in keywords"
-                  :key="keyword"
+                  :key="keyword + ':' + index"
                 >
                   {{ index > 0 ? ", " : "" }}
                   {{ keyword }}

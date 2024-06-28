@@ -208,19 +208,42 @@
     <h2 class="headline mt-2">
       {{ $t('headline_access') }}
     </h2>
-    <div>
-      <v-select
-        v-model="distribution.type"
-        :items="distribution_types"
-        item-value="value"
-        :item-text="$vuetify.lang.current"
-        prepend-icon="sync_alt"
-        append-outer-icon="help_outline"
-        :hint="$t('hint_file_or_service')"
-        :label="$t('distribution_type')"
-        @click:append-outer="$h('file_or_service')"
-      />
-    </div>
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex xs12>
+        <v-select
+          v-model="distribution.type"
+          :items="distribution_types"
+          item-value="value"
+          :item-text="$vuetify.lang.current"
+          prepend-icon="sync_alt"
+          append-outer-icon="help_outline"
+          :hint="$t('hint_file_or_service')"
+          :label="$t('distribution_type')"
+          @click:append-outer="$h('file_or_service')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <v-autocomplete
+          id="distribution_legislation"
+          v-model="distribution.legislation"
+          :items="legislationTypes"
+          :label="$t('distribution_legislation')"
+          :item-text="$vuetify.lang.current"
+          prepend-icon="gavel"
+          item-value="value"
+          append-outer-icon="help_outline"
+          chips
+          multiple
+          @click:append-outer="$h('distribution_legislation')"
+        />
+      </v-flex>
+    </v-layout>
     <div v-if="isFileDistribution">
       <v-text-field
         id="distribution_url"
@@ -469,6 +492,7 @@ import {
   personalDataTypes,
 } from "./codelists/license";
 import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
+import legislationTypes from "./codelists/legislation";
 
 export default {
   "name": "AppDistributionRecordEdit",
@@ -484,6 +508,7 @@ export default {
     "db_author_license_types": dbAuthorLicenseTypes,
     "db_special_license_types": dbSpecialLicenseTypes,
     "personal_data_links": personalDataTypes,
+    "legislationTypes": legislationTypes,
     "distribution_types": [
       {
         "value": DIST_TYPE_FILE,

@@ -39,6 +39,12 @@ export const DCATAP = {
     "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
 };
 
+
+export const EUROPE = {
+  "applicableLegislation": "http://data.europa.eu/r5r/applicableLegislation",
+  "hvdCategory": "http://data.europa.eu/r5r/hvdCategory",
+};
+
 export const FOAF = {
   "page": "http://xmlns.com/foaf/0.1/page",
   "homepage": "http://xmlns.com/foaf/0.1/homepage",

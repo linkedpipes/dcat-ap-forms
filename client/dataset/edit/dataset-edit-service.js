@@ -195,14 +195,21 @@ function initializeStep(component) {
 }
 
 export function onStepperInput(component, value) {
+  // This reacts on stepper change. We use this to turn on
+  // forced validation for input fields.
   component.ui.step = value;
+  // Firs is dataset validation, we employ it when user gets to
+  // the second tab.
   if (!component.validation.dataset && value > 1) {
     component.validation.dataset = true;
     component.data.dataset.$validators.force = true;
   }
+  // Second is distribution tab.
   if (value > 2) {
     if (!component.validation.distributions) {
       component.validation.distributions = true;
+      // We can not also validate HVD.
+      component.data.dataset.$validators.forceHvd = true;
     }
     // We need to update distributions validations every time, as
     // user may moved back from the summary view to the distribution view

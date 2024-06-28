@@ -32,6 +32,7 @@ export function createDistribution() {
     "title_en": "",
     "package_format": "",
     "compress_format": "",
+    "legislation": [],
     //
     "service_iri": "",
     "service_endpoint_url": "",

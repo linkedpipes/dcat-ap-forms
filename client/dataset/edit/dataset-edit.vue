@@ -169,7 +169,7 @@ export default {
       return areExportOptionsValid(this.exportOptions);
     },
     "isDatasetValid": function () {
-      return !this.validation.dataset ||  isDatasetValid(this.data.dataset);
+      return !this.validation.dataset || isDatasetValid(this.data.dataset, this.data.distributions);
     },
     "areDistributionsValid": function () {
       return service.areDistributionsValid(this);

@@ -1237,7 +1237,7 @@ const HVD_20240619_EXPECTED = {
     "https://ofn.gov.cz/jízdní-řády/2020-05-01/",
   ],
   "časové_rozlišení": "86400",
-  "prostorové_rozlišení_v_metrech": 12,
+  "prostorové_rozlišení_v_metrech": "12",
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {

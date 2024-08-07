@@ -107,7 +107,7 @@ export default {
   "nav_download": "Shrnutí",
   "nav_dataset": "Datová sada",
   "nav_distributions": "Distribuce",
-  "summary_nkod_download": "Registrační záznam stáhněte a zašlete jako jedinou přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
+  "summary_nkod_download": "Registrační záznam stáhněte a zašlete jako přílohu datové zprávy s příponou \".txt\" a předmětem \"NKOD\" do datové schránky ",
   "summary_nkod_download_tail": "Přijaté záznamy jsou zpracovávány dávkově, typicky přes noc.",
   "summary_lkod_download": "Registrační záznam uložte do svého lokálního katalogu otevřených dat.",
   "download_new_nkod": "Stáhnout nový záznam pro NKOD",
@@ -256,5 +256,5 @@ export default {
   "missing_hvd_categories": "Je třeba vybrat kategorie High Value Datasets",
   "help_distribution_legislation": "<h3>Příslušné právní předpisy distribuce</h3><p>Vyberte právní předpisy, dle kterých tato distribuce datové sady vznikla. Pro High Value Datasets musí být všechny distribuce spadající pod prováděcí nařízení označeny jako High Value Dataset. Každá HVD datová sada musí mít alespoň jednu takovou distribuci. Indikovat lze <a href=\"https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">High-Value Dataset</a>, <a href=\"https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6\" target=\"_blank\">Dynamická data</a> či <a href=\"https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_5a/odst_1\" target=\"_blank\">Data z veřejných registrů</a>.</p>",
   "help_dataset_legislation": "<h3>Příslušné právní předpisy</h3><p>Vyberte právní předpisy, dle kterých tato datová sada vznikla. Indikovat lze <a href=\"https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">High-Value Dataset</a>, <a href=\"https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6\" target=\"_blank\">Dynamická data</a> či <a href=\"https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_5a/odst_1\" target=\"_blank\">Data z veřejných registrů</a>.</p>",
-  "help_hvd_categories": "<h3>Kategorie HVD</h3><p>Vyberte alespoň jednu z kategorií HVD. Měli byste vybrat tu nejspecifičtější, do které datová sada spadá dle <a href=\"https://eur-lex.europa.eu/legal-content/CS/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">prováděcího nařízení</a>.</p>",
+  "help_hvd_categories": "<h3>Kategorie HVD</h3><p>Vyberte alespoň jednu z kategorií HVD. Měli byste vybrat tu nejspecifičtější, do které datová sada spadá dle <a href=\"https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0138\" target=\"_blank\">prováděcího nařízení</a>.</p>",
 };

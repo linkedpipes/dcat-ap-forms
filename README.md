@@ -25,7 +25,7 @@ solr.cmd create -c dataset-themes
 ```
 
 Set core properties:
-```
+```bash
 curl http://localhost:8983/solr/iana-media-types/config -H 'Content-type:application/json' -d '{
     "set-user-property": {"update.autoCreateFields":"false"},
     "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
@@ -84,7 +84,7 @@ curl http://localhost:8983/solr/dataset-themes/config -H 'Content-type:applicati
 
 
 Create schema:
-```
+```bash
 curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type:application/json' --data-binary '{
     "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
@@ -93,7 +93,7 @@ curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}    
+    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}
 }'
 
 curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:application/json' --data-binary '{
@@ -104,7 +104,7 @@ curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:ap
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}    
+    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}
 }'
 
 curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:application/json' --data-binary '{
@@ -116,7 +116,7 @@ curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:applicatio
         ]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
+    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},
     "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
     "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
@@ -131,7 +131,7 @@ curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:applicat
         ]
     }},
     "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},    
+    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},
     "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
     "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
 }'
@@ -226,9 +226,9 @@ cp configuration.js my-configuration.js
 npm run build -- --env configFileLocation=./my-configuration.js
 npm run start -- --env configFileLocation=./my-configuration.js
 ```
-where the argument is relative path from the project root, or absolute path. 
+where the argument is relative path from the project root, or absolute path.
 It's necessary to provide absolute path or start the path with ```./```.
-Another way is to set environment property ```dcatApFormsConfig```. 
+Another way is to set environment property ```dcatApFormsConfig```.
 
 The following custom configuration file set the port to ```1111```:
 ```
@@ -237,8 +237,47 @@ module.exports = {
     "nkod_databox": "
 };
 ```
-For more information about the configuration properties please refer to 
+For more information about the configuration properties please refer to
 ```./configuration.js``` file and a variable ```defaultConfiguration```.
+
+## Integration
+DCAT-AP Forms can be integrated with external systems by
+- using POST request to prefill the forms.
+- using `returnUrl` URL query argument to POST content of the form as a submit action.
+
+## Prefill forms using POST
+This functionality is supported for dataset delete and dataset edit.
+For both endpoints we can POST JSON-LD dataset using `formData` field with `application/x-www-form-urlencoded` content type.
+
+An example of the post data may look like this:
+```json
+{
+  "@type":"http://www.w3.org/ns/dcat#Dataset",
+  "@id":"http://dataset-to-be-removed",
+  "http://purl.org/dc/terms/title": {"@value": "Dataset name", "@lang": "cs"},
+  "http://purl.org/dc/terms/description": {"@value": "Dataset description", "@lang": "cs"}
+}
+```
+In fact, we can fill in the dataset edit form manually.
+Download the content as a file and post it to the form, to prefill the form.
+
+Let us demonstrate using exampel and dataset delete.
+We can post the data to `./odstranění-datové-sady` or `./dataset-withdrawn` for Czech or English version respectively using following command:
+```bash
+curl -d data="{\"@type\":\"http://www.w3.org/ns/dcat#Dataset\", \"@id\":\"http://dataset-to-be-removed\",\"http://purl.org/dc/terms/title\":{\"@value\":\"Dataset name\",\"@lang\":\"cs\"},\"http://purl.org/dc/terms/description\":{\"@value\":\"Dataset description\",\"@lang\":\"cs\"}}" http://localhost:8057/odstranění-datové-sady
+```
+In the HTML response we can see `window.serverPostData` set to the posted content.
+The client will load this data in a same way as when importing from URL.
+
+While the simple example above is suficient for dataset delete, as only basic information is utilized, you may need to provide more information when using dataset edit available at `./registrace-datové-sady` or `./dataset-registration`.
+
+## Using returnUrl to POST data to URL of choice
+If you provide `returnUrl` query argument with an URL, the last step of the form will POST the data to given URL instead of download.
+The request is using `application/x-www-form-urlencoded` content type with the `formData` data field.
+
+We can even create a nice loop, using following URL `./registrace-datové-sady?returnUrl=./odstranění-datové-sady`.
+In this case user is navigated to an empty registration form.
+Once the form is filled, user can submit the form using POST to the dataset delete form.
 
 [Node.js]: <https://nodejs.org>
 [Apache Solr]: <http://lucene.apache.org/solr/>

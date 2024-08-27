@@ -13,6 +13,7 @@ async function loadDataset(component) {
   const serverFormData = getFormData();
   if (serverFormData !== undefined) {
     await loadDatasetFromServerData(component, serverFormData);
+    component.status = "ready";
     return;
   }
   const datasetUrl = component.$route.query.dataset;

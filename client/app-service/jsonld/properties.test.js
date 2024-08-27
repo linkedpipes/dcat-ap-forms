@@ -86,13 +86,13 @@ test("Load empty language string.", () => {
     "title": [
       {
         "@language": "en",
-        "@value": ""
+        "@value": "",
       },
       {
         "@language": "cs",
-        "@value": "Základní topografická mapa"
-      }
-    ]
+        "@value": "Základní topografická mapa",
+      },
+    ],
   };
   const actual = getMultiLangString(data, "title");
   const expected = {
@@ -100,4 +100,4 @@ test("Load empty language string.", () => {
     "en": [""],
   };
   expect(actual).toEqual(expected);
-})
+});

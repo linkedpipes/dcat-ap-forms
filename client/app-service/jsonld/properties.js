@@ -67,8 +67,8 @@ export function getLangString(entity, predicate) {
  * Return language tag and string value.
  */
 function getStringForValue(value) {
-  const language = value["@language"] || "";
-  const text = value["@value"] || value;
+  const language = value["@language"] ?? "";
+  const text = value["@value"] ?? value;
   return [language, text];
 }
 
@@ -96,13 +96,15 @@ export function getMultiLangString(entity, predicate) {
   if (value === undefined || value === null) {
     return {};
   }
+
+  // We may get only a single string value.
   if (!Array.isArray(value)) {
-    // A single string.
     const [lang, text] = getStringForValue(value);
     return {
       [lang]: [text],
     };
   }
+
   const result = {};
   for (let item of value) {
     const [lang, text] = getStringForValue(item);

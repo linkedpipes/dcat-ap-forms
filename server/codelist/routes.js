@@ -4,10 +4,14 @@ const configuration = require("../config");
 
 (function initialize() {
   const router = express.Router();
+  router.get("/dataset-theme", createCodelistGet(
+    configuration.solr_dataset_theme));
   router.get("/media-types", createCodelistGet(
     configuration.solr_media_types, true));
   router.get("/file-type", createCodelistGet(
     configuration.solr_file_type, true));
+  router.get("/frequency", createCodelistGet(
+    configuration.solr_frequency, true));
   router.get("/themes", createCodelistGet(
     configuration.solr_themes));
   router.get("/continents", createCodelistGet(

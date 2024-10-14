@@ -26,7 +26,7 @@
     >
       <v-chip
         close
-        @click:close="removeTheme(data.item)"
+        @click:close="removeItem(data.item)"
       >
         <strong>{{ data.item[$vuetify.lang.current] }}</strong>
       </v-chip>
@@ -47,8 +47,11 @@
 import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
 
+/**
+ * Lazy loaded autocomplete from SOLR.
+ */
 export default {
-  "name": "AppSolrChipsAutocomplete",
+  "name": "AppSolrAutocompleteLazy",
   "props": {
     "id": {"type": String, "required": true},
     "value": {"type": Array, "required": true},
@@ -115,7 +118,7 @@ export default {
       this.ignoreNextSearch = true;
       this.$emit("input", value);
     },
-    "removeTheme": function (item) {
+    "removeItem": function (item) {
       const index = this.value.indexOf(item.code);
       const newValue = [
         ... this.value.slice(0, index),

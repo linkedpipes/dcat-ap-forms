@@ -164,20 +164,15 @@
         xs12
         md6
       >
-        <v-autocomplete
-          id="dataset_themes"
+        <app-solr-autocomplete
+          id="dataset_theme"
           v-model="dataset.dataset_themes"
-          :items="datasetThemes"
-          :label="$t('dataset_theme')"
           :error-messages="err_dataset_theme"
-          :item-text="$vuetify.lang.current"
+          :label="$t('dataset_theme')"
           prepend-icon="category"
-          item-value="value"
-          append-outer-icon="help_outline"
+          :code-list="DATASET_THEME"
           required
-          chips
           multiple
-          @click:append-outer="$h('dataset_theme')"
         />
       </v-flex>
       <v-flex
@@ -256,17 +251,13 @@
         xs12
         md6
       >
-        <v-autocomplete
-          id="dataset_accrual_periodicity"
+        <app-solr-autocomplete
+          id="accrual_periodicity"
           v-model="dataset.accrual_periodicity"
-          :items="frequencies"
           :label="$t('accrual_periodicity')"
-          :item-text="$vuetify.lang.current"
           prepend-icon="snooze"
-          item-value="value"
-          append-outer-icon="help_outline"
+          :code-list="FREQUENCY"
           required
-          @click:append-outer="$h('accrual_periodicity')"
         />
       </v-flex>
       <v-flex
@@ -430,7 +421,7 @@
       clearable
       @click:append-outer="$h('documentation')"
     />
-    <app-solr-chips-autocomplete
+    <app-solr-autocomplete-lazy
       id="themes"
       v-model="dataset.themes"
       :label="$t('themes') + $t('optional')"
@@ -460,7 +451,7 @@
           multiple
           @click:append-outer="$h('dataset_legislation')"
         />
-        <app-solr-chips-autocomplete
+        <app-solr-autocomplete-lazy
           id="hvd_categories"
           v-model="dataset.hvd_categories"
           :label="$t('hvd_categories')"
@@ -487,22 +478,22 @@
 
 <script>
 import DatePicker from "./components/date-picker";
-import SolrChipsAutocomplete from "./components/solr-chips-autocomplete";
-import DatasetThemes from "./codelists/dataset-theme";
-import FrequencyCodes from "./codelists/frequencies";
+import SolrChipsAutocomplete from "./components/solr-autocomplete";
+import SolrChipsAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import SpatialDialog from "./components/spatial-dialog";
 import UploadFileDialog from "./components/upload-file-dialog";
 import UploadUrlDialog from "./components/upload-url-dialog";
 import {createDatasetValidators} from "../dataset-model";
 import {getSpatialLabel} from "./codelists/spatial";
-import {EUROVOC, HVD_CATEGORIES} from "./codelists/server-codelists";
+import {EUROVOC, HVD_CATEGORIES, DATASET_THEME, FREQUENCY} from "./codelists/server-codelists";
 import legislationTypes, { includesHvd } from "./codelists/legislation";
 
 export default {
   "name": "AppDatasetRecordEdit",
   "components": {
     "app-date-picker": DatePicker,
-    "app-solr-chips-autocomplete": SolrChipsAutocomplete,
+    "app-solr-autocomplete": SolrChipsAutocomplete,
+    "app-solr-autocomplete-lazy": SolrChipsAutocompleteLazy,
     "spatial-dialog": SpatialDialog,
     "upload-file-dialog": UploadFileDialog,
     "upload-url-dialog": UploadUrlDialog,
@@ -514,14 +505,14 @@ export default {
     "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
-    "frequencies": FrequencyCodes,
-    "datasetThemes": DatasetThemes,
     "legislations": legislationTypes,
     "dialog": false,
     "dialog_keyword": false,
     "dialog_url": false,
     "EUROVOC": EUROVOC,
     "HVD_CATEGORIES": HVD_CATEGORIES,
+    "DATASET_THEME": DATASET_THEME,
+    "FREQUENCY": FREQUENCY,
   }),
   "computed": {
     ...createDatasetValidators(),

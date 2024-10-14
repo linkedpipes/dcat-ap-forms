@@ -9,6 +9,8 @@
     :item-text="$vuetify.lang.current"
     :error-messages="errorMessages"
     :prepend-icon="prependIcon"
+    :required="required"
+    :multiple="multiple"
     item-value="code"
     append-outer-icon="help_outline"
     flat
@@ -16,33 +18,29 @@
     @input="onInput"
     @click:append-outer="$h(id)"
   >
-    <template slot="no-data">
-      <v-list-item>
-        <v-list-item-title>
-          {{ noDataPrompt }}
-        </v-list-item-title>
-      </v-list-item>
-    </template>
   </v-autocomplete>
 </template>
 
 <script>
 import {getLocalJson} from "../../../app-service/http";
-import {
-  addStoreItems,
-  fetchLabelFromCodeList,
-} from "../codelists/local-storage";
+import {addStoreItems} from "../codelists/local-storage";
 
+/**
+ * Eager loaded autocomplete component from Solr.
+ */
 export default {
   "name": "AppSolrAutocomplete",
   "props": {
     "id": {"type": String, "required": true},
-    "value": {"type": String, "required": true},
+    // Value can be String or Array based on the multiple argument.
+    "value": { "required": true},
     "label": {"type": String, "required": false, "default": undefined},
     "codeList": {"type": String, "required": true},
     "errorMessages": {"type": Array},
-    "noDataPrompt": {"type": String, "required": true},
     "prependIcon": {"type": String, "default": undefined},
+    "required": {"type": Boolean, "default": false},
+    "multiple": {"type": Boolean, "default": false},
+    "sortByLabel": {"type": Boolean, "default": false},
   },
   "data": () => ({
     "loading": false,
@@ -51,36 +49,24 @@ export default {
     "ignoreNextSearch": false,
     "lastFetchFor": undefined,
   }),
-  "watch": {
-    "search": function (value) {
-      if (this.ignoreNextSearch) {
-        this.ignoreNextSearch = false;
-        return;
-      }
-      if (value) {
-        this.querySelections(value);
-      }
-    },
-    "value": function (value) {
-      // this.ignoreNextSearch will be unset in watch.search
-      // that follow after this method.
-      if (!this.ignoreNextSearch) {
-        fetchTitle(this, value);
-      }
-    },
-  },
   "mounted": function () {
-    fetchTitle(this, this.value);
+    this.fetch();
   },
   "methods": {
-    "querySelections": function (query) {
+    "fetch": function () {
+      if (this.loading || this.items.length > 0) {
+        return;
+      }
       this.loading = true;
-      this.lastFetchFor = query;
-      const url = createQueryUrl(
-        this.codeList, query, this.$vuetify.lang.current);
+      const language = this.$vuetify.lang.current;
+      const url = createFetchUrl(this.codeList, language);
       getLocalJson(url).then((response) => {
         addStoreItems(this.codeList, response.json.response.docs);
-        this.items = response.json.response.docs;
+        const items = response.json.response.docs;
+        if (this.sortByLabel) {
+          items.sort((left, right) => left[language].localeCompare(right[language]));
+        }
+        this.items = items;
         this.loading = false;
       }).catch(() => {
         this.loading = false;
@@ -93,16 +79,9 @@ export default {
   },
 };
 
-function createQueryUrl(codeList, query, lang) {
+function createFetchUrl(codeList, lang) {
   return "/api/v1/codelist/" + codeList +
-            "?search=*" + encodeURIComponent(query) + "*" +
-            "&lang=" + lang;
-}
-
-function fetchTitle(component, value) {
-  fetchLabelFromCodeList(
-    component.codeList, value, component.$vuetify.lang.current)
-    .then((items) => component.items = items);
+    "?search=*:*&lang=" + lang;
 }
 
 </script>

@@ -433,9 +433,7 @@
 import DistributionCard from "./components/distribution-card";
 import ExportTypeDialog from "./components/export-type-dialog";
 import {getStoreLabel} from "./codelists/local-storage";
-import {getDatasetThemeLabel} from "./codelists/dataset-theme";
-import {getFrequencyLabel} from "./codelists/frequencies.js";
-import {RUIAN, EUROVOC} from "./codelists/server-codelists";
+import {RUIAN, EUROVOC, FREQUENCY, DATASET_THEME} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
 import {
@@ -510,8 +508,14 @@ export default {
     "openRuian": function () {
       openUrl(this.dataset.ruian);
     },
-    "datasetThemeToLabel": getDatasetThemeLabel,
-    "frequencyToLabel": getFrequencyLabel,
+    "datasetThemeToLabel": function (iri) {
+      return getStoreLabel(
+        this.codelist, DATASET_THEME, iri, this.$vuetify.lang.current);
+    },
+    "frequencyToLabel": function (iri) {
+      return getStoreLabel(
+        this.codelist, FREQUENCY, iri, this.$vuetify.lang.current);
+    },
     "themeToLabel": function (iri) {
       return getStoreLabel(
         this.codelist, EUROVOC, iri, this.$vuetify.lang.current);

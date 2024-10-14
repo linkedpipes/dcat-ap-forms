@@ -41,3 +41,7 @@ export const MEDIA_TYPES = "media-types";
 export const FILE_TYPE = "file-type";
 
 export const HVD_CATEGORIES = "hvd-categories";
+
+export const DATASET_THEME = "dataset-theme";
+
+export const FREQUENCY = "frequency";

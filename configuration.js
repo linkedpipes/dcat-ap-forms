@@ -2,7 +2,9 @@ const defaultConfiguration = {
   "port": 8057,
   "nkod_databox": "abc123",
   "solr_media_types": "http://localhost:8983/solr/iana-media-types",
+  "solr_dataset_theme": "http://localhost:8983/solr/dataset-themes",
   "solr_file_type": "http://localhost:8983/solr/mdr-file-type",
+  "solr_frequency": "http://localhost:8983/solr/frequencies",
   "solr_ruian": "http://localhost:8983/solr/ruian",
   "solr_themes": "http://localhost:8983/solr/eurovoc",
   "solr_continents": "http://localhost:8983/solr/continents",
@@ -109,4 +111,3 @@ function readProgramArgument(name) {
   });
   return output;
 }
-

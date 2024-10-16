@@ -3,7 +3,6 @@
     :id="id"
     :loading="loading"
     :items="items"
-    :search-input.sync="search"
     :value="value"
     :label="label"
     :item-text="$vuetify.lang.current"
@@ -14,7 +13,6 @@
     item-value="code"
     append-outer-icon="help_outline"
     flat
-    no-filter
     @input="onInput"
     @click:append-outer="$h(id)"
   >
@@ -45,8 +43,6 @@ export default {
   "data": () => ({
     "loading": false,
     "items": [],
-    "search": null,
-    "ignoreNextSearch": false,
     "lastFetchFor": undefined,
   }),
   "mounted": function () {
@@ -73,7 +69,6 @@ export default {
       });
     },
     "onInput": function (value) {
-      this.ignoreNextSearch = true;
       this.$emit("input", value);
     },
   },

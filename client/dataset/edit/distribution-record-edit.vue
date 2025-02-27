@@ -266,7 +266,7 @@
           xs12
           md6
         >
-          <app-solr-autocomplete
+          <app-solr-autocomplete-lazy
             id="distribution_format"
             v-model="distribution.format"
             :label="$t('distribution_format')"
@@ -280,7 +280,7 @@
           xs12
           md6
         >
-          <app-solr-autocomplete
+          <app-solr-autocomplete-lazy
             id="distribution_media_type"
             v-model="distribution.media_type"
             :label="$t('distribution_media_type')"
@@ -299,7 +299,7 @@
           xs12
           md6
         >
-          <app-solr-autocomplete
+          <app-solr-autocomplete-lazy
             id="distribution_compress_format"
             v-model="distribution.compress_format"
             :label="$t('distribution_compress_format') + $t('optional')"
@@ -313,7 +313,7 @@
           xs12
           md6
         >
-          <app-solr-autocomplete
+          <app-solr-autocomplete-lazy
             id="distribution_package_format"
             v-model="distribution.package_format"
             :label="$t('distribution_package_format') + $t('optional')"
@@ -479,7 +479,7 @@
 </template>
 
 <script>
-import SolrAutocomplete from "./components/solr-autocomplete";
+import SolrAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import {
   createDistributionValidators,
   DIST_TYPE_FILE,
@@ -497,7 +497,7 @@ import legislationTypes from "./codelists/legislation";
 export default {
   "name": "AppDistributionRecordEdit",
   "components": {
-    "app-solr-autocomplete": SolrAutocomplete,
+    "app-solr-autocomplete-lazy": SolrAutocompleteLazy,
   },
   "props": {
     "distribution": {"type": Object, "required": true},

@@ -25,6 +25,10 @@ import {addStoreItems} from "../codelists/local-storage";
 
 /**
  * Eager loaded autocomplete component from Solr.
+ *
+ * The server must return all values for the request.
+ * Thus it must use createSortedEagerCodelistGet or
+ * createEagerCodelistGet handler.
  */
 export default {
   "name": "AppSolrAutocomplete",

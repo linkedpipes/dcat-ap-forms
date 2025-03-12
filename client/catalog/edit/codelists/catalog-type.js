@@ -1,10 +1,5 @@
 const catalogTypeCodeList = [
   {
-    "value": "https://data.gov.cz/slovník/nkod/CkanApiLkod",
-    "cs": "CKAN API",
-    "en": "CKAN API",
-  },
-  {
     "value": "https://data.gov.cz/slovník/nkod/DcatApLkod",
     "cs": "DCAT-AP Dokumenty",
     "en": "DCAT-AP Documents",

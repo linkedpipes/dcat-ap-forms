@@ -428,6 +428,7 @@
       :no-data-prompt="$t('themes_autocomplete_no_data')"
       prepend-icon="euro_symbol"
       :code-list="EUROVOC"
+      :multiple="true"
     />
     <v-layout
       row
@@ -460,6 +461,7 @@
           :code-list="HVD_CATEGORIES"
           :disabled="isHvdDisabled"
           :error-messages="err_hvd_categories"
+          :multiple="true"
         />
       </v-flex>
     </v-layout>

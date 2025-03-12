@@ -11,11 +11,11 @@
     :item-text="$vuetify.lang.current"
     :prepend-icon="prependIcon"
     :disabled="disabled"
+    :multiple="multiple"
     item-value="code"
     append-outer-icon="help_outline"
     flat
     cache-items
-    multiple
     chips
     @input="onInput"
     @click:append-outer="$h(id)"
@@ -48,19 +48,20 @@ import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
 
 /**
- * Lazy loaded autocomplete from SOLR.
+ * Lazy loaded Solr autocomplete.
  */
 export default {
-  "name": "AppSolrAutocompleteLazy",
+  "name": "AppSolrAutocompleteMultiple",
   "props": {
     "id": {"type": String, "required": true},
-    "value": {"type": Array, "required": true},
+    "value": { "required": true},
     "label": {"type": String, "required": false, "default": undefined},
     "codeList": {"type": String, "required": true},
     "errorMessages": {"required": false},
     "noDataPrompt": {"type": String, "required": true},
     "prependIcon": {"type": String, "default": undefined},
     "disabled": {"type": Boolean, "default": false},
+    "multiple": {"type": Boolean, "default": false},
   },
   "data": () => ({
     "loading": false,
@@ -87,7 +88,18 @@ export default {
   },
   "methods": {
     "updateFromValue": function (value) {
-      value.forEach((value) => {
+      let valuesToFetch = [];
+      if (this.multiple) {
+        valuesToFetch = value;
+      } else {
+        if (value === "") {
+          // We do not fetch an empty value.
+          return;
+        }
+        valuesToFetch = [value];
+      }
+      // We need to fetch details for all active items.
+      valuesToFetch.forEach((value) => {
         const url = createTitleQueryUrl(
           this.codeList, value, this.$vuetify.lang.current);
         getLocalJson(url).then((response) => {
@@ -95,9 +107,7 @@ export default {
             this.items = [...this.items, createNonLabeledItem(value)];
           } else {
             addStoreItems(this.codeList, response.json.response.docs);
-            this.items = [
-              ...this.items, ...response.json.response.docs,
-            ];
+            this.items = [...this.items, ...response.json.response.docs];
           }
         });
       });
@@ -115,34 +125,24 @@ export default {
       });
     },
     "onInput": function (value) {
-      this.ignoreNextSearch = true;
-      this.$emit("input", value);
+      if (this.multiple) {
+        this.ignoreNextSearch = true;
+        this.$emit("input", value);
+      } else {
+        this.$emit("input", value);
+      }
     },
     "removeItem": function (item) {
-      const index = this.value.indexOf(item.code);
-      const newValue = [
-        ... this.value.slice(0, index),
-        ... this.value.slice(index + 1),
-      ];
-      this.$emit("input", newValue);
-    },
-    "reload":  function (values) {
-      values.forEach((value) => {
-        const url = createTitleQueryUrl(
-          this.codeList, value, this.$vuetify.lang.current);
-        getLocalJson(url).then((response) => {
-          if (response.json.response.docs.length === 0) {
-            this.items = [...this.items, createNonLabeledItem(value)];
-          } else {
-            addStoreItems(this.codeList, response.json.response.docs);
-            this.items = [
-              ...this.items, ...response.json.response.docs,
-            ];
-          }
-        }).catch(() => {
-          this.loading = false;
-        });
-      });
+      if (this.multiple) {
+        const index = this.value.indexOf(item.code);
+        const newValue = [
+          ... this.value.slice(0, index),
+          ... this.value.slice(index + 1),
+        ];
+        this.$emit("input", newValue);
+      } else {
+        this.$emit("input", "");
+      }
     },
   },
 };

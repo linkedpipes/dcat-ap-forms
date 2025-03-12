@@ -24,17 +24,12 @@ import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
 
 /**
- * Eager loaded autocomplete component from Solr.
- *
- * The server must return all values for the request.
- * Thus it must use createSortedEagerCodelistGet or
- * createEagerCodelistGet handler.
+ * Eager loaded Solr autocomplete.
  */
 export default {
   "name": "AppSolrAutocomplete",
   "props": {
     "id": {"type": String, "required": true},
-    // Value can be String or Array based on the multiple argument.
     "value": { "required": true},
     "label": {"type": String, "required": false, "default": undefined},
     "codeList": {"type": String, "required": true},

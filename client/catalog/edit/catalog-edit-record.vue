@@ -1,7 +1,7 @@
 <template>
-  <v-container 
-    fluid 
-    grid-list-lg 
+  <v-container
+    fluid
+    grid-list-lg
     pa-0
   >
     <v-alert
@@ -57,12 +57,12 @@
         />
       </v-flex>
     </v-layout>
-    <v-layout 
-      row 
+    <v-layout
+      row
       wrap
     >
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-text-field
@@ -78,8 +78,8 @@
           @click:append-outer="$h('catalog_contact_point_name')"
         />
       </v-flex>
-      <v-flex 
-        xs12 
+      <v-flex
+        xs12
         md6
       >
         <v-text-field
@@ -92,7 +92,7 @@
           append-outer-icon="help_outline"
           required
           type="email"
-          clearable 
+          clearable
           @click:append-outer="$h('catalog_contact_point_email')"
         />
       </v-flex>
@@ -104,7 +104,7 @@
       :label="$t('catalog_type')"
       :item-text="$vuetify.lang.current"
       :error-messages="err_catalog_type"
-      prepend-icon="category" 
+      prepend-icon="category"
       item-value="value"
       append-outer-icon="help_outline"
       required
@@ -119,7 +119,7 @@
       prepend-icon="link"
       append-outer-icon="help_outline"
       required
-      clearable 
+      clearable
       @click:append-outer="$h('catalog_url')"
     />
     <v-text-field

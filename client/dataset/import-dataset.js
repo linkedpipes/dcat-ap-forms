@@ -206,6 +206,14 @@ function loadDistributions(flatJsonLd, datasetEntity, defaultLanguage) {
 function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
   const service = getService(flatJsonLd, distributionEntity);
   const endpointUrl = getEndpointUrl(service);
+
+  let url = getValue(distributionEntity, DCATAP.downloadURL) || "";
+  // When the data contain empty download url "",
+  // it is resolved to "./", so we replace it back.
+  if (url === "./") {
+    url = "";
+  }
+
   const distribution = {
     ...createDistribution(),
     ...unpackLangStringToProp(
@@ -213,7 +221,7 @@ function loadDistribution(flatJsonLd, distributionEntity, defaultLanguage) {
       getMultiLangString(distributionEntity, DCTERMS.title)),
     ...parseTermsOfUse(flatJsonLd, distributionEntity),
     //
-    "url": getValue(distributionEntity, DCATAP.downloadURL) || "",
+    "url": url,
     "format": getValue(distributionEntity, DCTERMS.format) || "",
     "media_type": getValue(distributionEntity, DCATAP.mediaType) || "",
     "schema": getValue(distributionEntity, DCTERMS.conformsTo) || "",

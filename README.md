@@ -12,7 +12,7 @@
 It is expected that Solr runs on localhost, port 8983.
 
 Create cores:
-```
+```shell
 solr.cmd create -c iana-media-types
 solr.cmd create -c mdr-file-type
 solr.cmd create -c ruian
@@ -25,7 +25,7 @@ solr.cmd create -c dataset-themes
 ```
 
 Set core properties:
-```bash
+```shell
 curl http://localhost:8983/solr/iana-media-types/config -H 'Content-type:application/json' -d '{
     "set-user-property": {"update.autoCreateFields":"false"},
     "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
@@ -82,9 +82,8 @@ curl http://localhost:8983/solr/dataset-themes/config -H 'Content-type:applicati
 
 ```
 
-
 Create schema:
-```bash
+```shell
 curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type:application/json' --data-binary '{
     "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
         "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
@@ -212,17 +211,18 @@ curl http://localhost:8983/solr/dataset-themes/schema -X POST -H 'Content-type:a
 ### DCAT-AP Forms
 
 * Install dependencies
-```
+```shell
 npm install
 ```
 
-* Custom configuration, can be provided using Javascript configuration file. Copy and edit the sample:
-```
+* Custom configuration, can be provided using Javascript configuration file.
+  Copy and edit the sample:
+```shell
 cp configuration.js my-configuration.js
 ```
 
 * The path to the custom file can be set using program argument ie.
-```
+```shell
 npm run build -- --env configFileLocation=./my-configuration.js
 npm run start -- --env configFileLocation=./my-configuration.js
 ```
@@ -231,7 +231,7 @@ It's necessary to provide absolute path or start the path with ```./```.
 Another way is to set environment property ```dcatApFormsConfig```.
 
 The following custom configuration file set the port to ```1111```:
-```
+```javascript
 module.exports = {
     "port": 1111,
     "nkod_databox": "
@@ -261,15 +261,15 @@ An example of the post data may look like this:
 In fact, we can fill in the dataset edit form manually.
 Download the content as a file and post it to the form, to prefill the form.
 
-Let us demonstrate using exampel and dataset delete.
+Let us demonstrate using example and dataset delete.
 We can post the data to `./odstranění-datové-sady` or `./dataset-withdrawn` for Czech or English version respectively using following command:
-```bash
+```shell
 curl -d data="{\"@type\":\"http://www.w3.org/ns/dcat#Dataset\", \"@id\":\"http://dataset-to-be-removed\",\"http://purl.org/dc/terms/title\":{\"@value\":\"Dataset name\",\"@lang\":\"cs\"},\"http://purl.org/dc/terms/description\":{\"@value\":\"Dataset description\",\"@lang\":\"cs\"}}" http://localhost:8057/odstranění-datové-sady
 ```
 In the HTML response we can see `window.serverPostData` set to the posted content.
 The client will load this data in a same way as when importing from URL.
 
-While the simple example above is suficient for dataset delete, as only basic information is utilized, you may need to provide more information when using dataset edit available at `./registrace-datové-sady` or `./dataset-registration`.
+While the simple example above is sufficient for dataset delete, as only basic information is utilized, you may need to provide more information when using dataset edit available at `./registrace-datové-sady` or `./dataset-registration`.
 
 ## Using returnUrl to POST data to URL of choice
 If you provide `returnUrl` query argument with an URL, the last step of the form will POST the data to given URL instead of download.

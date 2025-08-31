@@ -1,17 +1,22 @@
+// Load values from .env file and put them into process.env.
+require("dotenv/config");
+
+const solrURL = process.env.SOLR_ENDPOINT ?? "http://localhost:8983/solr/";
+
 const defaultConfiguration = {
-  "port": 8057,
-  "nkod_databox": "abc123",
-  "solr_media_types": "http://localhost:8983/solr/iana-media-types",
-  "solr_dataset_theme": "http://localhost:8983/solr/dataset-themes",
-  "solr_file_type": "http://localhost:8983/solr/mdr-file-type",
-  "solr_frequency": "http://localhost:8983/solr/frequencies",
-  "solr_ruian": "http://localhost:8983/solr/ruian",
-  "solr_themes": "http://localhost:8983/solr/eurovoc",
-  "solr_continents": "http://localhost:8983/solr/continents",
-  "solr_countries": "http://localhost:8983/solr/countries",
-  "solr_places": "http://localhost:8983/solr/places",
-  "solr_hvd_categories": "http://localhost:8983/solr/hvd-categories",
-  "dereference_proxy": "",
+  "port": process.env.PORT ?? 8057,
+  "nkod_databox": process.env.NKOD_DATABOX ?? "abc123",
+  "solr_media_types": solrURL ?? "iana-media-types",
+  "solr_dataset_theme": solrURL ?? "dataset-themes",
+  "solr_file_type": solrURL ?? "mdr-file-type",
+  "solr_frequency": solrURL ?? "frequencies",
+  "solr_ruian": solrURL ?? "ruian",
+  "solr_themes": solrURL ?? "eurovoc",
+  "solr_continents": solrURL ?? "continents",
+  "solr_countries": solrURL ?? "countries",
+  "solr_places": solrURL ?? "places",
+  "solr_hvd_categories": solrURL ?? "hvd-categories",
+  "dereference_proxy": process.env.DEREFERENCE_PROXY ?? "",
   "head": [
     {
       "$type": "meta",
@@ -68,7 +73,7 @@ const defaultConfiguration = {
       "rel": "stylesheet",
     },
   ],
-  "resources_url_prefix": "./",
+  "resources_url_prefix": process.env.BASE_URL ?? "./",
 };
 
 (function initialize() {

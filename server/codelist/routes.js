@@ -1,6 +1,6 @@
 const express = require("express");
 const request = require("request");
-const configuration = require("../config");
+const configuration = require("../server-configuration");
 
 // Default rows limit for eager fetched codelists.
 let rowsLimit = 1048576;

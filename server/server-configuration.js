@@ -14,4 +14,5 @@ module.exports = {
   "solr_hvd_categories": configuration["solr_hvd_categories"],
   "html_head": configuration["head"],
   "resources_url_prefix": configuration["resources_url_prefix"],
+  "api_url_prefix": "/api/v2/forms/v1",
 };

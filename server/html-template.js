@@ -1,4 +1,4 @@
-const config = require("./config");
+const config = require("./server-configuration");
 
 function create(javascript, css, options) {
   return `

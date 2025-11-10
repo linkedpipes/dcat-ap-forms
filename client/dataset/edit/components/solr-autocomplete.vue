@@ -22,6 +22,7 @@
 <script>
 import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
+import {configuration} from "../../../client-configuration";
 
 /**
  * Eager loaded Solr autocomplete.
@@ -74,7 +75,7 @@ export default {
 };
 
 function createFetchUrl(codeList, lang) {
-  return "/api/v1/codelist/" + codeList +
+  return configuration.apiPrefix + "/codelist/" + codeList +
     "?search=*:*&lang=" + lang;
 }
 

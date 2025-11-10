@@ -46,6 +46,7 @@
 <script>
 import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
+import {configuration} from "../../../client-configuration";
 
 /**
  * Lazy loaded Solr autocomplete.
@@ -148,14 +149,14 @@ export default {
 };
 
 function createQueryUrl(codeList, query, lang) {
-  return "/api/v1/codelist/" + codeList +
+  return configuration.apiPrefix + "/codelist/" + codeList +
       "?search=*" + encodeURIComponent(query) + "*" +
       "&lang=" + lang;
 }
 
 function createTitleQueryUrl(codeList, iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return "/api/v1/codelist/" + codeList +
+  return configuration.apiPrefix + "/codelist/" + codeList +
       "?iri=" + encodeURIComponent(escapedIri) +
       "&lang=" + lang;
 }

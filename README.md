@@ -1,212 +1,16 @@
 # LinkedPipes DCAT-AP Forms
-[DCAT-AP v3.0](https://semiceu.github.io/DCAT-AP/releases/3.0.0/) and [DCAT-AP HVD](https://semiceu.github.io/DCAT-AP/releases/3.0.0-hvd/) compatible web form producing JSON-LD, primarily intended for the [Czech National Open Data](https://data.gov.cz) catalog.
+[DCAT-AP v3.0](https://semiceu.github.io/DCAT-AP/releases/3.0.0/) and [DCAT-AP HVD](https://semiceu.github.io/DCAT-AP/releases/3.0.0-hvd/) compatible web form producing JSON-LD, intended for the [Czech National Open Data](https://data.gov.cz) catalog.
 
 ## Requirements
- * [Node.js] (tested on 22.9) and npm
- * [Apache Solr] (tested on 8.11.1)
+ * [Node.js](https://nodejs.org) (tested on 22.9) and npm
+ * [Apache Solr](http://lucene.apache.org/solr/) (tested on 8.11.1)
 
 ## Installation
 
 ### Solr
 [Install Solr](https://lucene.apache.org/solr/guide/8_7/installing-solr.html).
 It is expected that Solr runs on localhost, port 8983.
-
-Create cores:
-```shell
-solr.cmd create -c iana-media-types
-solr.cmd create -c mdr-file-type
-solr.cmd create -c ruian
-solr.cmd create -c eurovoc
-solr.cmd create -c places
-solr.cmd create -c countries
-solr.cmd create -c continents
-solr.cmd create -c frequencies
-solr.cmd create -c dataset-themes
-```
-
-Set core properties:
-```shell
-curl http://localhost:8983/solr/iana-media-types/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/mdr-file-type/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/ruian/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/eurovoc/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/places/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/countries/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/continents/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/frequencies/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-curl http://localhost:8983/solr/dataset-themes/config -H 'Content-type:application/json' -d '{
-    "set-user-property": {"update.autoCreateFields":"false"},
-    "set-property" : {"requestDispatcher.requestParsers.enableRemoteStreaming":true},
-    "set-property" : {"requestDispatcher.requestParsers.enableStreamBody":true}
-}'
-
-```
-
-Create schema:
-```shell
-curl http://localhost:8983/solr/iana-media-types/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [{"class":"solr.LowerCaseFilterFactory"}]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}
-}'
-
-curl http://localhost:8983/solr/mdr-file-type/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [{"class":"solr.LowerCaseFilterFactory"}]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "priority", "type": "pint" , "indexed": true, "docValues": true}
-}'
-
-curl http://localhost:8983/solr/ruian/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/eurovoc/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "notation", "type": "string" , "indexed": false, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/places/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/countries/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/continents/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/frequencies/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-curl http://localhost:8983/solr/dataset-themes/schema -X POST -H 'Content-type:application/json' --data-binary '{
-    "add-field-type": {"name": "ascii_text", "class": "solr.TextField", "positionIncrementGap": "100", "analyzer": {
-        "tokenizer": {"class":"solr.WhitespaceTokenizerFactory"},
-        "filters": [
-            {"class":"solr.LowerCaseFilterFactory"},
-            {"class":"solr.ASCIIFoldingFilterFactory"}
-        ]
-    }},
-    "add-field": {"name": "code", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "type", "type": "string" , "indexed": true, "docValues": false},
-    "add-field": {"name": "cs", "type": "ascii_text" , "indexed": true, "docValues": false},
-    "add-field": {"name": "en", "type": "ascii_text" , "indexed": true, "docValues": false},
-}'
-
-
-```
+Create Solr cores as configured in the configuration.
 
 ### DCAT-AP Forms
 
@@ -245,7 +49,7 @@ DCAT-AP Forms can be integrated with external systems by
 - using POST request to prefill the forms.
 - using `returnUrl` URL query argument to POST content of the form as a submit action.
 
-## Prefill forms using POST
+### Prefill forms using POST
 This functionality is supported for dataset delete and dataset edit.
 For both endpoints we can POST JSON-LD dataset using `formData` field with `application/x-www-form-urlencoded` content type.
 
@@ -271,13 +75,10 @@ The client will load this data in a same way as when importing from URL.
 
 While the simple example above is sufficient for dataset delete, as only basic information is utilized, you may need to provide more information when using dataset edit available at `./registrace-datové-sady` or `./dataset-registration`.
 
-## Using returnUrl to POST data to URL of choice
+### Using returnUrl to POST data to an URL of choice
 If you provide `returnUrl` query argument with an URL, the last step of the form will POST the data to given URL instead of download.
 The request is using `application/x-www-form-urlencoded` content type with the `formData` data field.
 
 We can even create a nice loop, using following URL `./registrace-datové-sady?returnUrl=./odstranění-datové-sady`.
 In this case user is navigated to an empty registration form.
 Once the form is filled, user can submit the form using POST to the dataset delete form.
-
-[Node.js]: <https://nodejs.org>
-[Apache Solr]: <http://lucene.apache.org/solr/>

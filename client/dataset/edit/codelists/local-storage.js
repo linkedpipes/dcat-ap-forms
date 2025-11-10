@@ -3,7 +3,8 @@
  */
 
 import Vue from "vue";
-import {getLocalJson} from "../../../app-service/http";
+import { getLocalJson } from "../../../app-service/http";
+import { configuration } from "../../../client-configuration";
 
 const storage = {};
 
@@ -47,7 +48,7 @@ export function getStore() {
 }
 
 export function fetchLabelFromCodeList(codeList, iri, lang) {
-  if (!iri){
+  if (!iri) {
     return Promise.resolve();
   }
   const url = createTitleQueryUrl(codeList, iri, lang);
@@ -59,7 +60,7 @@ export function fetchLabelFromCodeList(codeList, iri, lang) {
 
 function createTitleQueryUrl(codeList, iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return "/api/v1/codelist/" + codeList +
-        "?iri=" + encodeURIComponent(escapedIri) +
-        "&lang=" + lang;
+  return configuration.apiPrefix + "/codelist/" + codeList +
+    "?iri=" + encodeURIComponent(escapedIri) +
+    "&lang=" + lang;
 }

@@ -6,17 +6,21 @@ const solrURL = process.env.SOLR_ENDPOINT ?? "http://localhost:8983/solr/";
 const defaultConfiguration = {
   "port": process.env.PORT ?? 8057,
   "nkod_databox": process.env.NKOD_DATABOX ?? "abc123",
-  "solr_media_types": solrURL ?? "iana-media-types",
-  "solr_dataset_theme": solrURL ?? "dataset-themes",
-  "solr_file_type": solrURL ?? "mdr-file-type",
-  "solr_frequency": solrURL ?? "frequencies",
-  "solr_ruian": solrURL ?? "ruian",
-  "solr_themes": solrURL ?? "eurovoc",
-  "solr_continents": solrURL ?? "continents",
-  "solr_countries": solrURL ?? "countries",
-  "solr_places": solrURL ?? "places",
-  "solr_hvd_categories": solrURL ?? "hvd-categories",
   "dereference_proxy": process.env.DEREFERENCE_PROXY ?? "",
+  // URL Where are the static resources.
+  "resources_url_prefix": process.env.BASE_URL ?? "./",
+  //
+  "solr_media_types": solrURL + "iana-media-type",
+  "solr_dataset_theme": solrURL + "dataset-theme",
+  "solr_file_type": solrURL + "mdr-file-type",
+  "solr_frequency": solrURL + "frequency",
+  "solr_ruian": solrURL + "ruian",
+  "solr_themes": solrURL + "eurovoc",
+  "solr_continents": solrURL + "continent",
+  "solr_countries": solrURL + "country",
+  "solr_places": solrURL + "place",
+  "solr_hvd_categories": solrURL + "hvd-category",
+  //
   "head": [
     {
       "$type": "meta",
@@ -73,7 +77,6 @@ const defaultConfiguration = {
       "rel": "stylesheet",
     },
   ],
-  "resources_url_prefix": process.env.BASE_URL ?? "./",
 };
 
 (function initialize() {

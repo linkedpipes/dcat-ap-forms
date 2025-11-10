@@ -1,8 +1,8 @@
-const config = require("./config");
+const config = require("./server-configuration");
 const htmlTemplateFactory = require("./html-template");
 
 function initialize(app) {
-  app.use("/api/v1/codelist", require("./codelist/routes"));
+  app.use(config.api_url_prefix + "/codelist", require("./codelist/routes"));
 }
 
 function start(app) {

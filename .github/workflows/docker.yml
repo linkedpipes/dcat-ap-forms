@@ -25,6 +25,6 @@ jobs:
         with:
           context: ./
           push: true
-          tags: ghcr.io/datagov-cz/nkod-forms:${{ github.ref_name }}
+          tags: ghcr.io/datagov-cz/nkd-forms:${{ github.ref_name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max

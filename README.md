@@ -1,5 +1,5 @@
-# LinkedPipes DCAT-AP Forms
-[DCAT-AP v3.0](https://semiceu.github.io/DCAT-AP/releases/3.0.0/) and [DCAT-AP HVD](https://semiceu.github.io/DCAT-AP/releases/3.0.0-hvd/) compatible web form producing JSON-LD, intended for the [Czech National Open Data](https://data.gov.cz) catalog.
+# Forms
+[DCAT-AP v3.0](https://semiceu.github.io/DCAT-AP/releases/3.0.0/) and [DCAT-AP HVD](https://semiceu.github.io/DCAT-AP/releases/3.0.0-hvd/) compatible web form producing JSON-LD, intended for the [Czech National Data](https://data.gov.cz) catalog.
 
 ## Requirements
  * [Node.js](https://nodejs.org) (tested on 22.9) and npm
@@ -12,7 +12,7 @@
 It is expected that Solr runs on localhost, port 8983.
 Create Solr cores as configured in the configuration.
 
-### DCAT-AP Forms
+### Forms
 
 * Install dependencies
 ```shell

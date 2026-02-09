@@ -12,7 +12,7 @@
       {{ $t('common_errors_description') }}
       <a
         target="_blank"
-        href="https://opendata.gov.cz/špatná-praxe:start"
+        href="https://data.gov.cz/špatná-praxe/"
       >{{ $t('common_errors_link_label') }}</a>!
       {{ $t('ofn') }}
       <a

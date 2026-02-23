@@ -7,7 +7,7 @@
     <h2 class="headline">
       {{ $t('headline_distribution_license') }}
       <a
-        href="https://opendata.gov.cz/cinnost:stanoveni-podminek-uziti"
+        href="https://data.gov.cz/pro-poskytovatele/otevřená-data/stanovení-podmínek-užití/"
         target="_blank"
         class="info_link"
       >

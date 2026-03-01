@@ -1,4 +1,4 @@
-const config = require("./server-configuration");
+const configuration = require("./server-configuration");
 
 function create(javascript, css, options) {
   return `
@@ -10,6 +10,11 @@ function create(javascript, css, options) {
 </head>
 <body>
   ${generateDataPlaceholder(options)}
+  <script type="text/javascript">
+    window.configuration = ${JSON.stringify({
+      apiUrl: configuration.client_api_base_url,
+    })};
+  </script>
   <div id="app"></div>
   ${generateBody(javascript)}
 </body>
@@ -18,7 +23,7 @@ function create(javascript, css, options) {
 }
 
 function generateHead(css) {
-  const head = config.html_head.map((item) =>
+  const head = configuration.html_head.map((item) =>
     "<" + item["$type"] + " " +
     Object.keys(item)
       .filter((key) => !key.startsWith("$"))
@@ -32,7 +37,7 @@ function generateHead(css) {
 }
 
 function fileUrl(file) {
-  return config.base_url + file;
+  return configuration.base_url + file;
 }
 
 function generateDataPlaceholder(options) {

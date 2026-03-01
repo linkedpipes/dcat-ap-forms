@@ -1,3 +1,3 @@
 export const configuration = {
-  apiPrefix: API_URL,
+  apiPrefix: window.configuration.apiUrl,
 };

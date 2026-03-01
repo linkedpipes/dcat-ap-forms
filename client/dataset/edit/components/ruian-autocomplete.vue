@@ -110,13 +110,13 @@ export default {
 
 function createQueryUrlForIri(iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return configuration.apiPrefix + "/codelist/ruian" +
+  return configuration.apiPrefix + "codelist/ruian" +
     "?iri=" + encodeURIComponent(escapedIri) +
     "&lang=" + lang;
 }
 
 function createQueryUrlForLabelAndType(query, type, lang) {
-  return configuration.apiPrefix + "/codelist/ruian" +
+  return configuration.apiPrefix + "codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + lang +
             "&type=" + type;

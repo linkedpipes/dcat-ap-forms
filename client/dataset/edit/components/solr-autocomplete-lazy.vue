@@ -149,14 +149,14 @@ export default {
 };
 
 function createQueryUrl(codeList, query, lang) {
-  return configuration.apiPrefix + "/codelist/" + codeList +
+  return configuration.apiPrefix + "codelist/" + codeList +
       "?search=*" + encodeURIComponent(query) + "*" +
       "&lang=" + lang;
 }
 
 function createTitleQueryUrl(codeList, iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return configuration.apiPrefix + "/codelist/" + codeList +
+  return configuration.apiPrefix + "codelist/" + codeList +
       "?iri=" + encodeURIComponent(escapedIri) +
       "&lang=" + lang;
 }

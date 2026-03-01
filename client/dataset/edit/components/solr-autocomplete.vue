@@ -75,7 +75,7 @@ export default {
 };
 
 function createFetchUrl(codeList, lang) {
-  return configuration.apiPrefix + "/codelist/" + codeList +
+  return configuration.apiPrefix + "codelist/" + codeList +
     "?search=*:*&lang=" + lang;
 }
 

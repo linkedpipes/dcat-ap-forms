@@ -13,6 +13,6 @@ module.exports = {
   "solr_places": configuration["solr_places"],
   "solr_hvd_categories": configuration["solr_hvd_categories"],
   "html_head": configuration["head"],
-  "resources_url_prefix": configuration["resources_url_prefix"],
-  "api_url_prefix": "/api/v2/forms/v1",
+  "base_url": configuration["base_url"],
+  "server_api_base_url": configuration["server_api_base_url"],
 };

@@ -7,9 +7,11 @@ const defaultConfiguration = {
   "port": process.env.PORT ?? 8057,
   "nkod_databox": process.env.NKOD_DATABOX ?? "abc123",
   "dereference_proxy": process.env.DEREFERENCE_PROXY ?? "",
-  // URL Where are the static resources.
-  "resources_url_prefix": process.env.BASE_URL ?? "./",
-  //
+  // URL configuration.
+  "base_url": process.env.BASE_URL ?? "./",
+  "client_api_base_url": process.env.CLIENT_API_PREFIX ?? "",
+  "server_api_base_url": process.env.SERVER_API_PREFIX ?? "",
+  // Configuration of Solr as a data source.
   "solr_media_types": solrURL + "iana-media-type",
   "solr_dataset_theme": solrURL + "dataset-theme",
   "solr_file_type": solrURL + "mdr-file-type",

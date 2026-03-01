@@ -32,7 +32,7 @@ function generateHead(css) {
 }
 
 function fileUrl(file) {
-  return config.resources_url_prefix + file;
+  return config.base_url + file;
 }
 
 function generateDataPlaceholder(options) {

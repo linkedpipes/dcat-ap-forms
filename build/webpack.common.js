@@ -2,6 +2,7 @@ const path = require("path");
 const webpack = require("webpack");
 const {VueLoaderPlugin} = require("vue-loader");
 const config = require("../configuration");
+const { configDotenv } = require("dotenv");
 
 const entryPath = path.join(__dirname, "..", "client", "app-entry");
 
@@ -67,6 +68,7 @@ module.exports = {
     new webpack.DefinePlugin({
       "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy),
       "NKOD_ISDS": JSON.stringify(config.nkod_databox),
+      "API_URL": JSON.stringify(config.client_api_base_url),
     }),
   ],
 };

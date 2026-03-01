@@ -1,3 +1,3 @@
 export const configuration = {
-  apiPrefix: "/api/v2/forms/v1",
+  apiPrefix: API_URL,
 };

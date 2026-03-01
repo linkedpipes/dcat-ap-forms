@@ -65,9 +65,7 @@ module.exports = {
   "plugins": [
     new VueLoaderPlugin(),
     new webpack.DefinePlugin({
-      "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy),
       "NKOD_ISDS": JSON.stringify(config.nkod_databox),
     }),
   ],
 };
-

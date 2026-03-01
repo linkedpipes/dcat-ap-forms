@@ -11,6 +11,7 @@ import {
   CONTINENTS,
   COUNTRIES,
 } from "./edit/codelists/server-codelists";
+import {configuration} from "./../client-configuration";
 
 /**
  * Used when importing dataset for edit for example from SPARQL endpoint.
@@ -24,10 +25,11 @@ function getRemoteJsonLd(url) {
 }
 
 function updateUrl(url) {
-  if (DEREFERENCE_PROXY === "") {
+  if (configuration.dereferenceTemplate === "") {
     return url;
   } else {
-    return DEREFERENCE_PROXY.replace("{}", encodeURIComponent(url));
+    return configuration.dereferenceTemplate
+      .replace("{}", encodeURIComponent(url));
   }
 }
 

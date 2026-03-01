@@ -21,7 +21,5 @@ module.exports = {
     "client",
     "server",
   ],
-  "globals": {
-    "DEREFERENCE_PROXY": "",
-  },
+  "globals": {},
 };

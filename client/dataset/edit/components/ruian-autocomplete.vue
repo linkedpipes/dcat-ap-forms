@@ -42,6 +42,7 @@
 <script>
 import {getLocalJson} from "../../../app-service/http";
 import {addStoreItems} from "../codelists/local-storage";
+import {configuration} from "../../../client-configuration";
 
 export default {
   "name": "AppRuianAutocomplete",
@@ -109,13 +110,13 @@ export default {
 
 function createQueryUrlForIri(iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return "/api/v1/codelist/ruian" +
+  return configuration.apiPrefix + "/codelist/ruian" +
     "?iri=" + encodeURIComponent(escapedIri) +
     "&lang=" + lang;
 }
 
 function createQueryUrlForLabelAndType(query, type, lang) {
-  return "/api/v1/codelist/ruian" +
+  return configuration.apiPrefix + "/codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + lang +
             "&type=" + type;

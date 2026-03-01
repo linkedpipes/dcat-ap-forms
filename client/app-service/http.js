@@ -1,7 +1,13 @@
+/**
+ * This method should be used when we are calling local API.
+ */
 export function getLocalJson(url, accept) {
-  return fetchJson("GET", "." + url, accept);
+  return fetchJson("GET", url, accept);
 }
 
+/**
+ * This method should be used when re query remote URL.
+ */
 export function getRemoteJson(url, accept) {
   return fetchJson("GET", url, accept);
 }

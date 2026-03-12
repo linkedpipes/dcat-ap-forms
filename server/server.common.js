@@ -11,7 +11,7 @@ function start(app) {
     if (error) {
       console.error(error);
     }
-    console.info("Listening on http://localhost/%s.", port);
+    console.info("Listening on http://localhost:%s.", port);
   });
 }
 

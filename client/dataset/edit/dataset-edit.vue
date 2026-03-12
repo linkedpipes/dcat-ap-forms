@@ -99,7 +99,7 @@ import DistributionEdit from "./distribution-record-edit";
 import DistributionSelector from "./components/distribution-selector";
 import StepperNavigationMobile from "./components/step-navigation-mobile";
 import StepperNavigationDesktop from "./components/step-navigation-desktop";
-import ExportSummary from "./export-summary";
+import ExportSummary from "./dataset-export-summary";
 import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
 import {EXPORT_NKOD, isDatasetValid} from "../dataset-model";

@@ -1,3 +1,6 @@
+import axios from "axios";
+
+import {importCatalogFromJsonLd} from "../import-catalog";
 import {importCatalogFromUrlWithProxy} from "../import-catalog-from-url";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {exportCatalogToJsonLdForDelete} from "./export-catalog-delete";
@@ -8,6 +11,14 @@ export async function onCatalogDeleteMounted(component) {
 }
 
 async function loadCatalog(component) {
+  // We first try to load from a POST data.
+  const serverFormData = getFormData();
+  if (serverFormData !== undefined) {
+    await loadCatalogFromServerData(component, serverFormData);
+    component.status = "ready";
+    return;
+  }
+  // Next we try to load from a URL query.
   const url = component.$route.query.catalog;
   if (url === undefined) {
     component.status = "error";
@@ -22,7 +33,48 @@ async function loadCatalog(component) {
   }
 }
 
-export function onExport(catalog) {
+function getFormData() {
+  return window?.serverPostData?.formData;
+}
+
+async function loadCatalogFromServerData(component, serverFormData) {
+  const language = component.$vuetify.lang.current;
+  const data = await importCatalogFromJsonLd(serverFormData, language);
+  component.catalog = data;
+}
+
+export function postOnSubmit($route) {
+  const url = getReturnUrl($route);
+  return url !== undefined && url !== null && url.length > 0;
+}
+
+function getReturnUrl($route) {
+  return $route.query.returnUrl ?? window?.serverPostData?.returnUrl;
+}
+
+export async function submitCatalogDelete(catalog, $route) {
+  const url = getReturnUrl($route);
+  const jsonld = exportCatalogToJsonLdForDelete(catalog);
+  try {
+    const response = await axios.post(url, {
+      "formData": jsonld,
+      "userData": getUserData(),
+    });
+    if (response.status >= 300 && response.status <= 399
+      && response.headers["location"]) {
+      window.location.href = response.headers["location"];
+    }
+  } catch (error) {
+    // TODO Show error notification.
+    console.error("Can't POST data", error);
+  }
+}
+
+function getUserData() {
+  return window?.serverPostData?.userData;
+}
+
+export function downloadCatalogDelete(catalog) {
   const jsonld = exportCatalogToJsonLdForDelete(catalog);
   downloadAsJsonLd("nkod-odstranění-katalogu.jsonld.txt", jsonld);
 }

@@ -10,12 +10,14 @@ export async function onDatasetDeleteMounted(component) {
 }
 
 async function loadDataset(component) {
+  // We first try to load from a POST data.
   const serverFormData = getFormData();
   if (serverFormData !== undefined) {
     await loadDatasetFromServerData(component, serverFormData);
     component.status = "ready";
     return;
   }
+  // Next we try to load from a URL query.
   const datasetUrl = component.$route.query.dataset;
   if (datasetUrl === undefined) {
     console.error("Missing dataset URL.");
@@ -35,10 +37,7 @@ async function loadDataset(component) {
 }
 
 function getFormData() {
-  if (window.serverPostData && window.serverPostData.formData) {
-    return window.serverPostData.formData;
-  }
-  return undefined;
+  return window?.serverPostData?.formData;
 }
 
 async function loadDatasetFromServerData(component, serverFormData) {
@@ -53,7 +52,7 @@ export function postOnSubmit($route) {
 }
 
 function getReturnUrl($route) {
-  return $route.query.returnUrl;
+  return $route.query.returnUrl ?? window?.serverPostData?.returnUrl;
 }
 
 export async function submitDatasetDelete(dataset, $route) {
@@ -75,10 +74,7 @@ export async function submitDatasetDelete(dataset, $route) {
 }
 
 function getUserData() {
-  if (window.serverPostData && window.serverPostData.userData) {
-    return window.serverPostData.userData;
-  }
-  return undefined;
+  return window?.serverPostData?.userData;
 }
 
 export function downloadDatasetDelete(dataset) {

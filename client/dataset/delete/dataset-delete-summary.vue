@@ -46,7 +46,7 @@
           <code>{{ nkodDatabox }}</code>.
         </div>
         <v-spacer />
-        <v-btn 
+        <v-btn
           slot="activator"
           color="warning"
           rounded
@@ -64,6 +64,7 @@
 </template>
 
 <script>
+import {configuration} from "../../client-configuration";
 import {
   postOnSubmit,
   submitDatasetDelete,
@@ -77,7 +78,7 @@ export default {
   },
   "computed": {
     "nkodDatabox": function() {
-      return NKOD_ISDS;
+      return configuration.databox;
     },
     "commitByDownload": function () {
       return !postOnSubmit(this.$route);

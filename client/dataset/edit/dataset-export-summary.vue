@@ -430,6 +430,7 @@
 </template>
 
 <script>
+import {configuration} from "../../client-configuration";
 import DistributionCard from "./components/distribution-card";
 import ExportTypeDialog from "./components/export-type-dialog";
 import {getStoreLabel} from "./codelists/local-storage";
@@ -461,7 +462,7 @@ export default {
   }),
   "computed": {
     "nkodDatabox": function () {
-      return NKOD_ISDS;
+      return configuration.databox;
     },
     "keywords": function() {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];

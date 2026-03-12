@@ -12,7 +12,7 @@ import {
   exportDatasetForLkod,
   exportDatasetForNkod,
   exportDatasetForPost,
-} from "./export-dataset-edit";
+} from "./dataset-export-edit";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {createDistribution, isDistributionValid} from "../distribution-model";
 import {provided, url} from "../../app-service/validators";
@@ -39,7 +39,7 @@ export async function onDatasetEditMounted(component) {
       "shouldPost": isNotEmpty(query.postUrl),
       "postUrl": query.postUrl,
     };
-    setData(component, result.dataset, result.distributions);
+    setDataOnMount(component, result.dataset, result.distributions);
     document.title = component.$t(getPageTitle(
       component.data.dataset, component.exportOptions.type));
     initializeStep(component);
@@ -52,39 +52,36 @@ export async function onDatasetEditMounted(component) {
 
 function loadQueryArguments(query) {
   return {
-    "dataset":
-      query["dataset"] || query["datová-sada"],
+    "dataset": query["dataset"] || query["datová-sada"],
     "copyFromDataset":
       query["copy-from-dataset"] || query["kopírovat-z-datové-sady"],
-    "file":
-      query["file"] || query["soubor"],
-    "postUrl":
-      query["returnUrl"],
-    "lkod":
-      query["lkod"] === null,
+    "file": query["file"] || query["soubor"],
+    "postUrl": getReturnUrl(query),
+    "lkod": query["lkod"] === null,
   };
+}
+
+function getReturnUrl(query) {
+  return query.returnUrl ?? window?.serverPostData?.returnUrl;
 }
 
 async function loadDataset(language, query) {
   const serverFormData = getFormData();
-  if (isNotEmpty(query.dataset)) {
+  if (serverFormData !== undefined) {
+    return await importFromPostData(language, serverFormData);
+  } else if (isNotEmpty(query.dataset)) {
     return importDatasetByUrl(query.dataset, language);
   } else if (isNotEmpty(query.copyFromDataset)) {
     return copyDatasetByUrl(query.copyFromDataset, language, query.lkod);
   } else if (isNotEmpty(query.file)) {
     return importFromFile(query.file, language, query.lkod);
-  } else if (serverFormData !== undefined) {
-    return await importFromPostData(language, serverFormData);
   } else {
     return importNew(query.lkod);
   }
 }
 
 function getFormData() {
-  if (window.serverPostData && window.serverPostData.formData) {
-    return window.serverPostData.formData;
-  }
-  return undefined;
+  return window?.serverPostData?.formData;
 }
 
 function isNotEmpty(value) {
@@ -157,7 +154,7 @@ function importNew(lkod) {
   };
 }
 
-function setData(component, dataset, distributions) {
+function setDataOnMount(component, dataset, distributions) {
   component.data.dataset = dataset;
   component.data.distributions = distributions;
   component.ui.distribution = 0;
@@ -271,7 +268,7 @@ export async function onLoadFromFile(component, file) {
     const content = await loadFile(file);
     const data = await importFromJsonLd(
       content, component.$vuetify.lang.current);
-    setData(component, data.dataset, data.distributions);
+    setDataOnMount(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import file.", error);
     component.ui.uploadFailedVisible = true;
@@ -297,7 +294,7 @@ export async function onLoadFromUrl(component, url) {
   try {
     const data = await importDatasetFromUrl(
       url, component.$vuetify.lang.current);
-    setData(component, data.dataset, data.distributions);
+    setDataOnMount(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import url.", error);
     component.ui.uploadFailedVisible = true;
@@ -341,10 +338,7 @@ export async function submitDatasetEdit(dataset, distributions, postUrl) {
 }
 
 function getUserData() {
-  if (window.serverPostData && window.serverPostData.userData) {
-    return window.serverPostData.userData;
-  }
-  return undefined;
+  return window?.serverPostData?.userData;
 }
 
 export function downloadDatasetEdit(dataset, distributions, exportOptions) {
@@ -402,5 +396,6 @@ export function areExportOptionsValid(exportOptions) {
   }
   const iri = exportOptions.lkodIri;
   const publisher = exportOptions.publisher;
+  console.log("areExportOptionsValid", {iri, publisher}, {iri: provided(iri) && url(iri), publisher: provided(publisher) && url(publisher)});
   return provided(iri) && url(iri) && provided(publisher) && url(publisher);
 }

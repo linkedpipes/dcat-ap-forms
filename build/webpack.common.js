@@ -1,7 +1,5 @@
 const path = require("path");
-const webpack = require("webpack");
 const {VueLoaderPlugin} = require("vue-loader");
-const config = require("../configuration");
 
 const entryPath = path.join(__dirname, "..", "client", "app-entry");
 
@@ -64,8 +62,5 @@ module.exports = {
   },
   "plugins": [
     new VueLoaderPlugin(),
-    new webpack.DefinePlugin({
-      "NKOD_ISDS": JSON.stringify(config.nkod_databox),
-    }),
   ],
 };

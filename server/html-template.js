@@ -14,6 +14,7 @@ function create(javascript, css, options) {
     window.configuration = ${JSON.stringify({
       apiUrl: configuration.client_api_base_url,
       dereferenceTemplate: configuration.dereference_proxy,
+      databox: configuration.databox,
     })};
   </script>
   <div id="app"></div>

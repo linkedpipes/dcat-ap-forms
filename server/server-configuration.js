@@ -18,4 +18,5 @@ module.exports = {
   "client_api_base_url": configuration["client_api_base_url"],
   "server_api_base_url": configuration["server_api_base_url"],
   "dereference_proxy": configuration["dereference_proxy"],
+  "databox": configuration.databox,
 };

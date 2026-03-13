@@ -1,5 +1,5 @@
 import App from "./catalog-registration.vue";
-import AppLabels from "./labels-en";
+import AppLabels from "./shared-labels-en";
 import CatalogLabels from "../catalog/catalog-labels-en";
 import {initializeApplication} from "./entry-point";
 

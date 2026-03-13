@@ -5,7 +5,7 @@ import {
   exportDatasetForNkod,
   exportDatasetForLkod,
   exportDatasetForPost,
-} from "./export-dataset-edit";
+} from "./dataset-export-edit";
 
 const BYLANY = {
   "@graph": [

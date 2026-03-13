@@ -25,7 +25,10 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <v-layout row style="align-items: end">
+    <v-layout
+      row
+      style="align-items: end"
+    >
       <v-flex>
         <h2 class="display-1">
           {{ catalog.title_cs }}

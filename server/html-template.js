@@ -12,10 +12,10 @@ function create(javascript, css, options) {
   ${generateDataPlaceholder(options)}
   <script type="text/javascript">
     window.configuration = ${JSON.stringify({
-      apiUrl: configuration.client_api_base_url,
-      dereferenceTemplate: configuration.dereference_proxy,
-      databox: configuration.databox,
-    })};
+    apiUrl: configuration.client_api_base_url,
+    dereferenceTemplate: configuration.dereference_proxy,
+    databox: configuration.databox,
+  })};
   </script>
   <div id="app"></div>
   ${generateBody(javascript)}

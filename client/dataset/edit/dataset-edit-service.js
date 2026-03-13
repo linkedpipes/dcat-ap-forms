@@ -396,6 +396,6 @@ export function areExportOptionsValid(exportOptions) {
   }
   const iri = exportOptions.lkodIri;
   const publisher = exportOptions.publisher;
-  console.log("areExportOptionsValid", {iri, publisher}, {iri: provided(iri) && url(iri), publisher: provided(publisher) && url(publisher)});
+  console.log("areExportOptionsValid", {"iri": iri, "publisher": publisher}, {"iri": provided(iri) && url(iri), "publisher": provided(publisher) && url(publisher)});
   return provided(iri) && url(iri) && provided(publisher) && url(publisher);
 }

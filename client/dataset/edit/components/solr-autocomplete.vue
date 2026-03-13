@@ -15,8 +15,7 @@
     flat
     @input="onInput"
     @click:append-outer="$h(id)"
-  >
-  </v-autocomplete>
+  />
 </template>
 
 <script>

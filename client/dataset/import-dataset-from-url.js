@@ -14,7 +14,9 @@ import {
 import {configuration} from "./../client-configuration";
 
 /**
- * Used when importing dataset for edit for example from SPARQL endpoint.
+ * Import dcat-ap:Dataset record.
+ *
+ * The given URL may be substituted to the proxy dereference template pattern.
  */
 export function importDatasetFromUrlWithProxy(url, defaultLanguage) {
   return importFromRemote(getRemoteJsonLd(updateUrl(url)), defaultLanguage);
@@ -33,6 +35,11 @@ function updateUrl(url) {
   }
 }
 
+/**
+ * Import dcat-ap:Dataset record from given URL.
+ * Use this only if the record is complete as there is no request
+ * for additional resources.
+ */
 export function importDatasetFromUrl(url, defaultLanguage) {
   return importFromRemote(getRemoteFile(url, defaultLanguage));
 }
@@ -47,7 +54,10 @@ function importFromRemote(getFunction, defaultLanguage) {
   });
 }
 
-export function fetchCodelistLabels(dataset, distributions, lang) {
+/**
+ * Fetch and add labels to the given dataset and distributions.
+ */
+export function fetchCodelistLabels(dataset, distributions, language) {
   const formats = new Set();
   const mediaTypes = new Set();
   distributions.forEach((distribution) => {
@@ -55,21 +65,21 @@ export function fetchCodelistLabels(dataset, distributions, lang) {
     mediaTypes.add(distribution.media_type);
   });
   formats.forEach((iri) => {
-    fetchLabelFromCodeList("file-type", iri, lang);
+    fetchLabelFromCodeList("file-type", iri, language);
   });
   mediaTypes.forEach((iri) => {
-    fetchLabelFromCodeList("media-types", iri, lang);
+    fetchLabelFromCodeList("media-types", iri, language);
   });
   dataset.spatial.forEach((spatial) => {
     switch (spatial.type) {
     case SPATIAL_COUNTRY:
-      fetchLabelFromCodeList(COUNTRIES, spatial.url, lang);
+      fetchLabelFromCodeList(COUNTRIES, spatial.url, language);
       break;
     case SPATIAL_CONTINENT:
-      fetchLabelFromCodeList(CONTINENTS, spatial.url, lang);
+      fetchLabelFromCodeList(CONTINENTS, spatial.url, language);
       break;
     case SPATIAL_RUIAN:
-      fetchLabelFromCodeList(RUIAN, spatial.url, lang);
+      fetchLabelFromCodeList(RUIAN, spatial.url, language);
       break;
     }
   });

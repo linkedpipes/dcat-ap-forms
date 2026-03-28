@@ -12,7 +12,10 @@ import jsonld from "jsonld";
 import {createCatalog} from "./catalog-model";
 
 /**
- * Does not import full catalog information.
+ * Import dcat-ap:Catalog from given JSON-LD document.
+ *
+ * If there are empty or none language tags in the document,
+ * the given default language is used instead.
  */
 export function importCatalogFromJsonLd(jsonLdContent, defaultLanguage) {
   return jsonld().flatten(jsonLdContent).then(flatJsonLd => {

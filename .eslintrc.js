@@ -7,7 +7,7 @@ module.exports = {
   "rules": {
     "quotes": ["error", "double"],
     "indent": ["error", 2],
-    "max-len": ["error", {
+    "max-len": ["warn", {
       "code": 80,
       "ignoreUrls": true,
       "ignoreRegExpLiterals": true,

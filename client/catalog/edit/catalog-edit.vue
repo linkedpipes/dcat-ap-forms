@@ -65,7 +65,7 @@ import CatalogEdit from "./catalog-edit-record";
 import ExportSummary from "./catalog-export-summary";
 import StepperNavigationMobile from "./components/step-navigation-mobile";
 import StepperNavigationDesktop from "./components/step-navigation-desktop";
-import {createCatalog, isCatalogValid} from "../catalog-model";
+import {isCatalogValid} from "../catalog-model";
 import {
   onRouteChange,
   onCatalogEditMounted,

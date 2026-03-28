@@ -16,6 +16,7 @@ import {
 import {downloadAsJsonLd} from "../../app-service/download";
 import {createDistribution, isDistributionValid} from "../distribution-model";
 import {provided, url} from "../../app-service/validators";
+import {postForm} from "../../app-service/http";
 
 export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
@@ -311,30 +312,12 @@ export function onUpdateExport(component, event) {
 }
 
 export async function submitDatasetEdit(dataset, distributions, postUrl) {
-
-  const form = document.createElement("form");
-  document.body.appendChild(form);
-  form.method = "post";
-  form.action = postUrl;
-
   const formData = exportDatasetForPost(dataset, distributions);
-
-  const formDataInput = document.createElement("input");
-  formDataInput.type = "hidden";
-  formDataInput.name = "formData";
-  formDataInput.value = JSON.stringify(formData);
-  form.appendChild(formDataInput);
-
   const userData = getUserData();
-  if (userData) {
-    const userDataInput = document.createElement("input");
-    userDataInput.type = "hidden";
-    userDataInput.name = "userData";
-    userDataInput.value = JSON.stringify(userData);
-    form.appendChild(userDataInput);
-  }
-
-  form.submit();
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {

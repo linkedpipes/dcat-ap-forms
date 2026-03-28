@@ -39,6 +39,12 @@ import {
   DIST_TYPE_SERVICE,
 } from "./distribution-model";
 
+/**
+ * Import dcat-ap:Dataset from given JSON-LD document.
+ *
+ * If there are empty or none language tags in the document,
+ * the given default language is used instead.
+ */
 export function importFromJsonLd(jsonLdContent, defaultLanguage) {
   return jsonld().flatten(jsonLdContent).then(flatJsonLd => {
     const datasetEntities = selectByType(flatJsonLd, DCATAP.Dataset);
@@ -67,7 +73,7 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
       "spatial_resolution_meters": (getValue(
         datasetEntity, DCATAP.spatialResolutionInMeters) || "") + "",
       "documentation": getValue(datasetEntity, FOAF.page) || "",
-      "spatial": loadSpatial(flatJsonLd, datasetEntity),
+      "spatial": loadSpatial(datasetEntity),
       "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
       "legislation": getValues(datasetEntity, EUROPE.applicableLegislation),
       "hvd_categories": getValues(datasetEntity, EUROPE.hvdCategory),
@@ -173,7 +179,7 @@ function isEurovocTheme(theme) {
   return theme.startsWith(prefix);
 }
 
-function loadSpatial(flatJsonLd, datasetEntity) {
+function loadSpatial(datasetEntity) {
   const spatialIris = new Set(getValues(datasetEntity, DCTERMS.spatial));
   const result = [];
   for (let iri of spatialIris) {

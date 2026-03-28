@@ -35,6 +35,9 @@ export const EXPORT_EDIT = "edit";
  */
 export const EXPORT_LKOD = "lkod";
 
+const MONTHLY_ACCRUAL_PERIODICITY =
+  "http://publications.europa.eu/resource/authority/frequency/MONTHLY";
+
 export function createDataset() {
   return decorateDataset({
     "iri": undefined,
@@ -42,8 +45,7 @@ export function createDataset() {
     "title_en": "",
     "description_cs": "",
     "description_en": "",
-    "accrual_periodicity":
-      "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
+    "accrual_periodicity": MONTHLY_ACCRUAL_PERIODICITY,
     "spatial": [],
     "temporal_start": "",
     "temporal_end": "",
@@ -137,7 +139,7 @@ export function createDatasetValidators() {
       if (shouldSkipValidation) {
         return [];
       }
-      const {dataset, distributions} = this;
+      const { dataset, distributions } = this;
       if (!includesHvd(dataset.legislation)) {
         return [];
       }
@@ -152,7 +154,7 @@ export function createDatasetValidators() {
       if (shouldSkipDatasetValidation(this.dataset)) {
         return [];
       }
-      const {dataset} = this;
+      const { dataset } = this;
       if (includesHvd(dataset.legislation)
         && dataset.hvd_categories.length === 0) {
         return [this.$t("missing_hvd_categories")];

@@ -1,9 +1,8 @@
-import axios from "axios";
-
-import {importCatalogFromJsonLd} from "../import-catalog";
-import {createCatalog} from "../catalog-model";
-import {downloadAsJsonLd} from "../../app-service/download";
-import {exportCatalogToJsonLd} from "./catalog-export-edit";
+import { importCatalogFromJsonLd } from "../import-catalog";
+import { createCatalog } from "../catalog-model";
+import { downloadAsJsonLd } from "../../app-service/download";
+import { exportCatalogToJsonLd } from "./catalog-export-edit";
+import { postForm } from "../../app-service/http";
 
 export async function onCatalogEditMounted(component) {
   document.title = component.$t("catalog_edit_page_title");
@@ -72,21 +71,14 @@ export function onStepperInput(component, value) {
 }
 
 export async function submitCatalogEdit(catalog, $route) {
-  const url = getReturnUrl($route);
-  const jsonld = exportCatalogToJsonLd(catalog);
-  try {
-    const response = await axios.post(url, {
-      "formData": jsonld,
-      "userData": getUserData(),
-    });
-    if (response.status >= 300 && response.status <= 399
-      && response.headers["location"]) {
-      window.location.href = response.headers["location"];
-    }
-  } catch (error) {
-    // TODO Show error notification.
-    console.error("Can't POST data", error);
-  }
+  const postUrl = getReturnUrl($route);
+  const formData = exportCatalogToJsonLd(catalog);
+  const userData = getUserData();
+
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {

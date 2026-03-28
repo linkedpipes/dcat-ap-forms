@@ -1,9 +1,8 @@
-import axios from "axios";
-
 import {importCatalogFromJsonLd} from "../import-catalog";
 import {importCatalogFromUrlWithProxy} from "../import-catalog-from-url";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {exportCatalogToJsonLdForDelete} from "./export-catalog-delete";
+import {postForm} from "../../app-service/http";
 
 export async function onCatalogDeleteMounted(component) {
   document.title = component.$t("catalog_delete_page_title");
@@ -53,21 +52,14 @@ function getReturnUrl($route) {
 }
 
 export async function submitCatalogDelete(catalog, $route) {
-  const url = getReturnUrl($route);
-  const jsonld = exportCatalogToJsonLdForDelete(catalog);
-  try {
-    const response = await axios.post(url, {
-      "formData": jsonld,
-      "userData": getUserData(),
-    });
-    if (response.status >= 300 && response.status <= 399
-      && response.headers["location"]) {
-      window.location.href = response.headers["location"];
-    }
-  } catch (error) {
-    // TODO Show error notification.
-    console.error("Can't POST data", error);
-  }
+  const postUrl = getReturnUrl($route);
+  const formData = exportCatalogToJsonLdForDelete(catalog);
+  const userData = getUserData();
+
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {

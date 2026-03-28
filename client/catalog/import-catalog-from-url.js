@@ -1,21 +1,22 @@
-import {getRemoteJson} from "../app-service/http";
+import {getRemoteJsonLd} from "../app-service/http";
 import {importCatalogFromJsonLd} from "./import-catalog";
 import {configuration} from "./../client-configuration";
 
-export function importCatalogFromUrlWithProxy(url) {
-  return getRemoteJsonLd(updateUrl(url))
-    .then(response => importCatalogFromJsonLd(response.json));
+/**
+ * Import dcat-ap:Catalog record.
+ *
+ * The given URL may be substituted to the proxy dereference template pattern.
+ */
+export async function importCatalogFromUrlWithProxy(url) {
+  const response = await getRemoteJsonLd(applyUrlProxyTemplate(url));
+  return importCatalogFromJsonLd(response.json);
 }
 
-function getRemoteJsonLd(url) {
-  return getRemoteJson(url, "application/ld+json");
-}
-
-function updateUrl(url) {
-  if (configuration.dereferenceTemplate === "") {
+function applyUrlProxyTemplate(url) {
+  const urlTemplate = configuration.dereferenceTemplate;
+  if (urlTemplate === "") {
     return url;
   } else {
-    return configuration.dereferenceTemplate
-      .replace("{}", encodeURIComponent(url));
+    return urlTemplate.replace("{}", encodeURIComponent(url));
   }
 }

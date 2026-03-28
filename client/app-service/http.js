@@ -1,12 +1,18 @@
+
 /**
- * This method should be used when we are calling local API.
+ * Executes HTTP GET to given URL with accept header requesting JSON-LD>
+ *
+ * Use this method to fetch from a remote URL.
  */
-export function getLocalJson(url, accept) {
-  return fetchJson("GET", url, accept);
+export function getRemoteJsonLd(url) {
+  return getRemoteJson(url, "application/ld+json");
 }
 
 /**
- * This method should be used when re query remote URL.
+ * Executes HTTP GET to given URL.
+ * The result is parsed as a JSON object.
+ *
+ * Use this method to fetch from a remote URL.
  */
 export function getRemoteJson(url, accept) {
   return fetchJson("GET", url, accept);
@@ -46,3 +52,39 @@ function handleJsonRequest(response) {
       };
     });
 }
+
+/**
+ * Executes HTTP GET to given URL.
+ * The result is parsed as a JSON object.
+ *
+ * Use this method to fetch from a local URL.
+ */
+export function getLocalJson(url, accept) {
+  return fetchJson("GET", url, accept);
+}
+
+export function postForm(url, values) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  form.method = "post";
+  form.action = url;
+
+  for (const [name, value] of Object.entries(values)) {
+    if (value === undefined) {
+      continue;
+    }
+    const formDataInput = document.createElement("input");
+    formDataInput.type = "hidden";
+    formDataInput.name = name;
+    formDataInput.value = value;
+    form.appendChild(formDataInput);
+  }
+
+  try {
+    form.submit();
+  } catch (error) {
+    // TODO Show error notification.
+    console.error("Can't POST data", error);
+  }
+}
+

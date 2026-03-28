@@ -2,7 +2,7 @@ import {importFromJsonLd} from "../import-dataset";
 import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
 import {exportDatasetToJsonLdForDelete} from "./export-dataset-delete";
 import {downloadAsJsonLd} from "../../app-service/download";
-import axios from "axios";
+import {postForm} from "../../app-service/http";
 
 export async function onDatasetDeleteMounted(component) {
   document.title = component.$t("delete_page_title");
@@ -56,21 +56,14 @@ function getReturnUrl($route) {
 }
 
 export async function submitDatasetDelete(dataset, $route) {
-  const url = getReturnUrl($route);
-  const jsonld = exportDatasetToJsonLdForDelete(dataset);
-  try {
-    const response = await axios.post(url, {
-      "formData": jsonld,
-      "userData": getUserData(),
-    });
-    if (response.status >= 300 && response.status <= 399
-      && response.headers["location"]) {
-      window.location.href = response.headers["location"];
-    }
-  } catch (error) {
-    // TODO Show error notification.
-    console.error("Can't POST data", error);
-  }
+  const postUrl = getReturnUrl($route);
+  const formData = exportDatasetToJsonLdForDelete(dataset);
+  const userData = getUserData();
+
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {

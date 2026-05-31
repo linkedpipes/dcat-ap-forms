@@ -2,7 +2,7 @@
 
 import * as http from "../app-service/http";
 import {createDataset, SPATIAL_COUNTRY, SPATIAL_RUIAN} from "./dataset-model";
-import {importDatasetFromUrl} from "./import-dataset-from-url";
+import {importDatasetFromUrl} from "./import-dataset";
 import {createDistribution} from "./distribution-model";
 
 let REMOTE_SOURCE = {};
@@ -21,10 +21,6 @@ let REMOTE_SOURCE = {};
     return Promise.reject({"error": "Request for: " + url});
   };
 })();
-
-//
-//
-//
 
 const A86 = {
   "https://katalog-mdcr/a86": {

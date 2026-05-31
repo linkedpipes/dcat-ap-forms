@@ -6,8 +6,8 @@ import {
   fetchCodelistLabels,
   importDatasetFromUrl,
   importDatasetFromUrlWithProxy,
-} from "../import-dataset-from-url";
-import {importFromJsonLd} from "../import-dataset";
+  importFromJsonLd,
+} from "../import-dataset";
 import {
   exportDatasetForLkod,
   exportDatasetForNkod,

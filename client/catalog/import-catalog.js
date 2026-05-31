@@ -10,12 +10,35 @@ import {
 import {DCATAP, DCTERMS, VCARD, FOAF} from "../app-service/vocabulary";
 import jsonld from "jsonld";
 import {createCatalog} from "./catalog-model";
+import {getRemoteJsonLd} from "../app-service/http";
+import {configuration} from "./../client-configuration";
 
 /**
- * Import dcat-ap:Catalog from given JSON-LD document.
+ * @param {string} url
+ * @param {string} defaultLanguage
+ */
+export async function importCatalogFromUrlWithProxy(url, defaultLanguage) {
+  const response = await getRemoteJsonLd(applyUrlProxyTemplate(url));
+  return importCatalogFromJsonLd(response.json, defaultLanguage);
+}
+
+/**
  *
- * If there are empty or none language tags in the document,
- * the given default language is used instead.
+ * @param {string} url
+ */
+function applyUrlProxyTemplate(url) {
+  const urlTemplate = configuration.dereferenceTemplate;
+  if (urlTemplate === "") {
+    return url;
+  } else {
+    return urlTemplate.replace("{}", encodeURIComponent(url));
+  }
+}
+
+/**
+ * @param {*} jsonLdContent
+ * @param {string} defaultLanguage Use as default when no language is set in the document.
+ * @returns
  */
 export function importCatalogFromJsonLd(jsonLdContent, defaultLanguage) {
   return jsonld().flatten(jsonLdContent).then(flatJsonLd => {

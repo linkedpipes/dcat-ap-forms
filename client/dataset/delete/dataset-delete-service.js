@@ -1,5 +1,5 @@
 import {importFromJsonLd} from "../import-dataset";
-import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
+import {importDatasetFromUrlWithProxy} from "../import-dataset";
 import {exportDatasetToJsonLdForDelete} from "./export-dataset-delete";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {postForm} from "../../app-service/http";

@@ -1,5 +1,4 @@
-import {importCatalogFromJsonLd} from "../import-catalog";
-import {importCatalogFromUrlWithProxy} from "../import-catalog-from-url";
+import {importCatalogFromJsonLd, importCatalogFromUrlWithProxy} from "../import-catalog";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {exportCatalogToJsonLdForDelete} from "./export-catalog-delete";
 import {postForm} from "../../app-service/http";

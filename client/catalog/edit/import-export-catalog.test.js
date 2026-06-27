@@ -1,6 +1,6 @@
 import {createCatalog} from "../catalog-model";
 import {importCatalogFromJsonLd} from "../import-catalog";
-import {exportCatalogToJsonLd} from "./export-catalog-edit";
+import {exportCatalogToJsonLd} from "./catalog-export-edit";
 
 test("Import catalog from JSON-LD object with cs default.", () => {
   const input = {

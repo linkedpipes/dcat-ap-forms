@@ -157,6 +157,7 @@ export function importFromJsonLd(jsonLdContent, defaultLanguage) {
       "ofn": getValues(datasetEntity, DCTERMS.conformsTo) || [],
       "legislation": getValues(datasetEntity, EUROPE.applicableLegislation),
       "hvd_categories": getValues(datasetEntity, EUROPE.hvdCategory),
+      "landing_page": getValue(datasetEntity, DCATAP.landingPage) || "",
       //
       ...loadTemporal(flatJsonLd, datasetEntity),
       ...loadContactPoint(flatJsonLd, datasetEntity),

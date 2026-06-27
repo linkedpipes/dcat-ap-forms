@@ -37,8 +37,8 @@ export const DCATAP = {
   "temporalResolution": "http://www.w3.org/ns/dcat#temporalResolution",
   "spatialResolutionInMeters":
     "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+  "landingPage": "http://www.w3.org/ns/dcat#landingPage",
 };
-
 
 export const EUROPE = {
   "applicableLegislation": "http://data.europa.eu/r5r/applicableLegislation",

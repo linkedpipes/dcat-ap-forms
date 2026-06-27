@@ -74,6 +74,9 @@ const A86 = {
           {"@id": "http://publications.europa.eu/resource/authority/data-theme/TRAN"},
           {"@id": "http://eurovoc.europa.eu/4512"},
         ],
+        "http://www.w3.org/ns/dcat#landingPage": {
+          "@id": "https://katalog-mdcr/landingPage",
+        },
       },
     ],
   },
@@ -154,6 +157,7 @@ const A86_EXPECTED_DATASET = {
   "themes": ["http://eurovoc.europa.eu/4512"],
   "legislation": [],
   "hvd_categories": [],
+  "landing_page": "https://katalog-mdcr/landingPage",
 };
 
 const A86_EXPECTED_DISTRIBUTION = {

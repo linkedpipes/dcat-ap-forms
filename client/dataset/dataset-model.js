@@ -66,6 +66,7 @@ export function createDataset() {
     "ruian_type": "",
     "publisher": undefined,
     "hvd_categories": [],
+    "landing_page": "",
   });
 }
 
@@ -161,6 +162,10 @@ export function createDatasetValidators() {
       }
       return [];
     },
+    "err_landing_page":  apply(
+      (t) => t.dataset, "landing_page",
+      url,
+      "landing_page_invalid"),
   };
 }
 

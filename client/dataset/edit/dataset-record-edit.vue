@@ -464,6 +464,20 @@
           :multiple="true"
         />
       </v-flex>
+      <v-flex>
+        <v-text-field
+          id="landing_page"
+          v-model="dataset.landing_page"
+          :label="$t('landing_page') + $t('optional')"
+          :error-messages="err_landing_page"
+          :hint="$t('hint_landing_page')"
+          prepend-icon="link"
+          append-outer-icon="help_outline"
+          type="url"
+          clearable
+          @click:append-outer="$h('landing_page')"
+        />
+      </v-flex>
     </v-layout>
     <v-layout
       v-if="allowImport"

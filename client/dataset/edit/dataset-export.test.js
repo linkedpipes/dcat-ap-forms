@@ -2,10 +2,10 @@
 
 import { importFromJsonLd } from "../import-dataset";
 import {
-  exportDatasetForNkod,
-  exportDatasetForLkod,
+  exportDatasetForNationalDataCatalog,
+  exportDatasetForLocalDataCatalog,
   exportDatasetForPost,
-} from "./dataset-export-edit";
+} from "./dataset-export";
 
 const BYLANY = {
   "@graph": [
@@ -105,7 +105,7 @@ const BYLANY = {
 };
 
 const BYLANY_EXPECTED_NKOD = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-hvd/draft/datová-sada/kontext.jsonld",
   "iri": "_:ds",
   "typ": "Datová sada",
   "název": {
@@ -117,8 +117,6 @@ const BYLANY_EXPECTED_NKOD = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
-  "prostorové_pokrytí": [],
   "časové_pokrytí": {
     "typ": "Časový interval",
     "začátek": "2017-06-01",
@@ -161,13 +159,13 @@ const BYLANY_EXPECTED_NKOD = {
 
 test("Bylany from json-ld and back for NKOD.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
-    const actual = exportDatasetForNkod(data.dataset, data.distributions);
+    const actual = exportDatasetForNationalDataCatalog(data.dataset, data.distributions);
     expect(actual).toEqual(BYLANY_EXPECTED_NKOD);
   });
 });
 
 const BYLANY_EXPECTED_LKOD = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-hvd/draft/datová-sada/kontext.jsonld",
   "iri": "https://data.gov.cz/datové-sady",
   "typ": "Datová sada",
   "název": {
@@ -179,9 +177,11 @@ const BYLANY_EXPECTED_LKOD = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+    "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
+  ],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm",
-  "prostorové_pokrytí": [],
   "časové_pokrytí": {
     "typ": "Časový interval",
     "začátek": "2017-06-01",
@@ -203,7 +203,6 @@ const BYLANY_EXPECTED_LKOD = {
   },
   "koncept_euroVoc": [],
   "téma": [],
-  "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj", "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6"],
   "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
   "distribuce": [
     {
@@ -225,7 +224,7 @@ const BYLANY_EXPECTED_LKOD = {
 
 test("Bylany from json-ld and back for LKOD.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
-    const actual = exportDatasetForLkod(
+    const actual = exportDatasetForLocalDataCatalog(
       data.dataset, data.distributions, {
         "lkodIri": "https://data.gov.cz/datové-sady",
         "publisher": "https://data.gov.cz/zdroj/ovm",
@@ -235,7 +234,7 @@ test("Bylany from json-ld and back for LKOD.", () => {
 });
 
 const BYLANY_EXPECTED_POST = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-hvd/draft/datová-sada/kontext.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670",
   "typ": "Datová sada",
   "název": {
@@ -247,9 +246,11 @@ const BYLANY_EXPECTED_POST = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+    "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
+  ],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm/00269905",
-  "prostorové_pokrytí": [],
   "časové_pokrytí": {
     "typ": "Časový interval",
     "začátek": "2017-06-01",
@@ -271,7 +272,6 @@ const BYLANY_EXPECTED_POST = {
   },
   "koncept_euroVoc": [],
   "téma": [],
-  "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj", "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6"],
   "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
   "distribuce": [
     {
@@ -421,7 +421,7 @@ const ISS94 = {
 };
 
 const ISS94_EXPECTED = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-otevřená-data/draft/datová-sada/kontext.jsonld",
   "iri": "https://local-publisher",
   "typ": "Datová sada",
   "název": {
@@ -442,8 +442,9 @@ const ISS94_EXPECTED = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
-  "prostorové_pokrytí": [],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/dir/2019/1024/oj",
+  ],
   "téma": [
     "http://publications.europa.eu/resource/authority/data-theme/ENER",
   ],
@@ -474,8 +475,7 @@ const ISS94_EXPECTED = {
           "cs": "Moje webservica",
           "en": "my webservice",
         },
-        "poskytuje_datovou_sadu": "https://local-publisher",
-        "specifikace": "https://ofn.gov.cz/kontakty/2020-07-01/",
+        "specifikace": ["https://ofn.gov.cz/kontakty/2020-07-01/"],
       },
       "podmínky_užití": {
         "typ": "Specifikace podmínek užití",
@@ -493,7 +493,7 @@ const ISS94_EXPECTED = {
 
 test("ISS94 from json-ld and back for LKOD.", () => {
   return importFromJsonLd(ISS94, "cs").then(data => {
-    const actual = exportDatasetForLkod(
+    const actual = exportDatasetForLocalDataCatalog(
       data.dataset, data.distributions, {
         "lkodIri": "https://local-publisher",
       });
@@ -579,7 +579,7 @@ const ISS95 = {
 };
 
 const ISS95_EXPECTED = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-otevřená-data/draft/datová-sada/kontext.jsonld",
   "iri": "_:ds",
   "typ": "Datová sada",
   "název": {
@@ -600,13 +600,13 @@ const ISS95_EXPECTED = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
-  "prostorové_pokrytí": [],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/dir/2019/1024/oj",
+  ],
   "téma": [
     "http://publications.europa.eu/resource/authority/data-theme/SOCI",
   ],
   "koncept_euroVoc": [],
-  "kontaktní_bod": {},
   "distribuce": [
     {
       "typ": "Distribuce",
@@ -629,7 +629,7 @@ const ISS95_EXPECTED = {
 
 test("ISS95 from json-ld and back for NKOD.", () => {
   return importFromJsonLd(ISS95, "cs").then(data => {
-    const actual = exportDatasetForNkod(data.dataset, data.distributions);
+    const actual = exportDatasetForNationalDataCatalog(data.dataset, data.distributions);
     expect(actual).toEqual(ISS95_EXPECTED);
   });
 });
@@ -672,7 +672,7 @@ const ISS97a = {
 };
 
 const ISS97a_EXPECTED = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-otevřená-data/draft/datová-sada/kontext.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471",
   "typ": "Datová sada",
   "název": {
@@ -691,15 +691,15 @@ const ISS97a_EXPECTED = {
   "prvek_rúian": [
     "https://linked.cuzk.cz/resource/ruian/stat/1",
   ],
-  "geografické_území": [],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/dir/2019/1024/oj",
+  ],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008",
-  "prostorové_pokrytí": [],
   "téma": [],
   "koncept_euroVoc": [
     "http://eurovoc.europa.eu/2175",
     "http://eurovoc.europa.eu/4304",
   ],
-  "kontaktní_bod": {},
   "distribuce": [],
 };
 
@@ -710,7 +710,6 @@ test("ISS97a from json-ld and back for POST.", () => {
   });
 });
 
-// Data as produced as a result of SPARQL endpoint query.
 const HVD_20240619 = {
   "@context": {
     "packageFormat": {
@@ -919,7 +918,7 @@ const HVD_20240619 = {
       "conformsTo": "https://portal.cisjr.cz/schemata/json-schema.json",
       "format": "http://publications.europa.eu/resource/authority/file-type/ZIP",
       "license": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/d667317f36e6a27375cd266dae603b3a/podmínky-užití",
-      "specifikace": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/d667317f36e6a27375cd266dae603b3a/podmínky-užití",
+      "specifikace": ["https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/d667317f36e6a27375cd266dae603b3a/podmínky-užití"],
       "accessURL": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
       "compressFormat": "http://www.iana.org/assignments/media-types/application/zip",
       "downloadURL": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
@@ -955,7 +954,7 @@ const HVD_20240619 = {
         },
       ],
       "license": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/podmínky-užití",
-      "specifikace": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/podmínky-užití",
+      "specifikace": ["https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/podmínky-užití"],
       "accessService": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02",
       "accessURL": "https://portal.cisjr.cz/sparql",
       "applicableLegislation": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
@@ -1174,8 +1173,8 @@ const HVD_20240619 = {
         "http://publications.europa.eu/resource/authority/data-theme/TRAN",
       ],
       "applicableLegislation": [
-        "http://data.europa.eu/eli/dir/2019/1024/oj",
         "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+        "http://data.europa.eu/eli/dir/2019/1024/oj",
       ],
       "accessRights": "http://publications.europa.eu/resource/authority/access-right/PUBLIC",
       "hvdCategory": [
@@ -1191,7 +1190,7 @@ const HVD_20240619 = {
 };
 
 const HVD_20240619_EXPECTED = {
-  "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld",
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-hvd/draft/datová-sada/kontext.jsonld",
   "iri": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a",
   "typ": "Datová sada",
   "název": {
@@ -1208,7 +1207,6 @@ const HVD_20240619_EXPECTED = {
   "geografické_území": [
     "http://publications.europa.eu/resource/authority/continent/EUROPE",
   ],
-  "prostorové_pokrytí": [],
   "klíčové_slovo": {
     "cs": [
       "hvd",
@@ -1228,7 +1226,10 @@ const HVD_20240619_EXPECTED = {
   "téma": [
     "http://publications.europa.eu/resource/authority/data-theme/TRAN",
   ],
-  "právní_předpis": ["http://data.europa.eu/eli/dir/2019/1024/oj", "http://data.europa.eu/eli/reg_impl/2023/138/oj"],
+  "právní_předpis": [
+    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+    "http://data.europa.eu/eli/dir/2019/1024/oj",
+  ],
   "kategorie_hvd": ["http://data.europa.eu/bna/c_164e0bf5", "http://data.europa.eu/bna/c_1e787364"],
   "koncept_euroVoc": [
     "http://eurovoc.europa.eu/4512",
@@ -1241,7 +1242,7 @@ const HVD_20240619_EXPECTED = {
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": {
-      "cs": "Ministry of Transport",
+      "cs": "Ministerstvo dopravy, Odbor veřejné dopravy",
     },
     "e-mail": "mailto:sekretariat.190@mdcr.cz",
   },
@@ -1294,16 +1295,23 @@ const HVD_20240619_EXPECTED = {
       "přístupová_služba": {
         "typ": "Datová služba",
         "přístupový_bod": "https://portal.cisjr.cz/sparql",
+        "dokumentace": "https://www.data.cz/služba/dokumentace",
         "popis_přístupového_bodu": "https://portal.cisjr.cz/sparql",
         "iri": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02",
         "název": {
           "cs": "SPARQL endpoint pro jízdní řády",
           "en": "SPARQL endpoint for timetables",
         },
-        "poskytuje_datovou_sadu": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a",
-        "specifikace": "https://www.w3.org/TR/sparql11-protocol/",
+        "specifikace": ["https://www.w3.org/TR/sparql11-protocol/"],
         "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
         "kategorie_hvd": ["http://data.europa.eu/bna/c_164e0bf5", "http://data.europa.eu/bna/c_1e787364"],
+        "kontaktní_bod": {
+          "e-mail": "mailto:sekretariat.190@mdcr.cz",
+          "jméno": {
+            "cs": "Ministerstvo dopravy, Odbor veřejné dopravy",
+          },
+          "typ": "Organizace",
+        },
       },
     },
   ],
@@ -1313,5 +1321,145 @@ test("HVD_20240619 from json-ld and back for POST.", () => {
   return importFromJsonLd(HVD_20240619, "cs").then(data => {
     const actual = exportDatasetForPost(data.dataset, data.distributions);
     expect(actual).toEqual(HVD_20240619_EXPECTED);
+  });
+});
+
+// Example from https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní/draft/cs/
+// Shorthand URL expanded to work as input / output.
+// Removed en label for contact point, we do not support it.
+const DATOVE_ROZHRANI = {
+  "@context": "https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní/draft/datová-sada/kontext.jsonld",
+  "iri": "https://data.gov.cz/lkod/mdcr/datové-sady/vld",
+  "typ": ["Datová sada", "Datová sada SSP"],
+  "název": {
+    "cs": "Jízdní řády veřejné linkové dopravy",
+    "en": "Public transport timetables",
+  },
+  "popis": {
+    "cs": "Obsahem datové sady jsou schválené a aktuálně platné jízdní řády veřejné linkové dopravy postoupené do Celostátního informačního systému o jízdních řádech ve strojově zpracovatelném formátu.",
+    "en": "This dataset contains approved timetables and timetables in effect for public transport entered into the state-wide timetable information system.",
+  },
+  "poskytovatel": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/orgán-veřejné-moci/66003008",
+  "téma": ["http://publications.europa.eu/resource/authority/data-theme/GOVE"],
+  "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/WEEKLY_3",
+  "klíčové_slovo": {
+    "cs": ["jízdní řády", "veřejná linková doprava", "autobus"],
+    "en": ["timetable", "public transport", "bus"],
+  },
+  "časové_pokrytí": {
+    "typ": "Časový interval",
+    "začátek": "2009-01-01",
+    "konec": "2017-12-31",
+  },
+  "kontaktní_bod": {
+    "typ": "Organizace",
+    "jméno": {
+      "cs": "Ministerstvo dopravy, Odbor veřejné dopravy",
+    },
+    "e-mail": "mailto:sekretariat.190@mdcr.cz",
+  },
+  "dokumentace": "https://www.mdcr.cz/Dokumenty/Verejna-doprava/Jizdni-rady,-kalendare-pro-jizdni-rady,-metodi-(1)/Jizdni-rady-verejne-dopravy",
+  "specifikace": ["https://ofn.gov.cz/jízdní-řády/2020-05-01/"],
+  "koncept_euroVoc": ["http://eurovoc.europa.eu/4512"],
+  "právní_předpis": [
+    "https://www.e-sbirka.cz/eli/cz/sb/2000/365/2024-01-20",
+    "https://www.e-sbirka.cz/eli/cz/sb/2023/360/2024-07-01",
+    "https://www.e-sbirka.cz/eli/cz/sb/2026/60/2026-05-27",
+  ],
+  "týká_se_pojmu": [
+    "https://slovník.gov.cz/legislativní/sbírka/361/2000/pojem/řidič-evidovaný-v-registru-řidičů",
+    "https://slovník.gov.cz/legislativní/sbírka/361/2000/pojem/skupina-vozidel",
+  ],
+  "je_zahrnuta_v_isvs": "https://rpp-opendata.egon.gov.cz/odrpp/zdroj/isvs/3",
+  "vstupní_stránka": "https://lkod.md.gov.cz/datová-sada/vld",
+  "distribuce": [{
+    "iri": "https://data.md.gov.cz/isvs/1000/datová-rozhraní/1",
+    "typ": ["Distribuce", "Datové rozhraní"],
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+    },
+    "přístupové_url": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
+    "soubor_ke_stažení": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
+    "formát": "http://publications.europa.eu/resource/authority/file-type/ZIP",
+    "typ_média": "http://www.iana.org/assignments/media-types/application/json",
+    "schéma": "https://portal.cisjr.cz/schemata/json-schema.json",
+    "typ_média_komprese": "http://www.iana.org/assignments/media-types/application/zip",
+    "typ_média_balíčku": "http://www.iana.org/assignments/media-types/application/zip",
+    "název": {
+      "en": "JSON file in ZIP file",
+      "cs": "JSON soubor v ZIP soubrou",
+    },
+    "způsob_získání_sdílených_údajů": ["https://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/vlastní"],
+    "způsob_sdílení_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-sdílení-údajů/položky/poskytované-na-žádost",
+    "typ_obsahu_sdílených_údajů": [
+      "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/identifikační",
+      "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/statistické",
+    ],
+    "právní_předpis": [
+      "https://www.e-sbirka.cz/eli/cz/sb/2000/365/2024-01-20",
+      "https://www.e-sbirka.cz/eli/cz/sb/2023/360/2024-07-01",
+      "https://www.e-sbirka.cz/eli/cz/sb/2026/60/2026-05-27",
+    ],
+  }, {
+    "iri": "https://data.md.gov.cz/isvs/1000/datová-rozhraní/2",
+    "typ": ["Distribuce", "Datové rozhraní"],
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+    },
+    "přístupové_url": "https://portal.iscrr.cz/sparql",
+    "název": { "cs": "Kontext údajů o řidiči poskytovaných přes ISSS" },
+    "přístupová_služba": {
+      "iri": "https://data.md.gov.cz/isvs/1000/datová-rozhraní/2/služba/1",
+      "typ": "Datová služba",
+      "název": { "cs": "Kontext údajů o řidiči poskytovaných přes ISSS" },
+      "specifikace": ["https://www.w3.org/TR/sparql11-protocol/"],
+      "přístupový_bod": "https://portal.iscrr.cz/sparql",
+      "popis_přístupového_bodu": "https://portal.iscrr.cz/sparql",
+      "právní_předpis": [
+        "https://www.e-sbirka.cz/eli/cz/sb/2000/365/2024-01-20",
+        "https://www.e-sbirka.cz/eli/cz/sb/2023/360/2024-07-01",
+        "https://www.e-sbirka.cz/eli/cz/sb/2026/60/2026-05-27",
+      ],
+    },
+    "způsob_získání_sdílených_údajů": ["https://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/vlastní"],
+    "způsob_sdílení_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-sdílení-údajů/položky/zpřístupňované-pro-výkon-agendy",
+    "typ_obsahu_sdílených_údajů": [
+      "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/identifikační",
+      "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/evidenční",
+    ],
+    "právní_předpis": [
+      "https://www.e-sbirka.cz/eli/cz/sb/2000/365/2024-01-20",
+      "https://www.e-sbirka.cz/eli/cz/sb/2023/360/2024-07-01",
+      "https://www.e-sbirka.cz/eli/cz/sb/2026/60/2026-05-27",
+    ],
+    "sdílí_údaj": [{
+      "typ": "Sdílení údaje",
+      "odpovídající_pojem": "https://slovník.gov.cz/legislativní/sbírka/361/2000/pojem/skupina-vozidel",
+      "způsob_získání_sdílených_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/vlastní",
+      "způsob_sdílení_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-sdílení-údajů/položky/zpřístupňované-pro-výkon-agendy",
+      "typ_obsahu_sdílených_údajů": "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/evidenční",
+    }, {
+      "typ": "Sdílení údaje",
+      "odpovídající_pojem": "https://slovník.gov.cz/legislativní/sbírka/361/2000/pojem/řidič-evidovaný-v-registru-řidičů",
+      "způsob_získání_sdílených_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/vlastní",
+      "způsob_sdílení_údajů": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-sdílení-údajů/položky/zpřístupňované-pro-výkon-agendy",
+      "typ_obsahu_sdílených_údajů": "https://data.dia.gov.cz/zdroj/číselníky/typy-obsahu-údajů/položky/identifikační",
+    }],
+  }],
+};
+
+test("2026-06-30 DATOVE_ROZHRANI from json-ld and back for POST.", () => {
+  return importFromJsonLd(DATOVE_ROZHRANI, "cs").then(data => {
+    // We use POST as it preserves the record as is.
+    const actual = exportDatasetForPost(data.dataset, data.distributions);
+    expect(actual).toEqual(DATOVE_ROZHRANI);
   });
 });

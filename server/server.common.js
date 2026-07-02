@@ -2,7 +2,7 @@ const config = require("./server-configuration");
 const htmlTemplateFactory = require("./html-template");
 
 function initialize(app) {
-  app.use(config.server_api_base_url + "codelist", require("./codelist/routes"));
+  app.use(config.server_api_base_url + "codelist", require("./codelist-routes"));
 }
 
 function start(app) {

@@ -4,15 +4,23 @@ import {
   url,
   applyArray,
   shouldValidate,
+  email,
 } from "../app-service/validators";
+import { includesHvdLegislation } from "./dataset-model";
 
 export const DIST_TYPE_FILE = "FILE";
 
 export const DIST_TYPE_SERVICE = "SERVICE";
 
+/**
+ * Distribution can be default one or HVD one.
+ * The detection is done based on the legislation.
+ */
 export function createDistribution() {
-  return decorateDistribution({
-    "iri": "",
+  return {
+    "type": DIST_TYPE_FILE,
+    //
+    // Terms of use
     //
     "license_author_type": "NO",
     "license_author_name": "",
@@ -24,6 +32,10 @@ export function createDistribution() {
     "license_specialdb_custom": "",
     "license_personal_type": "NO",
     //
+    // Distribution
+    //
+    "iri": "",
+    /** @lc-property dcat:downloadURL */
     "url": "",
     "format": "",
     "media_type": "",
@@ -34,26 +46,56 @@ export function createDistribution() {
     "compress_format": "",
     "legislation": [],
     //
+    // Distribution: mode === "non-public"
+    //
+    "typy_obsahu": [],
+    "zpusoby_sdileni": [],
+    "zpusoby_ziskani": [],
+    "zprostredkovava_sdileni": [],
+    //
+    // Data service
+    //
     "service_iri": "",
+    /** @lc-property dcat:endpointURL */
     "service_endpoint_url": "",
+    /** @lc-property dcat:endpointDescription */
     "service_description": "",
+    /** @lc-property dct:conformsTo */
     "service_conforms_to": "",
-    // type -> type
-    "type": DIST_TYPE_FILE,
-  });
-}
-
-export function decorateDistribution(distribution) {
-  return {
-    ...distribution,
+    //
+    // HVD Data service
+    //
+    "contact_point_name": "",
+    "contact_point_email": "",
+    "contact_point_url": "",
+    /** @lc-property foaf:page */
+    "documentation": "",
+    /** When true title_cs, and title_en should be used. */
+    "service_title_copy": true,
+    "service_title_cs": "",
+    "service_title_en": "",
+    // By default do not force validation on new item.
     "$validators": {
       "force": false,
     },
   };
 }
 
+export function createZprostredkovavaSdileni() {
+  return {
+    "typy_obsahu": null,
+    "zpusoby_sdileni": null,
+    "zpusoby_ziskani": null,
+    "related_terms": null,
+  };
+}
+
+/**
+ * Create validators for all distribution fields.
+ */
 export function createDistributionValidators() {
   return {
+    // Terms of use section.
     "err_license_author_name": validateAuthor(
       "license_author_type", "license_author_name"),
     "err_license_author_custom": validateCustom(
@@ -74,6 +116,19 @@ export function createDistributionValidators() {
       "license_specialdb_custom_invalid"
     ),
     "err_personal": validatePersonal(),
+    "err_zprostredkovava_sdileni": function () {
+      if (!this.distribution.$validators.force) {
+        return [];
+      }
+      for (const item of this.distribution.zprostredkovava_sdileni) {
+        if (!item.typy_obsahu || !item.zpusoby_sdileni
+          || !item.zpusoby_ziskani || !item.related_terms) {
+          return [this.$t("zprostredkovava_sdileni_incomplete")];
+        }
+      }
+      return [];
+    },
+    //
     ...createFileDistributionValidators(),
     ...createServiceDistributionValidators(),
   };
@@ -113,12 +168,37 @@ function createServiceDistributionValidators() {
         [provided, "endpoint_url_missing"],
         [url, "endpoint_url_invalid"],
       ]),
-    "err_title": apply(
+    "err_title_cs": apply(
       (t) => t.distribution, "title_cs",
       provided, "title_missing"),
     "err_conforms_to": apply(
       (t) => t.distribution, "service_conforms_to",
       url, "service_conforms_to_invalid"),
+    // High value dataset section
+    "err_contact_point_name": applyArray(
+      (t) => t.distribution, "contact_point_name",
+      [[provided, "contact_point_name_missing"]],
+      (t) => includesHvdLegislation(t.distribution.legislation)),
+    "err_contact_point_email": applyArray(
+      (t) => t.distribution, "contact_point_email",[
+        [provided, "contact_point_email_missing"],
+        [email, "contact_point_email_invalid"],
+      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+    "err_contact_point_url": applyArray(
+      (t) => t.distribution, "contact_point_url", [
+        [provided, "contact_point_url_missing"],
+        [url, "contact_point_url_invalid"],
+      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+    "err_distribution_documentation": applyArray(
+      (t) => t.distribution, "distribution_documentation", [
+        [provided, "distribution_documentation_missing"],
+        [url, "distribution_documentation_invalid"],
+      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+    "err_service_title_cs": applyArray(
+      (t) => t.distribution, "service_title_cs",
+      [[provided, "service_title_missing"]],
+      (t) => includesHvdLegislation(t.distribution.legislation) &&
+        !t.distribution.service_title_copy),
   };
 }
 
@@ -171,46 +251,51 @@ function validatePersonal() {
   };
 }
 
-export function isDistributionValid(dist) {
-  return isAccessValid(dist)
-    && isAuthorValid(
-      dist.license_author_type, dist.license_author_name)
-    && isCustomValid(
-      dist.license_author_type, dist.license_author_custom)
-    && isAuthorValid(
-      dist.license_db_type, dist.license_db_name)
-    && isCustomValid(
-      dist.license_db_type, dist.license_db_custom)
-    && isCustomValid(
-      dist.license_specialdb_type, dist.license_specialdb_custom)
-    && isPersonalValid(
-      dist.license_personal_type);
-}
-
 const fileValidators = createFileDistributionValidators();
 
 const serviceValidators = createServiceDistributionValidators();
 
-function isAccessValid(dist) {
-  // We need to mock the UI entity, to provide all
-  // functions the validators need.
-  const wrappedDistribution = {
-    "distribution": dist,
+export function isDistributionValid(distribution) {
+  // We mock the UI entity, to provide all functions the validators need.
+  const wrapped = {
+    "distribution": distribution,
+    /**
+     * @param {string} message
+     */
     "$t": (message) => message,
   };
+  // Select validators based on the distribution type and mode.
   let validators;
-  if (dist.type === DIST_TYPE_FILE) {
+  if (distribution.type === DIST_TYPE_FILE) {
     validators = fileValidators;
   } else {
     validators = serviceValidators;
   }
+  // Run the validators.
   for (let validator of Object.values(validators)) {
-    const errorMessages = validator.call(wrappedDistribution);
+    const errorMessages = validator.call(wrapped);
     if (errorMessages.length > 0) {
       return false;
     }
   }
-  return true;
+  //
+  return isAuthorValid(
+    distribution.license_author_type,
+    distribution.license_author_name)
+    && isCustomValid(
+      distribution.license_author_type,
+      distribution.license_author_custom)
+    && isAuthorValid(
+      distribution.license_db_type,
+      distribution.license_db_name)
+    && isCustomValid(
+      distribution.license_db_type,
+      distribution.license_db_custom)
+    && isCustomValid(
+      distribution.license_specialdb_type,
+      distribution.license_specialdb_custom)
+    && isPersonalValid(
+      distribution.license_personal_type);
 }
 
 function isAuthorValid(licence, value) {
@@ -227,6 +312,10 @@ function isCustomValid(licence, value) {
   return provided(value) && url(value);
 }
 
+/**
+ * @param {string} value
+ * @returns
+ */
 function isPersonalValid(value) {
   return value !== "UNKNOWN";
 }

@@ -7,7 +7,53 @@ import {
   temporal,
   url,
 } from "../app-service/validators";
-import {includesHvd} from "./edit/codelists/legislation";
+import { EUROPE } from "../app-service/vocabulary";
+import { NON_PUBLIC_LEGISLATION } from "./edit/codelists/non-public";
+
+//
+// Section : High Value Dataset (HVD)
+//
+
+/**
+ * @param {string[]} legislation
+ * @returns {boolean}
+ */
+export function includesHvdLegislation(legislation) {
+  return legislation.includes(EUROPE.hvd);
+}
+
+/**
+ * @param {string[]} legislation
+ * @returns {string[]}
+ */
+export function filterHvdLegislation(legislation) {
+  return legislation.filter(iri => iri !== EUROPE.hvd);
+}
+
+//
+// Section : Non-Public Dataset
+//
+
+/**
+ * @param {string[]} legislation
+ * @returns {boolean}
+ */
+export function includesNonPublicLegislation(legislation) {
+  return NON_PUBLIC_LEGISLATION.every(iri => legislation.includes(iri));
+}
+
+/**
+ * @param {string[]} legislation
+ * @returns {string[]}
+ */
+export function filterNonPublicLegislation(legislation) {
+  return legislation.filter(iri => !NON_PUBLIC_LEGISLATION.includes(iri));
+}
+
+//
+//
+//
+
 
 export const SPATIAL_RUIAN = "RUIAN";
 
@@ -38,8 +84,18 @@ export const EXPORT_LKOD = "lkod";
 const MONTHLY_ACCRUAL_PERIODICITY =
   "http://publications.europa.eu/resource/authority/frequency/MONTHLY";
 
-export function createDataset() {
-  return decorateDataset({
+export const MODE_OPEN_DATA = "default";
+
+export const MODE_HVD = "hvd";
+
+export const MODE_NON_PUBLIC = "non-public";
+/**
+ * @param {"default" | "hvd" | "non-public"} mode
+ */
+export function createDataset(mode) {
+  return {
+    "mode": mode,
+    //
     "iri": undefined,
     "title_cs": "",
     "title_en": "",
@@ -65,14 +121,13 @@ export function createDataset() {
     "ruian": "",
     "ruian_type": "",
     "publisher": undefined,
-    "hvd_categories": [],
     "landing_page": "",
-  });
-}
-
-export function decorateDataset(dataset) {
-  return {
-    ...dataset,
+    // mode === "hvd"
+    "hvd_categories": [],
+    // mode === "non-public"
+    "isvs": "",
+    "related_terms": [],
+    // By default do not force validation on new item.
     "$validators": {
       "force": false,
       "forceHvd": false,
@@ -80,6 +135,9 @@ export function decorateDataset(dataset) {
   };
 }
 
+/**
+ * Create validators for all dataset fields.
+ */
 export function createDatasetValidators() {
   return {
     "err_title_cs": apply(
@@ -140,12 +198,12 @@ export function createDatasetValidators() {
       if (shouldSkipValidation) {
         return [];
       }
-      const { dataset, distributions } = this;
-      if (!includesHvd(dataset.legislation)) {
+      if (this.dataset.mode !== MODE_HVD) {
         return [];
       }
-      for (const distribution of distributions) {
-        if (includesHvd(distribution.legislation)) {
+      // Check there is at leas one HVD distribution.
+      for (const distribution of this.distributions) {
+        if (includesHvdLegislation(distribution.legislation)) {
           return [];
         }
       }
@@ -155,14 +213,33 @@ export function createDatasetValidators() {
       if (shouldSkipDatasetValidation(this.dataset)) {
         return [];
       }
-      const { dataset } = this;
-      if (includesHvd(dataset.legislation)
-        && dataset.hvd_categories.length === 0) {
+      if (includesHvdLegislation(this.dataset.legislation)
+        && this.dataset.hvd_categories.length === 0) {
         return [this.$t("missing_hvd_categories")];
       }
       return [];
     },
-    "err_landing_page":  apply(
+    "err_isvs": function () {
+      if (shouldSkipDatasetValidation(this.dataset)) {
+        return [];
+      }
+      if (this.dataset.mode === MODE_NON_PUBLIC
+        && !this.dataset.isvs) {
+        return [this.$t("missing_isvs")];
+      }
+      return [];
+    },
+    "err_related_terms": function () {
+      if (shouldSkipDatasetValidation(this.dataset)) {
+        return [];
+      }
+      if (this.dataset.mode === MODE_NON_PUBLIC
+        && this.dataset.related_terms.length === 0) {
+        return [this.$t("missing_related_terms")];
+      }
+      return [];
+    },
+    "err_landing_page": apply(
       (t) => t.dataset, "landing_page",
       url,
       "landing_page_invalid"),
@@ -183,16 +260,23 @@ function shouldSkipDatasetValidation(dataset) {
 
 const validators = createDatasetValidators();
 
+/**
+ * @param {*[]} dataset
+ * @param {*[]} distributions
+ * @returns
+ */
 export function isDatasetValid(dataset, distributions) {
-  // We need to mock the UI entity, to provide all
-  // functions the validators need.
-  const wrappedDistribution = {
+  // We mock the UI entity, to provide all functions the validators need.
+  const wrapped = {
     "dataset": dataset,
     "distributions": distributions,
+    /**
+     * @param {string} message
+     */
     "$t": (message) => message,
   };
   for (let validator of Object.values(validators)) {
-    const errorMessages = validator.call(wrappedDistribution);
+    const errorMessages = validator.call(wrapped);
     if (errorMessages.length > 0) {
       return false;
     }

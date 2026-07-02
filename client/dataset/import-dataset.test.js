@@ -9,7 +9,7 @@ let REMOTE_SOURCE = {};
 
 (function mockHttpService() {
   // eslint-disable-next-line no-import-assign
-  http.getRemoteJson = (url) => {
+  http.fetchByGetAsJson = (url) => {
     for (let key of Object.keys(REMOTE_SOURCE)) {
       if (!Object.prototype.hasOwnProperty.call(REMOTE_SOURCE, key)) {
         continue;
@@ -122,7 +122,7 @@ const A86 = {
 };
 
 const A86_EXPECTED_DATASET = {
-  ...createDataset(),
+  ...createDataset("default"),
   "iri": "https://katalog-mdcr/a86",
   "title_cs": "Seznam dopravců veřejné osobní dopravy obsažených v CIS JŘ",
   "title_en": "",
@@ -190,7 +190,7 @@ test("Load A86 by single request.", () => {
       ],
     },
   };
-  const promise = importDatasetFromUrl("https://katalog-mdcr/a86/all");
+  const promise = importDatasetFromUrl("https://katalog-mdcr/a86/all", "cs");
   return promise.then((actual) => {
     const distributions = actual.distributions;
     expect(actual.dataset).toEqual(A86_EXPECTED_DATASET);

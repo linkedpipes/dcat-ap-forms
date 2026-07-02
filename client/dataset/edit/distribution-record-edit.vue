@@ -20,6 +20,7 @@
         </v-icon>
       </a>
     </h2>
+    <!-- Terms of use -->
     <div>
       <v-layout
         row
@@ -31,7 +32,7 @@
         >
           <v-select
             v-model="distribution.license_author_type"
-            :items="author_license_types"
+            :items="AUTHOR_LICENSE_TYPES"
             :label="$t('license_author_type')"
             :item-text="$vuetify.lang.current"
             item-value="value"
@@ -89,7 +90,7 @@
         >
           <v-select
             v-model="distribution.license_db_type"
-            :items="db_author_license_types"
+            :items="DATABASE_AUTHOR_LICENSE_TYPES"
             :label="$t('license_db_type')"
             :item-text="$vuetify.lang.current"
             item-value="value"
@@ -147,7 +148,7 @@
         >
           <v-select
             v-model="distribution.license_specialdb_type"
-            :items="db_special_license_types"
+            :items="DATABASE_SPECIAL_LICENSE_TYPES"
             :label="$t('license_specialdb_type')"
             :item-text="$vuetify.lang.current"
             item-value="value"
@@ -191,7 +192,7 @@
         >
           <v-select
             v-model="distribution.license_personal_type"
-            :items="personal_data_links"
+            :items="PERSONAL_DATA_TYPES"
             :label="$t('license_personal_type')"
             :item-text="$vuetify.lang.current"
             :error-messages="err_personal"
@@ -205,9 +206,11 @@
       </v-layout>
     </div>
     <v-divider />
+    <!-- Type -->
     <h2 class="headline mt-2">
       {{ $t('headline_access') }}
     </h2>
+    <!-- Legislation -->
     <v-layout
       row
       wrap
@@ -215,7 +218,7 @@
       <v-flex xs12>
         <v-select
           v-model="distribution.type"
-          :items="distribution_types"
+          :items="DISTRIBUTION_TYPES"
           item-value="value"
           :item-text="$vuetify.lang.current"
           prepend-icon="sync_alt"
@@ -232,7 +235,7 @@
         <v-autocomplete
           id="distribution_legislation"
           v-model="distribution.legislation"
-          :items="legislationTypes"
+          :items="LEGISLATION_TYPES"
           :label="$t('distribution_legislation')"
           :item-text="$vuetify.lang.current"
           prepend-icon="gavel"
@@ -244,6 +247,7 @@
         />
       </v-flex>
     </v-layout>
+    <!-- File distribution -->
     <div v-if="isFileDistribution">
       <v-text-field
         id="distribution_url"
@@ -372,6 +376,7 @@
         </v-flex>
       </v-layout>
     </div>
+    <!-- Data service -->
     <div v-else>
       <v-text-field
         id="endpoint_url"
@@ -439,7 +444,7 @@
             v-model="distribution.title_cs"
             :hint="$t('hint_distribution_title')"
             :label="$t('distribution_title_cs')"
-            :error-messages="err_title"
+            :error-messages="err_title_cs"
             prepend-icon="label"
             append-outer-icon="help_outline"
             clearable
@@ -464,6 +469,288 @@
         </v-flex>
       </v-layout>
     </div>
+    <!-- High Value Dataset with Data Service -->
+    <div v-if="!isFileDistribution && isHvd">
+      <!-- Contact point -->
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          md6
+        >
+          <v-text-field
+            id="contact_point_name"
+            v-model="distribution.contact_point_name"
+            :label="$t('contact_point_name')"
+            :hint="$t('hint_contact_point_name')"
+            :error-messages="err_contact_point_name"
+            prepend-icon="person"
+            append-outer-icon="help_outline"
+            clearable
+            @click:append-outer="$h('contact_point_name')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md6
+        >
+          <v-text-field
+            id="contact_point_email"
+            v-model="distribution.contact_point_email"
+            :label="$t('contact_point_email')"
+            :hint="$t('hint_contact_point_email')"
+            :error-messages="err_contact_point_email"
+            prepend-icon="alternate_email"
+            append-outer-icon="help_outline"
+            type="email"
+            clearable
+            @click:append-outer="$h('contact_point_email')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md6
+        >
+          <v-text-field
+            id="contact_point_url"
+            v-model="distribution.contact_point_url"
+            :label="$t('contact_point_url')"
+            :hint="$t('hint_contact_point_url')"
+            :error-messages="err_contact_point_url"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            type="email"
+            clearable
+            @click:append-outer="$h('contact_point_url')"
+          />
+        </v-flex>
+      </v-layout>
+      <v-text-field
+        id="distribution_documentation"
+        v-model="distribution.documentation"
+        :label="$t('distribution_documentation')"
+        :hint="$t('hint_distribution_documentation')"
+        :error-messages="err_distribution_documentation"
+        prepend-icon="link"
+        append-outer-icon="help_outline"
+        type="url"
+        clearable
+        @click:append-outer="$h('distribution_documentation')"
+      />
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          md4
+        >
+          <v-checkbox
+            v-model="distribution.service_title_copy"
+            :label="$t('copy_service_title')"
+          />
+        </v-flex>
+        <v-flex
+          v-if="!distribution.service_title_copy"
+          xs12
+          md4
+        >
+          <v-text-field
+            id="service_title_cs"
+            v-model="distribution.service_title_cs"
+            :hint="$t('hint_service_title')"
+            :label="$t('service_title_cs')"
+            :error-messages="err_service_title_cs"
+            prepend-icon="label"
+            append-outer-icon="help_outline"
+            clearable
+            required
+            @click:append-outer="$h('service_title')"
+          />
+        </v-flex>
+        <v-flex
+          v-if="!distribution.service_title_copy"
+          xs12
+          md4
+        >
+          <v-text-field
+            id="service_title_en"
+            v-model="distribution.service_title_en"
+            :hint="$t('hint_service_title')"
+            :label="$t('service_title_en') + $t('optional')"
+            prepend-icon="label"
+            append-outer-icon="help_outline"
+            clearable
+            @click:append-outer="$h('service_title')"
+          />
+        </v-flex>
+      </v-layout>
+    </div>
+    <!-- Non public mode -->
+    <v-layout
+      v-if="isNonPublic"
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md4
+      >
+        <v-select
+          id="typy_obsahu"
+          v-model="distribution.typy_obsahu"
+          :items="TYPY_OBSAHU"
+          :label="$t('typy_obsahu')"
+          :item-text="$vuetify.lang.current"
+          item-value="value"
+          prepend-icon="category"
+          append-outer-icon="help_outline"
+          chips
+          multiple
+          @click:append-outer="$h('typy_obsahu')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md4
+      >
+        <v-select
+          id="zpusoby_sdileni"
+          v-model="distribution.zpusoby_sdileni"
+          :items="ZPUSOBY_SDILENI"
+          :label="$t('zpusoby_sdileni')"
+          :item-text="$vuetify.lang.current"
+          item-value="value"
+          prepend-icon="share"
+          append-outer-icon="help_outline"
+          chips
+          @click:append-outer="$h('zpusoby_sdileni')"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md4
+      >
+        <v-select
+          id="zpusoby_ziskani"
+          v-model="distribution.zpusoby_ziskani"
+          :items="ZPUSOBY_ZISKANI"
+          :label="$t('zpusoby_ziskani')"
+          :item-text="$vuetify.lang.current"
+          item-value="value"
+          prepend-icon="input"
+          append-outer-icon="help_outline"
+          chips
+          multiple
+          @click:append-outer="$h('zpusoby_ziskani')"
+        />
+      </v-flex>
+    </v-layout>
+    <div v-if="isNonPublic">
+      <v-divider />
+      <h2 class="headline mt-2">
+        {{ $t('headline_zprostredkovava_sdileni') }}
+      </h2>
+      <v-layout
+        v-for="(item, index) in distribution.zprostredkovava_sdileni"
+        :key="index"
+        row
+        wrap
+        align-center
+      >
+        <v-flex
+          xs11
+          md3
+          row
+          align-center
+        >
+          <div class="mx-3">
+            <v-btn
+              icon
+              @click="removeZprostredkovavaSdileni(index)"
+            >
+              <v-icon color="error">
+                delete
+              </v-icon>
+            </v-btn>
+          </div>
+          <v-select
+            v-model="item.typy_obsahu"
+            :items="TYPY_OBSAHU"
+            :label="$t('typy_obsahu')"
+            :item-text="$vuetify.lang.current"
+            item-value="value"
+            prepend-icon="category"
+            append-outer-icon="help_outline"
+            @click:append-outer="$h('typy_obsahu')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md3
+        >
+          <v-select
+            v-model="item.zpusoby_sdileni"
+            :items="ZPUSOBY_SDILENI"
+            :label="$t('zpusoby_sdileni')"
+            :item-text="$vuetify.lang.current"
+            item-value="value"
+            prepend-icon="share"
+            append-outer-icon="help_outline"
+            @click:append-outer="$h('zpusoby_sdileni')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md2
+        >
+          <v-select
+            v-model="item.zpusoby_ziskani"
+            :items="ZPUSOBY_ZISKANI"
+            :label="$t('zpusoby_ziskani')"
+            :item-text="$vuetify.lang.current"
+            item-value="value"
+            prepend-icon="input"
+            append-outer-icon="help_outline"
+            @click:append-outer="$h('zpusoby_ziskani')"
+          />
+        </v-flex>
+        <v-flex
+          xs12
+          md4
+        >
+          <app-solr-autocomplete-lazy
+            v-model="item.related_terms"
+            if="related_terms"
+            :label="$t('related_terms')"
+            :no-data-prompt="$t('related_terms_autocomplete_no_data')"
+            prepend-icon="link"
+            append-outer-icon="help_outline"
+            :code-list="RELATED_TERMS"
+            :multiple="false"
+            @click:append-outer="$h('related_terms')"
+          />
+        </v-flex>
+      </v-layout>
+      <v-alert
+        v-if="err_zprostredkovava_sdileni.length > 0"
+        dense
+        type="error"
+        outlined
+      >
+        {{ err_zprostredkovava_sdileni[0] }}
+      </v-alert>
+      <v-btn
+        text
+        @click="addZprostredkovavaSdileni"
+      >
+        <v-icon>add</v-icon>
+        {{ $t('add_zprostredkovava_sdileni') }}
+      </v-btn>
+    </div>
+    <!-- -->
     <div v-if="canBeDeleted">
       <v-btn
         text
@@ -482,6 +769,7 @@
 import SolrAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import {
   createDistributionValidators,
+  createZprostredkovavaSdileni,
   DIST_TYPE_FILE,
   DIST_TYPE_SERVICE,
 } from "../distribution-model";
@@ -491,8 +779,18 @@ import {
   dbSpecialLicenseTypes,
   personalDataTypes,
 } from "./codelists/license";
-import {FILE_TYPE, MEDIA_TYPES} from "./codelists/server-codelists";
-import legislationTypes from "./codelists/legislation";
+import {
+  FILE_TYPE, MEDIA_TYPES, RELATED_TERMS,
+} from "./codelists/server-codelists";
+import {
+  legislationCodelist, legislationHvdCodelist,
+} from "./codelists/legislation";
+import {
+  typyObsahuUdaju,
+  zpusobySdileniUdaju,
+  zpusobyZiskaniUdaju,
+} from "./codelists/non-public";
+import { includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC } from "../dataset-model";
 
 export default {
   "name": "AppDistributionRecordEdit",
@@ -502,30 +800,40 @@ export default {
   "props": {
     "distribution": {"type": Object, "required": true},
     "canBeDeleted": {"type": Boolean, "required": true},
+    "mode": {"type": String, "required": true},
   },
   "data": () => ({
-    "author_license_types": authorLicenseTypes,
-    "db_author_license_types": dbAuthorLicenseTypes,
-    "db_special_license_types": dbSpecialLicenseTypes,
-    "personal_data_links": personalDataTypes,
-    "legislationTypes": legislationTypes,
-    "distribution_types": [
-      {
-        "value": DIST_TYPE_FILE,
-        "cs": "Soubor ke stažení",
-        "en": "Downloadable file",
-      },
-      {
-        "value": DIST_TYPE_SERVICE,
-        "cs": "Datová služba",
-        "en":"Data Service",
-      },
-    ],
+    // Section with codelist.
+    "AUTHOR_LICENSE_TYPES": authorLicenseTypes,
+    "DATABASE_AUTHOR_LICENSE_TYPES": dbAuthorLicenseTypes,
+    "DATABASE_SPECIAL_LICENSE_TYPES": dbSpecialLicenseTypes,
+    "PERSONAL_DATA_TYPES": personalDataTypes,
+    "DISTRIBUTION_TYPES": [{
+      "value": DIST_TYPE_FILE,
+      "cs": "Soubor ke stažení",
+      "en": "Downloadable file",
+    },{
+      "value": DIST_TYPE_SERVICE,
+      "cs": "Datová služba",
+      "en":"Data Service",
+    }],
     "FILE_TYPE": FILE_TYPE,
     "MEDIA_TYPES": MEDIA_TYPES,
+    "RELATED_TERMS": RELATED_TERMS,
+    "TYPY_OBSAHU": typyObsahuUdaju,
+    "ZPUSOBY_SDILENI": zpusobySdileniUdaju,
+    "ZPUSOBY_ZISKANI": zpusobyZiskaniUdaju,
   }),
   "computed": {
     ...createDistributionValidators(),
+    "LEGISLATION_TYPES": function() {
+      // For HVD we let user select HVD legislation option.
+      if (this.mode === MODE_HVD) {
+        return legislationHvdCodelist;
+      } else {
+        return legislationCodelist;
+      }
+    },
     "isCcByAuthor": function () {
       return this.distribution.license_author_type === "CC BY";
     },
@@ -544,10 +852,24 @@ export default {
     "isFileDistribution": function() {
       return this.distribution.type === DIST_TYPE_FILE;
     },
+    "isNonPublic": function () {
+      return this.model === MODE_NON_PUBLIC;
+    },
+    "isHvd": function() {
+      return includesHvdLegislation(this.distribution.legislation);
+    },
   },
   "methods": {
     "onDelete": function () {
       this.$emit("delete");
+    },
+    "addZprostredkovavaSdileni": function () {
+      this.distribution.zprostredkovava_sdileni.push(
+        createZprostredkovavaSdileni());
+    },
+    /** @param {number} index */
+    "removeZprostredkovavaSdileni": function (index) {
+      this.distribution.zprostredkovava_sdileni.splice(index, 1);
     },
   },
 };

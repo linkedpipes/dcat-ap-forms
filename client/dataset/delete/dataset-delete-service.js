@@ -1,5 +1,5 @@
 import {importFromJsonLd} from "../import-dataset";
-import {importDatasetFromUrlWithProxy} from "../import-dataset";
+import {importDatasetFromUrlWithDereference} from "../import-dataset";
 import {exportDatasetToJsonLdForDelete} from "./export-dataset-delete";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {postForm} from "../../app-service/http";
@@ -25,7 +25,7 @@ async function loadDataset(component) {
     return;
   }
   try {
-    const data = await importDatasetFromUrlWithProxy(
+    const data = await importDatasetFromUrlWithDereference(
       component.$route.query.dataset,
       component.$vuetify.lang.current);
     component.dataset = data.dataset;

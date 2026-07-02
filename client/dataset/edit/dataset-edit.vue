@@ -52,6 +52,7 @@
             ref="distributionComponent"
             :distribution="data.distributions[ui.distribution]"
             :can-be-deleted="data.distributions.length > 1"
+            :mode="data.dataset.mode"
             @delete="deleteDistribution"
           />
         </v-stepper-content>
@@ -102,7 +103,7 @@ import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import ExportSummary from "./dataset-export-summary";
 import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
-import {EXPORT_NKOD, isDatasetValid} from "../dataset-model";
+import {EXPORT_NKOD, isDatasetValid, MODE_OPEN_DATA} from "../dataset-model";
 import * as service from "./dataset-edit-service";
 import {getStore} from "./codelists/local-storage";
 import {areExportOptionsValid} from "./dataset-edit-service";
@@ -123,7 +124,8 @@ export default {
     "data": {
       "codelist": getStore(),
       "status": "loading",
-      "dataset": undefined,
+      /** Temporary value to be replaced by loading. */
+      "dataset": { "mode": MODE_OPEN_DATA },
       "distributions": [],
       "error": undefined,
     },

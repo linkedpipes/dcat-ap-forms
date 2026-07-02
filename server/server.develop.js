@@ -13,7 +13,7 @@ const config = require("../build/webpack.develop.js");
 (function initialize() {
   const app = express();
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ "extended": false }));
   server.initialize(app);
   initializeWebpack(app);
   initializeStatic(app);

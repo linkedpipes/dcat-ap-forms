@@ -23,7 +23,7 @@ module.exports = {
     "server",
   ],
   "globals" :{
-    "window": {}
+    "window": {},
   },
   "setupFiles": [
     "<rootDir>/client/jest-setup.js",

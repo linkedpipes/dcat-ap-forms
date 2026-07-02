@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import {getLocalJson} from "../../../app-service/http";
-import {addStoreItems} from "../codelists/local-storage";
+import {fetchByGetAsJson} from "../../../app-service/http";
+import {addItemsToStore} from "../codelists/local-storage";
 import {configuration} from "../../../client-configuration";
 
 /**
@@ -55,8 +55,8 @@ export default {
       this.loading = true;
       const language = this.$vuetify.lang.current;
       const url = createFetchUrl(this.codeList, language);
-      getLocalJson(url).then((response) => {
-        addStoreItems(this.codeList, response.json.response.docs);
+      fetchByGetAsJson(url).then((response) => {
+        addItemsToStore(this.codeList, response.json.response.docs);
         const items = response.json.response.docs;
         if (this.sortByLabel) {
           items.sort((left, right) => left[language].localeCompare(right[language]));

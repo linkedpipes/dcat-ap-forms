@@ -44,8 +44,8 @@
 </template>
 
 <script>
-import {getLocalJson} from "../../../app-service/http";
-import {addStoreItems} from "../codelists/local-storage";
+import {fetchByGetAsJson} from "../../../app-service/http";
+import {addItemsToStore} from "../codelists/local-storage";
 import {configuration} from "../../../client-configuration";
 
 /**
@@ -103,11 +103,11 @@ export default {
       valuesToFetch.forEach((value) => {
         const url = createTitleQueryUrl(
           this.codeList, value, this.$vuetify.lang.current);
-        getLocalJson(url).then((response) => {
+        fetchByGetAsJson(url).then((response) => {
           if (response.json.response.docs.length === 0) {
             this.items = [...this.items, createNonLabeledItem(value)];
           } else {
-            addStoreItems(this.codeList, response.json.response.docs);
+            addItemsToStore(this.codeList, response.json.response.docs);
             this.items = [...this.items, ...response.json.response.docs];
           }
         });
@@ -117,8 +117,8 @@ export default {
       this.loading = true;
       const url = createQueryUrl(
         this.codeList, query, this.$vuetify.lang.current);
-      getLocalJson(url).then((response) => {
-        addStoreItems(this.codeList, response.json.response.docs);
+      fetchByGetAsJson(url).then((response) => {
+        addItemsToStore(this.codeList, response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
       }).catch(() => {

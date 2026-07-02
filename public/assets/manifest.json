@@ -1,6 +1,6 @@
 {
-    "name": "Registrační formulář pro NKOD",
-    "short_name": "Registrace do NKOD",
+    "name": "Registrační formulář pro NKD",
+    "short_name": "Registrace do NKD",
     "theme_color": "#057fa5",
     "background_color": "#ffffff",
     "display": "standalone",

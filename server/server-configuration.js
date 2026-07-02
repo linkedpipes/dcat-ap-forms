@@ -11,8 +11,9 @@ module.exports = {
   "solr_continents": configuration["solr_continents"],
   "solr_countries": configuration["solr_countries"],
   "solr_places": configuration["solr_places"],
+  "solr_isvs": configuration["solr_isvs"],
   "solr_hvd_categories": configuration["solr_hvd_categories"],
-  "html_head": configuration["head"],
+  "sparql_related_terms": configuration["sparql_related_terms"],
   //
   "base_url": configuration["base_url"],
   "client_api_base_url": configuration["client_api_base_url"],

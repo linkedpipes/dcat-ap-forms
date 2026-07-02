@@ -1,31 +1,35 @@
 
 /**
- * Executes HTTP GET to given URL with accept header requesting JSON-LD>
- *
- * Use this method to fetch from a remote URL.
+ * @param {string} url
  */
 export function getRemoteJsonLd(url) {
-  return getRemoteJson(url, "application/ld+json");
+  return fetchByGetAsJson(url, "application/ld+json");
 }
 
 /**
- * Executes HTTP GET to given URL.
- * The result is parsed as a JSON object.
- *
- * Use this method to fetch from a remote URL.
+ * @param {string} url
+ * @param {string} accept Accept header.
  */
-export function getRemoteJson(url, accept) {
-  return fetchJson("GET", url, accept);
+export function fetchByGetAsJson(url, accept) {
+  return fetchAsJson("GET", url, accept);
 }
 
-function fetchJson(method, url, accept, content) {
+/**
+ * @param {"GET" | "POST"} method
+ * @param {string} url
+ * @param {string} accept
+ * @param {string | undefined} content
+ * @returns
+ */
+function fetchAsJson(method, url, accept, content = undefined) {
   if (accept === undefined) {
     accept = "application/json";
   }
+  /** @type * */
   const request = {
     "method": method,
     "headers": {
-      "Accept": accept,
+      "accept": accept,
     },
   };
   if (content !== undefined) {
@@ -53,16 +57,6 @@ function handleJsonRequest(response) {
     });
 }
 
-/**
- * Executes HTTP GET to given URL.
- * The result is parsed as a JSON object.
- *
- * Use this method to fetch from a local URL.
- */
-export function getLocalJson(url, accept) {
-  return fetchJson("GET", url, accept);
-}
-
 export function postForm(url, values) {
   const form = document.createElement("form");
   document.body.appendChild(form);
@@ -83,7 +77,6 @@ export function postForm(url, values) {
   try {
     form.submit();
   } catch (error) {
-    // TODO Show error notification.
     console.error("Can't POST data", error);
   }
 }

@@ -3,8 +3,11 @@ export const RUIAN = "ruian";
 
 const ruianPrefix = "https://linked.cuzk.cz/resource/ruian/";
 
-export function isRuian(iri) {
-  return iri.startsWith(ruianPrefix);
+/**
+ * @param {string} value
+ */
+export function isRuian(value) {
+  return value.startsWith(ruianPrefix);
 }
 
 export const CONTINENTS = "continents";
@@ -12,8 +15,11 @@ export const CONTINENTS = "continents";
 const continentPrefix =
   "http://publications.europa.eu/resource/authority/continent/";
 
-export function isContinent(url) {
-  return url.startsWith(continentPrefix);
+/**
+ * @param {string} value
+ */
+export function isContinent(value) {
+  return value.startsWith(continentPrefix);
 }
 
 export const COUNTRIES = "countries";
@@ -30,8 +36,11 @@ export const PLACES = "places";
 const placePrefix =
   "http://publications.europa.eu/resource/authority/place/";
 
-export function isPlace(iri) {
-  return iri.startsWith(placePrefix);
+/**
+ * @param {string} value
+ */
+export function isPlace(value) {
+  return value.startsWith(placePrefix);
 }
 
 export const EUROVOC = "themes";
@@ -45,3 +54,7 @@ export const HVD_CATEGORIES = "hvd-categories";
 export const DATASET_THEME = "dataset-theme";
 
 export const FREQUENCY = "frequency";
+
+export const ISVS = "isvs";
+
+export const RELATED_TERMS = "related-terms";

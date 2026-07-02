@@ -1,3 +1,4 @@
+
 export function provided(value) {
   return value !== null && value !== undefined && value.length > 0;
 }
@@ -67,11 +68,15 @@ export function shouldValidate(value, validators, property) {
   return false;
 }
 
-export function applyArray(selector, property, rules) {
+/**
+ * @param {*} guard A validation guard function.
+ */
+export function applyArray(selector, property, rules, guard = undefined) {
   return function () {
     const value = selector(this)[property];
     const validators = selector(this)["$validators"];
-    if (!shouldValidate(value, validators, property)) {
+    if (!shouldValidate(value, validators, property) ||
+      (guard !== undefined && !guard(this))) {
       return [];
     }
     const output = [];

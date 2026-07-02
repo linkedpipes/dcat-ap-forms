@@ -670,7 +670,7 @@
 </template>
 
 <script>
-import {getStoreLabel} from "../codelists/local-storage";
+import {getLabelFromStore} from "../codelists/local-storage";
 import {DIST_TYPE_FILE, DIST_TYPE_SERVICE} from "../../distribution-model";
 import {MEDIA_TYPES, FILE_TYPE} from "../codelists/server-codelists";
 
@@ -701,25 +701,25 @@ export default {
     },
     "mediaTypeLabel": function () {
       const iri = this.distribution.media_type;
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
     },
     "formatLabel": function () {
       const iri = this.distribution.format;
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, FILE_TYPE, iri,
         this.$vuetify.lang.current);
     },
     "packageLabel" : function () {
       const iri = this.distribution.package_format;
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
     },
     "compressionLabel" : function () {
       const iri = this.distribution.compress_format;
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, MEDIA_TYPES, iri,
         this.$vuetify.lang.current);
     },

@@ -1,7 +1,6 @@
 import {
   getMultiLangString,
   selectString,
-  unpackLangStringToProp,
 } from "./properties";
 
 test("Load empty string array.", () => {
@@ -68,17 +67,6 @@ test("Load single multi-language string.", () => {
   expect(actual).toEqual(expected);
   expect(selectString(actual, "cs")).toEqual("text-00");
   expect(selectString(actual, "en")).toEqual("text-02");
-});
-
-test("Unpack language string with empty language tag.", () => {
-  const data = {"": ["Oprava kuchyně v MŠ-III.etapa"]};
-  const actual = unpackLangStringToProp(
-    "description", "cs", data);
-  const expected = {
-    "description_cs": "Oprava kuchyně v MŠ-III.etapa",
-    "description_en": "",
-  };
-  expect(actual).toEqual(expected);
 });
 
 test("Load empty language string.", () => {

@@ -430,9 +430,10 @@
 </template>
 
 <script>
+import {configuration} from "../../client-configuration";
 import DistributionCard from "./components/distribution-card";
 import ExportTypeDialog from "./components/export-type-dialog";
-import {getStoreLabel} from "./codelists/local-storage";
+import {getLabelFromStore} from "./codelists/local-storage";
 import {RUIAN, EUROVOC, FREQUENCY, DATASET_THEME} from "./codelists/server-codelists";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../dataset-model";
@@ -461,7 +462,7 @@ export default {
   }),
   "computed": {
     "nkodDatabox": function () {
-      return NKOD_ISDS;
+      return configuration.databox;
     },
     "keywords": function() {
       return [...this.dataset.keywords_cs, ...this.dataset.keywords_en];
@@ -490,7 +491,7 @@ export default {
   },
   "methods": {
     "ruianLabel": function (iri) {
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, RUIAN, iri, this.$vuetify.lang.current);
     },
     "onSubmit": function () {
@@ -509,15 +510,15 @@ export default {
       openUrl(this.dataset.ruian);
     },
     "datasetThemeToLabel": function (iri) {
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, DATASET_THEME, iri, this.$vuetify.lang.current);
     },
     "frequencyToLabel": function (iri) {
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, FREQUENCY, iri, this.$vuetify.lang.current);
     },
     "themeToLabel": function (iri) {
-      return getStoreLabel(
+      return getLabelFromStore(
         this.codelist, EUROVOC, iri, this.$vuetify.lang.current);
     },
     "spatialToLabel": function(item) {

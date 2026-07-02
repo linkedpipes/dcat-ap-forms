@@ -180,6 +180,7 @@
         md6
       >
         <v-combobox
+          v-if="!isNonPublic"
           id="dataset_custom_theme"
           v-model="dataset.dataset_custom_themes"
           :label="$t('dataset_theme') + $t('optional')"
@@ -261,17 +262,14 @@
         />
       </v-flex>
       <v-flex
-        xs1
-        md1
+        v-if="!isNonPublic"
+        row
+        xs12
+        md6
       >
-        <div class="text-center">
+        <div class="text-center mx-6">
           <spatial-dialog @add="addSpatial" />
         </div>
-      </v-flex>
-      <v-flex
-        xs11
-        md5
-      >
         <v-combobox
           id="dataset_spatial"
           v-model="dataset.spatial"
@@ -344,6 +342,7 @@
         md6
       >
         <v-text-field
+          v-if="!isNonPublic"
           id="temporalResolution"
           v-model="dataset.temporal_resolution"
           :label="$t('temporal_resolution') + $t('optional')"
@@ -360,6 +359,7 @@
         md6
       >
         <v-text-field
+          v-if="!isNonPublic"
           id="spatialResolutionMeters"
           v-model="dataset.spatial_resolution_meters"
           :label="$t('spatial_resolution_meters') + $t('optional')"
@@ -453,14 +453,64 @@
           @click:append-outer="$h('dataset_legislation')"
         />
         <app-solr-autocomplete-lazy
+          v-if="isHvd"
           id="hvd_categories"
           v-model="dataset.hvd_categories"
           :label="$t('hvd_categories')"
           :no-data-prompt="$t('hvd_categories_autocomplete_no_data')"
           prepend-icon="gavel"
           :code-list="HVD_CATEGORIES"
-          :disabled="isHvdDisabled"
           :error-messages="err_hvd_categories"
+          :multiple="true"
+        />
+      </v-flex>
+      <v-flex>
+        <v-text-field
+          id="landing_page"
+          v-model="dataset.landing_page"
+          :label="$t('landing_page') + $t('optional')"
+          :error-messages="err_landing_page"
+          :hint="$t('hint_landing_page')"
+          prepend-icon="link"
+          append-outer-icon="help_outline"
+          type="url"
+          clearable
+          @click:append-outer="$h('landing_page')"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout
+      v-if="isNonPublic"
+      row
+      wrap
+    >
+      <v-flex
+        xs12
+        md6
+      >
+        <app-solr-autocomplete-lazy
+          id="isvs"
+          v-model="dataset.isvs"
+          :label="$t('isvs')"
+          :no-data-prompt="$t('isvs_autocomplete_no_data')"
+          prepend-icon="business"
+          :code-list="ISVS"
+          :error-messages="err_isvs"
+          :multiple="false"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        md6
+      >
+        <app-solr-autocomplete-lazy
+          id="related_terms"
+          v-model="dataset.related_terms"
+          :label="$t('related_terms')"
+          :no-data-prompt="$t('related_terms_autocomplete_no_data')"
+          prepend-icon="link"
+          :code-list="RELATED_TERMS"
+          :error-messages="err_related_terms"
           :multiple="true"
         />
       </v-flex>
@@ -485,10 +535,14 @@ import SolrChipsAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import SpatialDialog from "./components/spatial-dialog";
 import UploadFileDialog from "./components/upload-file-dialog";
 import UploadUrlDialog from "./components/upload-url-dialog";
-import {createDatasetValidators} from "../dataset-model";
+import {
+  createDatasetValidators, MODE_HVD, MODE_NON_PUBLIC,
+} from "../dataset-model";
 import {getSpatialLabel} from "./codelists/spatial";
-import {EUROVOC, HVD_CATEGORIES, DATASET_THEME, FREQUENCY} from "./codelists/server-codelists";
-import legislationTypes, { includesHvd } from "./codelists/legislation";
+import {
+  EUROVOC, HVD_CATEGORIES, DATASET_THEME, FREQUENCY, ISVS, RELATED_TERMS,
+} from "./codelists/server-codelists";
+import {legislationCodelist} from "./codelists/legislation";
 
 export default {
   "name": "AppDatasetRecordEdit",
@@ -507,7 +561,7 @@ export default {
     "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
-    "legislations": legislationTypes,
+    "legislations": legislationCodelist,
     "dialog": false,
     "dialog_keyword": false,
     "dialog_url": false,
@@ -515,11 +569,16 @@ export default {
     "HVD_CATEGORIES": HVD_CATEGORIES,
     "DATASET_THEME": DATASET_THEME,
     "FREQUENCY": FREQUENCY,
+    "ISVS": ISVS,
+    "RELATED_TERMS": RELATED_TERMS,
   }),
   "computed": {
     ...createDatasetValidators(),
-    "isHvdDisabled": function() {
-      return !includesHvd(this.dataset.legislation);
+    "isHvd": function() {
+      return this.dataset.mode === MODE_HVD;
+    },
+    "isNonPublic": function() {
+      return this.dataset.mode === MODE_NON_PUBLIC;
     },
   },
   "methods": {

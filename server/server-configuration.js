@@ -11,8 +11,13 @@ module.exports = {
   "solr_continents": configuration["solr_continents"],
   "solr_countries": configuration["solr_countries"],
   "solr_places": configuration["solr_places"],
+  "solr_isvs": configuration["solr_isvs"],
   "solr_hvd_categories": configuration["solr_hvd_categories"],
-  "html_head": configuration["head"],
-  "resources_url_prefix": configuration["resources_url_prefix"],
-  "api_url_prefix": "/api/v2/forms/v1",
+  "sparql_related_terms": configuration["sparql_related_terms"],
+  //
+  "base_url": configuration["base_url"],
+  "client_api_base_url": configuration["client_api_base_url"],
+  "server_api_base_url": configuration["server_api_base_url"],
+  "dereference_proxy": configuration["dereference_proxy"],
+  "databox": configuration["nkod_databox"],
 };

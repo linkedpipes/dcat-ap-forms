@@ -3,14 +3,17 @@
  */
 
 import Vue from "vue";
-import { getLocalJson } from "../../../app-service/http";
+import { fetchByGetAsJson } from "../../../app-service/http";
 import { configuration } from "../../../client-configuration";
 
+/** @type {{[name:string]: *}} */
 const storage = {};
 
-// We can change language on fly, so the items need to contains all language
-// mutations.
-export function addStoreItems(type, items) {
+/**
+ * @param {string} type
+ * @param {*[]} items
+ */
+export function addItemsToStore(type, items) {
   if (storage[type] === undefined) {
     // We need to add this in reactive way otherwise Vue wont detect
     // the change. For more info see:
@@ -24,11 +27,11 @@ export function addStoreItems(type, items) {
   });
 }
 
-export function getStoreLabel(store, type, iri, lang) {
+export function getLabelFromStore(store, type, iri, lang) {
   if (!iri) {
     return "";
   }
-  const item = getStoreItem(store, type, iri, lang);
+  const item = getItemFromStore(store, type, iri, lang);
   if (item) {
     return item[lang] || iri;
   } else {
@@ -36,7 +39,7 @@ export function getStoreLabel(store, type, iri, lang) {
   }
 }
 
-export function getStoreItem(store, type, iri) {
+export function getItemFromStore(store, type, iri) {
   if (store[type] === undefined) {
     return undefined;
   }
@@ -52,15 +55,15 @@ export function fetchLabelFromCodeList(codeList, iri, lang) {
     return Promise.resolve();
   }
   const url = createTitleQueryUrl(codeList, iri, lang);
-  return getLocalJson(url).then((response) => {
-    addStoreItems(codeList, response.json.response.docs);
+  return fetchByGetAsJson(url).then((response) => {
+    addItemsToStore(codeList, response.json.response.docs);
     return response.json.response.docs;
   });
 }
 
 function createTitleQueryUrl(codeList, iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return configuration.apiPrefix + "/codelist/" + codeList +
+  return configuration.apiPrefix + "codelist/" + codeList +
     "?iri=" + encodeURIComponent(escapedIri) +
     "&lang=" + lang;
 }

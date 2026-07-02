@@ -9,7 +9,7 @@ const routes = require("./routes-map");
 (function initialize() {
   const app = express();
   app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.urlencoded({ "extended": false }));
   server.initialize(app);
   initializeStatic(app, express);
   initializeEntryPoints(app);

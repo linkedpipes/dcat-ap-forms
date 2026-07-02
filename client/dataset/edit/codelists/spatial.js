@@ -5,12 +5,12 @@ import {
   SPATIAL_RUIAN,
   SPATIAL_URL,
 } from "../../dataset-model";
-import {getStoreItem, getStoreLabel} from "./local-storage";
+import {getItemFromStore, getLabelFromStore} from "./local-storage";
 import {CONTINENTS, COUNTRIES, PLACES, RUIAN} from "./server-codelists";
 
 export function getSpatialLabel(codelist, item, lang) {
   if (item.type === SPATIAL_RUIAN) {
-    const ruian = getStoreItem(codelist, RUIAN, item.url);
+    const ruian = getItemFromStore(codelist, RUIAN, item.url);
     if (ruian === undefined) {
       return item.url;
     }
@@ -18,11 +18,11 @@ export function getSpatialLabel(codelist, item, lang) {
   }
   switch (item.type) {
   case SPATIAL_CONTINENT:
-    return getStoreLabel(codelist, CONTINENTS, item.url, lang);
+    return getLabelFromStore(codelist, CONTINENTS, item.url, lang);
   case SPATIAL_COUNTRY:
-    return getStoreLabel(codelist, COUNTRIES, item.url, lang);
+    return getLabelFromStore(codelist, COUNTRIES, item.url, lang);
   case SPATIAL_PLACE:
-    return getStoreLabel(codelist, PLACES, item.url, lang);
+    return getLabelFromStore(codelist, PLACES, item.url, lang);
   case SPATIAL_URL:
     return item.url;
   default:

@@ -2,7 +2,7 @@ const config = require("./server-configuration");
 const htmlTemplateFactory = require("./html-template");
 
 function initialize(app) {
-  app.use(config.api_url_prefix + "/codelist", require("./codelist/routes"));
+  app.use(config.server_api_base_url + "codelist", require("./codelist-routes"));
 }
 
 function start(app) {
@@ -11,7 +11,7 @@ function start(app) {
     if (error) {
       console.error(error);
     }
-    console.info("Listening on port %s.", port);
+    console.info("Listening on http://localhost:%s.", port);
   });
 }
 

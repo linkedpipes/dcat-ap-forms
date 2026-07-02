@@ -2,14 +2,14 @@
 
 import * as http from "../app-service/http";
 import {createDataset, SPATIAL_COUNTRY, SPATIAL_RUIAN} from "./dataset-model";
-import {importDatasetFromUrl} from "./import-dataset-from-url";
+import {importDatasetFromUrl} from "./import-dataset";
 import {createDistribution} from "./distribution-model";
 
 let REMOTE_SOURCE = {};
 
 (function mockHttpService() {
   // eslint-disable-next-line no-import-assign
-  http.getRemoteJson = (url) => {
+  http.fetchByGetAsJson = (url) => {
     for (let key of Object.keys(REMOTE_SOURCE)) {
       if (!Object.prototype.hasOwnProperty.call(REMOTE_SOURCE, key)) {
         continue;
@@ -21,10 +21,6 @@ let REMOTE_SOURCE = {};
     return Promise.reject({"error": "Request for: " + url});
   };
 })();
-
-//
-//
-//
 
 const A86 = {
   "https://katalog-mdcr/a86": {
@@ -78,6 +74,9 @@ const A86 = {
           {"@id": "http://publications.europa.eu/resource/authority/data-theme/TRAN"},
           {"@id": "http://eurovoc.europa.eu/4512"},
         ],
+        "http://www.w3.org/ns/dcat#landingPage": {
+          "@id": "https://katalog-mdcr/landingPage",
+        },
       },
     ],
   },
@@ -123,7 +122,7 @@ const A86 = {
 };
 
 const A86_EXPECTED_DATASET = {
-  ...createDataset(),
+  ...createDataset("default"),
   "iri": "https://katalog-mdcr/a86",
   "title_cs": "Seznam dopravců veřejné osobní dopravy obsažených v CIS JŘ",
   "title_en": "",
@@ -158,6 +157,7 @@ const A86_EXPECTED_DATASET = {
   "themes": ["http://eurovoc.europa.eu/4512"],
   "legislation": [],
   "hvd_categories": [],
+  "landing_page": "https://katalog-mdcr/landingPage",
 };
 
 const A86_EXPECTED_DISTRIBUTION = {
@@ -190,7 +190,7 @@ test("Load A86 by single request.", () => {
       ],
     },
   };
-  const promise = importDatasetFromUrl("https://katalog-mdcr/a86/all");
+  const promise = importDatasetFromUrl("https://katalog-mdcr/a86/all", "cs");
   return promise.then((actual) => {
     const distributions = actual.distributions;
     expect(actual.dataset).toEqual(A86_EXPECTED_DATASET);

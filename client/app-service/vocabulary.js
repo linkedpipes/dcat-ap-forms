@@ -37,12 +37,14 @@ export const DCATAP = {
   "temporalResolution": "http://www.w3.org/ns/dcat#temporalResolution",
   "spatialResolutionInMeters":
     "http://www.w3.org/ns/dcat#spatialResolutionInMeters",
+  "landingPage": "http://www.w3.org/ns/dcat#landingPage",
 };
-
 
 export const EUROPE = {
   "applicableLegislation": "http://data.europa.eu/r5r/applicableLegislation",
+  "openData": "http://data.europa.eu/eli/dir/2019/1024/oj",
   "hvdCategory": "http://data.europa.eu/r5r/hvdCategory",
+  "hvd": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
 };
 
 export const FOAF = {
@@ -51,6 +53,7 @@ export const FOAF = {
 };
 
 export const VCARD = {
+  "url": "http://www.w3.org/2006/vcard/ns#hasURL",
   "fn": "http://www.w3.org/2006/vcard/ns#fn",
   "hasEmail": "http://www.w3.org/2006/vcard/ns#hasEmail",
   "Organization": "http://www.w3.org/2006/vcard/ns#Organization",
@@ -95,4 +98,43 @@ export const ADMS = {
 
 export const STATUS = {
   "Withdrawn": "http://purl.org/adms/status/Withdrawn",
+};
+
+const ESBIRKA_PREFIX = "https://www.e-sbirka.cz/eli/cz/sb/";
+
+export const ESBIRKA = {
+  "2026/60/2026-05-27": ESBIRKA_PREFIX + "2026/60/2026-05-27",
+  "2000/365/2024-01-20": ESBIRKA_PREFIX + "2000/365/2024-01-20",
+  "360/2024-07-01": ESBIRKA_PREFIX + "2023/360/2024-07-01",
+};
+
+const LEGISLATION_360_2023 =
+  "https://slovník.gov.cz/legislativní/sbírka/360/2023/pojem/";
+
+const LEGISLATION_365_2000 =
+  "https://slovník.gov.cz/legislativní/sbírka/365/2000/pojem/";
+
+export const VOCABULARY_GOV_CZ = {
+  "tyka-se-pojmu":
+    "https://slovník.gov.cz/veřejný-sektor/pojem/týká-se-pojmu",
+  "zahrnuje":
+    LEGISLATION_365_2000 + "zahrnuje",
+  "typ-obsahu-sdileneho-rozhranim":
+    LEGISLATION_360_2023 + "má-typ-obsahu-sdíleného-rozhraním",
+  "zpusob-sdileni-rozhranim":
+    LEGISLATION_360_2023 + "má-způsob-sdílení-rozhraním",
+  "zpusob-ziskani-dat-sdilenych-rozhranim":
+    LEGISLATION_360_2023 + "má-způsob-získání-dat-sdílených-rozhraním",
+  "zprostredkovava-sdileni":
+    LEGISLATION_360_2023 + "zprostředkovává-sdílení",
+  "sdilen-jako":
+    LEGISLATION_360_2023 + "je-sdílen-jako",
+  "sdilen-zpusobem":
+    LEGISLATION_360_2023 + "je-sdílen-způsobem",
+  "ziskan-zpusobem":
+    LEGISLATION_360_2023 + "je-získán-způsobem",
+  "odpovidajici-pojem":
+    LEGISLATION_360_2023 + "odpovídající-pojem",
+  "je-sdilen-jako":
+    LEGISLATION_360_2023 + "je-sdílen-jako",
 };

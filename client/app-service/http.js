@@ -1,19 +1,35 @@
-export function getLocalJson(url, accept) {
-  return fetchJson("GET", "." + url, accept);
+
+/**
+ * @param {string} url
+ */
+export function getRemoteJsonLd(url) {
+  return fetchByGetAsJson(url, "application/ld+json");
 }
 
-export function getRemoteJson(url, accept) {
-  return fetchJson("GET", url, accept);
+/**
+ * @param {string} url
+ * @param {string} accept Accept header.
+ */
+export function fetchByGetAsJson(url, accept) {
+  return fetchAsJson("GET", url, accept);
 }
 
-function fetchJson(method, url, accept, content) {
+/**
+ * @param {"GET" | "POST"} method
+ * @param {string} url
+ * @param {string} accept
+ * @param {string | undefined} content
+ * @returns
+ */
+function fetchAsJson(method, url, accept, content = undefined) {
   if (accept === undefined) {
     accept = "application/json";
   }
+  /** @type * */
   const request = {
     "method": method,
     "headers": {
-      "Accept": accept,
+      "accept": accept,
     },
   };
   if (content !== undefined) {
@@ -40,3 +56,28 @@ function handleJsonRequest(response) {
       };
     });
 }
+
+export function postForm(url, values) {
+  const form = document.createElement("form");
+  document.body.appendChild(form);
+  form.method = "post";
+  form.action = url;
+
+  for (const [name, value] of Object.entries(values)) {
+    if (value === undefined) {
+      continue;
+    }
+    const formDataInput = document.createElement("input");
+    formDataInput.type = "hidden";
+    formDataInput.name = name;
+    formDataInput.value = value;
+    form.appendChild(formDataInput);
+  }
+
+  try {
+    form.submit();
+  } catch (error) {
+    console.error("Can't POST data", error);
+  }
+}
+

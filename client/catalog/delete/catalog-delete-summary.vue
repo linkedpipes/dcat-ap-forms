@@ -52,7 +52,7 @@
         </div>
       </div>
       <v-card-actions>
-        <div>
+        <div v-show="commitByDownload">
           {{ $t("catalog_delete_summary_download") }}
           <code>{{ nkodDatabox }}</code>.
         </div>
@@ -67,7 +67,7 @@
           <v-icon left>
             file_download
           </v-icon>
-          <span>{{ $t("button_download") }}</span>
+          <span>{{ submitButtonTitle }}</span>
         </v-btn>
       </v-card-actions>
     </v-container>
@@ -75,7 +75,12 @@
 </template>
 
 <script>
-import {onExport} from "./catalog-delete-service";
+import {configuration} from "../../client-configuration";
+import {
+  postOnSubmit,
+  submitCatalogDelete,
+  downloadCatalogDelete,
+} from "./catalog-delete-service";
 
 export default {
   "name": "AppExportSummary",
@@ -84,7 +89,7 @@ export default {
   },
   "computed": {
     "nkodDatabox": function () {
-      return NKOD_ISDS;
+      return configuration.databox;
     },
     "title": function () {
       const lang = this.$vuetify.lang.current;
@@ -95,10 +100,24 @@ export default {
         this.catalog.title_en
       );
     },
+    "commitByDownload": function () {
+      return !postOnSubmit(this.$route);
+    },
+    "submitButtonTitle": function () {
+      if (this.commitByDownload) {
+        return this.$t("button_summary_delete_download");
+      } else {
+        return this.$t("button_summary_delete_post");
+      }
+    },
   },
   "methods": {
     "onExport": function () {
-      onExport(this.catalog);
+      if (this.commitByDownload) {
+        downloadCatalogDelete(this.catalog);
+      } else {
+        submitCatalogDelete(this.catalog, this.$route);
+      }
     },
     "openUrlInNewWindow": function (url) {
       window.open(url);

@@ -1,3 +1,6 @@
+/**
+ * Mapping from URL to language, title and entry point name.
+ */
 module.exports = [
   {
     "path": "/registrace-datov%C3%A9-sady",

@@ -80,6 +80,10 @@ export const ruianTypeCodelist = [
   },
 ];
 
+/**
+ * @param {string} url
+ * @returns {string | undefined}
+ */
 export function getRuianTypeFromUrl(url) {
   if (url.indexOf("adresni-misto") !== -1) {
     return prefix + "AD";

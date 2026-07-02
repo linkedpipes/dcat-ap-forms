@@ -1,22 +1,22 @@
 <template>
-  <v-container 
-    fluid 
-    grid-list-lg 
+  <v-container
+    fluid
+    grid-list-lg
     pa-2
   >
     <v-layout row>
       <v-flex v-if="!isValid">
-        <v-alert 
-          :value="!isValid" 
+        <v-alert
+          :value="!isValid"
           outlined
           type="error"
         >
           {{ $t('catalog_summary_error') }}
         </v-alert>
       </v-flex>
-      <v-flex v-if="isValid">
-        <v-alert 
-          :value="isValid" 
+      <v-flex v-if="isValid && commitByDownload">
+        <v-alert
+          :value="isValid"
           outlined
           type="success"
         >
@@ -25,18 +25,21 @@
         </v-alert>
       </v-flex>
     </v-layout>
-    <v-layout row>
-      <v-flex md10>
+    <v-layout
+      row
+      style="align-items: end"
+    >
+      <v-flex>
         <h2 class="display-1">
           {{ catalog.title_cs }}
           {{ catalog.title_en ? "| " + catalog.title_en : "" }}
         </h2>
       </v-flex>
       <v-spacer />
-      <v-btn 
+      <v-btn
         :disabled="!isValid"
-        class="hidden-xs-only"
         color="success"
+        class="mb-2"
         rounded
         outlined
         @click="onDownload"
@@ -44,7 +47,7 @@
         <v-icon left>
           file_download
         </v-icon>
-        <span>{{ $t('button_download') }}</span>
+        <span>{{ submitButtonTitle }}</span>
       </v-btn>
     </v-layout>
     <v-list two-line>
@@ -79,9 +82,9 @@
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn 
-            icon 
-            ripple 
+          <v-btn
+            icon
+            ripple
             @click="sendEmail"
           >
             <v-icon color="blue">
@@ -122,9 +125,9 @@
           </v-list-item-subtitle>
         </v-list-item-content>
         <v-list-item-action>
-          <v-btn 
-            icon 
-            ripple 
+          <v-btn
+            icon
+            ripple
             @click="openCatalog"
           >
             <v-icon color="blue">
@@ -164,41 +167,17 @@
       </v-list-item>
     </v-list>
     <v-divider class="my-2" />
-    <v-layout 
-      row 
-      class="mb-2"
-    >
-      <v-spacer />
-      <template #activator="{ on }">
-        <v-tooltip bottom>
-          <v-btn
-            slot="activator"
-            :disabled="!isValid"
-            color="success"
-            rounded
-            outlined
-            @click="onDownload"
-            v-on="on"
-          >
-            <v-icon left>
-              file_download
-            </v-icon>
-            <span>{{ $t('button_download') }}</span>
-          </v-btn>
-          <span v-if="isValid">
-            {{ $t('summary_download') }}
-            <code>{{ nkodDatabox }}</code>.
-          </span>
-          <span v-if="!isValid">{{ $t('summary_error') }}</span>
-        </v-tooltip>
-      </template>
-    </v-layout>
   </v-container>
 </template>
 
 <script>
+import {configuration} from "../../client-configuration";
 import {getCatalogTypeLabel} from "./codelists/catalog-type";
-import {onExport} from "./catalog-edit-service";
+import {
+  postOnSubmit,
+  downloadCatalogEdit,
+  submitCatalogEdit,
+} from "./catalog-edit-service";
 
 export default {
   "name": "AppCatalogExportSummary",
@@ -208,12 +187,26 @@ export default {
   },
   "computed": {
     "nkodDatabox": function () {
-      return NKOD_ISDS;
+      return configuration.databox;
+    },
+    "commitByDownload": function () {
+      return !postOnSubmit(this.$route);
+    },
+    "submitButtonTitle": function () {
+      if (this.commitByDownload) {
+        return this.$t("button_summary_edit_download");
+      } else {
+        return this.$t("button_summary_edit_post");
+      }
     },
   },
   "methods": {
     "onDownload": function () {
-      onExport(this.catalog);
+      if (this.commitByDownload) {
+        downloadCatalogEdit(this.catalog);
+      } else {
+        submitCatalogEdit(this.catalog, this.$route);
+      }
     },
     "openCatalog": function () {
       window.open(this.catalog.iri);

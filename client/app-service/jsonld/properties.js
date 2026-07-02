@@ -21,6 +21,9 @@ export function getValue(entity, predicate) {
   return getValues(entity, predicate)[0];
 }
 
+/**
+ * @returns {string[]}
+ */
 export function getValues(entity, predicate) {
   let value = entity[predicate];
   if (value === undefined) {
@@ -117,6 +120,21 @@ export function getMultiLangString(entity, predicate) {
   return result;
 }
 
+/**
+ * @returns List of all entities.
+ */
+export function selectAll(flatJsonLd) {
+  const result = [];
+  flatJsonLd.forEach((entity) => {
+    if (entity["@graph"]) {
+      result.push(...selectAll(entity["@graph"]));
+      return;
+    }
+    result.push(entity);
+  });
+  return result;
+}
+
 export function selectByType(flatJsonLd, type) {
   const result = [];
   flatJsonLd.forEach((entity) => {
@@ -143,29 +161,5 @@ export function selectByIri(flatJsonLd, iri) {
       result.push(entity);
     }
   });
-  return result;
-}
-
-export function unpackLangStringToProp(
-  targetProperty, defaultLanguage, langString) {
-  if (langString === undefined) {
-    return {
-      [targetProperty + "_cs"]: "",
-      [targetProperty + "_en"]: "",
-    };
-  }
-  const stringCs = selectString(langString, "cs");
-  const stringEn = selectString(langString, "en");
-  const stringEmpty = selectString(langString, "");
-  const result = {
-    [targetProperty + "_cs"]: stringCs || "",
-    [targetProperty + "_en"]: stringEn || "",
-  };
-  // If there is string without language we can use it for
-  // defaultLanguage language value.
-  const defaultLanguageProp = targetProperty + "_" + defaultLanguage;
-  if (stringEmpty && result[defaultLanguageProp] === "") {
-    result[defaultLanguageProp] = stringEmpty;
-  }
   return result;
 }

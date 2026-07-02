@@ -1,7 +1,5 @@
 const path = require("path");
-const webpack = require("webpack");
 const {VueLoaderPlugin} = require("vue-loader");
-const config = require("../configuration");
 
 const entryPath = path.join(__dirname, "..", "client", "app-entry");
 
@@ -64,10 +62,5 @@ module.exports = {
   },
   "plugins": [
     new VueLoaderPlugin(),
-    new webpack.DefinePlugin({
-      "DEREFERENCE_PROXY": JSON.stringify(config.dereference_proxy),
-      "NKOD_ISDS": JSON.stringify(config.nkod_databox),
-    }),
   ],
 };
-

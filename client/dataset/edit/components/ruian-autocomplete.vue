@@ -40,8 +40,9 @@
 </template>
 
 <script>
-import {getLocalJson} from "../../../app-service/http";
-import {addStoreItems} from "../codelists/local-storage";
+import {fetchByGetAsJson} from "../../../app-service/http";
+import {addItemsToStore} from "../codelists/local-storage";
+import {configuration} from "../../../client-configuration";
 
 export default {
   "name": "AppRuianAutocomplete",
@@ -82,8 +83,8 @@ export default {
   "mounted": function () {
     // Fetch label for the initial value.
     const url = createQueryUrlForIri(this.value, this.$vuetify.lang.current);
-    getLocalJson(url).then((response) => {
-      addStoreItems("ruian", response.json.response.docs);
+    fetchByGetAsJson(url).then((response) => {
+      addItemsToStore("ruian", response.json.response.docs);
       this.items = response.json.response.docs;
     });
   },
@@ -92,8 +93,8 @@ export default {
       this.loading = true;
       let url = createQueryUrlForLabelAndType(
         query, this.type, this.$vuetify.lang.current);
-      getLocalJson(url).then((response) => {
-        addStoreItems("ruian", response.json.response.docs);
+      fetchByGetAsJson(url).then((response) => {
+        addItemsToStore("ruian", response.json.response.docs);
         this.items = response.json.response.docs;
         this.loading = false;
       }).catch(() => {
@@ -109,13 +110,13 @@ export default {
 
 function createQueryUrlForIri(iri, lang) {
   const escapedIri = iri.replace(":", "\\:");
-  return "/api/v1/codelist/ruian" +
+  return configuration.apiPrefix + "codelist/ruian" +
     "?iri=" + encodeURIComponent(escapedIri) +
     "&lang=" + lang;
 }
 
 function createQueryUrlForLabelAndType(query, type, lang) {
-  return "/api/v1/codelist/ruian" +
+  return configuration.apiPrefix + "codelist/ruian" +
             "?search=*" + encodeURIComponent(query) + "*" +
             "&lang=" + lang +
             "&type=" + type;

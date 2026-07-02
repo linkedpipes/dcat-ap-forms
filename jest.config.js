@@ -8,6 +8,7 @@ module.exports = {
     "vue",
   ],
   "moduleNameMapper": {
+    "^vue$": "<rootDir>/node_modules/vue/dist/vue.runtime.common.prod.js",
     "^@/(.*)$": "<rootDir>/client/$1",
   },
   "transform": {
@@ -21,7 +22,10 @@ module.exports = {
     "client",
     "server",
   ],
-  "globals": {
-    "DEREFERENCE_PROXY": "",
+  "globals" :{
+    "window": {},
   },
+  "setupFiles": [
+    "<rootDir>/client/jest-setup.js",
+  ],
 };

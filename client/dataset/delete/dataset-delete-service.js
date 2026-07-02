@@ -1,8 +1,8 @@
 import {importFromJsonLd} from "../import-dataset";
-import {importDatasetFromUrlWithProxy} from "../import-dataset-from-url";
+import {importDatasetFromUrlWithDereference} from "../import-dataset";
 import {exportDatasetToJsonLdForDelete} from "./export-dataset-delete";
 import {downloadAsJsonLd} from "../../app-service/download";
-import axios from "axios";
+import {postForm} from "../../app-service/http";
 
 export async function onDatasetDeleteMounted(component) {
   document.title = component.$t("delete_page_title");
@@ -10,12 +10,14 @@ export async function onDatasetDeleteMounted(component) {
 }
 
 async function loadDataset(component) {
+  // We first try to load from a POST data.
   const serverFormData = getFormData();
   if (serverFormData !== undefined) {
     await loadDatasetFromServerData(component, serverFormData);
     component.status = "ready";
     return;
   }
+  // Next we try to load from a URL query.
   const datasetUrl = component.$route.query.dataset;
   if (datasetUrl === undefined) {
     console.error("Missing dataset URL.");
@@ -23,7 +25,7 @@ async function loadDataset(component) {
     return;
   }
   try {
-    const data = await importDatasetFromUrlWithProxy(
+    const data = await importDatasetFromUrlWithDereference(
       component.$route.query.dataset,
       component.$vuetify.lang.current);
     component.dataset = data.dataset;
@@ -35,10 +37,7 @@ async function loadDataset(component) {
 }
 
 function getFormData() {
-  if (window.serverPostData && window.serverPostData.formData) {
-    return window.serverPostData.formData;
-  }
-  return undefined;
+  return window?.serverPostData?.formData;
 }
 
 async function loadDatasetFromServerData(component, serverFormData) {
@@ -53,32 +52,22 @@ export function postOnSubmit($route) {
 }
 
 function getReturnUrl($route) {
-  return $route.query.returnUrl;
+  return $route.query.returnUrl ?? window?.serverPostData?.returnUrl;
 }
 
 export async function submitDatasetDelete(dataset, $route) {
-  const url = getReturnUrl($route);
-  const jsonld = exportDatasetToJsonLdForDelete(dataset);
-  try {
-    const response = await axios.post(url, {
-      "formData": jsonld,
-      "userData": getUserData(),
-    });
-    if (response.status >= 300 && response.status <= 399
-      && response.headers["location"]) {
-      window.location.href = response.headers["location"];
-    }
-  } catch (error) {
-    // TODO Show error notification.
-    console.error("Can't POST data", error);
-  }
+  const postUrl = getReturnUrl($route);
+  const formData = exportDatasetToJsonLdForDelete(dataset);
+  const userData = getUserData();
+
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {
-  if (window.serverPostData && window.serverPostData.userData) {
-    return window.serverPostData.userData;
-  }
-  return undefined;
+  return window?.serverPostData?.userData;
 }
 
 export function downloadDatasetDelete(dataset) {

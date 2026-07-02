@@ -1,21 +1,25 @@
 import {
   EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD,
   createDataset,
+  MODE_OPEN_DATA,
+  MODE_NON_PUBLIC,
+  MODE_HVD,
 } from "../dataset-model";
 import {
-  fetchCodelistLabels,
   importDatasetFromUrl,
-  importDatasetFromUrlWithProxy,
-} from "../import-dataset-from-url";
-import {importFromJsonLd} from "../import-dataset";
+  importDatasetFromUrlWithDereference,
+  importFromJsonLd,
+} from "../import-dataset";
 import {
-  exportDatasetForLkod,
-  exportDatasetForNkod,
+  exportDatasetForLocalDataCatalog,
+  exportDatasetForNationalDataCatalog,
   exportDatasetForPost,
-} from "./export-dataset-edit";
+} from "./dataset-export";
 import {downloadAsJsonLd} from "../../app-service/download";
 import {createDistribution, isDistributionValid} from "../distribution-model";
 import {provided, url} from "../../app-service/validators";
+import {postForm} from "../../app-service/http";
+import { fetchCodelistLabels } from "../codelist";
 
 export function onRouteChange(component, location) {
   if (location.query.krok === undefined) {
@@ -32,14 +36,14 @@ export async function onDatasetEditMounted(component) {
   const language = component.$vuetify.lang.current;
   const query = loadQueryArguments(component.$route.query);
   try {
-    const result = await loadDataset(language, query);
+    const result = await loadOrCreateDataset(language, query);
     component.exportOptions = {
       ...component.exportOptions,
       ...result.exportOptions,
       "shouldPost": isNotEmpty(query.postUrl),
       "postUrl": query.postUrl,
     };
-    setData(component, result.dataset, result.distributions);
+    setDataOnMount(component, result.dataset, result.distributions);
     document.title = component.$t(getPageTitle(
       component.data.dataset, component.exportOptions.type));
     initializeStep(component);
@@ -52,39 +56,59 @@ export async function onDatasetEditMounted(component) {
 
 function loadQueryArguments(query) {
   return {
-    "dataset":
-      query["dataset"] || query["datová-sada"],
+    "dataset": query["dataset"] || query["datová-sada"],
     "copyFromDataset":
       query["copy-from-dataset"] || query["kopírovat-z-datové-sady"],
-    "file":
-      query["file"] || query["soubor"],
-    "postUrl":
-      query["returnUrl"],
-    "lkod":
-      query["lkod"] === null,
+    "file": query["file"] || query["soubor"],
+    "postUrl": getReturnUrl(query),
+    "lkod": query["lkod"] === null,
+    "mode": (() => {
+      switch(query["mode"] ?? query["mód"]) {
+      default:
+      case "open-data":
+      case "otevřená-data":
+        return MODE_OPEN_DATA;
+      case "non-public":
+      case "neveřejná-data":
+        return MODE_NON_PUBLIC;
+      case "high-value-dataset":
+      case "datové-sada-s-vysokou-hodnotou":
+        return MODE_HVD;
+      }
+    })(),
   };
 }
 
-async function loadDataset(language, query) {
+function getReturnUrl(query) {
+  return query.returnUrl ?? window?.serverPostData?.returnUrl;
+}
+
+async function loadOrCreateDataset(language, query) {
   const serverFormData = getFormData();
-  if (isNotEmpty(query.dataset)) {
+  if (serverFormData !== undefined) {
+    return await importFromPostData(language, serverFormData);
+  } else if (isNotEmpty(query.dataset)) {
     return importDatasetByUrl(query.dataset, language);
   } else if (isNotEmpty(query.copyFromDataset)) {
     return copyDatasetByUrl(query.copyFromDataset, language, query.lkod);
   } else if (isNotEmpty(query.file)) {
     return importFromFile(query.file, language, query.lkod);
-  } else if (serverFormData !== undefined) {
-    return await importFromPostData(language, serverFormData);
   } else {
-    return importNew(query.lkod);
+    // Create new dataset.
+    return {
+      "exportOptions": {
+        "type": query.lkod ? EXPORT_LKOD : EXPORT_NKOD,
+        "allowImport": true,
+        "allowEdit": false,
+      },
+      "dataset": createDataset(query.mode),
+      "distributions": [],
+    };
   }
 }
 
 function getFormData() {
-  if (window.serverPostData && window.serverPostData.formData) {
-    return window.serverPostData.formData;
-  }
-  return undefined;
+  return window?.serverPostData?.formData;
 }
 
 function isNotEmpty(value) {
@@ -92,7 +116,7 @@ function isNotEmpty(value) {
 }
 
 async function importDatasetByUrl(url, language) {
-  const data = await importDatasetFromUrlWithProxy(url, language);
+  const data = await importDatasetFromUrlWithDereference(url, language);
   return {
     "exportOptions": {
       "allowImport": false,
@@ -105,7 +129,7 @@ async function importDatasetByUrl(url, language) {
 }
 
 async function copyDatasetByUrl(url, language, lkod) {
-  const data = await importDatasetFromUrlWithProxy(url, language);
+  const data = await importDatasetFromUrlWithDereference(url, language);
   return {
     "exportOptions": {
       "allowImport": false,
@@ -145,19 +169,7 @@ async function importFromPostData(language, serverFormData) {
   };
 }
 
-function importNew(lkod) {
-  return {
-    "exportOptions": {
-      "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
-      "allowImport": true,
-      "allowEdit": false,
-    },
-    "dataset": createDataset(),
-    "distributions": [],
-  };
-}
-
-function setData(component, dataset, distributions) {
+function setDataOnMount(component, dataset, distributions) {
   component.data.dataset = dataset;
   component.data.distributions = distributions;
   component.ui.distribution = 0;
@@ -271,7 +283,7 @@ export async function onLoadFromFile(component, file) {
     const content = await loadFile(file);
     const data = await importFromJsonLd(
       content, component.$vuetify.lang.current);
-    setData(component, data.dataset, data.distributions);
+    setDataOnMount(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import file.", error);
     component.ui.uploadFailedVisible = true;
@@ -297,7 +309,7 @@ export async function onLoadFromUrl(component, url) {
   try {
     const data = await importDatasetFromUrl(
       url, component.$vuetify.lang.current);
-    setData(component, data.dataset, data.distributions);
+    setDataOnMount(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import url.", error);
     component.ui.uploadFailedVisible = true;
@@ -314,46 +326,25 @@ export function onUpdateExport(component, event) {
 }
 
 export async function submitDatasetEdit(dataset, distributions, postUrl) {
-
-  const form = document.createElement("form");
-  document.body.appendChild(form);
-  form.method = "post";
-  form.action = postUrl;
-
   const formData = exportDatasetForPost(dataset, distributions);
-
-  const formDataInput = document.createElement("input");
-  formDataInput.type = "hidden";
-  formDataInput.name = "formData";
-  formDataInput.value = JSON.stringify(formData);
-  form.appendChild(formDataInput);
-
   const userData = getUserData();
-  if (userData) {
-    const userDataInput = document.createElement("input");
-    userDataInput.type = "hidden";
-    userDataInput.name = "userData";
-    userDataInput.value = JSON.stringify(userData);
-    form.appendChild(userDataInput);
-  }
-
-  form.submit();
+  postForm(postUrl, {
+    "formData": JSON.stringify(formData),
+    "userData": userData === undefined ? undefined : JSON.stringify(userData),
+  });
 }
 
 function getUserData() {
-  if (window.serverPostData && window.serverPostData.userData) {
-    return window.serverPostData.userData;
-  }
-  return undefined;
+  return window?.serverPostData?.userData;
 }
 
 export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   const fileName = getDatasetEditDownloadFileName(dataset, exportOptions.type);
   let content;
   if (exportOptions.type === EXPORT_NKOD) {
-    content = exportDatasetForNkod(dataset, distributions);
+    content = exportDatasetForNationalDataCatalog(dataset, distributions);
   } else {
-    content = exportDatasetForLkod(
+    content = exportDatasetForLocalDataCatalog(
       dataset, distributions, {
         "lkodIri": exportOptions.lkodIri,
         "publisher": exportOptions.publisher,

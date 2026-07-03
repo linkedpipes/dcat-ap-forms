@@ -24,6 +24,14 @@ export function url(value) {
   return !provided(value) || urlPattern.test(value);
 }
 
+/**
+ * Trim trailing spaces in given values.
+ * @param {string | string []} value
+ */
+export function trimEnd(value) {
+  return Array.isArray(value) ? value.map(trimEnd) : value.trimEnd();
+}
+
 export function apply(selector, property, rule, message) {
   return function () {
     const value = selector(this)[property];

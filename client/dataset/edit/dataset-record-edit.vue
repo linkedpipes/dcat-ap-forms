@@ -193,6 +193,7 @@
           chips
           multiple
           @click:append-outer="$h('dataset_custom_theme')"
+          @blur="dataset.dataset_custom_themes = trimEnd(dataset.dataset_custom_themes)"
         >
           <template
             slot="selection"
@@ -229,6 +230,7 @@
           chips
           multiple
           @click:append-outer="$h('dataset_ofn')"
+          @blur="dataset.ofn = trimEnd(dataset.ofn)"
         >
           <template
             slot="selection"
@@ -420,6 +422,7 @@
       type="url"
       clearable
       @click:append-outer="$h('documentation')"
+      @blur="dataset.documentation = trimEnd(dataset.documentation)"
     />
     <app-solr-autocomplete-lazy
       id="themes"
@@ -543,6 +546,7 @@ import {
   EUROVOC, HVD_CATEGORIES, DATASET_THEME, FREQUENCY, ISVS, RELATED_TERMS,
 } from "./codelists/server-codelists";
 import {legislationCodelist} from "./codelists/legislation";
+import {trimEnd} from "../../app-service/validators";
 
 export default {
   "name": "AppDatasetRecordEdit",
@@ -612,6 +616,7 @@ export default {
     "loadFromUrl": function(url) {
       this.$emit("load-from-url", url);
     },
+    trimEnd,
   },
 };
 

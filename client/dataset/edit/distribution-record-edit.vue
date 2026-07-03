@@ -261,6 +261,7 @@
         type="url"
         clearable
         @click:append-outer="$h('distribution_url')"
+        @blur="distribution.url = trimEnd(distribution.url)"
       />
       <v-layout
         row
@@ -339,6 +340,7 @@
         type="url"
         clearable
         @click:append-outer="$h('distribution_schema_link')"
+        @blur="distribution.schema = trimEnd(distribution.schema)"
       />
       <v-layout
         row
@@ -390,6 +392,7 @@
         type="url"
         clearable
         @click:append-outer="$h('endpoint_url')"
+        @blur="distribution.service_endpoint_url = trimEnd(distribution.service_endpoint_url)"
       />
       <v-layout
         row
@@ -411,6 +414,7 @@
             type="url"
             clearable
             @click:append-outer="$h('endpoint_description')"
+            @blur="distribution.service_description = trimEnd(distribution.service_description)"
           />
         </v-flex>
         <v-flex
@@ -428,6 +432,7 @@
             type="url"
             clearable
             @click:append-outer="$h('service_conforms_to')"
+            @blur="distribution.service_conforms_to = trimEnd(distribution.service_conforms_to)"
           />
         </v-flex>
       </v-layout>
@@ -790,7 +795,10 @@ import {
   zpusobySdileniUdaju,
   zpusobyZiskaniUdaju,
 } from "./codelists/non-public";
-import { includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC } from "../dataset-model";
+import {
+  includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC
+} from "../dataset-model";
+import {trimEnd} from "../../app-service/validators";
 
 export default {
   "name": "AppDistributionRecordEdit",
@@ -860,6 +868,7 @@ export default {
     },
   },
   "methods": {
+    trimEnd,
     "onDelete": function () {
       this.$emit("delete");
     },

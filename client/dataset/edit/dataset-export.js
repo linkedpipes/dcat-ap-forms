@@ -157,9 +157,19 @@ function exportDatasetToJsonLd(
     ...exportTemporal(dataset),
   };
 
-  const keywords = asLanguageMap(dataset.keywords_cs, dataset.keywords_en);
-  if (keywords["cs"] || keywords["en"]) {
-    result["klíčové_slovo"] = keywords;
+  if (dataset.keywords_cs.length > 0 && dataset.keywords_en.length > 0)  {
+    result["klíčové_slovo"] = {
+      "cs": dataset.keywords_cs,
+      "en": dataset.keywords_en,
+    };
+  } else if (dataset.keywords_cs.length > 0) {
+    result["klíčové_slovo"] = {
+      "cs": dataset.keywords_cs,
+    };
+  } else if (dataset.keywords_en.length > 0) {
+    result["klíčové_slovo"] = {
+      "en": dataset.keywords_en,
+    };
   }
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
@@ -170,7 +180,9 @@ function exportDatasetToJsonLd(
     result["dokumentace"] = dataset.documentation;
   }
 
-  result["téma"] = dataset.dataset_themes;
+  if (dataset.dataset_themes.length > 0) {
+    result["téma"] = dataset.dataset_themes;
+  }
 
   if (dataset.legislation.length > 0 || legislation.length > 0) {
     result["právní_předpis"] = [...legislation, ...dataset.legislation];
@@ -188,10 +200,12 @@ function exportDatasetToJsonLd(
     result["týká_se_pojmu"] = dataset.related_terms;
   }
 
-  result["koncept_euroVoc"] = [
-    ...dataset.themes,
-    ...dataset.dataset_custom_themes,
-  ];
+  if (dataset.themes.length > 0 || dataset.dataset_custom_themes.length > 0) {
+    result["koncept_euroVoc"] = [
+      ...dataset.themes,
+      ...dataset.dataset_custom_themes,
+    ];
+  }
 
   if (dataset.ofn.length > 0) {
     result["specifikace"] = dataset.ofn;
@@ -219,10 +233,12 @@ function exportDatasetToJsonLd(
     result["vstupní_stránka"] = dataset.landing_page;
   }
 
-  result["distribuce"] = distributions.map(
-    (distribution, index) => exportDistribution(
-      dataset, distribution, index,
-      distributionIri, serviceIri));
+  if (distributions.length > 0) {
+    result["distribuce"] = distributions.map(
+      (distribution, index) => exportDistribution(
+        dataset, distribution, index,
+        distributionIri, serviceIri));
+  }
 
   return result;
 }
@@ -305,7 +321,9 @@ function exportTemporal(value) {
  * @returns
  */
 function exportContactPoint(value) {
-  if (isEmpty(value.contact_point_name) && isEmpty(value.contact_point_email)) {
+  if (isEmpty(value.contact_point_name)
+    && isEmpty(value.contact_point_email)
+    && isNotEmpty(value.contact_point_url)) {
     return undefined;
   }
   /** @type * */
@@ -562,6 +580,7 @@ function addDataService(
   }
 
   // Some values are a copy from the distribution.
+
   service["název"] = result["název"];
 
   // We need to store some values to the parent object.

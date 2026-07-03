@@ -8,6 +8,7 @@ export function temporal(value) {
   return !provided(value) || temporalPattern.test(value);
 }
 
+
 export function decimal(value) {
   const decimalPattern = /^[-+]?[0-9]+(\.[0-9]+)?$/;
   return !provided(value) || decimalPattern.test(value);
@@ -19,7 +20,7 @@ export function email(value) {
 }
 
 export function url(value) {
-  const urlPattern = /^https:\/\/.[^ ]+$/;
+  const urlPattern = /^https:\/\/[^\s[\]]+$/;
   return !provided(value) || urlPattern.test(value);
 }
 

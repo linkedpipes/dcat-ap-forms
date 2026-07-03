@@ -121,6 +121,7 @@
       required
       clearable
       @click:append-outer="$h('catalog_url')"
+      @blur="catalog.endpoint = trimEnd(catalog.endpoint)"
     />
     <v-text-field
       id="catalog_homepage"
@@ -132,12 +133,14 @@
       append-outer-icon="help_outline"
       clearable
       @click:append-outer="$h('homepage')"
+      @blur="catalog.homepage = trimEnd(catalog.homepage)"
     />
   </v-container>
 </template>
 
 <script>
 import {createCatalogValidators} from "../catalog-model";
+import {trimEnd} from "../../app-service/validators";
 import CatalogTypeCodeList from "./codelists/catalog-type";
 
 export default {
@@ -150,6 +153,9 @@ export default {
   }),
   "computed": {
     ...createCatalogValidators(),
+  },
+  "methods": {
+    trimEnd,
   },
 };
 

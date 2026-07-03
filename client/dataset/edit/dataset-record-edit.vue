@@ -192,6 +192,7 @@
           chips
           multiple
           @click:append-outer="$h('dataset_custom_theme')"
+          @blur="dataset.dataset_custom_themes = trimEnd(dataset.dataset_custom_themes)"
         >
           <template
             slot="selection"
@@ -228,6 +229,7 @@
           chips
           multiple
           @click:append-outer="$h('dataset_ofn')"
+          @blur="dataset.ofn = trimEnd(dataset.ofn)"
         >
           <template
             slot="selection"
@@ -420,6 +422,7 @@
       type="url"
       clearable
       @click:append-outer="$h('documentation')"
+      @blur="dataset.documentation = trimEnd(dataset.documentation)"
     />
     <app-solr-autocomplete-lazy
       id="themes"
@@ -486,6 +489,7 @@ import SpatialDialog from "./components/spatial-dialog";
 import UploadFileDialog from "./components/upload-file-dialog";
 import UploadUrlDialog from "./components/upload-url-dialog";
 import {createDatasetValidators} from "../dataset-model";
+import {trimEnd} from "../../app-service/validators";
 import {getSpatialLabel} from "./codelists/spatial";
 import {EUROVOC, HVD_CATEGORIES, DATASET_THEME, FREQUENCY} from "./codelists/server-codelists";
 import legislationTypes, { includesHvd } from "./codelists/legislation";
@@ -553,6 +557,7 @@ export default {
     "loadFromUrl": function(url) {
       this.$emit("load-from-url", url);
     },
+    trimEnd,
   },
 };
 

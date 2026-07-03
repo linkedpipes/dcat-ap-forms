@@ -72,7 +72,7 @@ function loadQueryArguments(query) {
       case "neveřejná-data":
         return MODE_NON_PUBLIC;
       case "high-value-dataset":
-      case "datové-sada-s-vysokou-hodnotou":
+      case "datová-sada-s-vysokou-hodnotou":
         return MODE_HVD;
       }
     })(),

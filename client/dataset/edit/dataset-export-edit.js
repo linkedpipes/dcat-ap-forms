@@ -87,8 +87,19 @@ function exportDatasetToJsonLd(
   };
 
   const keywords = asLangMap(dataset.keywords_cs, dataset.keywords_en);
-  if (keywords["cs"] || keywords["en"]) {
-    output["klíčové_slovo"] = keywords;
+  if (dataset.keywords_cs.length > 0 && dataset.keywords_en.length > 0)  {
+    output["klíčové_slovo"] = {
+      "cs": dataset.keywords_cs,
+      "en": dataset.keywords_en,
+    };
+  } else if (dataset.keywords_cs.length > 0) {
+    output["klíčové_slovo"] = {
+      "cs": dataset.keywords_cs,
+    };
+  } else if (dataset.keywords_en.length > 0) {
+    output["klíčové_slovo"] = {
+      "en": dataset.keywords_en,
+    };
   }
 
   if (isNotEmpty(dataset.accrual_periodicity)) {
@@ -99,7 +110,9 @@ function exportDatasetToJsonLd(
     output["dokumentace"] = dataset.documentation;
   }
 
-  output["téma"] = updateIris(dataset.dataset_themes);
+  if (dataset.dataset_themes.length > 0) {
+    output["téma"] = updateIris(dataset.dataset_themes);
+  }
 
   if (dataset.legislation.length > 0) {
     output["právní_předpis"] = dataset.legislation;
@@ -109,10 +122,12 @@ function exportDatasetToJsonLd(
     output["kategorie_hvd"] = dataset.hvd_categories;
   }
 
-  output["koncept_euroVoc"] = [
-    ...updateIris(dataset.themes),
-    ...updateIris(dataset.dataset_custom_themes),
-  ];
+  if (dataset.themes.length > 0 || dataset.dataset_custom_themes.length > 0) {
+    output["koncept_euroVoc"] = [
+      ...updateIris(dataset.themes),
+      ...updateIris(dataset.dataset_custom_themes),
+    ];
+  }
 
   if (dataset.ofn.length > 0) {
     output["specifikace"] = dataset.ofn;
@@ -128,7 +143,7 @@ function exportDatasetToJsonLd(
   }
 
   const contactPoint = exportContactPoint(dataset);
-  if (isNotEmpty(contactPoint)) {
+  if (contactPoint !== null) {
     output["kontaktní_bod"] = contactPoint;
   }
 
@@ -136,10 +151,12 @@ function exportDatasetToJsonLd(
     output["poskytovatel"] = dataset.publisher;
   }
 
-  output["distribuce"] = distributions.map(
-    (distribution, index) => exportDistribution(
-      dataset, distribution, index,
-      selectDistributionIri, selectServiceIri));
+  if (distributions.length > 0) {
+    output["distribuce"] = distributions.map(
+      (distribution, index) => exportDistribution(
+        dataset, distribution, index,
+        selectDistributionIri, selectServiceIri));
+  }
 
   return output;
 }
@@ -189,9 +206,15 @@ function exportSpatial(dataset) {
     }
   });
   const result = {};
-  result["prvek_rúian"] = ruian;
-  result["geografické_území"] = geo_area;
-  result["prostorové_pokrytí"] = custom;
+  if (ruian.length > 0) {
+    result["prvek_rúian"] = ruian;
+  }
+  if (geo_area.length > 0) {
+    result["geografické_území"] = geo_area;
+  }
+  if (custom.length > 0) {
+    result["prostorové_pokrytí"] = custom;
+  }
   return result;
 }
 
@@ -225,7 +248,7 @@ function containsValidDate(value) {
 function exportContactPoint(catalog) {
   if (isEmpty(catalog.contact_point_name) &&
     isEmpty(catalog.contact_point_email)) {
-    return {};
+    return null;
   }
   const output = {
     "typ": "Organizace",

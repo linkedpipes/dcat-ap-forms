@@ -124,25 +124,25 @@ function exportDatasetToJsonLd(
 
   const { context, legislation, type } = (() => {
     switch (dataset.mode) {
-    case MODE_HVD:
-      return {
-        "context": CONTEXT_HVD,
-        "legislation": [EUROPE.hvd],
-        "type": "Datová sada",
-      };
-    case MODE_NON_PUBLIC:
-      return {
-        "context": CONTEXT_NON_PUBLIC,
-        "legislation": [...NON_PUBLIC_LEGISLATION],
-        "type": ["Datová sada", "Datová sada SSP"],
-      };
-    case MODE_OPEN_DATA:
-    default:
-      return {
-        "context": CONTEXT_DEFAULT,
-        "legislation": [EUROPE.openData],
-        "type": "Datová sada",
-      };
+      case MODE_HVD:
+        return {
+          "context": CONTEXT_HVD,
+          "legislation": [EUROPE.openData, EUROPE.hvd],
+          "type": "Datová sada",
+        };
+      case MODE_NON_PUBLIC:
+        return {
+          "context": CONTEXT_NON_PUBLIC,
+          "legislation": [...NON_PUBLIC_LEGISLATION],
+          "type": ["Datová sada", "Datová sada SSP"],
+        };
+      case MODE_OPEN_DATA:
+      default:
+        return {
+          "context": CONTEXT_DEFAULT,
+          "legislation": [EUROPE.openData],
+          "type": "Datová sada",
+        };
     }
   })();
 
@@ -157,7 +157,7 @@ function exportDatasetToJsonLd(
     ...exportTemporal(dataset),
   };
 
-  if (dataset.keywords_cs.length > 0 && dataset.keywords_en.length > 0)  {
+  if (dataset.keywords_cs.length > 0 && dataset.keywords_en.length > 0) {
     result["klíčové_slovo"] = {
       "cs": dataset.keywords_cs,
       "en": dataset.keywords_en,
@@ -221,7 +221,7 @@ function exportDatasetToJsonLd(
   }
 
   const contactPoint = exportContactPoint(dataset);
-  if (contactPoint !== undefined) {
+  if (contactPoint !== null) {
     result["kontaktní_bod"] = contactPoint;
   }
 
@@ -258,21 +258,21 @@ function exportSpatial(value) {
   value.spatial.map((spatial) => {
     const url = spatial.url;
     switch (spatial.type) {
-    case SPATIAL_RUIAN:
-      ruian.push(url);
-      break;
-    case SPATIAL_CONTINENT:
-    case SPATIAL_COUNTRY:
-    case SPATIAL_PLACE:
-      geo_area.push(url);
-      break;
-    case SPATIAL_URL:
-      custom.push(url);
-      break;
-    default:
-      console.warn("Unknown spatial type for", spatial);
-      custom.push(url);
-      break;
+      case SPATIAL_RUIAN:
+        ruian.push(url);
+        break;
+      case SPATIAL_CONTINENT:
+      case SPATIAL_COUNTRY:
+      case SPATIAL_PLACE:
+        geo_area.push(url);
+        break;
+      case SPATIAL_URL:
+        custom.push(url);
+        break;
+      default:
+        console.warn("Unknown spatial type for", spatial);
+        custom.push(url);
+        break;
     }
   });
   const result = {};
@@ -323,8 +323,8 @@ function exportTemporal(value) {
 function exportContactPoint(value) {
   if (isEmpty(value.contact_point_name)
     && isEmpty(value.contact_point_email)
-    && isNotEmpty(value.contact_point_url)) {
-    return undefined;
+    && isEmpty(value.contact_point_url)) {
+    return null;
   }
   /** @type * */
   const output = {
@@ -347,7 +347,6 @@ function exportContactPoint(value) {
 //
 
 /**
- *
  * @param {*} dataset
  * @param {*} distribution
  * @param {number} distributionIndex Index of the distribution.
@@ -360,9 +359,7 @@ function exportDistribution(
   distributionIri, serviceIri) {
 
   /** @type * */
-  const result = {
-    "typ": "Distribuce",
-  };
+  const result = {};
 
   // First we deal with the non-public mode as it adds some properties.
 
@@ -389,6 +386,9 @@ function exportDistribution(
           "odpovídající_pojem": item.related_terms,
         }));
     }
+  } else {
+    result["typ"] = "Distribuce";
+    result["právní_předpis"] = [EUROPE.openData];
   }
 
   const iri = distributionIri(distribution, distributionIndex);
@@ -404,7 +404,10 @@ function exportDistribution(
   result["podmínky_užití"] = exportTermsOfUse(distribution);
 
   if (distribution.legislation.length > 0) {
-    result["právní_předpis"] = distribution.legislation;
+    result["právní_předpis"] = [
+      ...(result["právní_předpis"] ?? []),
+      ...distribution.legislation,
+    ];
   }
 
   if (distribution.type === DIST_TYPE_FILE) {
@@ -428,86 +431,86 @@ function exportTermsOfUse(distribution) {
     "typ": "Specifikace podmínek užití",
   };
   switch (distribution.license_author_type) {
-  case undefined:
-    // For download of partial data.
-    break;
-  case "MULTI":
-    result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
-    break;
-  case "CC BY":
-    result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-    result["autor"] = asLanguageMap(distribution.license_author_name);
-    break;
-  case "NO":
-    result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
-    break;
-  case "CUSTOM":
-    result["autorské_dílo"] = distribution.license_author_custom;
-    break;
-  default:
-    console.error("Unexpected license_author_type value:",
-      distribution.license_author_type);
-    break;
+    case undefined:
+      // For download of partial data.
+      break;
+    case "MULTI":
+      result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
+      break;
+    case "CC BY":
+      result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
+      result["autor"] = asLanguageMap(distribution.license_author_name);
+      break;
+    case "NO":
+      result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
+      break;
+    case "CUSTOM":
+      result["autorské_dílo"] = distribution.license_author_custom;
+      break;
+    default:
+      console.error("Unexpected license_author_type value:",
+        distribution.license_author_type);
+      break;
   }
 
   switch (distribution.license_db_type) {
-  case undefined:
-    // For download of partial data.
-    break;
-  case "CC BY":
-    result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-    result["autor_databáze"] = asLanguageMap(distribution.license_db_name);
-    break;
-  case "NO":
-    result["databáze_jako_autorské_dílo"] =
+    case undefined:
+      // For download of partial data.
+      break;
+    case "CC BY":
+      result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
+      result["autor_databáze"] = asLanguageMap(distribution.license_db_name);
+      break;
+    case "NO":
+      result["databáze_jako_autorské_dílo"] =
         PU.neniAutorskopravneChranenouDatabazi;
-    break;
-  case "CUSTOM":
-    result["databáze_jako_autorské_dílo"] =
+      break;
+    case "CUSTOM":
+      result["databáze_jako_autorské_dílo"] =
         distribution.license_db_custom;
-    break;
-  default:
-    console.error("Unexpected license_db_type value:",
-      distribution.license_db_type);
-    break;
+      break;
+    default:
+      console.error("Unexpected license_db_type value:",
+        distribution.license_db_type);
+      break;
   }
 
   switch (distribution.license_specialdb_type) {
-  case undefined:
-    // For download of partial data.
-    break;
-  case "CC0":
-    result["databáze_chráněná_zvláštními_právy"] =
+    case undefined:
+      // For download of partial data.
+      break;
+    case "CC0":
+      result["databáze_chráněná_zvláštními_právy"] =
         CREATIVE_COMMONS.PUBLIC_ZERO_10;
-    break;
-  case "NO":
-    result["databáze_chráněná_zvláštními_právy"] =
+      break;
+    case "NO":
+      result["databáze_chráněná_zvláštními_právy"] =
         PU.neniChranenazvlastnimPravemPorizovateleDatabaze;
-    break;
-  case "CUSTOM":
-    result["databáze_chráněná_zvláštními_právy"] =
+      break;
+    case "CUSTOM":
+      result["databáze_chráněná_zvláštními_právy"] =
         distribution.license_specialdb_custom;
-    break;
-  default:
-    console.error("Unexpected license_specialdb_type value:",
-      distribution.license_specialdb_type);
-    break;
+      break;
+    default:
+      console.error("Unexpected license_specialdb_type value:",
+        distribution.license_specialdb_type);
+      break;
   }
 
   switch (distribution.license_personal_type) {
-  case undefined:
-    // For download of partial data.
-    break;
-  case "YES":
-    result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
-    break;
-  case "NO":
-    result["osobní_údaje"] = PU.neobsahujeOsobniUdaje;
-    break;
-  default:
-    console.error("Unexpected license_personal_type value:",
-      distribution.license_personal_type);
-    break;
+    case undefined:
+      // For download of partial data.
+      break;
+    case "YES":
+      result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
+      break;
+    case "NO":
+      result["osobní_údaje"] = PU.neobsahujeOsobniUdaje;
+      break;
+    default:
+      console.error("Unexpected license_personal_type value:",
+        distribution.license_personal_type);
+      break;
   }
 
   return result;
@@ -515,32 +518,32 @@ function exportTermsOfUse(distribution) {
 
 /**
  * @param {*} distribution
- * @param {*} result Output argument.
+ * @param {*} parent Output argument.
  */
-function addFileDistribution(distribution, result) {
+function addFileDistribution(distribution, parent) {
 
-  result["soubor_ke_stažení"] = distribution.url;
+  parent["soubor_ke_stažení"] = distribution.url;
 
-  result["přístupové_url"] = distribution.url;
+  parent["přístupové_url"] = distribution.url;
 
   if (isNotEmpty(distribution.media_type)) {
-    result["typ_média"] = distribution.media_type;
+    parent["typ_média"] = distribution.media_type;
   }
 
   if (isNotEmpty(distribution.format)) {
-    result["formát"] = distribution.format;
+    parent["formát"] = distribution.format;
   }
 
   if (isNotEmpty(distribution.schema)) {
-    result["schéma"] = distribution.schema;
+    parent["schéma"] = distribution.schema;
   }
 
   if (isNotEmpty(distribution.package_format)) {
-    result["typ_média_balíčku"] = distribution.package_format;
+    parent["typ_média_balíčku"] = distribution.package_format;
   }
 
   if (isNotEmpty(distribution.compress_format)) {
-    result["typ_média_komprese"] = distribution.compress_format;
+    parent["typ_média_komprese"] = distribution.compress_format;
   }
 
 }
@@ -549,10 +552,10 @@ function addFileDistribution(distribution, result) {
  * @param {*} dataset
  * @param {*} distribution
  * @param  {(service: *, distribution: string) => string | undefined} serviceIri
- * @param {*} result Output argument.
+ * @param {*} parent Output argument.
  */
 function addDataService(
-  dataset, distribution, serviceIri, result
+  dataset, distribution, serviceIri, parent
 ) {
 
   const isHvd = includesHvdLegislation(distribution.legislation);
@@ -566,7 +569,7 @@ function addDataService(
     "popis_přístupového_bodu": distribution.service_description,
   };
 
-  const iri = serviceIri(distribution, result["iri"]);
+  const iri = serviceIri(distribution, parent["iri"]);
   if (isNotEmpty(iri)) {
     service["iri"] = iri;
   }
@@ -575,18 +578,15 @@ function addDataService(
     service["specifikace"] = [distribution.service_conforms_to];
   }
 
-  if (distribution.legislation.length > 0) {
-    service["právní_předpis"] = distribution.legislation;
-  }
-
   // Some values are a copy from the distribution.
 
-  service["název"] = result["název"];
+  service["název"] = parent["název"];
+  service["právní_předpis"] = parent["právní_předpis"];
 
   // We need to store some values to the parent object.
 
-  result["přístupové_url"] = distribution.service_endpoint_url;
-  result["přístupová_služba"] = service;
+  parent["přístupové_url"] = distribution.service_endpoint_url;
+  parent["přístupová_služba"] = service;
 
   // HVD gets special handling.
 

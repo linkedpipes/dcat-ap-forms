@@ -796,7 +796,7 @@ import {
   zpusobyZiskaniUdaju,
 } from "./codelists/non-public";
 import {
-  includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC
+  includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC,
 } from "../dataset-model";
 import {trimEnd} from "../../app-service/validators";
 
@@ -868,7 +868,7 @@ export default {
     },
   },
   "methods": {
-    trimEnd,
+    "trimEnd": trimEnd,
     "onDelete": function () {
       this.$emit("delete");
     },

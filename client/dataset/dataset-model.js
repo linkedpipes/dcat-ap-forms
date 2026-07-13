@@ -19,6 +19,7 @@ import { NON_PUBLIC_LEGISLATION } from "./edit/codelists/non-public";
  * @returns {boolean}
  */
 export function includesHvdLegislation(legislation) {
+  // We require only EUROPE.hvd for backwards compatibility.
   return legislation.includes(EUROPE.hvd);
 }
 
@@ -27,7 +28,8 @@ export function includesHvdLegislation(legislation) {
  * @returns {string[]}
  */
 export function filterHvdLegislation(legislation) {
-  return legislation.filter(iri => iri !== EUROPE.hvd);
+  return legislation.filter(iri =>
+    iri !== EUROPE.hvd && iri !== EUROPE.openData);
 }
 
 //

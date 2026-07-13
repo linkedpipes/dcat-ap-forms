@@ -155,7 +155,7 @@ export default {
     ...createCatalogValidators(),
   },
   "methods": {
-    trimEnd,
+    "trimEnd": trimEnd,
   },
 };
 

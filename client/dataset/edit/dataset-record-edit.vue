@@ -616,7 +616,7 @@ export default {
     "loadFromUrl": function(url) {
       this.$emit("load-from-url", url);
     },
-    trimEnd,
+    "trimEnd": trimEnd,
   },
 };
 

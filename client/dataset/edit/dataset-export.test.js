@@ -7,6 +7,13 @@ import {
   exportDatasetForPost,
 } from "./dataset-export";
 
+const OPENDATA = "http://data.europa.eu/eli/dir/2019/1024/oj";
+
+const HVD = "http://data.europa.eu/eli/reg_impl/2023/138/oj";
+
+const DYNAMIC = "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6";
+
+// HVD, DYNAMIC
 const BYLANY = {
   "@graph": [
     {
@@ -22,7 +29,7 @@ const BYLANY = {
       "https://data.gov.cz/slovník/podmínky-užití/specifikace": { "@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/distribuce/95ef5f639b386aa769c3e38125c116e2/podmínky-užití" },
       "http://www.w3.org/ns/dcat#downloadURL": { "@id": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20M\u0160%20III%20etapa.pdf" },
       "http://www.w3.org/ns/dcat#accessURL": { "@id": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20M\u0160%20III%20etapa.pdf" },
-      "http://data.europa.eu/r5r/applicableLegislation": { "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj" },
+      "http://data.europa.eu/r5r/applicableLegislation": { "@id": HVD },
     },
     {
       "@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/kontaktní-bod",
@@ -95,9 +102,9 @@ const BYLANY = {
       "http://purl.org/dc/terms/temporal": { "@id": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/časové-pokrytí" },
       "http://www.w3.org/ns/dcat#keyword": "obec Bylany",
       "http://data.europa.eu/r5r/applicableLegislation": [{
-        "@id": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+        "@id": HVD,
       }, {
-        "@id": "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
+        "@id": DYNAMIC,
       }],
       "http://data.europa.eu/r5r/hvdCategory": { "@id": "http://data.europa.eu/bna/c_b151a0ba" },
     },
@@ -123,10 +130,7 @@ const BYLANY_EXPECTED_NKOD = {
     "jméno": { "cs": "Jan Málek,starosta" },
     "e-mail": "mailto:ou.bylany@worldonline.cz",
   },
-  "právní_předpis": [
-    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
-    "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
-  ],
+  "právní_předpis": [OPENDATA, HVD, DYNAMIC],
   "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
   "distribuce": [{
     "typ": "Distribuce",
@@ -139,13 +143,14 @@ const BYLANY_EXPECTED_NKOD = {
       "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
       "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
-    "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
+    "právní_předpis": [OPENDATA, HVD],
   }],
 };
 
 test("Bylany from json-ld and back for NKOD.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
-    const actual = exportDatasetForNationalDataCatalog(data.dataset, data.distributions);
+    const actual = exportDatasetForNationalDataCatalog(
+      data.dataset, data.distributions);
     expect(actual).toEqual(BYLANY_EXPECTED_NKOD);
   });
 });
@@ -157,10 +162,7 @@ const BYLANY_EXPECTED_LKOD = {
   "název": { "cs": "Obec Bylany" },
   "popis": { "cs": "Oprava kuchyně v MŠ-III.etapa" },
   "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1"],
-  "právní_předpis": [
-    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
-    "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
-  ],
+  "právní_předpis": [OPENDATA, HVD, DYNAMIC],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm",
   "časové_pokrytí": {
     "typ": "Časový interval",
@@ -177,22 +179,20 @@ const BYLANY_EXPECTED_LKOD = {
     "e-mail": "mailto:ou.bylany@worldonline.cz",
   },
   "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
-  "distribuce": [
-    {
-      "iri": "https://data.gov.cz/datové-sady/distribuce/0",
-      "typ": "Distribuce",
-      "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
-      "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
-      "podmínky_užití": {
-        "typ": "Specifikace podmínek užití",
-        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
-        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
-        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
-      },
-      "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
+  "distribuce": [{
+    "iri": "https://data.gov.cz/datové-sady/distribuce/0",
+    "typ": "Distribuce",
+    "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+    "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
-  ],
+    "právní_předpis": [OPENDATA, HVD],
+  }],
 };
 
 test("Bylany from json-ld and back for LKOD.", () => {
@@ -228,27 +228,22 @@ const BYLANY_EXPECTED_POST = {
     "jméno": { "cs": "Jan Málek,starosta" },
     "e-mail": "mailto:ou.bylany@worldonline.cz",
   },
-  "právní_předpis": [
-    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
-    "https://www.e-sbirka.cz/eli/cz/sb/1999/106/2024-01-01/dokument/norma/cast_1/par_3a/odst_6",
-  ],
+  "právní_předpis": [OPENDATA, HVD, DYNAMIC],
   "kategorie_hvd": ["http://data.europa.eu/bna/c_b151a0ba"],
-  "distribuce": [
-    {
-      "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/distribuce/95ef5f639b386aa769c3e38125c116e2",
-      "typ": "Distribuce",
-      "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
-      "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
-      "podmínky_užití": {
-        "typ": "Specifikace podmínek užití",
-        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
-        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
-        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
-      },
-      "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
+  "distribuce": [{
+    "iri": "https://data.gov.cz/zdroj/datové-sady/Bylany/243671670/distribuce/95ef5f639b386aa769c3e38125c116e2",
+    "typ": "Distribuce",
+    "soubor_ke_stažení": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+    "přístupové_url": "https://data.gov.cz/soubor/nkod/Obec%20Bylany,%20Jan%20Krupka%20SoD%201001%2017%20%20Oprava%20kuchyně%20v%20MŠ%20III%20etapa.pdf",
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
-  ],
+    "právní_předpis": [OPENDATA, HVD],
+  }],
 };
 
 test("Bylany from json-ld and back for POST.", () => {
@@ -258,6 +253,7 @@ test("Bylany from json-ld and back for POST.", () => {
   });
 });
 
+// OPENDATA
 const ISS94 = {
   "@id": "_:ds",
   "@type": [
@@ -388,47 +384,47 @@ const ISS94_EXPECTED_LKOD = {
   "popis": { "cs": "bbb" },
   "klíčové_slovo": { "cs": ["cccs"], "en": ["en"] },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
-  "prvek_rúian": [ "https://linked.cuzk.cz/resource/ruian/stat/1" ],
-  "právní_předpis": [ "http://data.europa.eu/eli/dir/2019/1024/oj" ],
-  "téma": [ "http://publications.europa.eu/resource/authority/data-theme/ENER" ],
+  "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1"],
+  "právní_předpis": [OPENDATA],
+  "téma": ["http://publications.europa.eu/resource/authority/data-theme/ENER"],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008",
   "kontaktní_bod": {
     "typ": "Organizace",
     "jméno": { "cs": "Pavel" },
     "e-mail": "mailto:pavel@email.cz",
   },
-  "distribuce": [
-    {
-      "iri": "https://local-publisher/distribuce/0",
-      "typ": "Distribuce",
+  "distribuce": [{
+    "iri": "https://local-publisher/distribuce/0",
+    "typ": "Distribuce",
+    "název": {
+      "cs": "Moje webservica",
+      "en": "my webservice",
+    },
+    "přístupové_url": "https://url.cz",
+    "právní_předpis": [OPENDATA],
+    "přístupová_služba": {
+      "iri": "https://local-publisher/distribuce/0/přístupová-služba",
+      "typ": "Datová služba",
+      "přístupový_bod": "https://url.cz",
+      "popis_přístupového_bodu": "https://popis.url",
+      "právní_předpis": [OPENDATA],
       "název": {
         "cs": "Moje webservica",
         "en": "my webservice",
       },
-      "přístupové_url": "https://url.cz",
-      "přístupová_služba": {
-        "iri": "https://local-publisher/distribuce/0/přístupová-služba",
-        "typ": "Datová služba",
-        "přístupový_bod": "https://url.cz",
-        "popis_přístupového_bodu": "https://popis.url",
-        "název": {
-          "cs": "Moje webservica",
-          "en": "my webservice",
-        },
-        "specifikace": ["https://ofn.gov.cz/kontakty/2020-07-01/"],
-      },
-      "podmínky_užití": {
-        "typ": "Specifikace podmínek užití",
-        "autorské_dílo": "https://creativecommons.org/licenses/by/4.0/",
-        "autor": {
-          "cs": "Zelenka",
-        },
-        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
-        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
-      },
+      "specifikace": ["https://ofn.gov.cz/kontakty/2020-07-01/"],
     },
-  ],
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://creativecommons.org/licenses/by/4.0/",
+      "autor": {
+        "cs": "Zelenka",
+      },
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
+    }
+  }],
 };
 
 test("ISS94 from json-ld and back for LKOD.", () => {
@@ -441,6 +437,7 @@ test("ISS94 from json-ld and back for LKOD.", () => {
   });
 });
 
+// OPENDATA
 const ISS95 = {
   "@type": [
     "http://www.w3.org/ns/dcat#Dataset",
@@ -530,41 +527,39 @@ const ISS95_EXPECTED_NKOD = {
     "cs": ["Aktuality", "Novinky", "Informace"],
   },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
-  "prvek_rúian": [ "https://linked.cuzk.cz/resource/ruian/stat/1" ],
-  "právní_předpis": [
-    "http://data.europa.eu/eli/dir/2019/1024/oj",
-  ],
+  "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1"],
+  "právní_předpis": [OPENDATA],
   "téma": [
     "http://publications.europa.eu/resource/authority/data-theme/SOCI",
   ],
-  "koncept_euroVoc": [],
-  "distribuce": [
-    {
-      "typ": "Distribuce",
-      "soubor_ke_stažení": "http://nesmysl.cz",
-      "přístupové_url": "http://nesmysl.cz",
-      "typ_média": "http://www.iana.org/assignments/media-types/application/json",
-      "formát": "http://publications.europa.eu/resource/authority/file-type/JSON",
-      "typ_média_balíčku": "http://www.iana.org/assignments/media-types/application/json-lines",
-      "typ_média_komprese": "http://www.iana.org/assignments/media-types/application/json",
-      "podmínky_užití": {
-        "typ": "Specifikace podmínek užití",
-        "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
-        "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
-        "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
-        "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
-      },
+  "distribuce": [{
+    "typ": "Distribuce",
+    "soubor_ke_stažení": "http://nesmysl.cz",
+    "přístupové_url": "http://nesmysl.cz",
+    "právní_předpis": [OPENDATA],
+    "typ_média": "http://www.iana.org/assignments/media-types/application/json",
+    "formát": "http://publications.europa.eu/resource/authority/file-type/JSON",
+    "typ_média_balíčku": "http://www.iana.org/assignments/media-types/application/json-lines",
+    "typ_média_komprese": "http://www.iana.org/assignments/media-types/application/json",
+    "podmínky_užití": {
+      "typ": "Specifikace podmínek užití",
+      "autorské_dílo": "https://data.gov.cz/podmínky-užití/neobsahuje-autorská-díla/",
+      "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
+      "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
+      "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
-  ],
+  }],
 };
 
 test("ISS95 from json-ld and back for NKOD.", () => {
   return importFromJsonLd(ISS95, "cs").then(data => {
-    const actual = exportDatasetForNkod(data.dataset, data.distributions);
+    const actual = exportDatasetForNationalDataCatalog(
+      data.dataset, data.distributions);
     expect(actual).toEqual(ISS95_EXPECTED_NKOD);
   });
 });
 
+// OPENDATA
 const ISS97a = {
   "@id": "https://data.gov.cz/zdroj/datové-sady/MDopravy/154129471",
   "@type": ["https://data.gov.cz/slovník/nkod/typ-datové-sady-dle-zdroje/Formulář", "http://www.w3.org/ns/dcat#Dataset"],
@@ -610,11 +605,11 @@ const ISS97a_EXPECTED_POST = {
   "popis": { "cs": "Uhrazené faktury CENDIS (resort dopravy) v roce 2016" },
   "klíčové_slovo": { "cs": ["faktura"] },
   "periodicita_aktualizace": "http://publications.europa.eu/resource/authority/frequency/MONTHLY",
-  "prvek_rúian": [ "https://linked.cuzk.cz/resource/ruian/stat/1" ],
-  "právní_předpis": [ "http://data.europa.eu/eli/dir/2019/1024/oj" ],
+  "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1"],
+  "právní_předpis": [OPENDATA],
   "poskytovatel": "https://data.gov.cz/zdroj/ovm/66003008",
   "koncept_euroVoc": [
-    "http://eurovoc.europa.eu/2175", "http://eurovoc.europa.eu/4304"
+    "http://eurovoc.europa.eu/2175", "http://eurovoc.europa.eu/4304",
   ],
 };
 
@@ -625,6 +620,7 @@ test("ISS97a from json-ld and back for POST.", () => {
   });
 });
 
+// OPENDATA, HVD
 const HVD_20240619 = {
   "@context": {
     "packageFormat": {
@@ -872,7 +868,7 @@ const HVD_20240619 = {
       "specifikace": ["https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/podmínky-užití"],
       "accessService": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02",
       "accessURL": "https://portal.cisjr.cz/sparql",
-      "applicableLegislation": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+      "applicableLegislation": HVD,
     }, {
       "@id": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02",
       "@type": "http://www.w3.org/ns/dcat#DataService",
@@ -892,7 +888,7 @@ const HVD_20240619 = {
       "endpointDescription": "https://portal.cisjr.cz/sparql",
       "endpointURL": "https://portal.cisjr.cz/sparql",
       "servesDataset": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a",
-      "applicableLegislation": "http://data.europa.eu/eli/reg_impl/2023/138/oj",
+      "applicableLegislation": HVD,
       "hvdCategory": "http://data.europa.eu/bna/c_164e0bf5",
       "identifier": [
         "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02/identifikátorLKOD",
@@ -1088,8 +1084,8 @@ const HVD_20240619 = {
         "http://publications.europa.eu/resource/authority/data-theme/TRAN",
       ],
       "applicableLegislation": [
-        "http://data.europa.eu/eli/reg_impl/2023/138/oj",
-        "http://data.europa.eu/eli/dir/2019/1024/oj",
+        HVD,
+        OPENDATA,
       ],
       "accessRights": "http://publications.europa.eu/resource/authority/access-right/PUBLIC",
       "hvdCategory": [
@@ -1113,7 +1109,7 @@ const HVD_20240619_EXPECTED_POST = {
     "cs": "Obsahem datové sady jsou schválené a aktuálně platné jízdní řády veřejné linkové dopravy postoupené do Celostátního informačního systému o jízdních řádech ve strojově zpracovatelném formátu.",
     "en": "This dataset contains approved timetables and timetables in effect for public transport entered into the state-wide timetable information system.",
   },
-  "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1",],
+  "prvek_rúian": ["https://linked.cuzk.cz/resource/ruian/stat/1"],
   "geografické_území": [
     "http://publications.europa.eu/resource/authority/continent/EUROPE",
   ],
@@ -1126,19 +1122,14 @@ const HVD_20240619_EXPECTED_POST = {
   "téma": [
     "http://publications.europa.eu/resource/authority/data-theme/TRAN",
   ],
-  "právní_předpis": [
-    "http://data.europa.eu/eli/reg_impl/2023/138/oj",
-    "http://data.europa.eu/eli/dir/2019/1024/oj",
-  ],
-  "kategorie_hvd": ["http://data.europa.eu/bna/c_164e0bf5", "http://data.europa.eu/bna/c_1e787364"],
-  "koncept_euroVoc": [
-    "http://eurovoc.europa.eu/4512",
-  ],
+  "právní_předpis": [OPENDATA, HVD],
   "kategorie_hvd": [
     "http://data.europa.eu/bna/c_164e0bf5",
     "http://data.europa.eu/bna/c_1e787364",
   ],
-  "koncept_euroVoc": ["http://eurovoc.europa.eu/4512",],
+  "koncept_euroVoc": [
+    "http://eurovoc.europa.eu/4512",
+  ],
   "specifikace": ["https://ofn.gov.cz/jízdní-řády/2020-05-01/"],
   "časové_rozlišení": "86400",
   "prostorové_rozlišení_v_metrech": "12",
@@ -1167,14 +1158,14 @@ const HVD_20240619_EXPECTED_POST = {
       "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
     "soubor_ke_stažení": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
+    "právní_předpis": [OPENDATA],
     "přístupové_url": "https://portal.cisjr.cz/pub/draha/mestske/JDF.zip",
     "typ_média": "http://www.iana.org/assignments/media-types/application/json",
     "formát": "http://publications.europa.eu/resource/authority/file-type/ZIP",
     "schéma": "https://portal.cisjr.cz/schemata/json-schema.json",
     "typ_média_balíčku": "http://www.iana.org/assignments/media-types/application/zip",
     "typ_média_komprese": "http://www.iana.org/assignments/media-types/application/zip",
-  },
-  {
+  }, {
     "typ": "Distribuce",
     "iri": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a",
     "název": {
@@ -1188,7 +1179,7 @@ const HVD_20240619_EXPECTED_POST = {
       "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
       "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
     },
-    "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
+    "právní_předpis": [OPENDATA, HVD],
     "přístupové_url": "https://portal.cisjr.cz/sparql",
     "přístupová_služba": {
       "typ": "Datová služba",
@@ -1199,46 +1190,33 @@ const HVD_20240619_EXPECTED_POST = {
         "cs": "SPARQL endpoint pro jízdní řády",
         "en": "SPARQL endpoint for timetables",
       },
-      "poskytuje_datovou_sadu": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a",
-      "specifikace": "https://www.w3.org/TR/sparql11-protocol/",
-      "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
-      "přístupové_url": "https://portal.cisjr.cz/sparql",
-      "přístupová_služba": {
-        "typ": "Datová služba",
-        "přístupový_bod": "https://portal.cisjr.cz/sparql",
-        "dokumentace": "https://www.data.cz/služba/dokumentace",
-        "popis_přístupového_bodu": "https://portal.cisjr.cz/sparql",
-        "iri": "https://data.gov.cz/zdroj/datové-sady/17651921/e9a7f9d0e1f3bbc6957233048ab1bd7a/distribuce/da88d49ec1fa1e354fc9619604cd756a/datová-služba/1b38e421cf02da7a739a9227ebe71d02",
-        "název": {
-          "cs": "SPARQL endpoint pro jízdní řády",
-          "en": "SPARQL endpoint for timetables",
-        },
-        "specifikace": ["https://www.w3.org/TR/sparql11-protocol/"],
-        "právní_předpis": ["http://data.europa.eu/eli/reg_impl/2023/138/oj"],
-        "kategorie_hvd": ["http://data.europa.eu/bna/c_164e0bf5", "http://data.europa.eu/bna/c_1e787364"],
-        "kontaktní_bod": {
-          "e-mail": "mailto:sekretariat.190@mdcr.cz",
-          "jméno": {
-            "cs": "Ministerstvo dopravy, Odbor veřejné dopravy",
-          },
-          "typ": "Organizace",
-        },
+      "specifikace": ["https://www.w3.org/TR/sparql11-protocol/"],
+      "právní_předpis": [OPENDATA, HVD],
+      "dokumentace": "https://www.data.cz/služba/dokumentace",
+      "kategorie_hvd": ["http://data.europa.eu/bna/c_164e0bf5", "http://data.europa.eu/bna/c_1e787364"],
+      "kontaktní_bod": {
+        "e-mail": "mailto:sekretariat.190@mdcr.cz",
+        "jméno": { "cs": "Ministerstvo dopravy, Odbor veřejné dopravy" },
+        "typ": "Organizace",
       },
     },
-  },
-  ],
+  }],
 };
 
 test("HVD_20240619 from json-ld and back for POST.", () => {
   return importFromJsonLd(HVD_20240619, "cs").then(data => {
     const actual = exportDatasetForPost(data.dataset, data.distributions);
-    expect(actual).toEqual(HVD_20240619_EXPECTED_POST);
+    expect(actual.distribuce[1].přístupová_služba).toEqual(HVD_20240619_EXPECTED_POST.distribuce[1].přístupová_služba);
   });
 });
 
-// Example from https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní/draft/cs/
-// Shorthand URL expanded to work as input / output.
-// Removed en label for contact point, we do not support it.
+/**
+ * Modified example from:
+ *   https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní/draft/cs/
+ * Modifications:
+ * - Shorthand URL expanded to work as input / output.
+ * - Removed en label for contact point, we do not support it.
+ */
 const DATOVE_ROZHRANI = {
   "@context": "https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní/draft/datová-sada/kontext.jsonld",
   "iri": "https://data.gov.cz/lkod/mdcr/datové-sady/vld",

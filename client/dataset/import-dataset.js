@@ -137,6 +137,7 @@ function loadDataset(flatJsonLd, entity, defaultLanguage) {
   // We can use legislation to determine dataset type.
   // But in exchange we may need to filter some values out.
   let legislation = getValues(entity, EUROPE.applicableLegislation);
+  let prev = legislation;
   /**
    * @type {typeof MODE_OPEN_DATA | typeof MODE_HVD | typeof MODE_NON_PUBLIC}
    */

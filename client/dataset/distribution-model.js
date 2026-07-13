@@ -189,8 +189,8 @@ function createServiceDistributionValidators() {
         [provided, "contact_point_url_missing"],
         [url, "contact_point_url_invalid"],
       ], (t) => includesHvdLegislation(t.distribution.legislation)),
-    "err_distribution_documentation": applyArray(
-      (t) => t.distribution, "distribution_documentation", [
+    "err_documentation": applyArray(
+      (t) => t.distribution, "documentation", [
         [provided, "distribution_documentation_missing"],
         [url, "distribution_documentation_invalid"],
       ], (t) => includesHvdLegislation(t.distribution.legislation)),

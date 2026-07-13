@@ -295,8 +295,8 @@ export default {
   "distribution_documentation": "Link to the dataset service documentation",
   "distribution_documentation_missing": "Link to the dataset service is mandatory.",
   "distribution_documentation_invalid": "Invalid HTTPS IRI.",
-  "hint_distribution_documentation_invalid": "TODO hint_distribution_documentation_invalid",
-  "help_distribution_documentation_invalid": "TODO help_distribution_documentation_invalid",
+  "hint_distribution_documentation": "TODO hint_distribution_documentation_invalid",
+  "help_distribution_documentation": "TODO help_distribution_documentation_invalid",
   // Contact point name
   "contact_point_name": "Name of the dataset curator",
   "contact_point_name_missing": "TODO contact_point_name_missing",

@@ -294,8 +294,8 @@ export default {
   "distribution_documentation": "Odkaz na dokumentaci datové služby",
   "distribution_documentation_missing": "Odkaz na dokumentaci je povinný",
   "distribution_documentation_invalid": "Nevalidní HTTPS IRI.",
-  "hint_distribution_documentation_invalid": "TODO hint_distribution_documentation_invalid",
-  "help_distribution_documentation_invalid": "TODO help_distribution_documentation_invalid",
+  "hint_distribution_documentation": "TODO hint_distribution_documentation_invalid",
+  "help_distribution_documentation": "TODO help_distribution_documentation_invalid",
   // Contact point name
   "contact_point_name": "Jméno kurátora dat",
   "contact_point_name_missing": "TODO contact_point_name_missing",

@@ -533,11 +533,11 @@
         </v-flex>
       </v-layout>
       <v-text-field
-        id="distribution_documentation"
+        id="documentation"
         v-model="distribution.documentation"
         :label="$t('distribution_documentation')"
         :hint="$t('hint_distribution_documentation')"
-        :error-messages="err_distribution_documentation"
+        :error-messages="err_documentation"
         prepend-icon="link"
         append-outer-icon="help_outline"
         type="url"

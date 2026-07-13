@@ -30,8 +30,17 @@
           {{ $t("step_download") }}
         </v-stepper-step>
       </v-stepper-header>
+      <v-alert
+        dense
+        outlined
+        color="info"
+        class="mx-6 mt-2 mb-0"
+      >
+        {{ $t(mode_message) }}
+      </v-alert>
       <v-stepper-items>
         <v-stepper-content :step="1">
+
           <app-dataset
             ref="datasetComponent"
             :dataset="data.dataset"
@@ -103,7 +112,13 @@ import StepperNavigationDesktop from "./components/step-navigation-desktop";
 import ExportSummary from "./dataset-export-summary";
 import UploadFailedDialog from "./components/upload-failed-dialog";
 import ImportFailed from "../../app-service/import-failed";
-import {EXPORT_NKOD, isDatasetValid, MODE_OPEN_DATA} from "../dataset-model";
+import {
+  EXPORT_NKOD,
+  isDatasetValid,
+  MODE_OPEN_DATA,
+  MODE_HVD,
+  MODE_NON_PUBLIC,
+} from "../dataset-model";
 import * as service from "./dataset-edit-service";
 import {getStore} from "./codelists/local-storage";
 import {areExportOptionsValid} from "./dataset-edit-service";
@@ -165,6 +180,18 @@ export default {
   },
   "mounted": async function () {
     await service.onDatasetEditMounted(this);
+  },
+  "computed": {
+    "mode_message": function () {
+      switch (this.data.dataset.mode) {
+      case MODE_HVD:
+        return "mode_notice_hvd";
+      case MODE_NON_PUBLIC:
+        return "mode_notice_non_public";
+      default:
+        return "mode_notice_default";
+      }
+    },
   },
   "methods": {
     "areOptionsValid": function () {

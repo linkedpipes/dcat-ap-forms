@@ -65,6 +65,7 @@
           <v-card flat>
             <v-card-text>
               <app-solr-autocomplete
+                id="continents"
                 v-model="continent"
                 :code-list="CONTINENTS"
                 :label="$t('continents')"
@@ -77,6 +78,7 @@
           <v-card flat>
             <v-card-text>
               <app-solr-autocomplete
+                id="countries"
                 v-model="country"
                 :code-list="COUNTRIES"
                 :label="$t('countries')"
@@ -89,6 +91,7 @@
           <v-card flat>
             <v-card-text>
               <app-solr-autocomplete
+                id="places"
                 v-model="place"
                 :code-list="PLACES"
                 :label="$t('places')"

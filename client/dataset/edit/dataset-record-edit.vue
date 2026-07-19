@@ -442,6 +442,7 @@
         md6
       >
         <v-autocomplete
+          v-if="!isNonPublic"
           id="legislation"
           v-model="dataset.legislation"
           :items="legislations"

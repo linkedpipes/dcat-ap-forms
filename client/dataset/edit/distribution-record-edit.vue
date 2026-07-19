@@ -229,6 +229,7 @@
         />
       </v-flex>
       <v-flex
+        v-if="!isNonPublic"
         xs12
         md6
       >

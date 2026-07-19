@@ -40,7 +40,6 @@
       </v-alert>
       <v-stepper-items>
         <v-stepper-content :step="1">
-
           <app-dataset
             ref="datasetComponent"
             :dataset="data.dataset"

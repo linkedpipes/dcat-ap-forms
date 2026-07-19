@@ -137,7 +137,7 @@ function loadDataset(flatJsonLd, entity, defaultLanguage) {
   // We can use legislation to determine dataset type.
   // But in exchange we may need to filter some values out.
   let legislation = getValues(entity, EUROPE.applicableLegislation);
-  let prev = legislation;
+
   /**
    * @type {typeof MODE_OPEN_DATA | typeof MODE_HVD | typeof MODE_NON_PUBLIC}
    */
@@ -411,8 +411,13 @@ function loadDistribution(flatJsonLd, entity, defaultLanguage) {
   const title = loadLanguageString(
     getMultiLangString(entity, DCTERMS.title), defaultLanguage);
 
-  // We do not load legislation and hvd_categories from
-  // data service as we load them from the dataset directly.
+  // Each distribution may, or may not, be HVD based on the legislation.
+
+  let legislation = getValues(entity, EUROPE.applicableLegislation);
+  const isHvd = includesHvdLegislation(legislation);
+  if (isHvd) {
+    legislation = filterHvdLegislation(legislation);
+  }
 
   const distribution = {
     ...createDistribution(),
@@ -429,7 +434,7 @@ function loadDistribution(flatJsonLd, entity, defaultLanguage) {
       getValue(entity, DCATAP.packageFormat) ?? "",
     "compress_format":
       getValue(entity, DCATAP.compressFormat) ?? "",
-    "legislation": getValues(entity, EUROPE.applicableLegislation),
+    "legislation": legislation,
     // Non Public data
     "typy_obsahu": getValues(entity,
       VOCABULARY_GOV_CZ["typ-obsahu-sdileneho-rozhranim"]),
@@ -439,6 +444,8 @@ function loadDistribution(flatJsonLd, entity, defaultLanguage) {
       VOCABULARY_GOV_CZ["zpusob-ziskani-dat-sdilenych-rozhranim"]),
     "zprostredkovava_sdileni":
       loadZprostredkovavaSdileni(flatJsonLd, entity),
+    // High value
+    "is_hvd": isHvd,
   };
 
   return distribution;

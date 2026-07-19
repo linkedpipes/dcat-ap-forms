@@ -91,6 +91,7 @@ export const MODE_OPEN_DATA = "default";
 export const MODE_HVD = "hvd";
 
 export const MODE_NON_PUBLIC = "non-public";
+
 /**
  * @param {"default" | "hvd" | "non-public"} mode
  */
@@ -132,7 +133,6 @@ export function createDataset(mode) {
     // By default do not force validation on new item.
     "$validators": {
       "force": false,
-      "forceHvd": false,
     },
   };
 }
@@ -191,25 +191,7 @@ export function createDatasetValidators() {
       url, "load_invalid_url"
     ),
     "err_legislation": function () {
-      // We validate HDF only when datasets and distributions are valid.
-      // Here we use `validation` object directly, we are not using it
-      // anywhere else as it was not originally passed around.
-      const shouldSkipValidation =
-        shouldSkipDatasetValidation(this.dataset)
-        || !this.dataset.$validators.forceHvd;
-      if (shouldSkipValidation) {
-        return [];
-      }
-      if (this.dataset.mode !== MODE_HVD) {
-        return [];
-      }
-      // Check there is at leas one HVD distribution.
-      for (const distribution of this.distributions) {
-        if (includesHvdLegislation(distribution.legislation)) {
-          return [];
-        }
-      }
-      return [this.$t("missing_distribution_with_hvd")];
+      return [];
     },
     "err_hvd_categories": function () {
       if (shouldSkipDatasetValidation(this.dataset)) {

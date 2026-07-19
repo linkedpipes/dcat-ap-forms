@@ -1,9 +1,10 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text eol=lf
 
-# IntelliJ IDEA files.
+# IDE and tool files.
 .idea/
 *.iml
+CLAUDE.md
 
 # File.
 .*

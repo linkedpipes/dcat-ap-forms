@@ -175,7 +175,10 @@ function setDataOnMount(component, dataset, distributions) {
   component.ui.distribution = 0;
   // We need at least one distribution.
   if (component.data.distributions.length === 0) {
-    component.data.distributions.push(createDistribution());
+    const distribution = createDistribution();
+    // If there is only one distribution we made it HVD by default.
+    distribution.is_hvd = dataset.mode === MODE_HVD;
+    component.data.distributions.push(distribution);
   }
   component.exportOptions.publisher = component.data.dataset.publisher;
   component.exportOptions.lkodIri = component.data.dataset.iri;
@@ -220,8 +223,6 @@ export function onStepperInput(component, value) {
   if (value > 2) {
     if (!component.validation.distributions) {
       component.validation.distributions = true;
-      // We can not also validate HVD.
-      component.data.dataset.$validators.forceHvd = true;
     }
     // We need to update distributions validations every time, as
     // user may moved back from the summary view to the distribution view

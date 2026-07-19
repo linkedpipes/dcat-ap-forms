@@ -231,21 +231,48 @@
       <v-flex
         v-if="!isNonPublic"
         xs12
-        md6
       >
-        <v-autocomplete
-          id="distribution_legislation"
-          v-model="distribution.legislation"
-          :items="LEGISLATION_TYPES"
-          :label="$t('distribution_legislation')"
-          :item-text="$vuetify.lang.current"
-          prepend-icon="gavel"
-          item-value="value"
-          append-outer-icon="help_outline"
-          chips
-          multiple
-          @click:append-outer="$h('distribution_legislation')"
-        />
+        <v-layout
+          row
+          wrap
+        >
+          <v-flex
+            xs12
+            md6
+          >
+            <v-autocomplete
+              id="distribution_legislation"
+              v-model="distribution.legislation"
+              :items="LEGISLATION_TYPES"
+              :label="$t('distribution_legislation')"
+              :item-text="$vuetify.lang.current"
+              prepend-icon="gavel"
+              item-value="value"
+              append-outer-icon="help_outline"
+              chips
+              multiple
+              @click:append-outer="$h('distribution_legislation')"
+            />
+          </v-flex>
+          <v-spacer />
+          <v-flex
+            v-if="isDatasetHvd"
+            xs12
+            md6
+          >
+            <v-input
+              prepend-icon="gavel"
+              append-icon="help_outline"
+              :error-messages="err_is_hvd"
+              @click:append="$h('distribution_hvd')"
+            >
+              <v-checkbox
+                v-model="distribution.is_hvd"
+                :label="$t('distribution_hvd')"
+              />
+            </v-input>
+          </v-flex>
+        </v-layout>
       </v-flex>
     </v-layout>
     <!-- File distribution -->
@@ -476,7 +503,7 @@
       </v-layout>
     </div>
     <!-- High Value Dataset with Data Service -->
-    <div v-if="!isFileDistribution && isHvd">
+    <div v-if="!isFileDistribution && distribution.is_vhd">
       <!-- Contact point -->
       <v-layout
         row
@@ -789,7 +816,7 @@ import {
   FILE_TYPE, MEDIA_TYPES, RELATED_TERMS,
 } from "./codelists/server-codelists";
 import {
-  legislationCodelist, legislationHvdCodelist,
+  legislationCodelist,
 } from "./codelists/legislation";
 import {
   typyObsahuUdaju,
@@ -797,7 +824,7 @@ import {
   zpusobyZiskaniUdaju,
 } from "./codelists/non-public";
 import {
-  includesHvdLegislation, MODE_HVD, MODE_NON_PUBLIC,
+  MODE_HVD, MODE_NON_PUBLIC,
 } from "../dataset-model";
 import {trimEnd} from "../../app-service/validators";
 
@@ -807,8 +834,11 @@ export default {
     "app-solr-autocomplete-lazy": SolrAutocompleteLazy,
   },
   "props": {
+    /** Current distribution to edit. */
     "distribution": {"type": Object, "required": true},
-    "canBeDeleted": {"type": Boolean, "required": true},
+    /** List of all distributions for validation. */
+    "distributions": {"type": Array, "required": true},
+    /** Dataset mode as it has impact on distribution edit options. */
     "mode": {"type": String, "required": true},
   },
   "data": () => ({
@@ -832,16 +862,15 @@ export default {
     "TYPY_OBSAHU": typyObsahuUdaju,
     "ZPUSOBY_SDILENI": zpusobySdileniUdaju,
     "ZPUSOBY_ZISKANI": zpusobyZiskaniUdaju,
+    "LEGISLATION_TYPES": legislationCodelist,
   }),
   "computed": {
     ...createDistributionValidators(),
-    "LEGISLATION_TYPES": function() {
-      // For HVD we let user select HVD legislation option.
-      if (this.mode === MODE_HVD) {
-        return legislationHvdCodelist;
-      } else {
-        return legislationCodelist;
-      }
+    "canBeDeleted": function() {
+      return this.distributions.length > 1;
+    },
+    "isDatasetHvd": function() {
+      return this.mode === MODE_HVD;
     },
     "isCcByAuthor": function () {
       return this.distribution.license_author_type === "CC BY";
@@ -863,9 +892,6 @@ export default {
     },
     "isNonPublic": function () {
       return this.mode === MODE_NON_PUBLIC;
-    },
-    "isHvd": function() {
-      return includesHvdLegislation(this.distribution.legislation);
     },
   },
   "methods": {

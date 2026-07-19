@@ -6,7 +6,7 @@ import {
   shouldValidate,
   email,
 } from "../app-service/validators";
-import { includesHvdLegislation } from "./dataset-model";
+import { includesHvdLegislation, MODE_HVD } from "./dataset-model";
 
 export const DIST_TYPE_FILE = "FILE";
 
@@ -46,7 +46,11 @@ export function createDistribution() {
     "compress_format": "",
     "legislation": [],
     //
-    // Distribution: mode === "non-public"
+    // dataset.mode === "hvd"
+    //
+    "is_hvd": false,
+    //
+    // dataset.mode === "non-public"
     //
     "typy_obsahu": [],
     "zpusoby_sdileni": [],
@@ -127,6 +131,19 @@ export function createDistributionValidators() {
         }
       }
       return [];
+    },
+    // HVD
+    "err_is_hvd": function() {
+      // When mode is HVD we require at least one distribution to be HVD.
+      if (this.mode !== MODE_HVD) {
+        return [];
+      }
+      for (const distribution of this.distributions) {
+        if (distribution.is_hvd) {
+          return [];
+        }
+      }
+      return [this.$t("missing_distribution_with_hvd")];
     },
     //
     ...createFileDistributionValidators(),

@@ -199,9 +199,9 @@ test("Bylany from json-ld and back for LKOD.", () => {
   return importFromJsonLd(BYLANY, "cs").then(data => {
     const actual = exportDatasetForLocalDataCatalog(
       data.dataset, data.distributions, {
-      "lkodIri": "https://data.gov.cz/datové-sady",
-      "publisher": "https://data.gov.cz/zdroj/ovm",
-    });
+        "lkodIri": "https://data.gov.cz/datové-sady",
+        "publisher": "https://data.gov.cz/zdroj/ovm",
+      });
     expect(actual).toEqual(BYLANY_EXPECTED_LKOD);
   });
 });
@@ -423,7 +423,7 @@ const ISS94_EXPECTED_LKOD = {
       "databáze_jako_autorské_dílo": "https://data.gov.cz/podmínky-užití/není-autorskoprávně-chráněnou-databází/",
       "databáze_chráněná_zvláštními_právy": "https://data.gov.cz/podmínky-užití/není-chráněna-zvláštním-právem-pořizovatele-databáze/",
       "osobní_údaje": "https://data.gov.cz/podmínky-užití/neobsahuje-osobní-údaje/",
-    }
+    },
   }],
 };
 
@@ -431,8 +431,8 @@ test("ISS94 from json-ld and back for LKOD.", () => {
   return importFromJsonLd(ISS94, "cs").then(data => {
     const actual = exportDatasetForLocalDataCatalog(
       data.dataset, data.distributions, {
-      "lkodIri": "https://local-publisher",
-    });
+        "lkodIri": "https://local-publisher",
+      });
     expect(actual).toEqual(ISS94_EXPECTED_LKOD);
   });
 });
@@ -1205,8 +1205,9 @@ const HVD_20240619_EXPECTED_POST = {
 
 test("HVD_20240619 from json-ld and back for POST.", () => {
   return importFromJsonLd(HVD_20240619, "cs").then(data => {
+    console.log(JSON.stringify(data, null, 2));
     const actual = exportDatasetForPost(data.dataset, data.distributions);
-    expect(actual.distribuce[1].přístupová_služba).toEqual(HVD_20240619_EXPECTED_POST.distribuce[1].přístupová_služba);
+    expect(actual).toEqual(HVD_20240619_EXPECTED_POST);
   });
 });
 

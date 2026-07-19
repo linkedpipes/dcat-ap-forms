@@ -124,25 +124,25 @@ function exportDatasetToJsonLd(
 
   const { context, legislation, type } = (() => {
     switch (dataset.mode) {
-      case MODE_HVD:
-        return {
-          "context": CONTEXT_HVD,
-          "legislation": [EUROPE.openData, EUROPE.hvd],
-          "type": "Datová sada",
-        };
-      case MODE_NON_PUBLIC:
-        return {
-          "context": CONTEXT_NON_PUBLIC,
-          "legislation": [...NON_PUBLIC_LEGISLATION],
-          "type": ["Datová sada", "Datová sada SSP"],
-        };
-      case MODE_OPEN_DATA:
-      default:
-        return {
-          "context": CONTEXT_DEFAULT,
-          "legislation": [EUROPE.openData],
-          "type": "Datová sada",
-        };
+    case MODE_HVD:
+      return {
+        "context": CONTEXT_HVD,
+        "legislation": [EUROPE.openData, EUROPE.hvd],
+        "type": "Datová sada",
+      };
+    case MODE_NON_PUBLIC:
+      return {
+        "context": CONTEXT_NON_PUBLIC,
+        "legislation": [...NON_PUBLIC_LEGISLATION],
+        "type": ["Datová sada", "Datová sada SSP"],
+      };
+    case MODE_OPEN_DATA:
+    default:
+      return {
+        "context": CONTEXT_DEFAULT,
+        "legislation": [EUROPE.openData],
+        "type": "Datová sada",
+      };
     }
   })();
 
@@ -258,21 +258,21 @@ function exportSpatial(value) {
   value.spatial.map((spatial) => {
     const url = spatial.url;
     switch (spatial.type) {
-      case SPATIAL_RUIAN:
-        ruian.push(url);
-        break;
-      case SPATIAL_CONTINENT:
-      case SPATIAL_COUNTRY:
-      case SPATIAL_PLACE:
-        geo_area.push(url);
-        break;
-      case SPATIAL_URL:
-        custom.push(url);
-        break;
-      default:
-        console.warn("Unknown spatial type for", spatial);
-        custom.push(url);
-        break;
+    case SPATIAL_RUIAN:
+      ruian.push(url);
+      break;
+    case SPATIAL_CONTINENT:
+    case SPATIAL_COUNTRY:
+    case SPATIAL_PLACE:
+      geo_area.push(url);
+      break;
+    case SPATIAL_URL:
+      custom.push(url);
+      break;
+    default:
+      console.warn("Unknown spatial type for", spatial);
+      custom.push(url);
+      break;
     }
   });
   const result = {};
@@ -359,7 +359,9 @@ function exportDistribution(
   distributionIri, serviceIri) {
 
   /** @type * */
-  const result = {};
+  const result = {
+    "právní_předpis": [],
+  };
 
   // First we deal with the non-public mode as it adds some properties.
 
@@ -388,7 +390,13 @@ function exportDistribution(
     }
   } else {
     result["typ"] = "Distribuce";
-    result["právní_předpis"] = [EUROPE.openData];
+    result["právní_předpis"].push(EUROPE.openData);
+  }
+
+  // Next we dal with distribution model.
+
+  if (distribution.is_hvd) {
+    result["právní_předpis"].push(EUROPE.hvd);
   }
 
   const iri = distributionIri(distribution, distributionIndex);
@@ -404,10 +412,7 @@ function exportDistribution(
   result["podmínky_užití"] = exportTermsOfUse(distribution);
 
   if (distribution.legislation.length > 0) {
-    result["právní_předpis"] = [
-      ...(result["právní_předpis"] ?? []),
-      ...distribution.legislation,
-    ];
+    result["právní_předpis"].push(...distribution.legislation);
   }
 
   if (distribution.type === DIST_TYPE_FILE) {
@@ -431,86 +436,86 @@ function exportTermsOfUse(distribution) {
     "typ": "Specifikace podmínek užití",
   };
   switch (distribution.license_author_type) {
-    case undefined:
-      // For download of partial data.
-      break;
-    case "MULTI":
-      result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
-      break;
-    case "CC BY":
-      result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-      result["autor"] = asLanguageMap(distribution.license_author_name);
-      break;
-    case "NO":
-      result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
-      break;
-    case "CUSTOM":
-      result["autorské_dílo"] = distribution.license_author_custom;
-      break;
-    default:
-      console.error("Unexpected license_author_type value:",
-        distribution.license_author_type);
-      break;
+  case undefined:
+    // For download of partial data.
+    break;
+  case "MULTI":
+    result["autorské_dílo"] = PU.obsahujeViceAutorskychDel;
+    break;
+  case "CC BY":
+    result["autorské_dílo"] = CREATIVE_COMMONS.BY_40;
+    result["autor"] = asLanguageMap(distribution.license_author_name);
+    break;
+  case "NO":
+    result["autorské_dílo"] = PU.neobsahujeAutorskaDila;
+    break;
+  case "CUSTOM":
+    result["autorské_dílo"] = distribution.license_author_custom;
+    break;
+  default:
+    console.error("Unexpected license_author_type value:",
+      distribution.license_author_type);
+    break;
   }
 
   switch (distribution.license_db_type) {
-    case undefined:
-      // For download of partial data.
-      break;
-    case "CC BY":
-      result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
-      result["autor_databáze"] = asLanguageMap(distribution.license_db_name);
-      break;
-    case "NO":
-      result["databáze_jako_autorské_dílo"] =
+  case undefined:
+    // For download of partial data.
+    break;
+  case "CC BY":
+    result["databáze_jako_autorské_dílo"] = CREATIVE_COMMONS.BY_40;
+    result["autor_databáze"] = asLanguageMap(distribution.license_db_name);
+    break;
+  case "NO":
+    result["databáze_jako_autorské_dílo"] =
         PU.neniAutorskopravneChranenouDatabazi;
-      break;
-    case "CUSTOM":
-      result["databáze_jako_autorské_dílo"] =
+    break;
+  case "CUSTOM":
+    result["databáze_jako_autorské_dílo"] =
         distribution.license_db_custom;
-      break;
-    default:
-      console.error("Unexpected license_db_type value:",
-        distribution.license_db_type);
-      break;
+    break;
+  default:
+    console.error("Unexpected license_db_type value:",
+      distribution.license_db_type);
+    break;
   }
 
   switch (distribution.license_specialdb_type) {
-    case undefined:
-      // For download of partial data.
-      break;
-    case "CC0":
-      result["databáze_chráněná_zvláštními_právy"] =
+  case undefined:
+    // For download of partial data.
+    break;
+  case "CC0":
+    result["databáze_chráněná_zvláštními_právy"] =
         CREATIVE_COMMONS.PUBLIC_ZERO_10;
-      break;
-    case "NO":
-      result["databáze_chráněná_zvláštními_právy"] =
+    break;
+  case "NO":
+    result["databáze_chráněná_zvláštními_právy"] =
         PU.neniChranenazvlastnimPravemPorizovateleDatabaze;
-      break;
-    case "CUSTOM":
-      result["databáze_chráněná_zvláštními_právy"] =
+    break;
+  case "CUSTOM":
+    result["databáze_chráněná_zvláštními_právy"] =
         distribution.license_specialdb_custom;
-      break;
-    default:
-      console.error("Unexpected license_specialdb_type value:",
-        distribution.license_specialdb_type);
-      break;
+    break;
+  default:
+    console.error("Unexpected license_specialdb_type value:",
+      distribution.license_specialdb_type);
+    break;
   }
 
   switch (distribution.license_personal_type) {
-    case undefined:
-      // For download of partial data.
-      break;
-    case "YES":
-      result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
-      break;
-    case "NO":
-      result["osobní_údaje"] = PU.neobsahujeOsobniUdaje;
-      break;
-    default:
-      console.error("Unexpected license_personal_type value:",
-        distribution.license_personal_type);
-      break;
+  case undefined:
+    // For download of partial data.
+    break;
+  case "YES":
+    result["osobní_údaje"] = PU.obsahujeOsobniUdaje;
+    break;
+  case "NO":
+    result["osobní_údaje"] = PU.neobsahujeOsobniUdaje;
+    break;
+  default:
+    console.error("Unexpected license_personal_type value:",
+      distribution.license_personal_type);
+    break;
   }
 
   return result;
@@ -558,8 +563,6 @@ function addDataService(
   dataset, distribution, serviceIri, parent
 ) {
 
-  const isHvd = includesHvdLegislation(distribution.legislation);
-
   // We start with preparing the data service object.
 
   /** @type * */
@@ -590,7 +593,7 @@ function addDataService(
 
   // HVD gets special handling.
 
-  if (isHvd) {
+  if (distribution.is_hvd) {
     if (distribution.service_title_copy) {
       service["název"] = asLanguageMap(
         distribution.title_cs, distribution.title_en);

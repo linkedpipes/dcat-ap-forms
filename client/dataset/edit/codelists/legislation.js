@@ -1,4 +1,4 @@
-import { EUROPE, ESBIRKA } from "../../../app-service/vocabulary";
+import { ESBIRKA } from "../../../app-service/vocabulary";
 
 /**
  * @type {{value: string, cs: string, en: string}[]}
@@ -26,13 +26,3 @@ export function getLegislationCodelist(iri, lang) {
   }
   return iri;
 }
-
-/**
- * Extended legislation with HVD options.
- * @type {{value: string, cs: string, en: string}[]}
- */
-export const legislationHvdCodelist = [{
-  "value": EUROPE.hvd,
-  "cs": "High Value Dataset (HVD) - Prováděcí nařízení Komise (EU) 2023/138",
-  "en": "High Value Dataset (HVD)",
-}, ...legislationCodelist];

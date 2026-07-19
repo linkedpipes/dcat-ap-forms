@@ -59,7 +59,7 @@
           <app-distribution
             ref="distributionComponent"
             :distribution="data.distributions[ui.distribution]"
-            :can-be-deleted="data.distributions.length > 1"
+            :distributions="data.distributions"
             :mode="data.dataset.mode"
             @delete="deleteDistribution"
           />
@@ -172,14 +172,6 @@ export default {
       "distributions": false,
     },
   }),
-  "watch": {
-    "$route": function (location) {
-      service.onRouteChange(this, location);
-    },
-  },
-  "mounted": async function () {
-    await service.onDatasetEditMounted(this);
-  },
   "computed": {
     "mode_message": function () {
       switch (this.data.dataset.mode) {
@@ -191,6 +183,14 @@ export default {
         return "mode_notice_default";
       }
     },
+  },
+  "watch": {
+    "$route": function (location) {
+      service.onRouteChange(this, location);
+    },
+  },
+  "mounted": async function () {
+    await service.onDatasetEditMounted(this);
   },
   "methods": {
     "areOptionsValid": function () {

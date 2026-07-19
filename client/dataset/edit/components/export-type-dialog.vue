@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="visible"
+    v-model="isVisible"
     width="500"
   >
     <v-card>
@@ -82,6 +82,7 @@ import {EXPORT_NKOD, EXPORT_EDIT, EXPORT_LKOD} from "../../dataset-model";
 export default {
   "name": "ExportTypeDialog",
   "props": {
+    /** This is updated by Vue.js we can not thus use it directly. */
     "visible": {"type": Boolean, "required": true},
     "exportOptions": {"type": Object, "required": true},
   },
@@ -96,6 +97,16 @@ export default {
     "EXPORT_LKOD": EXPORT_LKOD,
   }),
   "computed": {
+    "isVisible": {
+      "get": function () {
+        return this.visible;
+      },
+      "set": function (value) {
+        if (!value) {
+          this.close();
+        }
+      },
+    },
     "errUrl": function () {
       if (this.type !== EXPORT_LKOD) {
         return [];

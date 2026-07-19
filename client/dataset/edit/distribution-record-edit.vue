@@ -861,7 +861,7 @@ export default {
       return this.distribution.type === DIST_TYPE_FILE;
     },
     "isNonPublic": function () {
-      return this.model === MODE_NON_PUBLIC;
+      return this.mode === MODE_NON_PUBLIC;
     },
     "isHvd": function() {
       return includesHvdLegislation(this.distribution.legislation);

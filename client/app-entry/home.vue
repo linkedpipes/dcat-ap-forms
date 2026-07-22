@@ -1,29 +1,50 @@
 <template>
   <v-app>
-    <v-container style="text-align: center">
-      <h1>Registrační formuláře katalogů otevřených dat</h1>
-      <hr>
+    <v-container fluid>
+      <v-row no-gutters>
+        <v-col cols="2"></v-col>
+        <v-col cols="8" style="text-align: center">
+          <h1>{{view.title}}</h1>
+        </v-col>
+        <v-col cols="2" class="d-flex justify-end align-center">
+          <v-img
+            v-show="locale !== 'cs'"
+            alt="Čeština"
+            src="./assets/images/flag-cs.svg"
+            max-width="2em"
+            class="mr-2"
+            style="cursor: pointer"
+            @click="setLocale('cs')"
+          />
+          <v-img
+            v-show="locale !== 'en'"
+            alt="English"
+            src="./assets/images/flag-en.svg"
+            max-width="2em"
+            class="mr-2"
+            style="cursor: pointer"
+            @click="setLocale('en')"
+          />
+        </v-col>
+      </v-row>
     </v-container>
+    <hr>
     <v-container>
       <v-row
-        v-for="(row, index) in rows"
-        :key="index"
+        v-for="row in view.items"
         justify="center"
+        class="mb-3"
       >
         <v-col
-          v-for="card in row"
-          :key="card.link"
+          v-for="item in row"
+          :key="item.link"
           cols="12"
           md="6"
           lg="3"
         >
-          <v-card outlined>
+          <v-card outlined class="d-flex justify-center" style="height: 100%;">
             <v-card-title style="text-align: center">
-              <v-layout justify-center>
-                <a :href="card.link">
-                  {{ card.title }}
-                </a>
-              </v-layout>
+              <a :href="item.link">{{ item.title }}</a>
             </v-card-title>
           </v-card>
         </v-col>
@@ -36,32 +57,81 @@
 export default {
   "name": "Home",
   "data": () => ({
-    "rows": [
-      [
-        {
-          "title": "Registrace datové sady",
-          "link": "./registrace-datové-sady",
-        }, {
+    // Active language.
+    "locale": "cs",
+    //
+    "cs":{
+      "title": "Registrační formuláře katalogů dat",
+      "items": [
+        [{
           "title": "Registrace lokálního katalogu",
           "link": "./registrace-lokálního-katalogu",
+        }], [
+          {
+          "title": "Registrace otevřené datové sady",
+          "link": "./registrace-datové-sady?mód=otevřená-data",
+        },{
+          "title": "Registrace datové sady s vysokou hodnotou",
+          "link": "./registrace-datové-sady?mód=datová-sada-s-vysokou-hodnotou",
         }, {
-          "title": "Registrace datové sady LKOD",
-          "link": "./registrace-datové-sady?lkod",
-        },
-      ], [
-        {
-          "title": "Dataset registration",
-          "link": "./dataset-registration",
-        }, {
+          "title": "Registrace neveřejné datové sady",
+          "link": "./registrace-datové-sady?mód=neveřejná-data",
+        }]
+      ],
+    },
+    //
+    "en": {
+      "title": "Registration forms for data catalog",
+      "items": [
+        [{
           "title": "Local catalog registration",
           "link": "./local-catalog-registration",
-        }, {
-          "title": "Dataset registration LODC",
-          "link": "./dataset-registration?lkod",
-        },
+        }],[{
+          "title": "Open dataset registration",
+          "link": "./dataset-registration?mode=open-data",
+        },{
+          "title": "High Value Dataset (HVD) registration",
+          "link": "./dataset-registration?mode=high-value-dataset",
+        },{
+          "title": "Non-public dataset registration",
+          "link": "./dataset-registration?mode=non-public",
+        }]
       ],
-    ],
+    },
   }),
+  /**
+   * We need to resolve locale.
+   */
+  "beforeMount": function() {
+      // 1. URL query param takes priority
+      const queryLang = this.$route?.query?.language
+      if (queryLang === "cs" || queryLang === "en") {
+        this.locale = queryLang;
+        return;
+      }
+      // 2. Fall back to browser locale
+      const browserLang = (
+        navigator.language ||
+        navigator.userLanguage ||
+        ""
+      ).toLowerCase()
+      this.locale = browserLang.startsWith("cs") ? "cs" : "en";
+  },
+  "computed": {
+    "view": function() {
+      return this[this.locale];
+    }
+  },
+  "methods": {
+    /** @param {string} language */
+    "setLocale": function(language) {
+      this.locale = language;
+      // Update path since this is not the default.
+      this.$router.replace({
+        query: { ...this.$route.query, language }
+      }).catch(() => {}) // ignore NavigationDuplicated if value unchanged
+    }
+  }
 };
 </script>
 

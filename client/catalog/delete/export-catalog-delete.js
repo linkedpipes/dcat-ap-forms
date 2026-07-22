@@ -1,12 +1,12 @@
 import {ADMS, STATUS} from "../../app-service/vocabulary";
 
-const CONTEXT =
-  "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-otevřených-dat/"
-  + "2024-05-28/kontexty/rozhraní-katalogů-otevřených-dat.jsonld";
-
+/**
+ * @param {{iri: string}} catalog
+ * @returns
+ */
 export function exportCatalogToJsonLdForDelete(catalog) {
   return {
-    "@context": CONTEXT,
+    "@context": "https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-dat/draft/katalog/kontext.jsonld",
     "typ": "Katalog",
     "iri": catalog.iri,
     [ADMS.status]: {"@id": STATUS.Withdrawn},

@@ -2,11 +2,17 @@
   <v-app>
     <v-container fluid>
       <v-row no-gutters>
-        <v-col cols="2"></v-col>
-        <v-col cols="8" style="text-align: center">
-          <h1>{{view.title}}</h1>
+        <v-col cols="2" />
+        <v-col
+          cols="8"
+          style="text-align: center"
+        >
+          <h1>{{ view.title }}</h1>
         </v-col>
-        <v-col cols="2" class="d-flex justify-end align-center">
+        <v-col
+          cols="2"
+          class="d-flex justify-end align-center"
+        >
           <v-img
             v-show="locale !== 'cs'"
             alt="Čeština"
@@ -32,17 +38,22 @@
     <v-container>
       <v-row
         v-for="row in view.items"
+        :key="row.link"
         justify="center"
         class="mb-3"
       >
         <v-col
-          v-for="item in row"
-          :key="item.link"
+          v-for="(item, index) in row"
+          :key="index"
           cols="12"
           md="6"
           lg="3"
         >
-          <v-card outlined class="d-flex justify-center" style="height: 100%;">
+          <v-card
+            outlined
+            class="d-flex justify-center"
+            style="height: 100%;"
+          >
             <v-card-title style="text-align: center">
               <a :href="item.link">{{ item.title }}</a>
             </v-card-title>
@@ -68,15 +79,15 @@ export default {
           "link": "./registrace-lokálního-katalogu",
         }], [
           {
-          "title": "Registrace otevřené datové sady",
-          "link": "./registrace-datové-sady?mód=otevřená-data",
-        },{
-          "title": "Registrace datové sady s vysokou hodnotou",
-          "link": "./registrace-datové-sady?mód=datová-sada-s-vysokou-hodnotou",
-        }, {
-          "title": "Registrace neveřejné datové sady",
-          "link": "./registrace-datové-sady?mód=neveřejná-data",
-        }]
+            "title": "Registrace otevřené datové sady",
+            "link": "./registrace-datové-sady?mód=otevřená-data",
+          },{
+            "title": "Registrace datové sady s vysokou hodnotou",
+            "link": "./registrace-datové-sady?mód=datová-sada-s-vysokou-hodnotou",
+          }, {
+            "title": "Registrace neveřejné datové sady",
+            "link": "./registrace-datové-sady?mód=neveřejná-data",
+          }],
       ],
     },
     //
@@ -95,32 +106,32 @@ export default {
         },{
           "title": "Non-public dataset registration",
           "link": "./dataset-registration?mode=non-public",
-        }]
+        }],
       ],
     },
   }),
+  "computed": {
+    "view": function() {
+      return this[this.locale];
+    },
+  },
   /**
    * We need to resolve locale.
    */
   "beforeMount": function() {
-      // 1. URL query param takes priority
-      const queryLang = this.$route?.query?.language
-      if (queryLang === "cs" || queryLang === "en") {
-        this.locale = queryLang;
-        return;
-      }
-      // 2. Fall back to browser locale
-      const browserLang = (
-        navigator.language ||
+    // 1. URL query param takes priority
+    const queryLang = this.$route?.query?.language;
+    if (queryLang === "cs" || queryLang === "en") {
+      this.locale = queryLang;
+      return;
+    }
+    // 2. Fall back to browser locale
+    const browserLang = (
+      navigator.language ||
         navigator.userLanguage ||
         ""
-      ).toLowerCase()
-      this.locale = browserLang.startsWith("cs") ? "cs" : "en";
-  },
-  "computed": {
-    "view": function() {
-      return this[this.locale];
-    }
+    ).toLowerCase();
+    this.locale = browserLang.startsWith("cs") ? "cs" : "en";
   },
   "methods": {
     /** @param {string} language */
@@ -128,10 +139,10 @@ export default {
       this.locale = language;
       // Update path since this is not the default.
       this.$router.replace({
-        query: { ...this.$route.query, language }
-      }).catch(() => {}) // ignore NavigationDuplicated if value unchanged
-    }
-  }
+        "query": { ...this.$route.query, "language": language },
+      }).catch(() => {}); // ignore NavigationDuplicated if value unchanged
+    },
+  },
 };
 </script>
 

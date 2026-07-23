@@ -62,7 +62,7 @@ export const zpusobyZiskaniUdaju = [
     "cs": "Základních registrů",
     "en": "Základních registrů",
   }, {
-    "value": "ttps://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/jiných-agend",
+    "value": "https://data.dia.gov.cz/zdroj/číselníky/způsoby-získání-údajů/položky/jiných-agend",
     "cs": "Jiných agend",
     "en": "Jiných agend",
   }, {

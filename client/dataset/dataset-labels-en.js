@@ -270,8 +270,8 @@ export default {
   "help_related_terms": "<h3>Related terms</h3><p>Select terms that are related to this dataset.</p>",
   "typy_obsahu": "Types of data content",
   "help_typy_obsahu": "<h3>Types of data content</h3><p>Select types of data content included in the dataset and provided through the data interface.</p>",
-  "zpusoby_sdileni": "Ways of sharing data",
-  "help_zpusoby_sdileni": "<h3>Ways of sharing data</h3><p>Select ways of sharing data content included in the dataset and provided through the data interface.</p>",
+  "zpusob_sdileni": "A way of sharing data",
+  "help_zpusob_sdileni": "<h3>A way of sharing data</h3><p>Select ways of sharing data content included in the dataset and provided through the data interface.</p>",
   "zpusoby_ziskani": "Ways of obtaining data",
   "help_zpusoby_ziskani": "<h3>Ways of obtaining data</h3><p>Select ways of obtaining data content included in the dataset and provided through the data interface.</p>",
   "headline_zprostredkovava_sdileni": "Intermediary sharing",
@@ -308,4 +308,15 @@ export default {
   "contact_point_name_missing": "Name of the dataset contact point is mandatory.",
   "help_contact_point_name": "<h3>Name of the dataset contact point</h3><p>Name of the person who can be contacted with feedback regarding this dataset. It is a very important communications channel for receiving error reports or other issues with the dataset.</p>",
   "hint_contact_point_name": "Person or unit who will receive feedback related to the dataset.",
+  // Related term
+  "related_term": "Related term",
+  "related_term_autocomplete_no_data": "Start typing the name of the related term.",
+  "missing_related_term": "One related term must be selected.",
+  "help_related_term": "<h3>Related term</h3><p>Select term that is related to this distribution.</p>",
+  // Typ obsahu
+  "typ_obsahu": "Type of data content",
+  "help_typ_obsahu": "<h3>Type of data content</h3><p>Select the type of data content included in the dataset and provided through the data interface.</p>",
+  // Zpusob ziskani
+  "zpusob_ziskani": "Way of obtaining data",
+  "help_zpusob_ziskani": "<h3>Way of obtaining data</h3><p>Select the way of obtaining data content included in the dataset and provided through the data interface.</p>",
 };

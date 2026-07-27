@@ -8,9 +8,9 @@ import {
 } from "../app-service/validators";
 import { includesHvdLegislation, MODE_HVD } from "./dataset-model";
 
-export const DIST_TYPE_FILE = "FILE";
+export const DIST_TYPE_FILE = "file";
 
-export const DIST_TYPE_SERVICE = "SERVICE";
+export const DIST_TYPE_SERVICE = "service";
 
 /**
  * Distribution can be default one or HVD one.
@@ -46,18 +46,21 @@ export function createDistribution() {
     "compress_format": "",
     "legislation": [],
     //
-    // dataset.mode === "hvd"
+    // mode === "hvd"
     //
     "is_hvd": false,
     //
-    // dataset.mode === "non-public"
+    // mode === "non-public"
     //
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máTypObsahuSdílenéhoRozhraním */
     "typy_obsahu": [],
-    "zpusoby_sdileni": [],
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máZpůsobSdíleníRozhraním */
+    "zpusob_sdileni": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máZpůsobZískáníDatSdílenýchRozhraním */
     "zpusoby_ziskani": [],
     "zprostredkovava_sdileni": [],
     //
-    // Data service
+    // type === "service"
     //
     "service_iri": "",
     /** @lc-property dcat:endpointURL */
@@ -67,7 +70,7 @@ export function createDistribution() {
     /** @lc-property dct:conformsTo */
     "service_conforms_to": "",
     //
-    // HVD Data service
+    // type === "service" && is_hvd
     //
     "contact_point_name": "",
     "contact_point_email": "",
@@ -78,7 +81,9 @@ export function createDistribution() {
     "service_title_copy": true,
     "service_title_cs": "",
     "service_title_en": "",
+    ///
     // By default do not force validation on new item.
+    //
     "$validators": {
       "force": false,
     },
@@ -87,11 +92,22 @@ export function createDistribution() {
 
 export function createZprostredkovavaSdileni() {
   return {
-    "typy_obsahu": null,
-    "zpusoby_sdileni": null,
-    "zpusoby_ziskani": null,
-    "related_terms": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeSdílenJako */
+    "typ_obsahu": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeSdílenZpůsobem */
+    "zpusob_sdileni": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeZískánZpůsobem */
+    "zpusob_ziskani": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.odpovídajícíPojem */
+    "related_term": null,
   };
+}
+
+function validateZprostredkovavaSdileni(value) {
+  return value.typ_obsahu !== null
+    && value.zpusob_sdileni !== null
+    && value.zpusob_ziskani !== null
+    && value.related_term !== null;
 }
 
 /**
@@ -125,8 +141,7 @@ export function createDistributionValidators() {
         return [];
       }
       for (const item of this.distribution.zprostredkovava_sdileni) {
-        if (!item.typy_obsahu || !item.zpusoby_sdileni
-          || !item.zpusoby_ziskani || !item.related_terms) {
+        if (!validateZprostredkovavaSdileni(item)) {
           return [this.$t("zprostredkovava_sdileni_incomplete")];
         }
       }
@@ -135,6 +150,8 @@ export function createDistributionValidators() {
     // HVD
     "err_is_hvd": function() {
       // When mode is HVD we require at least one distribution to be HVD.
+      // This does not validate a single distribution, instead it validates
+      // against all distributions.
       if (this.mode !== MODE_HVD) {
         return [];
       }

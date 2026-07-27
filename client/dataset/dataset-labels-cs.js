@@ -269,8 +269,8 @@ export default {
   "help_related_terms": "<h3>Související pojmy</h3><p>Vyberte pojmy, které souvisí s touto datovou sadou.</p>",
   "typy_obsahu": "Typy obsahu údajů",
   "help_typy_obsahu": "<h3>Typy obsahu údajů</h3><p>Vyberte typy obsahu údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
-  "zpusoby_sdileni": "Způsoby sdílení údajů",
-  "help_zpusoby_sdileni": "<h3>Způsoby sdílení údajů</h3><p>Vyberte způsoby sdílení údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
+  "zpusob_sdileni": "Způsob sdílení údajů",
+  "help_zpusob_sdileni": "<h3>Způsob sdílení údajů</h3><p>Vyberte způsoby sdílení údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
   "zpusoby_ziskani": "Způsoby získání údajů",
   "help_zpusoby_ziskani": "<h3>Způsoby získání údajů</h3><p>Vyberte způsoby získání údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
   "headline_zprostredkovava_sdileni": "Zprostředkovává sdílení",
@@ -306,4 +306,15 @@ export default {
   "contact_point_name_missing": "Chybí jméno kontaktní osoby",
   "help_contact_point_name": "<h3>Jméno kontaktní osoby</h3><p>Jméno osoby či útvaru, který lze kontaktovat ohledně zpětné vazby k této datové sadě. Jedná se o důležitý komunikační kanál, kterým mohou uživatelé hlásit chyby nebo nesrovnalosti v datové sadě.</p>",
   "hint_contact_point_name": "Osoba či útvar, kterému bude chodit zpětná vazba.",
+  // Related term
+  "related_term": "Související pojem",
+  "related_term_autocomplete_no_data": "Začněte psát název souvisejícího pojmu.",
+  "missing_related_term": "Je třeba vybrat související pojem.",
+  "help_related_term": "<h3>Související pojem</h3><p>Vyberte pojem, který souvisí s touto distribucí.</p>",
+  // Typ obsahu
+  "typ_obsahu": "Typ obsahu údajů",
+  "help_typ_obsahu": "<h3>Typ obsahu údajů</h3><p>Vyberte typ obsahu údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
+  // Zpusob ziskani
+  "zpusob_ziskani": "Způsob získání údajů",
+  "help_zpusob_ziskani": "<h3>Způsob získání údajů</h3><p>Vyberte způsob získání údajů obsažených v datové sadě, poskytovaných skrze datové rozhraní.</p>",
 };

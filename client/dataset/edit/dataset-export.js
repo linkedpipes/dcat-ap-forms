@@ -371,9 +371,8 @@ function exportDistribution(
     if (distribution.typy_obsahu.length > 0) {
       result["typ_obsahu_sdílených_údajů"] = distribution.typy_obsahu;
     }
-    if (distribution.zpusoby_sdileni.length > 0) {
-      result["způsob_sdílení_údajů"] =
-        arrayOrValue(distribution.zpusoby_sdileni);
+    if (distribution.zpusob_sdileni.length !==  null) {
+      result["způsob_sdílení_údajů"] = distribution.zpusob_sdileni;
     }
     if (distribution.zpusoby_ziskani.length > 0) {
       result["způsob_získání_sdílených_údajů"] = distribution.zpusoby_ziskani;
@@ -382,10 +381,10 @@ function exportDistribution(
       result["sdílí_údaj"] =
         distribution.zprostredkovava_sdileni.map(item => ({
           "typ": "Sdílení údaje",
-          "typ_obsahu_sdílených_údajů": item.typy_obsahu,
-          "způsob_sdílení_údajů": item.zpusoby_sdileni,
-          "způsob_získání_sdílených_údajů": item.zpusoby_ziskani,
-          "odpovídající_pojem": item.related_terms,
+          "typ_obsahu_sdílených_údajů": item.typ_obsahu,
+          "způsob_sdílení_údajů": item.zpusob_sdileni,
+          "způsob_získání_sdílených_údajů": item.zpusob_ziskani,
+          "odpovídající_pojem": item.related_term,
         }));
     }
   } else {

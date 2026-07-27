@@ -503,7 +503,7 @@
       </v-layout>
     </div>
     <!-- High Value Dataset with Data Service -->
-    <div v-if="!isFileDistribution && distribution.is_vhd">
+    <div v-if="!isFileDistribution && distribution.is_hvd">
       <!-- Contact point -->
       <v-layout
         row

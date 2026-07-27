@@ -518,16 +518,6 @@
         />
       </v-flex>
     </v-layout>
-    <v-layout
-      v-if="allowImport"
-      row
-      wrap
-    >
-      <div class="text-center">
-        <upload-file-dialog @upload="loadFromFile" />
-        <upload-url-dialog @upload="loadFromUrl" />
-      </div>
-    </v-layout>
   </v-container>
 </template>
 
@@ -536,8 +526,6 @@ import DatePicker from "./components/date-picker";
 import SolrChipsAutocomplete from "./components/solr-autocomplete";
 import SolrChipsAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import SpatialDialog from "./components/spatial-dialog";
-import UploadFileDialog from "./components/upload-file-dialog";
-import UploadUrlDialog from "./components/upload-url-dialog";
 import {
   createDatasetValidators, MODE_HVD, MODE_NON_PUBLIC,
 } from "../dataset-model";
@@ -555,14 +543,11 @@ export default {
     "app-solr-autocomplete": SolrChipsAutocomplete,
     "app-solr-autocomplete-lazy": SolrChipsAutocompleteLazy,
     "spatial-dialog": SpatialDialog,
-    "upload-file-dialog": UploadFileDialog,
-    "upload-url-dialog": UploadUrlDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
     "codelist": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
-    "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
     "legislations": legislationCodelist,
@@ -609,12 +594,6 @@ export default {
     },
     "getSpatialLabel": function(item) {
       return getSpatialLabel(this.codelist, item, this.$vuetify.lang.current);
-    },
-    "loadFromFile": function (file) {
-      this.$emit("load-from-file", file);
-    },
-    "loadFromUrl": function(url) {
-      this.$emit("load-from-url", url);
     },
     "trimEnd": trimEnd,
   },

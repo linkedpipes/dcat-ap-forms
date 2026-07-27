@@ -45,7 +45,7 @@ export function apply(selector, property, rule, message, skip = undefined) {
     // Check whether to skip a validation.
     if (skip !== undefined && skip(this)) {
       return [];
-    };
+    }
     const value = selector(this)[property];
     const validators = selector(this)["$validators"];
     if (!shouldValidate(value, validators, property)) {
@@ -70,10 +70,10 @@ export function apply(selector, property, rule, message, skip = undefined) {
  */
 export function applyEach(selector, property, rule, message, skip = undefined) {
   return function () {
-        // Check whether to skip a validation.
+    // Check whether to skip a validation.
     if (skip !== undefined && skip(this)) {
       return [];
-    };
+    }
     const value = selector(this)[property];
     const validators = selector(this)["$validators"];
     if (!shouldValidate(value, validators, property)) {

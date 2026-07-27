@@ -54,6 +54,7 @@
           <app-distribution-selector
             v-model="ui.distribution"
             :distributions="data.distributions"
+            :mode="data.dataset.mode"
             @add="addDistribution"
           />
           <app-distribution

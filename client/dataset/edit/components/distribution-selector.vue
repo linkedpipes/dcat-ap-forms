@@ -1,9 +1,9 @@
 <template>
   <div class="centred">
-    <v-btn 
+    <v-btn
       :disabled="value < 1"
       text
-      icon 
+      icon
       @click="onPrevious"
     >
       <v-icon>navigate_before</v-icon>
@@ -21,19 +21,19 @@
         lens
       </v-icon>
     </v-btn>
-    <v-btn 
+    <v-btn
       text
-      icon 
+      icon
       @click="onNew"
     >
       <v-icon color="green">
         add_circle
       </v-icon>
     </v-btn>
-    <v-btn 
+    <v-btn
       :disabled="value + 1 >= distributions.length"
       text
-      icon 
+      icon
       @click="onNext"
     >
       <v-icon>navigate_next</v-icon>
@@ -49,6 +49,8 @@ export default {
   "props": {
     "value": {"type": Number, "required": true},
     "distributions": {"type": Array, "required": true},
+    /* Dataset mode : "default" | "hvd" | "non-public" */
+    "mode": {"type": String, "required": true},
   },
   "methods": {
     "onPrevious": function () {
@@ -66,11 +68,11 @@ export default {
     "isValid": function(index) {
       const distribution = this.distributions[index];
       if (!distribution.$validators.force) {
-        // Newly added distribution. User does not
-        // visited last step after adding this one.
+        // Newly added distribution.
+        // User does not visited last step after adding this one.
         return true;
       }
-      return isDistributionValid(distribution);
+      return isDistributionValid(this.distributions, distribution, this.mode);
     },
   },
 };

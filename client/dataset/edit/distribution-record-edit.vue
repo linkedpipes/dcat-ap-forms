@@ -244,7 +244,7 @@
               id="distribution_legislation"
               v-model="distribution.legislation"
               :items="LEGISLATION_TYPES"
-              :label="$t('distribution_legislation')"
+              :label="$t('distribution_legislation') + $t('optional')"
               :item-text="$vuetify.lang.current"
               prepend-icon="gavel"
               item-value="value"

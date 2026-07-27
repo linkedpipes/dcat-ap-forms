@@ -446,7 +446,7 @@
           id="legislation"
           v-model="dataset.legislation"
           :items="legislations"
-          :label="$t('dataset_legislation')"
+          :label="$t('dataset_legislation') + $t('optional')"
           :item-text="$vuetify.lang.current"
           prepend-icon="gavel"
           item-value="value"

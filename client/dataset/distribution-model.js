@@ -112,8 +112,18 @@ function validateZprostredkovavaSdileni(value) {
 
 /**
  * Create validators for all distribution fields.
+ * This is used by the user interface where additional validators
+ * with false positives are not an issue as they are not visible.
  */
 export function createDistributionValidators() {
+  return {
+    ...createCommonDistributionValidators(),
+    ...createFileDistributionValidators(),
+    ...createServiceDistributionValidators(),
+  };
+}
+
+function createCommonDistributionValidators() {
   return {
     // Terms of use section.
     "err_license_author_name": validateAuthor(
@@ -148,7 +158,7 @@ export function createDistributionValidators() {
       return [];
     },
     // HVD
-    "err_is_hvd": function() {
+    "err_is_hvd": function () {
       // When mode is HVD we require at least one distribution to be HVD.
       // This does not validate a single distribution, instead it validates
       // against all distributions.
@@ -162,9 +172,6 @@ export function createDistributionValidators() {
       }
       return [this.$t("missing_distribution_with_hvd")];
     },
-    //
-    ...createFileDistributionValidators(),
-    ...createServiceDistributionValidators(),
   };
 }
 
@@ -214,7 +221,7 @@ function createServiceDistributionValidators() {
       [[provided, "contact_point_name_missing"]],
       (t) => includesHvdLegislation(t.distribution.legislation)),
     "err_contact_point_email": applyArray(
-      (t) => t.distribution, "contact_point_email",[
+      (t) => t.distribution, "contact_point_email", [
         [provided, "contact_point_email_missing"],
         [email, "contact_point_email_invalid"],
       ], (t) => includesHvdLegislation(t.distribution.legislation)),
@@ -244,7 +251,10 @@ function validateAuthor(licence_prop, name_prop) {
     if (!shouldValidate(value, validators, name_prop)) {
       return [];
     }
-    if (isAuthorValid(licence, value)) {
+    if (licence !== "CC BY") {
+      return [];
+    }
+    if (provided(value)) {
       return [];
     } else {
       return [this.$t("author_name_missing")];
@@ -285,14 +295,30 @@ function validatePersonal() {
   };
 }
 
-const fileValidators = createFileDistributionValidators();
+const fileValidators = {
+  ...createCommonDistributionValidators(),
+  ...createFileDistributionValidators(),
+};
 
-const serviceValidators = createServiceDistributionValidators();
+const serviceValidators = {
+  ...createCommonDistributionValidators(),
+  ...createServiceDistributionValidators(),
+};
 
-export function isDistributionValid(distribution) {
+/**
+ * @param {*[]} distributions Array of all distributions.
+ * @param {*} distribution Distribution to validate.
+ * @param {"default" | "hvd" | "non-public"} mode Dataset mode.
+ * @returns
+ */
+export function isDistributionValid(distributions, distribution, mode) {
   // We mock the UI entity, to provide all functions the validators need.
   const wrapped = {
     "distribution": distribution,
+    // The HVD validation requires access to all distributions.
+    "distributions": distributions,
+    // Mode
+    "mode": mode,
     /**
      * @param {string} message
      */
@@ -313,43 +339,5 @@ export function isDistributionValid(distribution) {
     }
   }
   //
-  return isAuthorValid(
-    distribution.license_author_type,
-    distribution.license_author_name)
-    && isCustomValid(
-      distribution.license_author_type,
-      distribution.license_author_custom)
-    && isAuthorValid(
-      distribution.license_db_type,
-      distribution.license_db_name)
-    && isCustomValid(
-      distribution.license_db_type,
-      distribution.license_db_custom)
-    && isCustomValid(
-      distribution.license_specialdb_type,
-      distribution.license_specialdb_custom)
-    && isPersonalValid(
-      distribution.license_personal_type);
-}
-
-function isAuthorValid(licence, value) {
-  if (licence !== "CC BY") {
-    return true;
-  }
-  return provided(value);
-}
-
-function isCustomValid(licence, value) {
-  if (licence !== "CUSTOM") {
-    return true;
-  }
-  return provided(value) && url(value);
-}
-
-/**
- * @param {string} value
- * @returns
- */
-function isPersonalValid(value) {
-  return value !== "UNKNOWN";
+  return true;
 }

@@ -247,13 +247,15 @@ export function areDistributionsValid(component) {
   if (!component.validation.distributions) {
     return true;
   }
-  for (let distribution of component.data.distributions) {
+  const distributions = component.data.distributions;
+  for (let distribution of distributions) {
     if (!distribution.$validators.force) {
-      // Newly added distribution. User does not
-      // visited last step after adding this one, so we ignore it.
+      // Newly added distribution.
+      // User does not visited last step after adding this one, so we ignore it.
       continue;
     }
-    if (!isDistributionValid(distribution)) {
+    if (!isDistributionValid(
+      distributions, distribution, component.data.dataset.mode)) {
       return false;
     }
   }

@@ -153,7 +153,9 @@ export function createDatasetValidators() {
     "err_dataset_spatial": apply(
       (t) => t.dataset, "spatial",
       provided,
-      "dataset_spatial_invalid"),
+      "dataset_spatial_invalid",
+      // Do not validate for non-public data.
+      (t) => t.dataset.mode === MODE_NON_PUBLIC),
     "err_keywords_cs": apply(
       (t) => t.dataset, "keywords_cs",
       provided,
@@ -172,33 +174,38 @@ export function createDatasetValidators() {
       "dataset_theme_invalid"),
     "err_dataset_theme_custom": applyEach(
       (t) => t.dataset, "dataset_custom_themes",
-      url, "dataset_theme_invalid_url"),
+      url, "dataset_theme_invalid_url",
+      // Do not validate for non-public data.
+      (t) => t.dataset.mode === MODE_NON_PUBLIC),
     "err_dataset_ofn": applyEach(
       (t) => t.dataset, "ofn",
       url,
       "dataset_ofn_invalid_url"
     ),
-    "err_temporal": apply(
+    "err_temporal_resolution": apply(
       (t) => t.dataset, "temporal_resolution",
       temporal,
-      "temporal_invalid"),
-    "err_spatial": apply(
+      "temporal_invalid",
+      // Do not validate for non-public data.
+      (t) => t.dataset.mode === MODE_NON_PUBLIC),
+    "err_spatial_resolution": apply(
       (t) => t.dataset, "spatial_resolution_meters",
       decimal,
-      "spatial_invalid"),
+      "spatial_invalid",
+      // Do not validate for non-public data.
+      (t) => t.dataset.mode === MODE_NON_PUBLIC),
     "err_url_load": apply(
       (t) => t.dataset, "url_to_load_from",
       url, "load_invalid_url"
     ),
-    "err_legislation": function () {
-      return [];
-    },
     "err_hvd_categories": function () {
       if (shouldSkipDatasetValidation(this.dataset)) {
         return [];
       }
-      if (includesHvdLegislation(this.dataset.legislation)
-        && this.dataset.hvd_categories.length === 0) {
+      if (this.dataset.mode !== MODE_HVD) {
+        return [];
+      }
+      if (this.dataset.hvd_categories.length === 0) {
         return [this.$t("missing_hvd_categories")];
       }
       return [];
@@ -207,8 +214,10 @@ export function createDatasetValidators() {
       if (shouldSkipDatasetValidation(this.dataset)) {
         return [];
       }
-      if (this.dataset.mode === MODE_NON_PUBLIC
-        && !this.dataset.isvs) {
+      if (this.dataset.mode !== MODE_NON_PUBLIC) {
+        return [];
+      }
+      if (!this.dataset.isvs) {
         return [this.$t("missing_isvs")];
       }
       return [];
@@ -217,8 +226,10 @@ export function createDatasetValidators() {
       if (shouldSkipDatasetValidation(this.dataset)) {
         return [];
       }
-      if (this.dataset.mode === MODE_NON_PUBLIC
-        && this.dataset.related_terms.length === 0) {
+      if (this.dataset.mode !== MODE_NON_PUBLIC) {
+        return [];
+      }
+      if (this.dataset.related_terms.length === 0) {
         return [this.$t("missing_related_terms")];
       }
       return [];
@@ -237,6 +248,7 @@ export function createDatasetValidators() {
  *
  * Similar functionality is implemented by shouldValidate function
  * in validators.js file.
+ * @param {{$validators: {force: boolean}}} dataset
  */
 function shouldSkipDatasetValidation(dataset) {
   return !dataset.$validators.force;

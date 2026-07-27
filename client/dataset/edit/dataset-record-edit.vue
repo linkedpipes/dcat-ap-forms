@@ -348,7 +348,7 @@
           id="temporalResolution"
           v-model="dataset.temporal_resolution"
           :label="$t('temporal_resolution') + $t('optional')"
-          :error-messages="err_temporal"
+          :error-messages="err_temporal_resolution"
           :hint="$t('hint_temporal')"
           prepend-icon="calendar_today"
           append-outer-icon="help_outline"
@@ -365,7 +365,7 @@
           id="spatialResolutionMeters"
           v-model="dataset.spatial_resolution_meters"
           :label="$t('spatial_resolution_meters') + $t('optional')"
-          :error-messages="err_spatial"
+          :error-messages="err_spatial_resolution"
           :hint="$t('hint_spatial')"
           prepend-icon="zoom_out_map"
           append-outer-icon="help_outline"
@@ -451,7 +451,6 @@
           prepend-icon="gavel"
           item-value="value"
           append-outer-icon="help_outline"
-          :error-messages="err_legislation"
           chips
           multiple
           @click:append-outer="$h('dataset_legislation')"

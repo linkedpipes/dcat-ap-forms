@@ -32,8 +32,20 @@ export function trimEnd(value) {
   return Array.isArray(value) ? value.map(trimEnd) : value.trimEnd();
 }
 
-export function apply(selector, property, rule, message) {
+/**
+ * @param {*} selector Select object to validate from "this".
+ * @param {string} property Property to validate
+ * @param {(value: any) => boolean} rule Validation rule.
+ * @param {string} message Error message to show when validation fails.
+ * @param {undefined | ((value: any) => boolean)} skip
+ * @returns
+ */
+export function apply(selector, property, rule, message, skip = undefined) {
   return function () {
+    // Check whether to skip a validation.
+    if (skip !== undefined && skip(this)) {
+      return [];
+    };
     const value = selector(this)[property];
     const validators = selector(this)["$validators"];
     if (!shouldValidate(value, validators, property)) {
@@ -47,8 +59,21 @@ export function apply(selector, property, rule, message) {
   };
 }
 
-export function applyEach(selector, property, rule, message) {
+/**
+ * Like {@link apply} but for an array.
+ *
+* @param {*} selector Select object to validate from "this".
+ * @param {string} property Property to validate
+ * @param {(value: any) => boolean} rule Validation rule.
+ * @param {string} message Error message to show when validation fails.
+ * @param {undefined | ((value: any) => boolean)} skip
+ */
+export function applyEach(selector, property, rule, message, skip = undefined) {
   return function () {
+        // Check whether to skip a validation.
+    if (skip !== undefined && skip(this)) {
+      return [];
+    };
     const value = selector(this)[property];
     const validators = selector(this)["$validators"];
     if (!shouldValidate(value, validators, property)) {

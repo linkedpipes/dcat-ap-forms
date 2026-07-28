@@ -244,7 +244,7 @@
               id="distribution_legislation"
               v-model="distribution.legislation"
               :items="LEGISLATION_TYPES"
-              :label="$t('distribution_legislation')"
+              :label="$t('distribution_legislation') + $t('optional')"
               :item-text="$vuetify.lang.current"
               prepend-icon="gavel"
               item-value="value"
@@ -503,7 +503,7 @@
       </v-layout>
     </div>
     <!-- High Value Dataset with Data Service -->
-    <div v-if="!isFileDistribution && distribution.is_vhd">
+    <div v-if="!isFileDistribution && distribution.is_hvd">
       <!-- Contact point -->
       <v-layout
         row
@@ -650,16 +650,16 @@
         md4
       >
         <v-select
-          id="zpusoby_sdileni"
-          v-model="distribution.zpusoby_sdileni"
+          id="zpusob_sdileni"
+          v-model="distribution.zpusob_sdileni"
           :items="ZPUSOBY_SDILENI"
-          :label="$t('zpusoby_sdileni')"
+          :label="$t('zpusob_sdileni')"
           :item-text="$vuetify.lang.current"
           item-value="value"
           prepend-icon="share"
           append-outer-icon="help_outline"
           chips
-          @click:append-outer="$h('zpusoby_sdileni')"
+          @click:append-outer="$h('zpusob_sdileni')"
         />
       </v-flex>
       <v-flex
@@ -710,14 +710,14 @@
             </v-btn>
           </div>
           <v-select
-            v-model="item.typy_obsahu"
+            v-model="item.typ_obsahu"
             :items="TYPY_OBSAHU"
-            :label="$t('typy_obsahu')"
+            :label="$t('typ_obsahu')"
             :item-text="$vuetify.lang.current"
             item-value="value"
             prepend-icon="category"
             append-outer-icon="help_outline"
-            @click:append-outer="$h('typy_obsahu')"
+            @click:append-outer="$h('typ_obsahu')"
           />
         </v-flex>
         <v-flex
@@ -725,14 +725,14 @@
           md3
         >
           <v-select
-            v-model="item.zpusoby_sdileni"
+            v-model="item.zpusob_sdileni"
             :items="ZPUSOBY_SDILENI"
-            :label="$t('zpusoby_sdileni')"
+            :label="$t('zpusob_sdileni')"
             :item-text="$vuetify.lang.current"
             item-value="value"
             prepend-icon="share"
             append-outer-icon="help_outline"
-            @click:append-outer="$h('zpusoby_sdileni')"
+            @click:append-outer="$h('zpusob_sdileni')"
           />
         </v-flex>
         <v-flex
@@ -740,14 +740,14 @@
           md2
         >
           <v-select
-            v-model="item.zpusoby_ziskani"
+            v-model="item.zpusob_ziskani"
             :items="ZPUSOBY_ZISKANI"
-            :label="$t('zpusoby_ziskani')"
+            :label="$t('zpusob_ziskani')"
             :item-text="$vuetify.lang.current"
             item-value="value"
             prepend-icon="input"
             append-outer-icon="help_outline"
-            @click:append-outer="$h('zpusoby_ziskani')"
+            @click:append-outer="$h('zpusob_ziskani')"
           />
         </v-flex>
         <v-flex
@@ -755,15 +755,15 @@
           md4
         >
           <app-solr-autocomplete-lazy
-            v-model="item.related_terms"
-            if="related_terms"
-            :label="$t('related_terms')"
-            :no-data-prompt="$t('related_terms_autocomplete_no_data')"
+            id="related_term"
+            v-model="item.related_term"
+            :label="$t('related_term')"
+            :no-data-prompt="$t('related_term_autocomplete_no_data')"
             prepend-icon="link"
             append-outer-icon="help_outline"
             :code-list="RELATED_TERMS"
             :multiple="false"
-            @click:append-outer="$h('related_terms')"
+            @click:append-outer="$h('related_term')"
           />
         </v-flex>
       </v-layout>

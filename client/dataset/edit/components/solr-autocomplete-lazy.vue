@@ -101,6 +101,10 @@ export default {
       }
       // We need to fetch details for all active items.
       valuesToFetch.forEach((value) => {
+        // Skip empty values.
+        if (value === null || value === "") {
+          return;
+        }
         const url = createTitleQueryUrl(
           this.codeList, value, this.$vuetify.lang.current);
         fetchByGetAsJson(url).then((response) => {

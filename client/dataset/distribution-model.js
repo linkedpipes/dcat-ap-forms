@@ -8,9 +8,9 @@ import {
 } from "../app-service/validators";
 import { includesHvdLegislation, MODE_HVD } from "./dataset-model";
 
-export const DIST_TYPE_FILE = "FILE";
+export const DIST_TYPE_FILE = "file";
 
-export const DIST_TYPE_SERVICE = "SERVICE";
+export const DIST_TYPE_SERVICE = "service";
 
 /**
  * Distribution can be default one or HVD one.
@@ -46,18 +46,21 @@ export function createDistribution() {
     "compress_format": "",
     "legislation": [],
     //
-    // dataset.mode === "hvd"
+    // mode === "hvd"
     //
     "is_hvd": false,
     //
-    // dataset.mode === "non-public"
+    // mode === "non-public"
     //
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máTypObsahuSdílenéhoRozhraním */
     "typy_obsahu": [],
-    "zpusoby_sdileni": [],
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máZpůsobSdíleníRozhraním */
+    "zpusob_sdileni": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#Distribuce.máZpůsobZískáníDatSdílenýchRozhraním */
     "zpusoby_ziskani": [],
     "zprostredkovava_sdileni": [],
     //
-    // Data service
+    // type === "service"
     //
     "service_iri": "",
     /** @lc-property dcat:endpointURL */
@@ -67,7 +70,7 @@ export function createDistribution() {
     /** @lc-property dct:conformsTo */
     "service_conforms_to": "",
     //
-    // HVD Data service
+    // type === "service" && is_hvd
     //
     "contact_point_name": "",
     "contact_point_email": "",
@@ -78,7 +81,9 @@ export function createDistribution() {
     "service_title_copy": true,
     "service_title_cs": "",
     "service_title_en": "",
+    ///
     // By default do not force validation on new item.
+    //
     "$validators": {
       "force": false,
     },
@@ -87,17 +92,38 @@ export function createDistribution() {
 
 export function createZprostredkovavaSdileni() {
   return {
-    "typy_obsahu": null,
-    "zpusoby_sdileni": null,
-    "zpusoby_ziskani": null,
-    "related_terms": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeSdílenJako */
+    "typ_obsahu": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeSdílenZpůsobem */
+    "zpusob_sdileni": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.jeZískánZpůsobem */
+    "zpusob_ziskani": null,
+    /** @lc-property https://ofn.gov.cz/dcat-ap-cz-datová-rozhraní#SdíleníÚdaje.odpovídajícíPojem */
+    "related_term": null,
   };
+}
+
+function validateZprostredkovavaSdileni(value) {
+  return value.typ_obsahu !== null
+    && value.zpusob_sdileni !== null
+    && value.zpusob_ziskani !== null
+    && value.related_term !== null;
 }
 
 /**
  * Create validators for all distribution fields.
+ * This is used by the user interface where additional validators
+ * with false positives are not an issue as they are not visible.
  */
 export function createDistributionValidators() {
+  return {
+    ...createCommonDistributionValidators(),
+    ...createFileDistributionValidators(),
+    ...createServiceDistributionValidators(),
+  };
+}
+
+function createCommonDistributionValidators() {
   return {
     // Terms of use section.
     "err_license_author_name": validateAuthor(
@@ -125,16 +151,17 @@ export function createDistributionValidators() {
         return [];
       }
       for (const item of this.distribution.zprostredkovava_sdileni) {
-        if (!item.typy_obsahu || !item.zpusoby_sdileni
-          || !item.zpusoby_ziskani || !item.related_terms) {
+        if (!validateZprostredkovavaSdileni(item)) {
           return [this.$t("zprostredkovava_sdileni_incomplete")];
         }
       }
       return [];
     },
     // HVD
-    "err_is_hvd": function() {
+    "err_is_hvd": function () {
       // When mode is HVD we require at least one distribution to be HVD.
+      // This does not validate a single distribution, instead it validates
+      // against all distributions.
       if (this.mode !== MODE_HVD) {
         return [];
       }
@@ -145,9 +172,6 @@ export function createDistributionValidators() {
       }
       return [this.$t("missing_distribution_with_hvd")];
     },
-    //
-    ...createFileDistributionValidators(),
-    ...createServiceDistributionValidators(),
   };
 }
 
@@ -197,7 +221,7 @@ function createServiceDistributionValidators() {
       [[provided, "contact_point_name_missing"]],
       (t) => includesHvdLegislation(t.distribution.legislation)),
     "err_contact_point_email": applyArray(
-      (t) => t.distribution, "contact_point_email",[
+      (t) => t.distribution, "contact_point_email", [
         [provided, "contact_point_email_missing"],
         [email, "contact_point_email_invalid"],
       ], (t) => includesHvdLegislation(t.distribution.legislation)),
@@ -227,7 +251,10 @@ function validateAuthor(licence_prop, name_prop) {
     if (!shouldValidate(value, validators, name_prop)) {
       return [];
     }
-    if (isAuthorValid(licence, value)) {
+    if (licence !== "CC BY") {
+      return [];
+    }
+    if (provided(value)) {
       return [];
     } else {
       return [this.$t("author_name_missing")];
@@ -268,14 +295,30 @@ function validatePersonal() {
   };
 }
 
-const fileValidators = createFileDistributionValidators();
+const fileValidators = {
+  ...createCommonDistributionValidators(),
+  ...createFileDistributionValidators(),
+};
 
-const serviceValidators = createServiceDistributionValidators();
+const serviceValidators = {
+  ...createCommonDistributionValidators(),
+  ...createServiceDistributionValidators(),
+};
 
-export function isDistributionValid(distribution) {
+/**
+ * @param {*[]} distributions Array of all distributions.
+ * @param {*} distribution Distribution to validate.
+ * @param {"default" | "hvd" | "non-public"} mode Dataset mode.
+ * @returns
+ */
+export function isDistributionValid(distributions, distribution, mode) {
   // We mock the UI entity, to provide all functions the validators need.
   const wrapped = {
     "distribution": distribution,
+    // The HVD validation requires access to all distributions.
+    "distributions": distributions,
+    // Mode
+    "mode": mode,
     /**
      * @param {string} message
      */
@@ -296,43 +339,5 @@ export function isDistributionValid(distribution) {
     }
   }
   //
-  return isAuthorValid(
-    distribution.license_author_type,
-    distribution.license_author_name)
-    && isCustomValid(
-      distribution.license_author_type,
-      distribution.license_author_custom)
-    && isAuthorValid(
-      distribution.license_db_type,
-      distribution.license_db_name)
-    && isCustomValid(
-      distribution.license_db_type,
-      distribution.license_db_custom)
-    && isCustomValid(
-      distribution.license_specialdb_type,
-      distribution.license_specialdb_custom)
-    && isPersonalValid(
-      distribution.license_personal_type);
-}
-
-function isAuthorValid(licence, value) {
-  if (licence !== "CC BY") {
-    return true;
-  }
-  return provided(value);
-}
-
-function isCustomValid(licence, value) {
-  if (licence !== "CUSTOM") {
-    return true;
-  }
-  return provided(value) && url(value);
-}
-
-/**
- * @param {string} value
- * @returns
- */
-function isPersonalValid(value) {
-  return value !== "UNKNOWN";
+  return true;
 }

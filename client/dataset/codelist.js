@@ -7,12 +7,14 @@ import {
 } from "./edit/codelists/server-codelists";
 
 /**
- * Fetch and add labels to the given dataset and distributions.
+ * Fetch and add labels to codelist.
+ *
  * @param {*} dataset
  * @param {*[]} distributions
  * @param {"cs" | "en"} language
  */
 export function fetchCodelistLabels(dataset, distributions, language) {
+  // File distribution format and media types.
   const formats = new Set();
   const mediaTypes = new Set();
   distributions.forEach((distribution) => {
@@ -25,6 +27,7 @@ export function fetchCodelistLabels(dataset, distributions, language) {
   mediaTypes.forEach((iri) => {
     fetchLabelFromCodeList("media-types", iri, language);
   });
+  // Dataset spatial.
   dataset.spatial.forEach((spatial) => {
     switch (spatial.type) {
     case SPATIAL_COUNTRY:

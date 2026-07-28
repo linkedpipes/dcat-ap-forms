@@ -15,10 +15,10 @@ import {
   exportDatasetForNationalDataCatalog,
   exportDatasetForPost,
 } from "./dataset-export";
-import {downloadAsJsonLd} from "../../app-service/download";
-import {createDistribution, isDistributionValid} from "../distribution-model";
-import {provided, url} from "../../app-service/validators";
-import {postForm} from "../../app-service/http";
+import { downloadAsJsonLd } from "../../app-service/download";
+import { createDistribution, isDistributionValid } from "../distribution-model";
+import { provided, url } from "../../app-service/validators";
+import { postForm } from "../../app-service/http";
 import { fetchCodelistLabels } from "../codelist";
 
 export function onRouteChange(component, location) {
@@ -32,85 +32,111 @@ export function onRouteChange(component, location) {
   }
 }
 
+/**
+ * Called on component mount.
+ * @param {*} component
+ */
 export async function onDatasetEditMounted(component) {
   const language = component.$vuetify.lang.current;
   const query = loadQueryArguments(component.$route.query);
+  const serverFormData = loadServerData();
+
+  //
+  // First step is to try and create a dataset.
+  //
+
+  /** @type {any} */
+  let next = {};
   try {
-    const result = await loadOrCreateDataset(language, query);
-    component.exportOptions = {
-      ...component.exportOptions,
-      ...result.exportOptions,
-      "shouldPost": isNotEmpty(query.postUrl),
-      "postUrl": query.postUrl,
-    };
-    setDataOnMount(component, result.dataset, result.distributions);
-    document.title = component.$t(getPageTitle(
-      component.data.dataset, component.exportOptions.type));
-    initializeStep(component);
-    component.data.status = "ready";
+    if (serverFormData !== undefined) {
+      next = await importFromPostData(
+        language, serverFormData);
+    } else if (isNotEmpty(query.dataset)) {
+      next = await importDatasetByUrl(
+        query.dataset, language);
+    } else if (isNotEmpty(query.copyFromDataset)) {
+      next = await copyDatasetByUrl(
+        query.copyFromDataset, language, query.isLocalCatalog);
+    } else if (isNotEmpty(query.file)) {
+      next = await importFromFile(
+        query.file, language, query.isLocalCatalog);
+    } else {
+      // We have no information about the dataset.
+      if (query.mode === null) {
+        // We do not know the mode, we need to let user choose.
+        component.data.status = "select-mode";
+        return;
+      }
+      // Else we can create a dataset.
+      next = createEmptyDataset(query.isLocalCatalog , query.mode);
+    }
   } catch (ex) {
-    console.error("Can't import dataset.", ex);
+    console.error("Can't create dataset.", ex);
     component.data.status = "error";
   }
+
+  //
+  // Now we have the data we need to continue with the initialization.
+  //
+
+  initializeWithData(component, query, next);
 }
 
+/**
+ * Load input arguments for the dataset edit component.
+ *
+ * @param {*} query
+ */
 function loadQueryArguments(query) {
+  /** @type {string | undefined} */
+  const dataset =
+    query["dataset"] ?? query["datová-sada"];
+  /** @type {string | undefined} */
+  const copyFromDataset =
+    query["copy-from-dataset"] ?? query["kopírovat-z-datové-sady"];
+  /** @type {string | undefined} */
+  const file =
+    query["file"] ?? query["soubor"];
+  /** @type {string | undefined} */
+  const postUrl =
+    query.returnUrl ?? window?.serverPostData?.returnUrl;
+  /** @type {boolean} */
+  const isLocalCatalog =
+    query["lkod"] === null;
+  /** @type {null | "default" | "non-public" | "hvd"} */
+  const mode = (() => {
+    switch (query["mode"] ?? query["mód"]) {
+    case "open-data":
+    case "otevřená-data":
+      return MODE_OPEN_DATA;
+    case "non-public":
+    case "neveřejná-data":
+      return MODE_NON_PUBLIC;
+    case "high-value-dataset":
+    case "datová-sada-s-vysokou-hodnotou":
+      return MODE_HVD;
+    default:
+      return null;
+    }
+  })();
+  //
   return {
-    "dataset": query["dataset"] || query["datová-sada"],
-    "copyFromDataset":
-      query["copy-from-dataset"] || query["kopírovat-z-datové-sady"],
-    "file": query["file"] || query["soubor"],
-    "postUrl": getReturnUrl(query),
-    "lkod": query["lkod"] === null,
-    "mode": (() => {
-      switch(query["mode"] ?? query["mód"]) {
-      default:
-      case "open-data":
-      case "otevřená-data":
-        return MODE_OPEN_DATA;
-      case "non-public":
-      case "neveřejná-data":
-        return MODE_NON_PUBLIC;
-      case "high-value-dataset":
-      case "datová-sada-s-vysokou-hodnotou":
-        return MODE_HVD;
-      }
-    })(),
+    "dataset": dataset,
+    "copyFromDataset": copyFromDataset,
+    "file": file,
+    "postUrl": postUrl,
+    "isLocalCatalog": isLocalCatalog,
+    "mode": mode,
   };
 }
 
-function getReturnUrl(query) {
-  return query.returnUrl ?? window?.serverPostData?.returnUrl;
-}
-
-async function loadOrCreateDataset(language, query) {
-  const serverFormData = getFormData();
-  if (serverFormData !== undefined) {
-    return await importFromPostData(language, serverFormData);
-  } else if (isNotEmpty(query.dataset)) {
-    return importDatasetByUrl(query.dataset, language);
-  } else if (isNotEmpty(query.copyFromDataset)) {
-    return copyDatasetByUrl(query.copyFromDataset, language, query.lkod);
-  } else if (isNotEmpty(query.file)) {
-    return importFromFile(query.file, language, query.lkod);
-  } else {
-    // Create new dataset.
-    return {
-      "exportOptions": {
-        "type": query.lkod ? EXPORT_LKOD : EXPORT_NKOD,
-        "allowImport": true,
-        "allowEdit": false,
-      },
-      "dataset": createDataset(query.mode),
-      "distributions": [],
-    };
-  }
-}
-
-function getFormData() {
+function loadServerData() {
   return window?.serverPostData?.formData;
 }
 
+/**
+ * @param {string | undefined} value
+ */
 function isNotEmpty(value) {
   return value !== undefined && value !== null && value.length > 0;
 }
@@ -119,7 +145,6 @@ async function importDatasetByUrl(url, language) {
   const data = await importDatasetFromUrlWithDereference(url, language);
   return {
     "exportOptions": {
-      "allowImport": false,
       "allowEdit": true,
       "type": EXPORT_EDIT,
     },
@@ -132,7 +157,6 @@ async function copyDatasetByUrl(url, language, lkod) {
   const data = await importDatasetFromUrlWithDereference(url, language);
   return {
     "exportOptions": {
-      "allowImport": false,
       "allowEdit": true,
       "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
     },
@@ -148,7 +172,6 @@ async function importFromFile(url, language, lkod) {
   return {
     "exportOptions": {
       "type": lkod ? EXPORT_LKOD : EXPORT_NKOD,
-      "allowImport": true,
       "allowEdit": false,
     },
     "dataset": data.dataset,
@@ -161,7 +184,6 @@ async function importFromPostData(language, serverFormData) {
   return {
     "exportOptions": {
       "type": EXPORT_LKOD,
-      "allowImport": false,
       "allowEdit": false,
     },
     "dataset": data.dataset,
@@ -169,7 +191,41 @@ async function importFromPostData(language, serverFormData) {
   };
 }
 
-function setDataOnMount(component, dataset, distributions) {
+/**
+ * @param {boolean} isLocalCatalog
+ * @param {"default" | "non-public" | "hvd"} mode
+ * @returns
+ */
+function createEmptyDataset(isLocalCatalog, mode) {
+  return {
+    "exportOptions": {
+      "type": isLocalCatalog ? EXPORT_LKOD : EXPORT_NKOD,
+      "allowEdit": false,
+    },
+    "dataset": createDataset(mode),
+    "distributions": [],
+  };
+}
+
+function initializeWithData(component, query, next) {
+
+  component.exportOptions = {
+    ...component.exportOptions,
+    ...next.exportOptions,
+    "shouldPost": isNotEmpty(query.postUrl),
+    "postUrl": query.postUrl,
+  };
+
+  setDataToComponent(component, next.dataset, next.distributions);
+
+  // Update page title.
+  document.title = component.$t(getPageTitle(
+    component.data.dataset, component.exportOptions.type));
+
+  initializeStepper(component);
+}
+
+function setDataToComponent(component, dataset, distributions) {
   component.data.dataset = dataset;
   component.data.distributions = distributions;
   component.ui.distribution = 0;
@@ -183,6 +239,8 @@ function setDataOnMount(component, dataset, distributions) {
   component.exportOptions.publisher = component.data.dataset.publisher;
   component.exportOptions.lkodIri = component.data.dataset.iri;
   fetchCodelistLabels(dataset, distributions, component.$vuetify.lang.current);
+  // And we are ready to edit.
+  component.data.status = "ready";
 }
 
 function getPageTitle(dataset, exportType) {
@@ -201,12 +259,23 @@ function getPageTitle(dataset, exportType) {
   }
 }
 
-function initializeStep(component) {
+function initializeStepper(component) {
   if (component.$route.query.krok) {
     const step = parseInt(component.$route.query.krok, 10);
     component.ui.step = step;
     onStepperInput(component, step);
   }
+}
+
+/**
+ * @param {*} component
+ * @param {"default" | "non-public" | "hvd"} mode
+ */
+export function onSelectMode(component, mode) {
+  // We need to repeat some of the work in onDatasetEditMounted function.
+  const query = loadQueryArguments(component.$route.query);
+  const next = createEmptyDataset(query.isLocalCatalog , mode);
+  initializeWithData(component, query, next);
 }
 
 export function onStepperInput(component, value) {
@@ -247,13 +316,15 @@ export function areDistributionsValid(component) {
   if (!component.validation.distributions) {
     return true;
   }
-  for (let distribution of component.data.distributions) {
+  const distributions = component.data.distributions;
+  for (let distribution of distributions) {
     if (!distribution.$validators.force) {
-      // Newly added distribution. User does not
-      // visited last step after adding this one, so we ignore it.
+      // Newly added distribution.
+      // User does not visited last step after adding this one, so we ignore it.
       continue;
     }
-    if (!isDistributionValid(distribution)) {
+    if (!isDistributionValid(
+      distributions, distribution, component.data.dataset.mode)) {
       return false;
     }
   }
@@ -284,13 +355,16 @@ export async function onLoadFromFile(component, file) {
     const content = await loadFile(file);
     const data = await importFromJsonLd(
       content, component.$vuetify.lang.current);
-    setDataOnMount(component, data.dataset, data.distributions);
+    setDataToComponent(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import file.", error);
     component.ui.uploadFailedVisible = true;
   }
 }
 
+/**
+ * @param {File} file
+ */
 function loadFile(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -310,7 +384,7 @@ export async function onLoadFromUrl(component, url) {
   try {
     const data = await importDatasetFromUrl(
       url, component.$vuetify.lang.current);
-    setDataOnMount(component, data.dataset, data.distributions);
+    setDataToComponent(component, data.dataset, data.distributions);
   } catch (error) {
     console.error("Can't import url.", error);
     component.ui.uploadFailedVisible = true;

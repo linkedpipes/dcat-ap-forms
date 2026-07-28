@@ -348,7 +348,7 @@
           id="temporalResolution"
           v-model="dataset.temporal_resolution"
           :label="$t('temporal_resolution') + $t('optional')"
-          :error-messages="err_temporal"
+          :error-messages="err_temporal_resolution"
           :hint="$t('hint_temporal')"
           prepend-icon="calendar_today"
           append-outer-icon="help_outline"
@@ -365,7 +365,7 @@
           id="spatialResolutionMeters"
           v-model="dataset.spatial_resolution_meters"
           :label="$t('spatial_resolution_meters') + $t('optional')"
-          :error-messages="err_spatial"
+          :error-messages="err_spatial_resolution"
           :hint="$t('hint_spatial')"
           prepend-icon="zoom_out_map"
           append-outer-icon="help_outline"
@@ -446,12 +446,11 @@
           id="legislation"
           v-model="dataset.legislation"
           :items="legislations"
-          :label="$t('dataset_legislation')"
+          :label="$t('dataset_legislation') + $t('optional')"
           :item-text="$vuetify.lang.current"
           prepend-icon="gavel"
           item-value="value"
           append-outer-icon="help_outline"
-          :error-messages="err_legislation"
           chips
           multiple
           @click:append-outer="$h('dataset_legislation')"
@@ -519,16 +518,6 @@
         />
       </v-flex>
     </v-layout>
-    <v-layout
-      v-if="allowImport"
-      row
-      wrap
-    >
-      <div class="text-center">
-        <upload-file-dialog @upload="loadFromFile" />
-        <upload-url-dialog @upload="loadFromUrl" />
-      </div>
-    </v-layout>
   </v-container>
 </template>
 
@@ -537,8 +526,6 @@ import DatePicker from "./components/date-picker";
 import SolrChipsAutocomplete from "./components/solr-autocomplete";
 import SolrChipsAutocompleteLazy from "./components/solr-autocomplete-lazy";
 import SpatialDialog from "./components/spatial-dialog";
-import UploadFileDialog from "./components/upload-file-dialog";
-import UploadUrlDialog from "./components/upload-url-dialog";
 import {
   createDatasetValidators, MODE_HVD, MODE_NON_PUBLIC,
 } from "../dataset-model";
@@ -556,14 +543,11 @@ export default {
     "app-solr-autocomplete": SolrChipsAutocomplete,
     "app-solr-autocomplete-lazy": SolrChipsAutocompleteLazy,
     "spatial-dialog": SpatialDialog,
-    "upload-file-dialog": UploadFileDialog,
-    "upload-url-dialog": UploadUrlDialog,
   },
   "props": {
     "dataset": {"type": Object, "required": true},
     "codelist": {"type": Object, "required": true},
     "distributions": {"type": Array, "required": true},
-    "allowImport": {"type": Boolean, "required": true},
   },
   "data": () => ({
     "legislations": legislationCodelist,
@@ -610,12 +594,6 @@ export default {
     },
     "getSpatialLabel": function(item) {
       return getSpatialLabel(this.codelist, item, this.$vuetify.lang.current);
-    },
-    "loadFromFile": function (file) {
-      this.$emit("load-from-file", file);
-    },
-    "loadFromUrl": function(url) {
-      this.$emit("load-from-url", url);
     },
     "trimEnd": trimEnd,
   },

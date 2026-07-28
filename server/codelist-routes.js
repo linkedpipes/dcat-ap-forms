@@ -9,6 +9,10 @@ const rowsLimit = 1048576;
 
 /**
  * Export all codelist routes from this module.
+ *
+ * Each codelist must support two URL query arguments for search:
+ * - iri - An exact search for a given entity.
+ * - search - A text based search.
  */
 (function initialize() {
   const router = express.Router();
@@ -127,34 +131,101 @@ function createHvdCategoriesCodelistGet() {
 
 function createRelatedTermsCodelistGet() {
   return (req, res) => {
-    // Strip all wildcards — we append our own trailing wildcard below.
-    const search = (req.query.search ?? "").replace(/\*/g, "");
+    if (req.query.iri !== undefined) {
+      getRelatedTermsCodelistGetByIri(res, req.query.iri);
+    } else if (req.query.search !== undefined) {
+      relatedTermsCodelistGetBySearch(res, req.query.search);
+    } else {
+      // Unknown command.
+      res.json({ "response": { "docs": [] } });
+    }
+  };
+}
 
-    // bif:contains phrase escaping — two levels:
-    //   SPARQL literal level ('...'): escape \ first, then escape ' as \'
-    //   bif:contains phrase level ("..."): remove " (no in-phrase escape exists)
-    // https://docs.openlinksw.com/virtuoso/textexprsyntax/
-    // https://docs.openlinksw.com/virtuoso/sparqlextensions/
-    // https://docs.openlinksw.com/virtuoso/bifcontainsoptions/
-    const escapedSearch = search
-      .replace(/\\/g, "\\\\")
-      .replace(/'/g, "\\'")
-      .replace(/"/g, "");
+function getRelatedTermsCodelistGetByIri(res, iri) {
+  // Input is https\:// we need to get rid of it.
+  iri = iri.replace("\\://", "://");
+  const query = `
+    PREFIX bif: <bif:>
+    PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
-    if (escapedSearch.length < 4) {
-      // Virtuoso does not support this.
-      res.json({
-        "response": {
-          "docs": [],
-        },
-      });
+    SELECT ?s ?label WHERE {
+      VALUES(?s) {(<${iri}>)}
+      ?s skos:prefLabel ?label .
+    } LIMIT 10
+    `;
+  executeSparqlQueryToCodelist(res, iri, query);
+}
+
+/**
+ * @param {*} res
+ * @param {string} search Original user search input.
+ * @param {string} query Query to execute.
+ */
+function executeSparqlQueryToCodelist(res, search, query) {
+  const url = configuration.sparql_related_terms
+    + "?default-graph-uri="
+    + "&query=" + encodeURIComponent(query)
+    + "&format=application%2Fsparql-results%2Bjson&timeout=0&signal_void=on";
+
+  request.get(url, (error, _response, body) => {
+    if (error) {
+      handleError(res, error);
       return;
     }
 
-    // We search only using label as the Vuetify filter values
-    // on client side and does not work well when the string is not in the
-    // result label.
-    const query = `
+    let content = [];
+
+    try {
+      content = JSON.parse(body);
+    } catch {
+      // Virtuoso could have returned something which is not a JSON,
+      // like an error message.
+      res.json({ "response": { "docs": [] } });
+      console.error("Unexpected response.", { search });
+      return;
+    }
+
+    // Transform into solr-like response.
+    const docs = content.results.bindings.map(item => ({
+      "code": item.s.value,
+      "cs": item.label.value,
+      "en": item.label.value,
+    }));
+
+    res.json({ "response": { docs } });
+  });
+}
+
+function relatedTermsCodelistGetBySearch(res, search) {
+  // Strip all wildcards — we append our own trailing wildcard below.
+  const strippedSearch = search.replace(/\*/g, "");
+
+  // bif:contains phrase escaping — two levels:
+  //   SPARQL literal level ('...'): escape \ first, then escape ' as \'
+  //   bif:contains phrase level ("..."): remove " (no in-phrase escape exists)
+  // https://docs.openlinksw.com/virtuoso/textexprsyntax/
+  // https://docs.openlinksw.com/virtuoso/sparqlextensions/
+  // https://docs.openlinksw.com/virtuoso/bifcontainsoptions/
+  const escapedSearch = strippedSearch
+    .replace(/\\/g, "\\\\")
+    .replace(/'/g, "\\'")
+    .replace(/"/g, "");
+
+  if (escapedSearch.length < 4) {
+    // Virtuoso does not support this.
+    res.json({
+      "response": {
+        "docs": [],
+      },
+    });
+    return;
+  }
+
+  // We search only using label as the Vuetify filter values
+  // on client side and does not work well when the string is not in the
+  // result label.
+  const query = `
     PREFIX bif: <bif:>
     PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 
@@ -164,37 +235,5 @@ function createRelatedTermsCodelistGet() {
     }
     `;
 
-    const url = configuration.sparql_related_terms
-      + "?default-graph-uri="
-      + "&query=" + encodeURIComponent(query)
-      + "&format=application%2Fsparql-results%2Bjson&timeout=0&signal_void=on";
-
-    request.get(url, (error, _response, body) => {
-      if (error) {
-        handleError(res, error);
-        return;
-      }
-
-      let content = [];
-
-      try {
-        content = JSON.parse(body);
-      } catch {
-        // Virtuoso could have returned something which is not a JSON,
-        // like an error message.
-        res.json({ "response": { "docs": [] } });
-        console.error("Unexpected response.", { search });
-        return;
-      }
-
-      // Transform into solr-like response.
-      const docs = content.results.bindings.map(item => ({
-        "code": item.s.value,
-        "cs": item.label.value,
-        "en": item.label.value,
-      }));
-
-      res.json({ "response": { docs } });
-    });
-  };
+  executeSparqlQueryToCodelist(res, search, query);
 }

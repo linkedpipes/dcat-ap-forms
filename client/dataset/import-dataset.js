@@ -438,7 +438,7 @@ function loadDistribution(flatJsonLd, entity, defaultLanguage) {
     // Non Public data
     "typy_obsahu": getValues(entity,
       VOCABULARY_GOV_CZ["typ-obsahu-sdileneho-rozhranim"]),
-    "zpusoby_sdileni": getValues(entity,
+    "zpusob_sdileni": getValue(entity,
       VOCABULARY_GOV_CZ["zpusob-sdileni-rozhranim"]),
     "zpusoby_ziskani": getValues(entity,
       VOCABULARY_GOV_CZ["zpusob-ziskani-dat-sdilenych-rozhranim"]),
@@ -588,9 +588,9 @@ function loadZprostredkovavaSdileni(flatJsonLd, entity) {
     .map(iri => getByIri(flatJsonLd, iri))
     .filter(entity => entity !== undefined)
     .map(entity => ({
-      "typy_obsahu": getValue(entity, VOCABULARY_GOV_CZ["je-sdilen-jako"]),
-      "zpusoby_sdileni": getValue(entity, VOCABULARY_GOV_CZ["sdilen-zpusobem"]),
-      "zpusoby_ziskani": getValue(entity, VOCABULARY_GOV_CZ["ziskan-zpusobem"]),
-      "related_terms": getValue(entity, VOCABULARY_GOV_CZ["odpovidajici-pojem"]),
+      "typ_obsahu": getValue(entity, VOCABULARY_GOV_CZ["je-sdilen-jako"]),
+      "zpusob_sdileni": getValue(entity, VOCABULARY_GOV_CZ["sdilen-zpusobem"]),
+      "zpusob_ziskani": getValue(entity, VOCABULARY_GOV_CZ["ziskan-zpusobem"]),
+      "related_term": getValue(entity, VOCABULARY_GOV_CZ["odpovidajici-pojem"]),
     }));
 }

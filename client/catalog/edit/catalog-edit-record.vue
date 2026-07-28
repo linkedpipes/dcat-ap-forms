@@ -17,7 +17,7 @@
       {{ $t('ofn') }}
       <a
         target="_blank"
-        href="https://data.gov.cz/otevřené-formální-normy/rozhraní-katalogů-otevřených-dat/"
+        href="https://ofn.gov.cz/dcat-ap-cz-rozhraní-katalogů-dat/"
       >{{ $t('ofn_link_label') }}</a>.
     </v-alert>
     <v-layout

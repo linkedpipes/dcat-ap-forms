@@ -12,7 +12,7 @@ export default {
   "landing_mode_open_data": "Open dataset",
   "landing_mode_open_data_description": "A dataset published under an open license, available to anyone.",
   "landing_mode_hvd": "High value dataset",
-  "landing_mode_hvd_description": "A dataset with high socioeconomic value (HVD).",
+  "landing_mode_hvd_description": "A high-value dataset (HVD).",
   "landing_mode_non_public": "Non-public dataset",
   "landing_mode_non_public_description": "A dataset that is not publicly available.",
   "landing_mode_select": "Select",

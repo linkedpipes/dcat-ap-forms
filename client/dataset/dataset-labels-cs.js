@@ -150,7 +150,7 @@ export default {
   "hint_dataset_theme": "Uveďte HTTPS URL dalšího tématu",
   "hint_dataset_ofn": "Uveďte URL všech dodržovaných otevřených formálních norem a sdílených specifikací",
   "hint_documentation": "Uveďte HTTPS URL webové stránky s dokumentací datové sady.",
-  "hint_landing_page": "Uveďte HTTPS URL webové stránky, na kterou lze přistoupit webovým prohlížečem pro získání přístupu k datové sadě, jejím distribucím a/nebo dalším informacím.",
+  "hint_landing_page": "Uveďte HTTPS URL webové stránky datové sady v lokálním katalogu",
   "help_themes": "<h3>EuroVoc témata</h3><p>Témata z <a href=\"https://publications.europa.eu/cs/web/eu-vocabularies/th-top-concept-scheme/-/resource/eurovoc/100141?target=Browse&\" target=\"_blank\">evropského mnohojazyčného tezauru EuroVoc</a>. Slouží k přesnější klasifikaci datové sady.</p>",
   "help_distribution_hvd": "<h3>Distribuce HVD</h3><p>Distribuce dle prováděcího nařízení HVD IR. Datová sada s vysokou hodnotou může obsahovat i distribuce, které nespadají pod HVD IR. Musí však obsahovat alespoň jednu, která pod HVD IR spadá.</p>",
   "help_distribution_schema_link": "<h3>Odkaz na schéma distribuce</h3><p>URL strojově čitelného schématu, vůči kterému je soubor ke stažení reprezentovaný touto distribucí validní. Například pro XML soubor to bude soubor XSD (XML Schema), pro CSV soubor to bude jeho JSON descriptor dle doporučení CSV on the Web, pro JSON soubor to bude jeho JSON schéma, atd.</p>",

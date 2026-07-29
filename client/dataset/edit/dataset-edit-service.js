@@ -22,15 +22,62 @@ import { postForm } from "../../app-service/http";
 import { fetchCodelistLabels } from "../codelist";
 
 export function onRouteChange(component, location) {
+
+  // Enable navigation back to the mode selection screen.
+  const mode = parseUrlMode(location.query);
+  if (component.userSelectedModel && mode === null) {
+    component.data.status = "select-mode";
+    return;
+  }
+
+  // Enable navigation forward from the selection screen.
+  if (component.data.status === "select-mode"
+    && mode !== component.data.dataset.model) {
+    component.data.status = "ready";
+    return;
+  }
+
+  // If there is no step use step one.
   if (location.query.krok === undefined) {
     component.ui.step = 1;
     return;
   }
+
+  // Synchronize step with the one in the URL query.
   const value = parseInt(location.query.krok);
   if (value !== component.ui.step) {
     component.ui.step = value;
   }
 }
+
+/**
+ * @param {{mode?: string , mód?: string}} query
+ * @returns {null | "default" | "non-public" | "hvd"}
+ */
+function parseUrlMode(query) {
+  const value = query["mode"] ?? query["mód"];
+  for (const modes of Object.values(MODES)) {
+    for (const [mode, modeValue] of Object.entries(modes)) {
+      if (value === modeValue) {
+        return mode;
+      }
+    }
+  }
+  return null;
+}
+
+const MODES = {
+  "cs": {
+    [MODE_OPEN_DATA]: "otevřená-data",
+    [MODE_NON_PUBLIC]: "neveřejná-data",
+    [MODE_HVD]: "datová-sada-s-vysokou-hodnotou"
+  },
+  "en": {
+    [MODE_OPEN_DATA]: "open-data",
+    [MODE_NON_PUBLIC]: "non-public",
+    [MODE_HVD]: "high-value-dataset"
+  },
+};
 
 /**
  * Called on component mount.
@@ -65,10 +112,12 @@ export async function onDatasetEditMounted(component) {
       if (query.mode === null) {
         // We do not know the mode, we need to let user choose.
         component.data.status = "select-mode";
+        component.userSelectedModel = true;
         return;
       }
       // Else we can create a dataset.
-      next = createEmptyDataset(query.isLocalCatalog , query.mode);
+      next = createEmptyDataset(query.isLocalCatalog, query.mode);
+      component.userSelectedModel = false;
     }
   } catch (ex) {
     console.error("Can't create dataset.", ex);
@@ -104,21 +153,7 @@ function loadQueryArguments(query) {
   const isLocalCatalog =
     query["lkod"] === null;
   /** @type {null | "default" | "non-public" | "hvd"} */
-  const mode = (() => {
-    switch (query["mode"] ?? query["mód"]) {
-    case "open-data":
-    case "otevřená-data":
-      return MODE_OPEN_DATA;
-    case "non-public":
-    case "neveřejná-data":
-      return MODE_NON_PUBLIC;
-    case "high-value-dataset":
-    case "datová-sada-s-vysokou-hodnotou":
-      return MODE_HVD;
-    default:
-      return null;
-    }
-  })();
+  const mode = parseUrlMode(query);
   //
   return {
     "dataset": dataset,
@@ -246,16 +281,16 @@ function setDataToComponent(component, dataset, distributions) {
 function getPageTitle(dataset, exportType) {
   const iri = dataset.iri;
   switch (exportType) {
-  case EXPORT_NKOD:
-    return "edit_page_title_new";
-  case EXPORT_EDIT:
-    if (!iri || iri.startsWith("https://data.gov.cz")) {
-      return "edit_page_title_nkod";
-    } else {
-      return "edit_page_title_lkod";
-    }
-  case EXPORT_LKOD:
-    return "edit_page_title_new_lkod";
+    case EXPORT_NKOD:
+      return "edit_page_title_new";
+    case EXPORT_EDIT:
+      if (!iri || iri.startsWith("https://data.gov.cz")) {
+        return "edit_page_title_nkod";
+      } else {
+        return "edit_page_title_lkod";
+      }
+    case EXPORT_LKOD:
+      return "edit_page_title_new_lkod";
   }
 }
 
@@ -274,8 +309,35 @@ function initializeStepper(component) {
 export function onSelectMode(component, mode) {
   // We need to repeat some of the work in onDatasetEditMounted function.
   const query = loadQueryArguments(component.$route.query);
-  const next = createEmptyDataset(query.isLocalCatalog , mode);
-  initializeWithData(component, query, next);
+
+  // Update URL query part to reflect user selection
+  // and also support back / forward navigation.
+  if (component.$vuetify.lang.current === "cs") {
+    component.$router.push({
+      "query": {
+        ...component.$route.query,
+        "mód": MODES.cs[mode],
+      },
+    });
+  } else {
+    component.$router.push({
+      "query": {
+        ...component.$route.query,
+        "mode": MODES.en[mode],
+      },
+    });
+  }
+
+  if (component.data.dataset.mode === mode) {
+    // We keep data if the old mode is same as the new mode.
+    // So when user selected, navigated bach and now selected the same
+    // option we keep the data as they are.
+    component.data.status = "ready";
+  } else {
+    // Prepare and initialize with new data.
+    const next = createEmptyDataset(query.isLocalCatalog, mode);
+    initializeWithData(component, query, next);
+  }
 }
 
 export function onStepperInput(component, value) {
@@ -421,9 +483,9 @@ export function downloadDatasetEdit(dataset, distributions, exportOptions) {
   } else {
     content = exportDatasetForLocalDataCatalog(
       dataset, distributions, {
-        "lkodIri": exportOptions.lkodIri,
-        "publisher": exportOptions.publisher,
-      });
+      "lkodIri": exportOptions.lkodIri,
+      "publisher": exportOptions.publisher,
+    });
   }
   downloadAsJsonLd(fileName, content);
 }

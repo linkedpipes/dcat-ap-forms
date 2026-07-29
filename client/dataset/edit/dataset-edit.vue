@@ -131,7 +131,6 @@ import DatasetLanding from "./dataset-landing-view.vue";
 import {
   EXPORT_NKOD,
   isDatasetValid,
-  MODE_OPEN_DATA,
   MODE_HVD,
   MODE_NON_PUBLIC,
 } from "../dataset-model";
@@ -158,7 +157,7 @@ export default {
       /** @type {"initial" | "select-mode" | "loading" | "ready" | "error"} */
       "status": "initial",
       /** Initial value is temporary and to be replaced during loading. */
-      "dataset": { "mode": MODE_OPEN_DATA },
+      "dataset": { "mode": null },
       "distributions": [],
       "error": undefined,
     },
@@ -179,7 +178,10 @@ export default {
       "step": 1,
       /** Index of selected distribution. */
       "distribution": 0,
+      /** True to show upload failed dialog. */
       "uploadFailedVisible": false,
+      /** True when mode was selected by the user. */
+      "userSelectedModel": false,
     },
     "validation": {
       /**

@@ -297,13 +297,13 @@ export default {
   "help_service_title": "<h3>Data service title</h3><p>Enter the title for the data service. It should by concise and descriptive.</p>",
   // Contact point URL
   "contact_point_url": "Contact page URL",
-  "contact_point_url_missing": "Contact page URL is mandatory.",
+  "contact_point_url_or_email_missing": "Contact page URL or email is mandatory.",
   "contact_point_url_invalid": "Invalid HTTPS IRI.",
   "hint_contact_point_url": "Enter the HTTPS URL of the contact page.",
   "help_contact_point_url": "<h3>Contact page</h3><p>HTTPS URL of a contact page that can be accessed through a web browser to get contact information.</p>",
   // Contact point email
   "contact_point_email": "E-mail of the dataset contact point",
-  "contact_point_email_missing": "Contact email is mandatory.",
+  "contact_point_email_or_url_missing": "Contact email or page URL is mandatory.",
   "contact_point_email_invalid": "Invalid e-mail address.",
   "help_contact_point_email": "<h3>E-mail of the dataset contact point</h3><p>E-mail of the person who can be contacted with feedback regarding this dataset. It is a very important communications channel for receiving error reports or other issues with the dataset.</p>",
   "hint_contact_point_email": "E-mail for receiving feedback related to the dataset.",
@@ -315,7 +315,6 @@ export default {
   "help_distribution_documentation": "<h3>Data service QoS documentation</h3><p>HTTPS URL of the quality-of-service (QoS) documentation of the data service.</p>",
   // Contact point name
   "contact_point_name": "Name of the dataset contact point",
-  "contact_point_name_missing": "Name of the dataset contact point is mandatory.",
   "help_contact_point_name": "<h3>Name of the dataset contact point</h3><p>Name of the person who can be contacted with feedback regarding this dataset. It is a very important communications channel for receiving error reports or other issues with the dataset.</p>",
   "hint_contact_point_name": "Person or unit who will receive feedback related to the dataset.",
   // Related term

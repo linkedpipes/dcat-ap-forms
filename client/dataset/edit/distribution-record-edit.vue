@@ -503,7 +503,7 @@
       </v-layout>
     </div>
     <!-- High Value Dataset with Data Service -->
-    <div v-if="!isFileDistribution && distribution.is_hvd">
+    <div v-if="!isFileDistribution && isDatasetHvd">
       <!-- Contact point -->
       <v-layout
         row
@@ -516,9 +516,8 @@
           <v-text-field
             id="contact_point_name"
             v-model="distribution.contact_point_name"
-            :label="$t('contact_point_name')"
+            :label="$t('contact_point_name') + $t('optional')"
             :hint="$t('hint_contact_point_name')"
-            :error-messages="err_contact_point_name"
             prepend-icon="person"
             append-outer-icon="help_outline"
             clearable
@@ -532,7 +531,7 @@
           <v-text-field
             id="contact_point_email"
             v-model="distribution.contact_point_email"
-            :label="$t('contact_point_email')"
+            :label="contactPointEmailLabel"
             :hint="$t('hint_contact_point_email')"
             :error-messages="err_contact_point_email"
             prepend-icon="alternate_email"
@@ -549,7 +548,7 @@
           <v-text-field
             id="contact_point_url"
             v-model="distribution.contact_point_url"
-            :label="$t('contact_point_url')"
+            :label="contactPointUrlLabel"
             :hint="$t('hint_contact_point_url')"
             :error-messages="err_contact_point_url"
             prepend-icon="link"
@@ -563,7 +562,7 @@
       <v-text-field
         id="documentation"
         v-model="distribution.documentation"
-        :label="$t('distribution_documentation')"
+        :label="documentationLabel"
         :hint="$t('hint_distribution_documentation')"
         :error-messages="err_documentation"
         prepend-icon="link"
@@ -827,7 +826,7 @@ import {
 import {
   MODE_HVD, MODE_NON_PUBLIC,
 } from "../dataset-model";
-import {trimEnd} from "../../app-service/validators";
+import {provided, trimEnd} from "../../app-service/validators";
 
 export default {
   "name": "AppDistributionRecordEdit",
@@ -894,6 +893,29 @@ export default {
     "isNonPublic": function () {
       return this.mode === MODE_NON_PUBLIC;
     },
+    "contactPointEmailLabel": function() {
+      if (!this.distribution.is_hvd ||
+      provided(this.distribution.contact_point_url)) {
+        return this.$t('contact_point_email') + this.$t('optional');
+      } else {
+        return this.$t('contact_point_email');
+      }
+    },
+    "contactPointUrlLabel": function() {
+      if (!this.distribution.is_hvd ||
+      provided(this.distribution.contact_point_email)) {
+        return this.$t('contact_point_url') + this.$t('optional');
+      } else {
+        return this.$t('contact_point_url');
+      }
+    },
+    "documentationLabel": function() {
+      if (!this.distribution.is_hvd) {
+        return this.$t('distribution_documentation') + this.$t('optional');
+      } else {
+        return this.$t('distribution_documentation');
+      }
+    }
   },
   "methods": {
     "trimEnd": trimEnd,

@@ -216,20 +216,21 @@ function createServiceDistributionValidators() {
       (t) => t.distribution, "service_conforms_to",
       url, "service_conforms_to_invalid"),
     // High value dataset section
-    "err_contact_point_name": applyArray(
-      (t) => t.distribution, "contact_point_name",
-      [[provided, "contact_point_name_missing"]],
-      (t) => t.distribution.is_hvd),
+    // Either err_contact_point_email OR contact_point_url must be provided.
     "err_contact_point_email": applyArray(
       (t) => t.distribution, "contact_point_email", [
-        [provided, "contact_point_email_missing"],
+        [provided, "contact_point_email_or_url_missing"],
         [email, "contact_point_email_invalid"],
-      ], (t) => t.distribution.is_hvd),
+      ], (t) => t.distribution.is_hvd && (
+        provided(t.distribution.contact_point_email)
+        || !provided(t.distribution.contact_point_url))),
     "err_contact_point_url": applyArray(
       (t) => t.distribution, "contact_point_url", [
-        [provided, "contact_point_url_missing"],
+        [provided, "contact_point_url_or_email_missing"],
         [url, "contact_point_url_invalid"],
-      ], (t) => t.distribution.is_hvd),
+      ], (t) => t.distribution.is_hvd && (
+        provided(t.distribution.contact_point_url)
+        || !provided(t.distribution.contact_point_email))),
     "err_documentation": applyArray(
       (t) => t.distribution, "documentation", [
         [provided, "distribution_documentation_missing"],

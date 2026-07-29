@@ -295,13 +295,13 @@ export default {
   "help_service_title": "<h3>Název služby</h3><p>Název služby, který ji odliší od ostatních služeb.</p>",
   // Contact point URL
   "contact_point_url": "URL kontaktní stránky",
-  "contact_point_url_missing": "URL kontaktní stránky je povinné.",
+  "contact_point_url_or_email_missing": "URL kontaktní stránky nebo e-mail kontaktní osoby je povinný.",
   "contact_point_url_invalid": "Nevalidní HTTPS IRI.",
   "hint_contact_point_url": "Uveďte HTTPS URL kontaktní stránky.",
   "help_contact_point_url": "<h3>Kontaktní stránka</h3><p>HTTPS URL kontaktní stránky, na kterou lze přistoupit webovým prohlížečem pro získání kontaktních informací.</p>",
   // Contact point email
   "contact_point_email": "E-mail kontaktní osoby",
-  "contact_point_email_missing": "E-mail kontaktní osoby je povinný.",
+  "contact_point_email_or_url_missing": "E-mail kontaktní osoby nebo URL kontaktní stránky je povinné.",
   "contact_point_email_invalid": "Nevalidní e-mail.",
   "help_contact_point_email": "<h3>E-mail kontaktní osoby</h3><p>E-mailová adresa osoby či útvaru, který lze kontaktovat ohledně zpětné vazby k této datové sadě. Jedná se o důležitý komunikační kanál, kterým mohou uživatelé hlásit chyby nebo nesrovnalosti v datové sadě.</p>",
   "hint_contact_point_email": "E-mail, kam ve vaší organizaci bude chodit zpětná vazba.",
@@ -313,7 +313,6 @@ export default {
   "help_distribution_documentation": "<h3>Dokumentace kvality služby datové služby</h3><p>HTTPS URL dokumentace kvality služby (QoS) datové služby.</p>",
   // Contact point name
   "contact_point_name": "Jméno kontaktní osoby",
-  "contact_point_name_missing": "Chybí jméno kontaktní osoby",
   "help_contact_point_name": "<h3>Jméno kontaktní osoby</h3><p>Jméno osoby či útvaru, který lze kontaktovat ohledně zpětné vazby k této datové sadě. Jedná se o důležitý komunikační kanál, kterým mohou uživatelé hlásit chyby nebo nesrovnalosti v datové sadě.</p>",
   "hint_contact_point_name": "Osoba či útvar, kterému bude chodit zpětná vazba.",
   // Related term

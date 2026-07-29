@@ -42,14 +42,10 @@ export function createCatalogValidators() {
       ]),
     "err_contact_point_name": applyArray(
       (t) => t.catalog, "contact_point_name",
-      [
-        [provided, "catalog_contact_point_name_missing"],
-      ]),
+      [[provided, "catalog_contact_point_name_missing"]]),
     "err_homepage": applyArray(
       (t) => t.catalog, "homepage",
-      [
-        [url, "homepage_invalid"],
-      ]),
+      [[url, "homepage_invalid"]]),
     "err_catalog_type": apply(
       (t) => t.catalog, "type",
       provided,

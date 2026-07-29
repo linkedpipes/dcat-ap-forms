@@ -698,6 +698,7 @@
           md3
           row
           align-center
+          class="flex-nowrap"
         >
           <div class="mx-3">
             <v-btn

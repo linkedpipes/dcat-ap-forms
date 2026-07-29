@@ -371,7 +371,7 @@ function exportDistribution(
     if (distribution.typy_obsahu.length > 0) {
       result["typ_obsahu_sdílených_údajů"] = distribution.typy_obsahu;
     }
-    if (distribution.zpusob_sdileni.length !==  null) {
+    if (distribution.zpusob_sdileni?.length !==  null) {
       result["způsob_sdílení_údajů"] = distribution.zpusob_sdileni;
     }
     if (distribution.zpusoby_ziskani.length > 0) {

@@ -219,27 +219,26 @@ function createServiceDistributionValidators() {
     "err_contact_point_name": applyArray(
       (t) => t.distribution, "contact_point_name",
       [[provided, "contact_point_name_missing"]],
-      (t) => includesHvdLegislation(t.distribution.legislation)),
+      (t) => t.distribution.is_hvd),
     "err_contact_point_email": applyArray(
       (t) => t.distribution, "contact_point_email", [
         [provided, "contact_point_email_missing"],
         [email, "contact_point_email_invalid"],
-      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+      ], (t) => t.distribution.is_hvd),
     "err_contact_point_url": applyArray(
       (t) => t.distribution, "contact_point_url", [
         [provided, "contact_point_url_missing"],
         [url, "contact_point_url_invalid"],
-      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+      ], (t) => t.distribution.is_hvd),
     "err_documentation": applyArray(
       (t) => t.distribution, "documentation", [
         [provided, "distribution_documentation_missing"],
         [url, "distribution_documentation_invalid"],
-      ], (t) => includesHvdLegislation(t.distribution.legislation)),
+      ], (t) => t.distribution.is_hvd),
     "err_service_title_cs": applyArray(
       (t) => t.distribution, "service_title_cs",
       [[provided, "service_title_missing"]],
-      (t) => includesHvdLegislation(t.distribution.legislation) &&
-        !t.distribution.service_title_copy),
+      (t) => t.distribution.is_hvd && !t.distribution.service_title_copy),
   };
 }
 

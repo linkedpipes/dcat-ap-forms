@@ -235,7 +235,7 @@ function createServiceDistributionValidators() {
       (t) => t.distribution, "documentation", [
         [provided, "distribution_documentation_missing"],
         [url, "distribution_documentation_invalid"],
-      ], (t) => t.distribution.is_hvd),
+      ], (t) => t.distribution.is_hvd || provided(t.distribution.documentation)),
     "err_service_title_cs": applyArray(
       (t) => t.distribution, "service_title_cs",
       [[provided, "service_title_missing"]],
